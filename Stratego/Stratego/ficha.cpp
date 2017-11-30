@@ -117,6 +117,11 @@ bool ficha::hasItRescued()
 	return hasRescued;
 }
 
+bool ficha::isSelected()
+{
+	return selected;
+}
+
 void ficha::rescue()
 {
 	hasRescued = true;

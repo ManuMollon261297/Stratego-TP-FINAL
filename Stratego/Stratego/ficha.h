@@ -11,6 +11,7 @@ public:
 	bool canItRescue();
 	bool canItBeRescued();
 	bool hasItRescued();
+	bool isSelected();
 	void rescue();
 	void select();
 	void unselect();

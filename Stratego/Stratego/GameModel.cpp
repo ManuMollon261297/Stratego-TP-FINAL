@@ -62,7 +62,7 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	timeRemaining = 0;
 	rescuesRemaining = 2;
 	repeatMoveCounter = 0;
-};
+}
 
 int GameModel::getState()
 {
@@ -253,7 +253,39 @@ void GameModel::toggleFicha(pos p)
 
 rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 {
-	return battlefield[currpos.x][currpos.y]->getRank();
+	if (battlefield[currpos.x][currpos.y] != nullptr)
+	{
+		return LAND;
+	}
+	else
+	{
+		return battlefield[currpos.x][currpos.y]->getRank();
+	}
+}
+
+int GameModel::getMaxOffsetFromPos(pos currpos)
+{
+	if (battlefield[currpos.x][currpos.y] != nullptr)
+	{
+		return 0;
+	}
+	else
+	{
+		return battlefield[currpos.x][currpos.y]->getMaxOffset ();
+	}
+	return 0;
+}
+
+bool GameModel::isSelectedFromPos(pos currpos)
+{
+	if (battlefield[currpos.x][currpos.y] != nullptr)
+	{
+		return false;
+	}
+	else
+	{
+		return battlefield[currpos.x][currpos.y]->isSelected();
+	}
 }
 
 int GameModel::getTime()

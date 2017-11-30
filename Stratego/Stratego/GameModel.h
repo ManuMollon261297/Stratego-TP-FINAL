@@ -24,8 +24,12 @@ public:
 	bool move(pos currPos, pos newPos);	//valida que los moves sean a un espacio vacio y los realiza
 										//si corresponde a un ataque cambia el estado pero no realiza movimiento
 										//si el movimineto no es valido devuelve false
+
 	void resolveAttack(rank r); //resuelve un ataque pendiente con la info en currStatus
+
 	rank getRankFromPos(pos currpos);
+	int getMaxOffsetFromPos(pos currpos);
+	bool isSelectedFromPos(pos currpos);
 	bool isCemeteryEmpty();
 	//ficha
 	void swap(pos init, pos final); //asume cambio de coordenadas validas, previamente chequeadas

@@ -38,6 +38,8 @@ public:
 	void selectFicha(pos p);
 	void unselectFicha(pos p);
 	void toggleFicha(pos p);
+	bool getRed();
+	void setRed(bool color);
 	//timer
 	int getTime();
 	void decrementTime();
@@ -51,6 +53,7 @@ public:
 	void printBattlefield();
 private:
 	bool gameOver;
+	bool red;
 	ficha * battlefield[FILAS][COLUMNAS]; //la parte alta es la del contrario y la baja la del final
 	//std::vector<ficha> queue;
 	int cemetery[TIPOS_DE_RANK+1][2];	// matriz que contiene los rangos y la cantidad de estas que se encuentran

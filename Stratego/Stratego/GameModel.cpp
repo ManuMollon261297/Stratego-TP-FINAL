@@ -251,6 +251,16 @@ void GameModel::toggleFicha(pos p)
 	battlefield[p.x][p.y]->toggleSelect();
 }
 
+bool GameModel::getRed()
+{
+	return red;
+}
+
+void GameModel::setRed(bool color)
+{
+	red = color;
+}
+
 rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 {
 	if (battlefield[currpos.x][currpos.y] != nullptr)

@@ -78,6 +78,7 @@ bool NetworkingModel::connectAsServer()  //TERMINAR
 	server_acceptor = new boost::asio::ip::tcp::acceptor(*IO_handler,
 		boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
 	std::cout << std::endl << "Ready. Port " << PORT << " created" << std::endl;
+	server_acceptor->accept(*socket);
 }
 
 

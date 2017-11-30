@@ -11,7 +11,7 @@
 class NetworkingModel
 {
 public:
-	NetrworkingModel();
+	NetworkingModel();
 	bool sendPackage(char * message, int size); //envia un paquete de chars de tamanio size
 	std::vector<char> * readPackage(); // busca si llego un package 
 	int getState();

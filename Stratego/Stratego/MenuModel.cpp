@@ -15,8 +15,7 @@ MenuModel::~MenuModel()
 {
 	std::ofstream infoFile;
 	infoFile.open(bakcUpFile, std::ios::binary);
-	infoFile << name << std::endl;
-	infoFile << ip << std::endl;
+	infoFile << name << ' ' <<ip;
 	infoFile.close();
 }
 
@@ -64,7 +63,7 @@ void MenuModel::deleteCharToWorkingString()
 		}
 		break;
 	case false:
-		if (ip.size() != 0)
+		if (name.size() != 0)
 		{
 			name.pop_back();
 		}
@@ -100,7 +99,6 @@ std::vector<char> MenuModel::getLeadreboardInfo()
 	std::string aux;
 	std::ifstream lbFile;
 	lbFile.open(leaderboardFile, std::ios::binary);
-	lbFile >> aux;
 	if (lbFile.is_open())
 	{
 		while (getline(lbFile, aux))

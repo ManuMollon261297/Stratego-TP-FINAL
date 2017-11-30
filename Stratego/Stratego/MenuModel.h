@@ -7,7 +7,7 @@ class MenuModel
 {
 public:
 	MenuModel();
-	~MenuModel(); //manejo de archivos
+	~MenuModel();
 	int getState();
 	void setState(int state_);
 	bool getWorkingIp();
@@ -16,6 +16,8 @@ public:
 	void deleteCharToWorkingString();
 	void pushButton(button b);
 	void deleteButtons();
+	button * getButtonReference(int index);
+	std::vector<char> getLeadreboardInfo();
 private:
 	std::string bakcUpFile;
 	std::string leaderboardFile;

@@ -36,9 +36,8 @@ public:
 	~mouseGameController();
 private:
 	GameModel * p2gameModel;
-	MouseEvent Mev;
 
-	void shape(double x, double y); //devuelve un evento de mouse (SOLDADO, CEMETERY, LAND, RIVAL, NO_EVENT)
+	MouseEvent shape(double x, double y); //devuelve un evento de mouse sheipeado
 
 	sectors getSectorTouched(double x, double y);
 

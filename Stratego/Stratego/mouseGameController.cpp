@@ -11,8 +11,9 @@ mouseGameController::mouseGameController()
 }
 
 
-void mouseGameController::shape(double x, double y)
+MouseEvent mouseGameController::shape(double x, double y)
 {
+	MouseEvent Mev;
 	Mev.sector = getSectorTouched(x, y);
 	switch (Mev.sector)
 	{
@@ -31,6 +32,8 @@ void mouseGameController::shape(double x, double y)
 			Mev.type = NO_EVENT;
 			break;
 	}
+
+	return Mev;
 }
 
 sectors mouseGameController::getSectorTouched(double x, double y)

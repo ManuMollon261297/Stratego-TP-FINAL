@@ -6,7 +6,8 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
-#define PORT	13225
+#define		PORT	13225
+#define		PORT_C	"13225"
 
 enum serverStatus {SERVER,CLIENT,UNINITIALIZED};
 class NetworkingModel
@@ -23,7 +24,7 @@ public:
 	void setMe(std::string me_);
 	std::string getYou();
 	void setYou(std::string you_);
-	bool connectAsClient(int timer); //trata de conectarse al puerto como client por un determinado tiempo
+	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
 	~NetworkingModel();
 private:
@@ -39,11 +40,4 @@ private:
 	boost::asio::ip::tcp::resolver* client_resolver;
 	boost::asio::ip::tcp::resolver::iterator endpoint;
 };
-
-/*
-void Server::listening() {
-server_acceptor->accept(*socket_forServer);
-socket_forServer->non_blocking(true);
-}
-*/
 

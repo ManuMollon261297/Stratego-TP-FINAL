@@ -7,6 +7,8 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	//inicializacion del juego
 	gameOver = false;
 
+	message = " ";
+
 	//inicializaciondel battlefield
 	for (int i = 0;i<FILAS;i++)
 	{
@@ -40,6 +42,7 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	for (int i =0;i<TIPOS_DE_RANK;i++)
 	{
 		cemetery[i][0] = (MARSHAL + i); //rango que representa una fila
+		cemetery[i][2] = 0;  // las fichas comienzan desseleccionadas. si se seleccionan, se setean con un '1'
 	}
 	cemetery[TIPOS_DE_RANK+1][0] = -1; //celda vacia sin info util
 	//cantidad de fichas por cada rango
@@ -72,6 +75,26 @@ int GameModel::getState()
 void GameModel::setState(int state_)
 {
 	state = state_;
+}
+
+bool GameModel::getRed()
+{
+	return red;
+}
+
+void GameModel::setRed(bool color)
+{
+	red = color;
+}
+
+std::string & GameModel::getMessage()
+{
+	return message;
+}
+
+void GameModel::setMessage(char * message_)
+{
+	message = message_;
 }
 
 bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una ficha movil valida
@@ -221,6 +244,18 @@ bool GameModel::isCemeteryEmpty()
 	}
 }
 
+bool GameModel::isRankCemeterySelected(rank r)
+{
+	if (cemetery[r][2]) //si esta seleccionado devuelve 1, si no 0 (cero).
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool GameModel::setFicha(rank r, pos currpos)
 {
 	if ((cemetery[r][1] > 0)&&(r <= 11)&&(battlefield[currpos.x][currpos.y] == nullptr))
@@ -251,6 +286,21 @@ void GameModel::toggleFicha(pos p)
 	battlefield[p.x][p.y]->toggleSelect();
 }
 
+void GameModel::selectRankCemetery(rank r)
+{
+	cemetery[r][2] = 1;
+}
+
+void GameModel::unselectRankCemetery(rank r)
+{
+	cemetery[r][3];
+}
+
+void GameModel::toggleSelectRankCemetery(rank r)
+{
+	cemetery[r][2] = (!cemetery[r][2]);
+}
+
 rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 {
 	if (battlefield[currpos.x][currpos.y] != nullptr)
@@ -261,6 +311,11 @@ rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 	{
 		return battlefield[currpos.x][currpos.y]->getRank();
 	}
+}
+
+unsigned int GameModel::getNumberInCemetery(rank r)
+{
+	return cemetery[r][1];
 }
 
 int GameModel::getMaxOffsetFromPos(pos currpos)

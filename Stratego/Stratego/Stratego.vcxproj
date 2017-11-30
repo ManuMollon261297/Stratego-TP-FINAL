@@ -115,9 +115,17 @@
     <ClInclude Include="currStatus.h" />
     <ClInclude Include="ficha.h" />
     <ClInclude Include="GameModel.h" />
+    <ClInclude Include="gameState.h" />
+    <ClInclude Include="IdleState.h" />
+    <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="MenuModel.h" />
     <ClInclude Include="mouseGameController.h" />
+    <ClInclude Include="MyMoving.h" />
+    <ClInclude Include="MyTurn.h" />
     <ClInclude Include="NetworkingModel.h" />
+    <ClInclude Include="OpMoving.h" />
+    <ClInclude Include="OpTurn.h" />
+    <ClInclude Include="PlacingFichas.h" />
     <ClInclude Include="ranks.h" />
     <ClInclude Include="pos.h" />
   </ItemGroup>
@@ -126,10 +134,17 @@
     <ClCompile Include="currStatus.cpp" />
     <ClCompile Include="ficha.cpp" />
     <ClCompile Include="GameModel.cpp" />
+    <ClCompile Include="gameState.cpp" />
+    <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="mainDePrueba.cpp" />
     <ClCompile Include="MenuModel.cpp" />
     <ClCompile Include="mouseGameController.cpp" />
+    <ClCompile Include="MyMoving.cpp" />
+    <ClCompile Include="MyTurn.cpp" />
     <ClCompile Include="NetworkingModel.cpp" />
+    <ClCompile Include="OpMoving.cpp" />
+    <ClCompile Include="OpTurn.cpp" />
+    <ClCompile Include="PlacingFichas.cpp" />
     <ClCompile Include="pos.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,11 @@
 #include "mouseGameController.h"
+#include "gameState.h"
+#include "IdleState.h"
+#include "MyMoving.h"
+#include "OpMoving.h"
+#include "MyTurn.h"
+#include "OpTurn.h"
+#include "PlacingFichas.h"
 
 #define IS_CEMETERY_TOUCHED(x, y) ( ((x > MARGEN_X_CEMETERY) && (x < (MARGEN_X_CEMETERY + SIZE_CEMETERY_X))) && ((y > MARGEN_Y_CEMETERY) && (y < (MARGEN_Y_CEMETERY + SIZE_CEMETERY_Y))) )
 #define IS_BATTLEFIELD_TOUCHED(x, y) ( ((x > MARGEN_X_BATTLEFIELD) && (x < (MARGEN_X_BATTLEFIELD + SIZE_BATTLEFIELD_X))) && ((y > MARGEN_Y_BATTLEFIELD) && (y < (MARGEN_Y_BATTLEFIELD + SIZE_BATTLEFIELD_Y))) )
@@ -7,9 +14,49 @@
 
 mouseGameController::mouseGameController()
 {
-
+	estadoModel = new IdleState; //debe ser un iddle state
+	Mstate = NONE_SELECTED;
 }
 
+GameModel * mouseGameController::getP2model()
+{
+	return p2gameModel;
+}
+
+pos mouseGameController::getFirstSelection()
+{
+	return firstSelection;
+}
+
+pos mouseGameController::getSecondSelection()
+{
+	return secondSelection;
+}
+
+void mouseGameController::setFirstSelection(pos p)
+{
+	firstSelection = p;
+}
+
+void mouseGameController::setSecondSelection(pos p)
+{
+	secondSelection = p;
+}
+
+
+bool mouseGameController::areSelectionsEquals()
+{
+	bool ret;
+	if (firstSelection == secondSelection)
+	{
+		ret = true;
+	}
+	else
+	{
+		ret = false;
+	}
+	return ret;
+}
 
 MouseEvent mouseGameController::shape(double x, double y)
 {
@@ -34,6 +81,38 @@ MouseEvent mouseGameController::shape(double x, double y)
 	}
 
 	return Mev;
+}
+
+void mouseGameController::dispatch(MouseEvent Mev)
+{
+	gameState * proximoEstado = nullptr;
+	switch (Mev.type)
+	{
+		case NO_EVENT:
+			break;
+		case SOLDIER_EV:
+			proximoEstado = estadoModel->OnSoldier(&Mev, Mstate, this);
+			break;
+		case OPONENT_EV:
+			proximoEstado = estadoModel->OnOponent(&Mev, Mstate, this);
+			break;
+		case LAND_EV:
+			proximoEstado = estadoModel->OnLand(&Mev, Mstate, this);
+			break;
+		case WATER_EV:
+			proximoEstado = estadoModel->OnWater(&Mev, Mstate, this);
+			break;
+		case CEMETERY_EV:
+			proximoEstado = estadoModel->OnCemetery(&Mev, Mstate, this);
+			break;
+	}
+	
+	if (proximoEstado != nullptr) //hubo cambio de estado
+	{
+		delete estadoModel;
+		estadoModel = proximoEstado;
+		proximoEstado = nullptr;
+	}
 }
 
 sectors mouseGameController::getSectorTouched(double x, double y)
@@ -81,7 +160,7 @@ pos mouseGameController::translateCemeteryCoords(double x, double y)
 {
 	pos ret;
 
-	ret.x = 0; //pos.x siempre se setea en cero (no se usa)
+	ret.x = -1; //pos.x siempre se setea en -1
 	ret.y = (int)((y - MARGEN_Y_CEMETERY) / SIZE_CASILLERO_Y);
 
 	return ret;
@@ -114,4 +193,5 @@ Mevents mouseGameController::fetchMevType(pos pos_)
 
 mouseGameController::~mouseGameController()
 {
+	delete estadoModel;
 }

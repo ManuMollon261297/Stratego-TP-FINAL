@@ -293,7 +293,7 @@ void GameModel::selectRankCemetery(rank r)
 
 void GameModel::unselectRankCemetery(rank r)
 {
-	cemetery[r][3];
+	cemetery[r][3] = 0;
 }
 
 void GameModel::toggleSelectRankCemetery(rank r)

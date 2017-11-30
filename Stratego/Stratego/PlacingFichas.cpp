@@ -42,7 +42,7 @@ gameState * PlacingFichas::OnCemetery(MouseEvent * Mev, MouseStates Mstate, mous
 	{
 	case NONE_SELECTED:
 		Mstate = CEMETERY_SELECTED;
-		//selecciona el rango del cementerio (la info esta en mev.pos.y)
+		p2GameModel->selectRankCemetery(Mev->r);
 		p2controller->setFirstSelection(Mev->evPos);
 		break;
 	case SOLDIER_SELECTED:

@@ -46,6 +46,9 @@ private:
 	pos translateBattlefieldCoords(double x, double y);
 	pos translateCemeteryCoords(double x, double y); //en pos.y se devuelve el indice correspondiente del arreglo de cemetery. 
 															//En pos.x siempre se devuelve -1
+
+	rank fetchMevRank(pos p);
+	rank fetchMevRankFromCemetery(int y);
 	
 	Mevents fetchMevType(pos pos_);
 

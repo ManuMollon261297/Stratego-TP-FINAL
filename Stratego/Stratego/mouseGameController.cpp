@@ -69,9 +69,11 @@ MouseEvent mouseGameController::shape(double x, double y)
 		case NEUTRAL_BATTLEFIELD:
 			Mev.evPos = translateBattlefieldCoords(x, y);
 			Mev.type = fetchMevType(Mev.evPos);
+			Mev.r = fetchMevRank(Mev.evPos);
 			break;
 		case CEMETERY_SECTOR:
 			Mev.evPos = translateCemeteryCoords(x, y);
+			Mev.r = fetchMevRankFromCemetery(Mev.evPos.y);
 			Mev.type = CEMETERY_EV;
 			break;
 		case INVALID_SECTOR:
@@ -91,19 +93,19 @@ void mouseGameController::dispatch(MouseEvent Mev)
 		case NO_EVENT:
 			break;
 		case SOLDIER_EV:
-			proximoEstado = estadoModel->OnSoldier(&Mev, Mstate, this);
+			proximoEstado = estadoModel->OnSoldier(&Mev, Mstate, this, p2gameModel);
 			break;
 		case OPONENT_EV:
-			proximoEstado = estadoModel->OnOponent(&Mev, Mstate, this);
+			proximoEstado = estadoModel->OnOponent(&Mev, Mstate, this, p2gameModel);
 			break;
 		case LAND_EV:
-			proximoEstado = estadoModel->OnLand(&Mev, Mstate, this);
+			proximoEstado = estadoModel->OnLand(&Mev, Mstate, this, p2gameModel);
 			break;
 		case WATER_EV:
-			proximoEstado = estadoModel->OnWater(&Mev, Mstate, this);
+			proximoEstado = estadoModel->OnWater(&Mev, Mstate, this, p2gameModel);
 			break;
 		case CEMETERY_EV:
-			proximoEstado = estadoModel->OnCemetery(&Mev, Mstate, this);
+			proximoEstado = estadoModel->OnCemetery(&Mev, Mstate, this, p2gameModel);
 			break;
 	}
 	
@@ -164,6 +166,35 @@ pos mouseGameController::translateCemeteryCoords(double x, double y)
 	ret.y = (int)((y - MARGEN_Y_CEMETERY) / SIZE_CASILLERO_Y);
 
 	return ret;
+}
+
+rank mouseGameController::fetchMevRank(pos p)
+{
+	return (p2gameModel->getRankFromPos(p));
+}
+
+rank mouseGameController::fetchMevRankFromCemetery(int y)
+{
+	rank r;
+	switch (y)
+	{
+	case 0: r = MARSHAL; break;
+	case 1: r = GENERAL; break;
+	case 2: r = CORONEL; break;
+	case 3: r = MAJOR; break;
+	case 4: r = CAPTAIN; break;
+	case 5: r = LIEUTENANT; break;
+	case 6: r = SERGEANT; break;
+	case 7: r = MINER; break;
+	case 8: r = SCOUT; break;
+	case 9: r = SPY; break;
+	case 10: r = BOMB; break;
+	case 11: r = FLAG; break;
+	case 12: r = WATER; break;
+	case 13: r = OTHERS; break;
+	case 14: r = LAND; break;
+	}
+	return r;
 }
 
 Mevents mouseGameController::fetchMevType(pos pos_)

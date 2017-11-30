@@ -48,7 +48,7 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	//cantidad de fichas por cada rango
 	cemetery[MARSHAL][1]= 1;
 	cemetery[GENERAL][1]=1;
-	cemetery[COLONEL][1]=2;
+	cemetery[CORONEL][1]=2;
 	cemetery[MAJOR][1]=3;
 	cemetery[CAPTAIN][1]=4;
 	cemetery[LIEUTENANT][1]=4;
@@ -303,7 +303,7 @@ void GameModel::toggleSelectRankCemetery(rank r)
 
 rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 {
-	if (battlefield[currpos.x][currpos.y] != nullptr)
+	if (battlefield[currpos.x][currpos.y] == nullptr)
 	{
 		return LAND;
 	}

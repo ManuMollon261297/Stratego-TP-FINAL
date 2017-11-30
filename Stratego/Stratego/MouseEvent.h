@@ -9,4 +9,5 @@ typedef struct
 	Mevents type;
 	pos evPos;
 	sectors sector;
+	rank r;
 } MouseEvent;

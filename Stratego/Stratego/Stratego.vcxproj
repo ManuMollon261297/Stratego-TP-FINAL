@@ -145,6 +145,8 @@
     <ClInclude Include="gameState.h" />
     <ClInclude Include="GenericModel.h" />
     <ClInclude Include="IdleState.h" />
+    <ClInclude Include="KeyboardController.h" />
+    <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MenuModel.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="mouseGameController.h" />
@@ -185,6 +187,8 @@
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="gameState.cpp" />
     <ClCompile Include="IdleState.cpp" />
+    <ClCompile Include="KeyboardController.cpp" />
+    <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="mainDePrueba.cpp" />
     <ClCompile Include="MenuModel.cpp" />
     <ClCompile Include="mouseGameController.cpp" />

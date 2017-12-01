@@ -135,6 +135,12 @@
     <ClInclude Include="WaitingWhoStart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KeyboardController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameModel.cpp">
@@ -228,6 +234,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WaitingWhoStart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

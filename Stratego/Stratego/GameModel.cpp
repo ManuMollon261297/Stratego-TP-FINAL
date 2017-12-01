@@ -320,7 +320,7 @@ unsigned int GameModel::getNumberInCemetery(rank r)
 
 int GameModel::getMaxOffsetFromPos(pos currpos)
 {
-	if (battlefield[currpos.x][currpos.y] != nullptr)
+	if (battlefield[currpos.x][currpos.y] == nullptr)
 	{
 		return 0;
 	}
@@ -333,7 +333,7 @@ int GameModel::getMaxOffsetFromPos(pos currpos)
 
 bool GameModel::isSelectedFromPos(pos currpos)
 {
-	if (battlefield[currpos.x][currpos.y] != nullptr)
+	if (battlefield[currpos.x][currpos.y] == nullptr)
 	{
 		return false;
 	}

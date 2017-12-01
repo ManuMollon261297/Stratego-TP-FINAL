@@ -8,6 +8,7 @@ NetworkingModel::NetworkingModel()
 	socket = new boost::asio::ip::tcp::socket(*IO_handler);
 	socket->non_blocking(true);
 	serverStat = UNINITIALIZED;
+	server_Finished_placing_fichas = false;
 }
 
 bool NetworkingModel::sendPackage(char * message, int size)
@@ -51,7 +52,7 @@ void NetworkingModel::setState(int state_)
 	state = state_;
 }
 
-bool NetworkingModel::getServer()
+serverStatus NetworkingModel::getServer()
 {
 	return serverStat;
 }
@@ -79,6 +80,17 @@ std::string NetworkingModel::getYou()
 void NetworkingModel::setYou(std::string you_)
 {
 	you = you_;
+}
+
+
+bool NetworkingModel::GetServerFinishedPlacing()const
+{
+	return server_Finished_placing_fichas;
+}
+
+void NetworkingModel::SetServerFinishedPlacing(bool value)
+{
+	server_Finished_placing_fichas = value;
 }
 
 bool NetworkingModel::connectAsClient(int timer,char * ip)	// HACER QUE DURE SOLO EL PERIODO DEL TIMER Y FIJARSE EL TEMA

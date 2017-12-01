@@ -32,8 +32,25 @@ NetWorkingController::~NetWorkingController()
 
 void NetWorkingController::dispatch(GenericEvent& newEvent)
 {
-	//Antes de entrar a la fsm habria que ver si hay que mandar un paquete de move.
-	//o de ru_ready.
+	
+	if ( (Gm->getState()== ENDING_PLACING_FICHAS)&&(NWM->getServer()== SERVER) )
+	
+	{
+		if ( Gm->getRed())//termine de poner las fichas y soy el que empieza
+		{
+			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. Tal vez 
+			actualState = new NetPlacingFichas;
+		}
+		else
+		{
+			Gm->setState(OP_ATTACKING); //El otro jugador comienza entonces espero su jugada.
+			actualState = new WaitingMove;
+		}
+		char pckg[1];
+		pckg[0] = R_U_READY_HEADER;
+
+		NWM->sendPackage(pckg, 1);
+	}
 	if ( Gm->getMoveDone()) //El usuario hizo un movimiento valido
 	{
 		Gm->setMoveDoneFalse();

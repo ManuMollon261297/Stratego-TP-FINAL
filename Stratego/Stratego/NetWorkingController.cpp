@@ -34,6 +34,38 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 {
 	//Antes de entrar a la fsm habria que ver si hay que mandar un paquete de move.
 	//o de ru_ready.
+	if ( Gm->getMoveDone()) //El usuario hizo un movimiento valido
+	{
+		Gm->setMoveDoneFalse();
+		char move_pckg[5];
+		move_pckg[0] = MOVE_HEADER;
+		char or_col = 'A'+ (char) ((Gm->GetmyPosStatus()).previous.y);
+		char or_row = 1+ ((Gm->GetmyPosStatus()).previous.x);
+		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
+		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		move_pckg[1] = or_col;
+		move_pckg[2] = or_row;
+		move_pckg[3] = des_col;
+		move_pckg[4] = des_row;
+		NWM->sendPackage(move_pckg, 5); //Manda el paquete de move.
+		delete actualState;
+		if ( (Gm->getState()) == MY_MOVING)
+		{
+			actualState = new WaitingMove; //Si es pasivo espero un move
+			Gm->setState(OP_TURN);
+		}
+
+		else
+		{
+			actualState = new StartingAttack; //Si es ofensivo espero un ataque.
+			Gm->setState(OP_TURN);
+		}
+		actualState = new WaitingMove;
+
+
+		
+
+	}
 	if ((newEvent.GetEvent()) == NET )
 	{
 		switch ( (((NetWorkingEvent&)newEvent).GetRecieved())[0] ) //revisar bien, tal vez hay que castear a char o algo.

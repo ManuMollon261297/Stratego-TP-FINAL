@@ -60,9 +60,6 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			actualState = new StartingAttack; //Si es ofensivo espero un ataque.
 			Gm->setState(OP_TURN);
 		}
-		actualState = new WaitingMove;
-
-
 		
 
 	}

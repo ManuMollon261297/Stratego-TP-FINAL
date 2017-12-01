@@ -113,6 +113,10 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 		}
 		ALLEGRO_RedCharacters.push_back(sAux);
 	}
+	for(i=0;i<0/*CAMBIAR*/;i++)
+	{
+
+	}
 	ALLEGRO_boton = al_load_bitmap(botonDir.c_str());
 	ALLEGRO_battleBackground = al_load_bitmap(battleBackgroundDir.c_str());
 	ALLEGRO_map = al_load_bitmap(mapDir.c_str());

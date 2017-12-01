@@ -3,7 +3,6 @@
 #include "allegro5\allegro_font.h"
 #include "Sprite.h"
 #include "Token.h"
-#include "AllegroButton.h"
 #include <vector>
 
 class AllegroViewer

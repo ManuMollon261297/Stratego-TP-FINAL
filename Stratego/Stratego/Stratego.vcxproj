@@ -135,7 +135,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AllegroViewer.h" />
-    <ClInclude Include="AllegroButton.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="currStatus.h" />
     <ClInclude Include="ficha.h" />
@@ -150,7 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AllegroViewer.cpp" />
-    <ClCompile Include="AllegroButton.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="currStatus.cpp" />
     <ClCompile Include="ficha.cpp" />

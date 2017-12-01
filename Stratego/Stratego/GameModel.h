@@ -59,6 +59,10 @@ public:
 	int getTime();
 	void decrementTime();
 	void restartTimer();
+
+	bool getMoveDone();
+	void setMoveDoneTrue();
+	void setMoveDoneFalse();
 	//verify
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde
 	bool verifyRescue(); //verifica si en la posicion actual el jugador es apto para hacer un rescue
@@ -76,6 +80,9 @@ private:
 										// fuera de juego, y si estos rangos estan seleccionados (1) o no lo estan (0).
 	int state; //estado actual del juego
 	int timeRemaining;
+
+	bool moveDone;
+
 	currStatus myPosStatus;
 	currStatus opPosStatus;
 	int rescuesRemaining;
@@ -85,4 +92,5 @@ private:
 
 	bool checkMoveRepetead(pos prev, pos next);
 	bool clearSurroundings(int i, int j);
+
 };

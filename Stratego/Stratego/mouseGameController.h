@@ -20,11 +20,18 @@ class mouseGameController
 public:
 	mouseGameController();
 	GameModel * getP2model();
-	pos getFirstSelection();
-	pos getSecondSelection();
-	void setFirstSelection(pos p);
-	void setSecondSelection(pos p);
-	bool areSelectionsEquals(); //compara firstSelection con secondSelection
+	
+
+	void saveEvent(MouseEvent & Mev);
+	MouseEvent & getPreviousEvent();
+	bool isEqualToPrevious(MouseEvent & Mev);
+
+	bool validOffsetMovement(pos destiny); //se fija si el offset de la ficha permite llegar hasta ese punto, la posicion original de la ficha
+										   //se encuentra en memoryEv.
+										   //return:  valido --> true; invalido --> false.
+	bool validObstacles(pos destiny); //se fija si no hay obstaculos que impidan el movimiento
+									  //return:  valido --> true (NO hay obstaculos); invalido --> false(HAY obstaculos).
+	
 
 	~mouseGameController();
 private:
@@ -34,8 +41,9 @@ private:
 
 	MouseStates Mstate;
 
-	pos firstSelection;
-	pos secondSelection;
+
+	MouseEvent memoryEv;
+	
 
 	MouseEvent shape(double x, double y); //devuelve un evento de mouse sheipeado
 
@@ -52,5 +60,13 @@ private:
 	
 	Mevents fetchMevType(pos pos_);
 
+
 };
 
+//void setFirstSelection(pos p);
+//void setSecondSelection(pos p);
+//bool areSelectionsEquals(); //compara firstSelection con secondSelection
+//pos firstSelection;
+//pos secondSelection;
+//pos getFirstSelection();
+//pos getSecondSelection();

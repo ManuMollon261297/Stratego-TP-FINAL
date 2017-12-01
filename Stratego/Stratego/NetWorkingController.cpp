@@ -8,16 +8,16 @@ NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 	srand(time(NULL));
 	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
 	char pckg[1];
-	if ((NWM->connectAsClient(waiting_time)))
+	if ((NWM->connectAsClient(waiting_time, ip))) //hay que conseguir el ip del otro y pasarselo.
 	{
-		NWM->setServer(false);
+		NWM->setServer(CLIENT);
 		actualState = new WaitingName;
 	}
 	else
 	{
 		if (NWM->connectAsServer()) //si tuvo exito manda el paquete de name
 		{
-			NWM->setServer(true);
+			NWM->setServer(SERVER);
 			pckg[0] = NAME_HEADER;
 			NWM->sendPackage(pckg, 1);
 			actualState = new WaitingNameIs;
@@ -32,6 +32,37 @@ NetWorkingController::~NetWorkingController()
 
 void NetWorkingController::dispatch(GenericEvent& newEvent)
 {
+	//Antes de entrar a la fsm habria que ver si hay que mandar un paquete de move.
+	//o de ru_ready.
+	if ( Gm->getMoveDone()) //El usuario hizo un movimiento valido
+	{
+		Gm->setMoveDoneFalse();
+		char move_pckg[5];
+		move_pckg[0] = MOVE_HEADER;
+		char or_col = 'A'+ (char) ((Gm->GetmyPosStatus()).previous.y);
+		char or_row = 1+ ((Gm->GetmyPosStatus()).previous.x);
+		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
+		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		move_pckg[1] = or_col;
+		move_pckg[2] = or_row;
+		move_pckg[3] = des_col;
+		move_pckg[4] = des_row;
+		NWM->sendPackage(move_pckg, 5); //Manda el paquete de move.
+		delete actualState;
+		if ( (Gm->getState()) == MY_MOVING)
+		{
+			actualState = new WaitingMove; //Si es pasivo espero un move
+			Gm->setState(OP_TURN);
+		}
+
+		else
+		{
+			actualState = new StartingAttack; //Si es ofensivo espero un ataque.
+			Gm->setState(OP_TURN);
+		}
+		
+
+	}
 	if ((newEvent.GetEvent()) == NET )
 	{
 		switch ( (((NetWorkingEvent&)newEvent).GetRecieved())[0] ) //revisar bien, tal vez hay que castear a char o algo.

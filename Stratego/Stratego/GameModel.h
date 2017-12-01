@@ -63,6 +63,11 @@ public:
 	bool getMoveDone();
 	void setMoveDoneTrue();
 	void setMoveDoneFalse();
+
+	//Getters
+	currStatus GetmyPosStatus()const;
+	currStatus GetopPosStatus()const;
+
 	//verify
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde
 	bool verifyRescue(); //verifica si en la posicion actual el jugador es apto para hacer un rescue

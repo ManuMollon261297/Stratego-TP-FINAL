@@ -34,8 +34,10 @@ public:
 	std::vector<char> readPackage(); // busca si llego un package 
 	int getState();
 	void setState(int state_);
-	bool getServer();
+	serverStatus getServer();
 	void setServer(serverStatus server_);
+	bool GetServerFinishedPlacing()const;
+	void SetServerFinishedPlacing(bool);
 	std::string getMe();
 	void setMe(std::string me_);
 	std::string getYou();
@@ -46,6 +48,7 @@ public:
 private:
 	int state;
 	int port;
+	bool server_Finished_placing_fichas;
 	serverStatus serverStat;
 	std::string me;
 	std::string you;

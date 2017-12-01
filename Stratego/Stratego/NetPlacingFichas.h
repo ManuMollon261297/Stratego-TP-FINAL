@@ -4,6 +4,7 @@
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
 #include "GameModel.h"
+#include "WaitingMove.h"
 
 class NetPlacingFichas : public GenericState
 {

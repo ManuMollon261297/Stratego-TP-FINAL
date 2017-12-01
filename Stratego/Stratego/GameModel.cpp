@@ -7,7 +7,9 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	//inicializacion del juego
 	gameOver = false;
 
-	message = " ";
+	moveDone = false;
+
+	message = "Stratego: Tu lideras el ejercito rojo";
 
 	//inicializaciondel battlefield
 	for (int i = 0;i<FILAS;i++)
@@ -356,6 +358,21 @@ void GameModel::decrementTime()
 void GameModel::restartTimer()
 {
 	timeRemaining = 0;
+}
+
+bool GameModel::getMoveDone()
+{
+	return moveDone;
+}
+
+void GameModel::setMoveDoneTrue()
+{
+	moveDone = true;
+}
+
+void GameModel::setMoveDoneFalse()
+{
+	moveDone = false;
 }
 
 bool GameModel::verifyMovement()

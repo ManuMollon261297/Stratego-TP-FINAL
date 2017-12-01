@@ -23,31 +23,20 @@ GameModel * mouseGameController::getP2model()
 	return p2gameModel;
 }
 
-pos mouseGameController::getFirstSelection()
+void mouseGameController::saveEvent(MouseEvent & Mev)
 {
-	return firstSelection;
+	memoryEv = Mev;
 }
 
-pos mouseGameController::getSecondSelection()
+MouseEvent & mouseGameController::getPreviousEvent()
 {
-	return secondSelection;
+	return memoryEv;
 }
 
-void mouseGameController::setFirstSelection(pos p)
-{
-	firstSelection = p;
-}
-
-void mouseGameController::setSecondSelection(pos p)
-{
-	secondSelection = p;
-}
-
-
-bool mouseGameController::areSelectionsEquals()
+bool mouseGameController::isEqualToPrevious(MouseEvent & Mev)
 {
 	bool ret;
-	if (firstSelection == secondSelection)
+	if ((memoryEv.r == Mev.r) && (memoryEv.evPos == Mev.evPos))
 	{
 		ret = true;
 	}
@@ -57,6 +46,8 @@ bool mouseGameController::areSelectionsEquals()
 	}
 	return ret;
 }
+
+
 
 MouseEvent mouseGameController::shape(double x, double y)
 {
@@ -93,19 +84,19 @@ void mouseGameController::dispatch(MouseEvent Mev)
 		case NO_EVENT:
 			break;
 		case SOLDIER_EV:
-			proximoEstado = estadoModel->OnSoldier(&Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnSoldier(Mev, Mstate, this, p2gameModel);
 			break;
 		case OPONENT_EV:
-			proximoEstado = estadoModel->OnOponent(&Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnOponent(Mev, Mstate, this, p2gameModel);
 			break;
 		case LAND_EV:
-			proximoEstado = estadoModel->OnLand(&Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnLand(Mev, Mstate, this, p2gameModel);
 			break;
 		case WATER_EV:
-			proximoEstado = estadoModel->OnWater(&Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnWater(Mev, Mstate, this, p2gameModel);
 			break;
 		case CEMETERY_EV:
-			proximoEstado = estadoModel->OnCemetery(&Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnCemetery(Mev, Mstate, this, p2gameModel);
 			break;
 	}
 	
@@ -221,8 +212,54 @@ Mevents mouseGameController::fetchMevType(pos pos_)
 	return ret;
 }
 
+bool mouseGameController::validOffsetMovement(pos destiny)
+{
+	return false;
+}
+
+bool mouseGameController::validObstacles(pos destiny)
+{
+	return false;
+}
+
 
 mouseGameController::~mouseGameController()
 {
 	delete estadoModel;
 }
+
+
+//pos mouseGameController::getFirstSelection()
+//{
+//	return firstSelection;
+//}
+//
+//pos mouseGameController::getSecondSelection()
+//{
+//	return secondSelection;
+//}
+//
+//void mouseGameController::setFirstSelection(pos p)
+//{
+//	firstSelection = p;
+//}
+//
+//void mouseGameController::setSecondSelection(pos p)
+//{
+//	secondSelection = p;
+//}
+//
+//
+//bool mouseGameController::areSelectionsEquals()
+//{
+//	bool ret;
+//	if (firstSelection == secondSelection)
+//	{
+//		ret = true;
+//	}
+//	else
+//	{
+//		ret = false;
+//	}
+//	return ret;
+//}

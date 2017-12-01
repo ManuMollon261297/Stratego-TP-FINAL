@@ -141,6 +141,18 @@
     <ClInclude Include="KeyboardEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="finishingPlacing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyAttacking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpAttacking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameOverState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameModel.cpp">
@@ -240,6 +252,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finishingPlacing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyAttacking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpAttacking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameOverState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

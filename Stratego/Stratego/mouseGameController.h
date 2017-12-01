@@ -29,7 +29,8 @@ public:
 	bool validOffsetMovement(pos destiny); //se fija si el offset de la ficha permite llegar hasta ese punto, la posicion original de la ficha
 										   //se encuentra en memoryEv.
 										   //return:  valido --> true; invalido --> false.
-	bool validObstacles(pos destiny); //se fija si no hay obstaculos que impidan el movimiento
+	bool validObstacles(pos destiny); //debe llamarse luego de validOffsetMovement, sino no sirve esta funcion.
+									  //se fija si no hay obstaculos que impidan el movimiento
 									  //return:  valido --> true (NO hay obstaculos); invalido --> false(HAY obstaculos).
 	
 
@@ -60,13 +61,8 @@ private:
 	
 	Mevents fetchMevType(pos pos_);
 
+	bool fetchObstacle(int fijoOri, int movilOri, int fijoDest, int varDest, char c_recorrido); //funcion utilizada por validObstacles()
 
+	void updateControllerState(int modelState); //coordina los estados del model entre las clases model y controller, antes de entrar a la fsm de controller
+	void updateModelState(); //coordina los estados del model entre las clases model y controller, luego de pasar fsm de controller
 };
-
-//void setFirstSelection(pos p);
-//void setSecondSelection(pos p);
-//bool areSelectionsEquals(); //compara firstSelection con secondSelection
-//pos firstSelection;
-//pos secondSelection;
-//pos getFirstSelection();
-//pos getSecondSelection();

@@ -5,7 +5,8 @@
 
 int main()
 {
-	AllegroViewer viewer(500, 500);
+	GameModel engine;
+	AllegroViewer viewer(500, 500,engine);
 	if (viewer.isViewerInitialized)
 	{
 		viewer.initImagesAndFonts();

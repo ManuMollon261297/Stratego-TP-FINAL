@@ -1,18 +1,34 @@
 #pragma once
+
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
 #include "Sprite.h"
 #include "Token.h"
 #include <vector>
+#include "GameModel.h"
+#include "ranks.h"
+#include "pos.h"
 
 class AllegroViewer
 {
 public:
-	AllegroViewer(int h ,int w);
+	AllegroViewer(int h ,int w,GameModel &gm);
 	bool isViewerInitialized();
 	void initImagesAndFonts();
+	void update(); //HACER
+	void drawBattlefield(); //HACER
+	void drawCemetery(); //HACER
+	void playBattleWarmUp(); //HACER
+	void playBattle(rank playerRank, rank opponentRank); //HACER
+	void moveToken(pos init, pos fin); //HACER
+	void highligthToken(pos init); //HACER
+	void highlightCemetery(rank r); //HACER
+	void drawMessage(); //HACER
+	void drawGameOver(bool playerWon); //HACER
+	void drawRemainingTime(); //HACER
 	~AllegroViewer();
 private:
+	GameModel & engine;
 	bool initialized;
 	unsigned int screenWidth;
 	unsigned int screenHeight;

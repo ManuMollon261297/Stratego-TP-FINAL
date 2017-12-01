@@ -2,8 +2,9 @@
 
 
 
-AllegroViewer::AllegroViewer(int h, int w) //CAMBIAR VALORES DE LOS FORS CUANDO YA ESTEN LA IMAGENES
+AllegroViewer::AllegroViewer(int h, int w, GameModel &gm) //CAMBIAR VALORES DE LOS FORS CUANDO YA ESTEN LA IMAGENES
 {
+	engine = gm;
 	//inicializacion de allegro
 	if (al_init()&& al_init_font_addon())
 	{
@@ -139,6 +140,50 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 	ALLEGRO_titlettf = al_load_font(titlettfDir.c_str(), 20, 0);	//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_optionsttf = al_load_font(optionsttfDir.c_str(), 15, 0);//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_messagesttf = al_load_font(messagettfDir.c_str(), 5, 0);//cambiar el tamanio de la letra aca si es necesario
+}
+
+void AllegroViewer::drawBattlefield()
+{
+}
+
+void AllegroViewer::drawCemetery()
+{
+}
+
+void AllegroViewer::playBattleWarmUp()
+{
+}
+
+void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
+{
+}
+
+void AllegroViewer::moveToken(pos init, pos fin)
+{
+}
+
+void AllegroViewer::update()
+{
+}
+
+void AllegroViewer::highligthToken(pos init)
+{
+}
+
+void AllegroViewer::highlightCemetery(rank r)
+{
+}
+
+void AllegroViewer::drawMessage()
+{
+}
+
+void AllegroViewer::drawGameOver(bool playerWon)
+{
+}
+
+void AllegroViewer::drawRemainingTime()
+{
 }
 
 

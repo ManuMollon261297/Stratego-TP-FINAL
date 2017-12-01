@@ -8,16 +8,16 @@ NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 	srand(time(NULL));
 	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
 	char pckg[1];
-	if ((NWM->connectAsClient(waiting_time)))
+	if ((NWM->connectAsClient(waiting_time, ip))) //hay que conseguir el ip del otro y pasarselo.
 	{
-		NWM->setServer(false);
+		NWM->setServer(CLIENT);
 		actualState = new WaitingName;
 	}
 	else
 	{
 		if (NWM->connectAsServer()) //si tuvo exito manda el paquete de name
 		{
-			NWM->setServer(true);
+			NWM->setServer(SERVER);
 			pckg[0] = NAME_HEADER;
 			NWM->sendPackage(pckg, 1);
 			actualState = new WaitingNameIs;
@@ -32,6 +32,8 @@ NetWorkingController::~NetWorkingController()
 
 void NetWorkingController::dispatch(GenericEvent& newEvent)
 {
+	//Antes de entrar a la fsm habria que ver si hay que mandar un paquete de move.
+	//o de ru_ready.
 	if ((newEvent.GetEvent()) == NET )
 	{
 		switch ( (((NetWorkingEvent&)newEvent).GetRecieved())[0] ) //revisar bien, tal vez hay que castear a char o algo.

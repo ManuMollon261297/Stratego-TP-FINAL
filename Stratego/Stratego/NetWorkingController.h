@@ -33,4 +33,5 @@ private:
 	GenericState * proxState;
 	NetworkingModel * NWM;     //decidir si es un puntero o contiene al objeto en si
 	GameModel * Gm;
+	char * ip; //ip del otro jugador
 };

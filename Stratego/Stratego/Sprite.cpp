@@ -1,7 +1,5 @@
 #include "Sprite.h"
 
-
-
 Sprite::Sprite(int code_)
 {
 	code = code_;
@@ -16,7 +14,7 @@ Sprite::~Sprite()
 	}
 }
 
-void Sprite::playSequence(int dx, int dy,int dw,int dh)
+void Sprite::playSequence(int dx, int dy,int dw,int dh, bool facingLeft)
 {
 	for (int i = 0;i< sequence.size();i++)
 	{
@@ -37,4 +35,14 @@ bool Sprite::pushImage(ALLEGRO_BITMAP * bitmap)
 	{
 		return false;
 	}
+}
+
+void Sprite::drawFirst(int x, int y, int width, int height, bool facingLeft)
+{
+	al_draw_scaled_bitmap(sequence[0], 0, 0, al_get_bitmap_width(sequence[0]),
+		al_get_bitmap_height(sequence[0]), x, y, width, height, 0);
+}
+
+void Sprite::flicker(int x, int y, int width, int height, bool facingLeft)
+{
 }

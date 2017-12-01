@@ -4,6 +4,7 @@
 
 OpMoving::OpMoving()
 {
+	state = OP_MOVING;
 }
 
 

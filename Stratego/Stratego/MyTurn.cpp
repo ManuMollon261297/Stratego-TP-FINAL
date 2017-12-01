@@ -4,7 +4,7 @@
 
 MyTurn::MyTurn()
 {
-
+	state = MY_TURN;
 }
 
 gameState * MyTurn::OnSoldier(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)

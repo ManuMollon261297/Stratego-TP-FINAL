@@ -4,6 +4,7 @@
 
 OpAttacking::OpAttacking()
 {
+	state = OP_ATTACKING;
 }
 
 

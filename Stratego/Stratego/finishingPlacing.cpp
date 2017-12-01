@@ -4,6 +4,7 @@
 
 finishingPlacing::finishingPlacing()
 {
+	state = ENDING_PLACING_FICHAS;
 }
 
 

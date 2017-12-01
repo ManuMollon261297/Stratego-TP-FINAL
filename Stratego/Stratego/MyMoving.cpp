@@ -4,6 +4,7 @@
 
 MyMoving::MyMoving()
 {
+	state = MY_MOVING;
 }
 
 

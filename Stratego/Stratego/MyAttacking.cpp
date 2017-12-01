@@ -4,6 +4,7 @@
 
 MyAttacking::MyAttacking()
 {
+	state = MY_ATTACKING;
 }
 
 

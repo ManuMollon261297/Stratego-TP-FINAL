@@ -4,6 +4,7 @@
 
 OpTurn::OpTurn()
 {
+	state = OP_TURN;
 }
 
 

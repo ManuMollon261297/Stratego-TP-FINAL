@@ -4,6 +4,7 @@
 
 gameOverState::gameOverState()
 {
+	state = GAME_OVER;
 }
 
 

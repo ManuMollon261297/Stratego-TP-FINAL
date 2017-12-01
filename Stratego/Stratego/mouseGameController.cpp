@@ -323,6 +323,8 @@ void mouseGameController::updateControllerState(int modelState)
 			case GAME_OVER:
 				estadoModel = new gameOverState;
 				break;
+			case ENDING_PLACING_FICHAS:
+				estadoModel = new finishingPlacing;
 		}
 	}
 }

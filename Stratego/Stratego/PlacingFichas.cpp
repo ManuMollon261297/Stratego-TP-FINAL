@@ -4,6 +4,7 @@
 
 PlacingFichas::PlacingFichas()
 {
+	state = PLACING_FICHAS;
 }
 
 

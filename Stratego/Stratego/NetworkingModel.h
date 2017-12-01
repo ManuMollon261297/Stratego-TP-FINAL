@@ -6,6 +6,22 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+//Headers de los paquetes
+#define ACK_HEADER (char)0x01
+#define NAME_HEADER (char)0x10
+#define NAME_IS_HEADER (char)0x11
+#define YOU_START_HEADER (char)0x20
+#define I_START_HEADER (char)0x21
+#define R_U_READY_HEADER (char)0x22
+#define I_AM_READY_HEADER (char)0x23
+#define MOVE_HEADER (char)0x30
+#define ATTACK_HEADER (char)0x31
+#define YOU_WON_HEADER (char)0x40
+#define PLAY_AGAIN_HEADER (char)0x50
+#define GAME_OVER_HEADER (char)0x51
+#define ERROR_HEADER (char)0xFE
+#define QUIT_HEADER (char)0xFF
+
 #define		PORT	13225
 #define		PORT_C	"13225"
 

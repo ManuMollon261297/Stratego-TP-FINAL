@@ -51,6 +51,90 @@
     <ClInclude Include="Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EndingGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMoving.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTurn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetPlacingFichas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetWorkingController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetWorkingEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpMoving.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpTurn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlacingFichas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quiting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartingAttack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingAttack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingForName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingNameIs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingNameResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingNewGameResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingOponentDecision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingPlayerDecision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingStartResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingWhoStart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameModel.cpp">
@@ -87,6 +171,63 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMoving.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTurn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetWorkingController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetWorkingEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpMoving.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpTurn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlacingFichas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingAttack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingForName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingMove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingNameIs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingNameResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingStartResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingWhoStart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

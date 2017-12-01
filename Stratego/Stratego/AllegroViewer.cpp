@@ -69,7 +69,18 @@ AllegroViewer::AllegroViewer(int h, int w) //CAMBIAR VALORES DE LOS FORS CUANDO 
 	}
 	titlettfDir = "\\Allegro Data\\Prince Valiant.ttf";
 	messagettfDir = "\\Allegro Data\\ARDED___.TTF";
-
+	//nullptr a todos los punteros
+	ALLEGRO_battleBackground = nullptr;
+	ALLEGRO_map = nullptr;
+	ALLEGRO_menuBackground = nullptr;
+	ALLEGRO_boton = nullptr;
+	ALLEGRO_mute = nullptr;
+	ALLEGRO_unMute = nullptr;
+	ALLEGRO_nameInput = nullptr;
+	ALLEGRO_titlettf = nullptr;
+	ALLEGRO_optionsttf = nullptr;
+	ALLEGRO_messagesttf = nullptr;
+	ALLEGRO_display = nullptr;
 }
 
 bool AllegroViewer::isViewerInitialized()
@@ -113,9 +124,10 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 		}
 		ALLEGRO_RedCharacters.push_back(sAux);
 	}
-	for(i=0;i<0/*CAMBIAR*/;i++)
+	for(int i=0;i<0/*CAMBIAR*/;i++)
 	{
-
+		ALLEGRO_BITMAP * aux = al_load_bitmap(GameOverDir[i].c_str());
+		ALLEGRO_GameOver.push_back(aux);
 	}
 	ALLEGRO_boton = al_load_bitmap(botonDir.c_str());
 	ALLEGRO_battleBackground = al_load_bitmap(battleBackgroundDir.c_str());
@@ -135,13 +147,64 @@ AllegroViewer::~AllegroViewer()
 	if (ALLEGRO_battleBackground != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_battleBackground);
+		ALLEGRO_battleBackground = nullptr;
 	}
 	if (ALLEGRO_map != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_map);
+		ALLEGRO_map = nullptr;
 	}
 	if (ALLEGRO_menuBackground != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_menuBackground);
+		ALLEGRO_menuBackground = nullptr;
+	}
+	if (ALLEGRO_boton != nullptr)
+	{
+		al_destroy_bitmap(ALLEGRO_boton);
+		ALLEGRO_boton = nullptr;
+	}
+	if (ALLEGRO_mute != nullptr)
+	{
+		al_destroy_bitmap(ALLEGRO_mute);
+		ALLEGRO_mute = nullptr;
+	}
+	if (ALLEGRO_unMute != nullptr)
+	{
+		al_destroy_bitmap(ALLEGRO_unMute);
+		ALLEGRO_unMute = nullptr;
+	}
+	if (ALLEGRO_nameInput != nullptr)
+	{
+		al_destroy_bitmap(ALLEGRO_nameInput);
+		ALLEGRO_nameInput = nullptr;
+	}
+	if (ALLEGRO_titlettf != nullptr)
+	{
+		al_destroy_font(ALLEGRO_titlettf);
+		ALLEGRO_titlettf = nullptr;
+	}
+	if (ALLEGRO_optionsttf != nullptr)
+	{
+		al_destroy_font(ALLEGRO_optionsttf);
+		ALLEGRO_optionsttf = nullptr;
+	}
+	if (ALLEGRO_messagesttf != nullptr)
+	{
+		al_destroy_font(ALLEGRO_messagesttf);
+		ALLEGRO_messagesttf = nullptr;
+	}
+	if (ALLEGRO_display != nullptr)
+	{
+		al_destroy_display(ALLEGRO_display);
+		ALLEGRO_display = nullptr;
+	}
+	for (int i = 0; i < ALLEGRO_GameOver.size() ; i++)
+	{
+		if (ALLEGRO_GameOver[i] != nullptr)
+		{
+			al_destroy_bitmap(ALLEGRO_GameOver[i]);
+			ALLEGRO_GameOver[i] = nullptr;
+		}
 	}
 }

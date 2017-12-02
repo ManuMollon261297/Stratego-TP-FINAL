@@ -65,6 +65,7 @@ bool ValidateRank(unsigned char rank)
 	return valid;
 }
 
+
 rank GetRank(unsigned char pckg_rank)
 {
 	rank result;

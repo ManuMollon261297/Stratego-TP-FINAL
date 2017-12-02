@@ -212,6 +212,7 @@
     <ClCompile Include="OpTurn.cpp" />
     <ClCompile Include="PlacingFichas.cpp" />
     <ClCompile Include="pos.cpp" />
+    <ClCompile Include="Quiting.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StartingAttack.cpp" />
     <ClCompile Include="State.cpp" />

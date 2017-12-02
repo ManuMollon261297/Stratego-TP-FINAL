@@ -19,6 +19,8 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
 		p_nwm->sendPackage(error_pckg, 1);
+		Gm->setState(GAME_OVER);
+		Gm->SetExit(true);
 		p_state = new Quiting;
 	}
 	else 

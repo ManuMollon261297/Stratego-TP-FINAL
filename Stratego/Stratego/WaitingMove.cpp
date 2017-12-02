@@ -26,6 +26,8 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 		char error_pckg[1]; //Si el movimiento es invalido significa que hubo un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
 		p_nwm->sendPackage(error_pckg, 1);
+		Gm->setState(GAME_OVER);
+		Gm->SetExit(true);
 		p_state = new Quiting;
 	}
 	else

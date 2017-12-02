@@ -22,6 +22,9 @@ public:
 	int getState();
 	void setState(int state_);
 
+	//Exit
+	void SetExit(bool);
+
 	//red
 	bool getRed();
 	void setRed(bool color);
@@ -67,6 +70,7 @@ public:
 	//Getters
 	currStatus GetmyPosStatus()const;
 	currStatus GetopPosStatus()const;
+	bool GetExit()const;
 
 	//winner
 	void playerWon();
@@ -80,6 +84,7 @@ public:
 	void printBattlefield();
 private:
 	bool gameOver;
+	bool Exit; //Se pone en true cuando sucede alguna situacion que genera el cierre del programa.
 
 	bool red;
 	ficha * battlefield[FILAS][COLUMNAS]; //la parte alta es la del contrario y la baja la del final

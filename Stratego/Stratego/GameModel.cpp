@@ -7,6 +7,8 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	//inicializacion del juego
 	gameOver = false;
 
+	Exit = false;
+
 	moveDone = false;
 
 	message = "Stratego: Tu lideras el ejercito rojo";
@@ -97,6 +99,16 @@ std::string & GameModel::getMessage()
 void GameModel::setMessage(char * message_)
 {
 	message = message_;
+}
+
+bool GameModel::GetExit()const
+{
+	return Exit;
+}
+
+void GameModel::SetExit(bool value)
+{
+	Exit = value;
 }
 
 bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una ficha movil valida

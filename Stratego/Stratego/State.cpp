@@ -101,13 +101,14 @@ NetworkingState* NetworkingState::Quit(NetWorkingEvent& ev, NetworkingModel* p_n
 	char message[1] = { ACK_HEADER };
 	p_nwm->sendPackage(message, 1);
 	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
 	return nullptr;
 }
 
 NetworkingState* NetworkingState::Error(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
+	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
 	return nullptr;
 }
 

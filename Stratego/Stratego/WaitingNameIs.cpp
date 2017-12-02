@@ -4,7 +4,7 @@
 
 NetworkingState* WaitingNameIs::Name_is(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	GenericState* state;
+	NetworkingState* state;
 	char pckg[1];
 	pckg[0] = ACK_HEADER;
 	p_nwm->sendPackage(pckg, 1);

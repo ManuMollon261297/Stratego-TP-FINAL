@@ -59,12 +59,6 @@ NetworkingState* NetworkingState::I_am_ready(NetWorkingEvent& ev, NetworkingMode
 	return nullptr;
 }
 
-NetworkingState* NetworkingState::You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
-	return nullptr;
-}
 
 NetworkingState* NetworkingState::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {

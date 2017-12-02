@@ -6,10 +6,13 @@
 #include "NetworkingModel.h"
 #include "GameModel.h"
 
+/*
 enum gameTypeState { NOT_CONNECTED, CONNECTING_TO_CLIENT, CONNECTING_TO_SERVER, WAITING_NAME, WAITING_NAME_IS,
 				WAITING_NAME_RESPONSE, WAITING_WHO_STARTS, WAITING_START_RESPONSE, PLACING_FICHAS,
 				WAITING_READINESS, WAITING_MOVE, WAITING_ATTACK, WAITING_NEW_GAME, WAITING_PLAYER_DECISION,
 				STARTING_ATTACK, WAITING_NEW_GAME_RESPONSE, WAITING_OPONENT_DECISION ,ENDING_GAME, QUITING};
+
+				*/
 
 //Estan los headers de:
 //WAITING_NAME, WAITING_NAME_IS, WAITING_NAME_RESPONSE, WAITING_WHO_STARTS, WAITING_START_RESPONSE,
@@ -32,7 +35,6 @@ public:
 	virtual NetworkingState* You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* I_am_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual NetworkingState* You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Game_over(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);

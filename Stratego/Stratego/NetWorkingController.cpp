@@ -2,7 +2,7 @@
 
 NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 {
-	NWM = new NetworkingModel(); //Recibe algo para construirse?
+	NWM = new NetworkingModel(); 
 	Gm = p2GameModel;
 	proxState = nullptr;
 	srand(time(NULL));
@@ -141,5 +141,25 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 		// cuando se clickea para terminar la seleccion de fichas, cuando se hace el ultimoo click que deciide
 		//una movida valida, cuando se cierra el dislpay, al final de juego cuando se elige si se desea jugar
 		//e nuevo o terminar la partida.
+		/*
+		switch(ev.ButtonPressed)
+		{
+			case FINISHED_SELECTION:
+					actual_state->FinishedSelection();
+					break;
+
+			case PLAY_AGAIN_BUTTON:
+					actual_state->PlayAgainSelected();
+					break;
+
+			case GAME_OVER_BUTTON:
+					actual_state->GameOverSelected();
+					break;
+
+			case MOVE_DONE:
+					actual_state->MoveDone();
+					break;
+		}
+		*/
 	}
 }

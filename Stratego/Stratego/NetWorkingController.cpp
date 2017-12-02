@@ -134,4 +134,12 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			proxState = nullptr;
 		}
 	}
+	else if ((newEvent.GetEvent()) == MOUSE)
+	{
+		//Habria que ver bien como hacer aca. Proablemente hay que agregarle cosas al mouse event.
+		//Los posibles casos que me interesarian son:
+		// cuando se clickea para terminar la seleccion de fichas, cuando se hace el ultimoo click que deciide
+		//una movida valida, cuando se cierra el dislpay, al final de juego cuando se elige si se desea jugar
+		//e nuevo o terminar la partida.
+	}
 }

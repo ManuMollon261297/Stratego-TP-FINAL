@@ -80,5 +80,6 @@ private:
 	void moveToken(pos init, pos fin);
 	void highligthToken(pos init);
 	void highlightCemetery(rank r);
+	int getCantSprites(int i);
 };
 

@@ -13,7 +13,7 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm) 
 	fichaHeight = (h / 11);
 	fichaWidth = (w / 12);
 	//inicializacion de allegro
-	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()) //SACAR AL_INIT
+	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
 	{
 		ALLEGRO_display = al_create_display(w, h);
 		initialized = true;
@@ -37,7 +37,7 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm) 
 		aux += ".png";
 		BlueFichaImagesDir.push_back(aux);
 	}
-	for (int i = 0; i<0/*CAMBIAR*/; i++)
+	for (int i = 0; i<1; i++)
 	{
 		char caux = '0' + i;
 		std::string aux = "\\Allegro Data\\GO\\" + caux;
@@ -52,10 +52,12 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm) 
 	unMuteDir = "\\Allegro Data\\unmute.png";
 	nameInputDir = "\\Allegro Data\\nameInput.png";
 	fieldDir = "\\Allegro Data\\field.png";
-	for (int i = 0; i<0/*CAMBIAR*/; i++)
+	int jmax;
+	for (int i = 0; i<11; i++)
 	{
+		jmax = getCantSprites(i);
 		char caux1 = '0' + i;
-		for (int j = 0; j<0/*CAMBIAR*/; j++)
+		for (int j = 0; j<jmax; j++)
 		{
 			char caux2 = '0' + j;
 			std::string aux = "\\Allegro Data\\BC\\" + caux1;
@@ -64,10 +66,11 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm) 
 			GameOverDir.push_back(aux);
 		}
 	}
-	for (int i = 0; i<0/*CAMBIAR*/; i++)
+	for (int i = 0; i<11; i++)
 	{
 		char caux1 = '0' + i;
-		for (int j = 0; j<0/*CAMBIAR*/; j++)
+		jmax = getCantSprites(i);
+		for (int j = 0; j<jmax; j++)
 		{
 			char caux2 = '0' + j;
 			std::string aux = "\\Allegro Data\\RC\\" + caux1;
@@ -134,7 +137,7 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 		}
 		ALLEGRO_RedCharacters.push_back(sAux);
 	}
-	for(int i=0;i<0/*CAMBIAR*/;i++)
+	for(int i=0;i<1;i++)
 	{
 		ALLEGRO_BITMAP * aux = al_load_bitmap(GameOverDir[i].c_str());
 		ALLEGRO_GameOver.push_back(aux);
@@ -631,6 +634,48 @@ void AllegroViewer::update()
 		drawGameOver(engine.didPlayerWin());
 		break;
 	}
+}
+
+int AllegroViewer::getCantSprites(int i)
+{
+	int aux;
+	switch(i)
+	{
+	case 0:
+		aux = 36;
+		break;
+	case 1:
+		aux = 17;
+		break;
+	case 2:
+		aux = 9;
+		break;
+	case 3:
+		aux = 26;
+		break;
+	case 4:
+		aux = 19;
+		break;
+	case 5:
+		aux = 55;
+		break;
+	case 6:
+		aux = 36;
+		break; 
+	case 7:
+		aux = 61;
+		break; 
+	case 8:
+		aux = 19;
+		break;
+	case 9:
+		aux = 23;
+		break;
+	case 10:
+		aux = 39;
+		break;
+	}
+	return aux;
 }
 
 AllegroViewer::~AllegroViewer()

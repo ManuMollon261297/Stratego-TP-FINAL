@@ -1,4 +1,5 @@
 #include "AllegroViewer.h"
+#include "currStatus.h"
 
 #define CASO_ESPECIAL(r, q) ( ((r == MINER) && (q == BOMB)) || ((r == SPY) && (q == MARSHAL)) )
 #define PLAYER_CH screenWidth / 4, screenHeight / 3, 100, 100, false
@@ -153,7 +154,8 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 
 void AllegroViewer::drawBattlefield()
 {
-	al_draw_bitmap(ALLEGRO_map, fichaWidth, fichaHeight, 0);
+	al_draw_scaled_bitmap(ALLEGRO_map, 0, 0, al_get_bitmap_width(ALLEGRO_map), al_get_bitmap_height(ALLEGRO_map),
+		fichaWidth, fichaHeight, screenWidth - fichaWidth, screenHeight - fichaWidth,0);
 	for (int i =0;i<10;i++)
 	{
 		for (int j =0;j<10;j++)
@@ -215,6 +217,12 @@ void AllegroViewer::drawCemetery()
 			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), 0, fichaWidth*(i + 1 / 2), 0, "%d", engine.getNumberInCemetery(rAux));
 		}
 	}
+}
+
+void AllegroViewer::drawBackground()
+{
+	al_draw_scaled_bitmap(ALLEGRO_battleBackground, 0, 0, al_get_bitmap_width(ALLEGRO_battleBackground),
+		al_get_bitmap_height(ALLEGRO_battleBackground), 0, 0, screenWidth, screenHeight, 0);
 }
 
 void AllegroViewer::highligthToken(pos init)
@@ -284,7 +292,8 @@ void AllegroViewer::playBattleWarmUp(rank playerRank) //TERMINAR FADE IN
 
 void AllegroViewer::moveToken(pos init, pos fin)
 {
-	al_draw_bitmap(ALLEGRO_map, fichaWidth, fichaHeight, 0);
+	al_draw_scaled_bitmap(ALLEGRO_map, 0, 0, al_get_bitmap_width(ALLEGRO_map), al_get_bitmap_height(ALLEGRO_map),
+		fichaWidth, fichaHeight, screenWidth - fichaWidth, screenHeight - fichaWidth, 0);
 	for (int i = 0; i<10; i++)
 	{
 		for (int j = 0; j<10; j++)
@@ -345,6 +354,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 					al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[currR].image, 0, 0,
 						al_get_bitmap_width(ALLEGRO_BlueFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[currR].image),
 						(init.x+1)*fichaWidth + 5, (init.y+ 1)*fichaHeight + 5-i, fichaWidth - 5, fichaHeight - 5, 0);
+					al_flip_display();
 					//agregar sleep si es necesario
 
 				}
@@ -422,14 +432,12 @@ void AllegroViewer::moveToken(pos init, pos fin)
 
 }
 
-void AllegroViewer::update()
-{
-}
 enum whoWon{PLAYER,OPPONENT,TIE};
 
 void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 {
 	whoWon status;
+	ALLEGRO_BITMAP * aux;
 	switch (engine.getState()) //asumo sprites mirando a la izquierda
 	{
 	case MY_ATTACKING:
@@ -475,13 +483,23 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 		switch (color)
 		{
 		case RED:
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_BlueCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_RedCharacters[playerRank].playSequence(PLAYER_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[playerRank].drawFirst(PLAYER_CH);
 			ALLEGRO_BlueCharacters[opponentRank].flicker(OPPONENT_CH);
 			break;
 		case BLUE:
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_RedCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_BlueCharacters[playerRank].playSequence(PLAYER_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[playerRank].drawFirst(PLAYER_CH);
 			ALLEGRO_RedCharacters[opponentRank].flicker(OPPONENT_CH);
 			break;
 		}
@@ -490,13 +508,17 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 		switch (color)
 		{
 		case RED:
-			ALLEGRO_BlueCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_BlueCharacters[opponentRank].playSequence(OPPONENT_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_RedCharacters[playerRank].flicker(PLAYER_CH);
 			break;
 		case BLUE:
-			ALLEGRO_RedCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_RedCharacters[opponentRank].playSequence(OPPONENT_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_BlueCharacters[playerRank].flicker(PLAYER_CH);
 			break;
 		}
@@ -505,17 +527,33 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 		switch (color)
 		{
 		case RED:
-			ALLEGRO_BlueCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_BlueCharacters[opponentRank].playSequence(OPPONENT_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_RedCharacters[playerRank].playSequence(PLAYER_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_RedCharacters[playerRank].flicker(PLAYER_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[playerRank].drawFirst(PLAYER_CH);
 			ALLEGRO_BlueCharacters[opponentRank].flicker(OPPONENT_CH);
 			break;
 		case BLUE:
-			ALLEGRO_RedCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_RedCharacters[opponentRank].playSequence(OPPONENT_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_BlueCharacters[playerRank].playSequence(PLAYER_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].drawFirst(OPPONENT_CH);
 			ALLEGRO_BlueCharacters[playerRank].flicker(PLAYER_CH);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[playerRank].drawFirst(PLAYER_CH);
 			ALLEGRO_RedCharacters[opponentRank].flicker(OPPONENT_CH);
 			break;
 		}
@@ -528,6 +566,70 @@ void AllegroViewer::drawHalo(double x, double y, double sizeX, double sizeY)
 	for (int i = 1; i <= 5; i++)
 	{
 		al_draw_rectangle(x - i, y - i, x + sizeX + i, y + sizeY + i, al_map_rgb(0, 255 - i * 20, 0), 1.0);
+	}
+}
+
+void AllegroViewer::update()
+{
+	//Menu Model
+	/*
+	switch (menuEngine.getState())
+	{
+	case MENU:
+		break;
+	case WRITING_NAME:
+		break;
+	case RULES:
+		break;
+	case MUTE_TOGGLE:
+		break;
+	case LEADERBOARD:
+		break;
+	}
+	*/
+
+	//Game Model
+	currStatus myS = engine.GetmyPosStatus();
+	currStatus opS = engine.GetopPosStatus();
+	switch (engine.getState())
+	{
+	case PLACING_FICHAS:
+		drawBackground();
+		drawBattlefield();
+		drawCemetery();
+		drawMessage();
+		break;
+	//case FINISHING_PLACING:
+		//break;
+	case MY_TURN:
+		drawBackground();
+		drawBattlefield();
+		drawCemetery();
+		drawMessage();
+		drawRemainingTime();
+		break;
+	case MY_ATTACKING:
+		playBattleWarmUp(engine.getRankFromPos(myS.previous));
+		break;
+	case MY_MOVING:
+		moveToken(myS.previous,myS.next);
+		break;
+	case OP_TURN:
+		drawBackground();
+		drawBattlefield();
+		drawCemetery();
+		drawMessage();
+		drawRemainingTime();
+		break;
+	case OP_ATTACKING:
+		playBattleWarmUp(engine.getRankFromPos(opS.next));
+		break;
+	case OP_MOVING:
+		moveToken(opS.previous,opS.next);
+		break;
+	case GAME_OVER:
+		drawGameOver(engine.didPlayerWin());
+		break;
 	}
 }
 

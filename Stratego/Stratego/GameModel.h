@@ -68,6 +68,9 @@ public:
 	currStatus GetmyPosStatus()const;
 	currStatus GetopPosStatus()const;
 
+	//winner
+	void playerWon();
+	bool didPlayerWin();
 	//verify
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde
 	bool verifyRescue(); //verifica si en la posicion actual el jugador es apto para hacer un rescue
@@ -87,6 +90,7 @@ private:
 	int timeRemaining;
 
 	bool moveDone;
+	bool won; //true si el jugador gano la partida
 
 	currStatus myPosStatus;
 	currStatus opPosStatus;

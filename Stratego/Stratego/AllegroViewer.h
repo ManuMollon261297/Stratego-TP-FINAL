@@ -20,17 +20,6 @@ public:
 	bool isViewerInitialized();
 	void initImagesAndFonts();
 	void update(); //HACER
-	void drawBattlefield();
-	void drawCemetery();
-	void playBattleWarmUp(rank playerRank);
-	void playBattle(rank playerRank, rank opponentRank); //HACER
-	void moveToken(pos init, pos fin);
-	void highligthToken(pos init);
-	void highlightCemetery(rank r);
-	void drawMessage();
-	void drawGameOver(bool playerWon);
-	void drawRemainingTime();
-	void drawHalo(double x, double y, double sizeX, double sizeY);
 	~AllegroViewer();
 private:
 	GameModel & engine;
@@ -79,5 +68,17 @@ private:
 	ALLEGRO_FONT * ALLEGRO_messagesttf;
 	//display
 	ALLEGRO_DISPLAY * ALLEGRO_display;
+	void drawBattlefield();
+	void drawCemetery();
+	void drawBackground();
+	void drawMessage();
+	void drawGameOver(bool playerWon);
+	void drawRemainingTime();
+	void drawHalo(double x, double y, double sizeX, double sizeY);
+	void playBattleWarmUp(rank playerRank);
+	void playBattle(rank playerRank, rank opponentRank);
+	void moveToken(pos init, pos fin);
+	void highligthToken(pos init);
+	void highlightCemetery(rank r);
 };
 

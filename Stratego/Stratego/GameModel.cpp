@@ -375,6 +375,26 @@ void GameModel::setMoveDoneFalse()
 	moveDone = false;
 }
 
+currStatus GameModel::GetmyPosStatus() const
+{
+	return myPosStatus;
+}
+
+currStatus GameModel::GetopPosStatus() const
+{
+	return opPosStatus;
+}
+
+void GameModel::playerWon()
+{
+	won = true;
+}
+
+bool GameModel::didPlayerWin()
+{
+	return won;
+}
+
 bool GameModel::verifyMovement()
 {
 	for (int i =0;i<10;i++)

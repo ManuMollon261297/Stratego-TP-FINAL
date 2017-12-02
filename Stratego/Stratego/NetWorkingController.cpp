@@ -38,12 +38,12 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 	{
 		if ( Gm->getRed())//termine de poner las fichas y soy el que empieza
 		{
-			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. Tal vez 
+			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
 			actualState = new NetPlacingFichas;
 		}
 		else
 		{
-			Gm->setState(OP_ATTACKING); //El otro jugador comienza entonces espero su jugada.
+			Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
 			actualState = new WaitingMove;
 		}
 		char pckg[1];
@@ -75,7 +75,6 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 		else
 		{
 			actualState = new StartingAttack; //Si es ofensivo espero un ataque.
-			Gm->setState(OP_TURN);
 		}
 		
 

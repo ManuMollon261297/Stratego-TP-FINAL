@@ -4,15 +4,12 @@
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
 #include "GameModel.h"
+#include "Quiting.h"
+#include "WaitingMove.h"
 
 class StartingAttack : public GenericState
 {
 public:
-	StartingAttack();
-	virtual ~StartingAttack();
 
-	virtual GenericState* Error(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* Quit(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-
-	virtual GenericState* Attack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual GenericState* Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

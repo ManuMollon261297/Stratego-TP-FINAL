@@ -153,6 +153,9 @@
     <ClInclude Include="gameOverState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkingFuncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameModel.cpp">
@@ -264,6 +267,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gameOverState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetPlacingFichas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartingAttack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkingFuncs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

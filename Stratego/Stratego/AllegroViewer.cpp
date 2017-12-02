@@ -101,7 +101,7 @@ bool AllegroViewer::isViewerInitialized()
 	return initialized;
 }
 
-void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
+void AllegroViewer::initImagesAndFonts()
 {
 	for (int i = 0; i < BlueFichaImagesDir.size(); i++)
 	{
@@ -113,26 +113,29 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 		Token tAux((rank)i, al_load_bitmap(RedFichaImagesDir[i].c_str()));
 		ALLEGRO_RedFichaImages.push_back(tAux);
 	}
+	int jmax;
 	for (int i = 0; i < BlueCharactersDir.size(); i++)
 	{
+		jmax = getCantSprites(i);
 		Sprite sAux(i);
 		std::string aux = BlueCharactersDir[i];
-		for (int j =0;j<10;j++)
+		for (int j =0;j<jmax;j++)
 		{
 			char auxCh = '0' + j;
-			aux =+ '/'+auxCh+ ".png";
+			aux =+ '//'+auxCh+ ".png";
 			sAux.pushImage(al_load_bitmap(aux.c_str()));
 		}
 		ALLEGRO_BlueCharacters.push_back(sAux);
 	}
 	for (int i = 0; i < RedCharactersDir.size(); i++)
 	{
+		jmax = getCantSprites(i);
 		Sprite sAux(i);
 		std::string aux = RedCharactersDir[i];
-		for (int j = 0; j<10; j++)
+		for (int j = 0; j<jmax; j++)
 		{
 			char auxCh = '0' + j;
-			aux = +'/' + auxCh + ".png";
+			aux = +'//' + auxCh + ".png";
 			sAux.pushImage(al_load_bitmap(aux.c_str()));
 		}
 		ALLEGRO_RedCharacters.push_back(sAux);

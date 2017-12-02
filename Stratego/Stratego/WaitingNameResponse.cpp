@@ -4,7 +4,7 @@
 NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	NetworkingState* p_state;
-	if (p_nwm->getServer())
+	if (p_nwm->getServer() == SERVER)
 	{
 		//sorteo orden de jugada, envio los ordenes y espero la respuesta
 		char pckg[1];

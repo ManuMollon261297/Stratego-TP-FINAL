@@ -8,7 +8,7 @@ NetworkingState* WaitingNameIs::Name_is(NetWorkingEvent& ev, NetworkingModel* p_
 	char pckg[1];
 	pckg[0] = ACK_HEADER;
 	p_nwm->sendPackage(pckg, 1);
-	if (p_nwm->getServer())
+	if (p_nwm->getServer() == SERVER)
 	{
 		
 		state=  new WaitingName; //si soy el server paso a waiting name

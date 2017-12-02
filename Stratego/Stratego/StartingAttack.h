@@ -7,9 +7,9 @@
 #include "Quiting.h"
 #include "WaitingMove.h"
 
-class StartingAttack : public GenericState
+class StartingAttack : public NetworkingState
 {
 public:
 
-	virtual GenericState* Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

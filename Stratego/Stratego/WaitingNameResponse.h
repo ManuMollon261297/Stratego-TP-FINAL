@@ -7,9 +7,9 @@
 #include "WaitingStartResponse.h"
 #include "GameModel.h"
 
-class WaitingNameResponse : public GenericState
+class WaitingNameResponse : public NetworkingState
 {
 public:
 
-	virtual GenericState* Ack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

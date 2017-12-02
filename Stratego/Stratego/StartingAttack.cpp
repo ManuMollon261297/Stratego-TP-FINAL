@@ -2,10 +2,10 @@
 #include "NetworkingFuncs.h"
 #include "currStatus.h"
 
-GenericState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	unsigned char enemy_rank = (ev.GetRecieved())[1]; 
-	GenericState* p_state;
+	NetworkingState* p_state;
 	if (!(ValidateRank(enemy_rank)) ) //si el rank es invalido es un error de comunicacion.
 	{
 		char pckg[1];

@@ -1,8 +1,8 @@
 #include "NetPlacingFichas.h"
 
-GenericState* NetPlacingFichas::R_u_ready(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	GenericState* p_state = nullptr;
+	NetworkingState* p_state = nullptr;
 
 	if ( (p_nwm->getServer()) == CLIENT ) //Si me llega R_U_READY tengo que necesariamente ser el client
 	{
@@ -40,9 +40,9 @@ GenericState* NetPlacingFichas::R_u_ready(GenericEvent& ev, NetworkingModel* p_n
 	
 }
 
-GenericState* NetPlacingFichas::I_am_ready(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetPlacingFichas::I_am_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	GenericState * p_state = nullptr;
+	NetworkingState * p_state = nullptr;
 	if (((p_nwm->getServer()) == SERVER) && (Gm->getRed())) //Si me llega i am ready tengo que ser server y ser el que empieza
 	{
 		Gm->setState(MY_TURN);

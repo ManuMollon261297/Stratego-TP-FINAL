@@ -6,11 +6,11 @@
 #include "GameModel.h"
 #include "WaitingMove.h"
 
-class NetPlacingFichas : public GenericState
+class NetPlacingFichas : public NetworkingState
 {
 
 public:
 
-	virtual GenericState* R_u_ready(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* I_am_ready(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* I_am_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

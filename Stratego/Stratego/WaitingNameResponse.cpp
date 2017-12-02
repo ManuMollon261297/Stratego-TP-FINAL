@@ -1,9 +1,9 @@
 #include "WaitingNameResponse.h"
 #include <time.h>
 
-GenericState* WaitingNameResponse::Ack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	GenericState* p_state;
+	NetworkingState* p_state;
 	if (p_nwm->getServer())
 	{
 		//sorteo orden de jugada, envio los ordenes y espero la respuesta

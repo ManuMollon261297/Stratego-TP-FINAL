@@ -8,9 +8,9 @@
 
 
 
-GenericState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	GenericState * p_state;
+	NetworkingState * p_state;
 	Gm->setState(OP_TURN); //Empieza el turno del oponente.
 	std::string pckg = ev.GetRecieved();
 	int original_posY = pckg[1] - 'A'; //Le resta el valor de la primera columna para obtener el numero.
@@ -50,7 +50,7 @@ GenericState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, Gam
 	return p_state;
 }
 
-GenericState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	Gm->setState(GAME_OVER);
 	//Habria que preguntarle al usuario de alguna forma si quiere volver a jugar de nuevo.

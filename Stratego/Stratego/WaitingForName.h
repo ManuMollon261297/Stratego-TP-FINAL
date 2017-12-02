@@ -7,11 +7,9 @@
 #include "GameModel.h"
 #include <iostream>
 
-class WaitingName : public GenericState
+class WaitingName : public NetworkingState
 {
 public:
-	WaitingName();
-	virtual ~WaitingName();
-	virtual GenericState* Name(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Name(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	//virtual GenericState* Connection_succes(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

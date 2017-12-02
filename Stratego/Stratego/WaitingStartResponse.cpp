@@ -1,8 +1,8 @@
 #include "WaitingStartResponse.h"
 
 
-GenericState* Ack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	Gm->setState(PLACING_FICHAS);
-	return new PlacingFichas;
+	return new NetPlacingFichas;
 }

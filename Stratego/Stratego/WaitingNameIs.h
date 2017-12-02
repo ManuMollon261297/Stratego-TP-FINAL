@@ -7,10 +7,8 @@
 #include "WaitingForName.h"
 #include "WaitingWhoStart.h"
 
-class WaitingNameIs : public GenericState
+class WaitingNameIs : public NetworkingState
 {
 public:
-	WaitingNameIs();
-	virtual ~WaitingNameIs();
-	virtual GenericState* Name_is(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Name_is(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

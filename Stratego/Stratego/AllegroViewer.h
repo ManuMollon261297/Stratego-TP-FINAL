@@ -1,5 +1,9 @@
 #pragma once
-//REVISAR PROBLEMAS CON PRINTEAR OTHERS
+//FIJARSE LA DETSRUCCION DE LOS BITMAPS
+//QUE INICILAIZEN LAS FONTS 
+//QUE LA BOMB A VECES NO SE INICIALIZA
+//ANIMACIONES Y DIM DE LA FLAG
+//QUE EN UPDATE SE DIBUJEN LOS HALOS, DEBUGGEAR UPDATE CUANDO ESTE EL CONTROLLER
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
 #include "allegro5\allegro_primitives.h"
@@ -19,8 +23,23 @@ public:
 	AllegroViewer(int h ,int w,GameModel &gm,colour c);
 	bool isViewerInitialized();
 	void initImagesAndFonts();
-	void update(); //HACER
+	void update();
 	~AllegroViewer();
+	//SON PRIVADAS ESTAN EN PUBLIC SOLO PARA DEBUGEAR
+	void drawBattlefield();
+	void drawCemetery();
+	void drawBackground();
+	void drawMessage();
+	void drawGameOver(bool playerWon);
+	void drawRemainingTime();
+	void drawHalo(double x, double y, double sizeX, double sizeY);
+	void playBattleWarmUp(rank playerRank);
+	void playBattle(rank playerRank, rank opponentRank);
+	void moveToken(pos init, pos fin);
+	void highligthToken(pos init);
+	void highlightCemetery(rank r);
+	int  getCantSprites(int i);
+	void getDrawingCoord(int& x, int& y, int& aWidth,int& aHeight, rank& r,bool opponent);
 private:
 	GameModel & engine;
 	bool initialized;
@@ -33,8 +52,8 @@ private:
 	//direcciones de imagenes
 	std::vector<std::string> BlueFichaImagesDir;//cada dir es una imagen de las fichas azules
 	std::vector<std::string> RedFichaImagesDir;	//cada dir es una imagen de las fichas rojas
-	std::vector<std::string> BlueCharactersDir; //cada dir es una carpeta con la animacion correspondiente a cada personaje azul
-	std::vector<std::string> RedCharactersDir;	//cada dir es una carpeta con la animacion correspondiente a cada personaje rojo
+	std::vector<std::vector<std::string>> BlueCharactersDir; //cada dir es una carpeta con la animacion correspondiente a cada personaje azul
+	std::vector<std::vector<std::string>> RedCharactersDir;	//cada dir es una carpeta con la animacion correspondiente a cada personaje rojo
 	std::vector<std::string> GameOverDir;		//cada dir es una imagen de la secuencia de game over
 	std::string botonDir;						//dir de una imagen de un boton
 	std::string battleBackgroundDir;			//dir de fondo de pantalla durante la partida
@@ -68,18 +87,5 @@ private:
 	ALLEGRO_FONT * ALLEGRO_messagesttf;
 	//display
 	ALLEGRO_DISPLAY * ALLEGRO_display;
-	void drawBattlefield();
-	void drawCemetery();
-	void drawBackground();
-	void drawMessage();
-	void drawGameOver(bool playerWon);
-	void drawRemainingTime();
-	void drawHalo(double x, double y, double sizeX, double sizeY);
-	void playBattleWarmUp(rank playerRank);
-	void playBattle(rank playerRank, rank opponentRank);
-	void moveToken(pos init, pos fin);
-	void highligthToken(pos init);
-	void highlightCemetery(rank r);
-	int getCantSprites(int i);
 };
 

@@ -35,5 +35,5 @@ private:
 	NetworkingState * proxState;
 	NetworkingModel * NWM;     
 	GameModel * Gm;
-	char ip[MAX_IP_LENGTH]; //ip del otro jugador
+	char ip[MAX_IP_LENGTH+1]; //ip del otro jugador
 };

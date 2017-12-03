@@ -2,7 +2,7 @@
 
 NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 {
-	char user_name[255];
+	char user_name[256];
 	NWM = new NetworkingModel(new boost::asio::io_service());
 	std::ifstream ip_file("./ip.txt");
 	std::ifstream name_file("./temporal.txt");
@@ -47,11 +47,13 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 		if ( Gm->getRed())//termine de poner las fichas y soy el que empieza
 		{
 			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
+			delete actualState;
 			actualState = new NetPlacingFichas;
 		}
 		else
 		{
 			Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
+			delete actualState;
 			actualState = new WaitingMove;
 		}
 		char pckg[1];

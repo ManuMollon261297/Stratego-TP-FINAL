@@ -43,7 +43,6 @@ private:
 	std::list<GenericEvent*> eventList;
 	std::list<WormInfo> wormsList;
 
-	Worm * worm_;
 	graphic_movement * graficos_;
 	boost::asio::ip::tcp::socket* socket_; //lo necesario para poder leer y escribir
 };

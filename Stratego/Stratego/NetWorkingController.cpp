@@ -2,7 +2,7 @@
 
 NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 {
-	NWM = new NetworkingModel(); 
+	NWM = new NetworkingModel(new boost::asio::io_service());
 	Gm = p2GameModel;
 	proxState = nullptr;
 	srand(time(NULL));

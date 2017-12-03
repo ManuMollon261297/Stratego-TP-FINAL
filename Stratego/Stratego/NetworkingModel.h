@@ -2,9 +2,12 @@
 
 #include <string>
 #include <vector>
+#include <boost/asio/deadline_timer.hpp>
 #include <boost/asio.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+
+using boost::asio::deadline_timer;
 
 //Headers de los paquetes
 #define ACK_HEADER (char)0x01
@@ -29,7 +32,7 @@ enum serverStatus {SERVER,CLIENT,UNINITIALIZED};
 class NetworkingModel
 {
 public:
-	NetworkingModel();
+	NetworkingModel(boost::asio::io_service*);
 	bool sendPackage(char * message, int size); //envia un paquete de chars de tamanio size
 	std::vector<char> readPackage(); // busca si llego un package 
 	int getState();
@@ -44,19 +47,25 @@ public:
 	void setYou(std::string you_);
 	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
+	void Shutdown();
 	~NetworkingModel();
 private:
 	int state;
 	int port;
 	bool server_Finished_placing_fichas;
+	bool time_done;
 	serverStatus serverStat;
 	std::string me;
 	std::string you;
+	void client_connect_handler(const boost::system::error_code& error, boost::asio::ip::tcp::resolver::iterator iterator_);
+	void timer_handler(const boost::system::error_code& error);
 	//boost
 	boost::asio::io_service*  IO_handler;
 	boost::asio::ip::tcp::socket* socket;
 	boost::asio::ip::tcp::acceptor* server_acceptor;
 	boost::asio::ip::tcp::resolver* client_resolver;
 	boost::asio::ip::tcp::resolver::iterator endpoint;
+	deadline_timer deadline_;
+	deadline_timer heartbeat_timer_;
 };
 

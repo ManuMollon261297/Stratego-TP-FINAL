@@ -5,6 +5,7 @@
 #include "NetworkingModel.h"
 #include "EndingGame.h"
 #include <time.h>
+#include <fstream>
 #include "NetPlacingFichas.h"
 #include "Quiting.h"
 #include "StartingAttack.h"
@@ -20,6 +21,7 @@
 #include "WaitingWhoStart.h"
 #include "GameModel.h"
 
+#define MAX_IP_LENGTH 45
 
 class NetWorkingController
 {
@@ -31,7 +33,7 @@ public:
 private:
 	NetworkingState * actualState;
 	NetworkingState * proxState;
-	NetworkingModel * NWM;     //decidir si es un puntero o contiene al objeto en si
+	NetworkingModel * NWM;     
 	GameModel * Gm;
-	char * ip; //ip del otro jugador
+	char ip[MAX_IP_LENGTH]; //ip del otro jugador
 };

@@ -2,13 +2,21 @@
 
 NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 {
+	char user_name[255];
 	NWM = new NetworkingModel(new boost::asio::io_service());
+	std::ifstream ip_file("./ip.txt");
+	std::ifstream name_file("./info.txt");
+	ip_file.getline(ip, MAX_IP_LENGTH); //Consigo la ip del otro jugador
+	name_file.getline(user_name, 255); //Consigo el nombreo de mi usuario.
+	std::string user_nameS(user_name);
+
+	NWM->setMe(user_nameS);
 	Gm = p2GameModel;
 	proxState = nullptr;
 	srand(time(NULL));
 	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
 	char pckg[1];
-	if ((NWM->connectAsClient(waiting_time, ip))) //hay que conseguir el ip del otro y pasarselo.
+	if ((NWM->connectAsClient(waiting_time, ip))) 
 	{
 		NWM->setServer(CLIENT);
 		actualState = new WaitingName;

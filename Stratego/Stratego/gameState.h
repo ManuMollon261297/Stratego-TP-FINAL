@@ -2,7 +2,7 @@
 #include "MouseEvent.h"
 #include "mouseGameController.h"
 
-enum states { MY_TURN, OP_TURN, MY_ATTACKING, OP_ATTACKING, MY_MOVING, OP_MOVING, PLACING_FICHAS, GAME_OVER, IDLE, ENDING_PLACING_FICHAS, WAITING_FOR_OPPONENTS_SELECTION };
+enum states { MY_TURN, OP_TURN, MY_ATTACKING, OP_ATTACKING, MY_MOVING, OP_MOVING, PLACING_FICHAS, GAME_OVER, IDLE, ENDING_PLACING_FICHAS, WAITING_FOR_OPPONENTS_SELECTION, PLAY_AGAIN_SELECTED, GAME_OVER_SELECTED };
 
 enum MouseStates { NONE_SELECTED, SOLDIER_SELECTED, CEMETERY_SELECTED };
 
@@ -15,6 +15,9 @@ public:
 	virtual gameState* OnOponent(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
 	virtual gameState* OnLand(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
 	virtual gameState* OnWater(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
+	virtual gameState* OnConfirmPlaces(GameModel * p2GameModel);
+	virtual gameState* OnPlayAgain(GameModel * p2GameModel);
+	virtual gameState* OnGameOver(GameModel * p2GameModel);
 	virtual int getState();
 
 protected:

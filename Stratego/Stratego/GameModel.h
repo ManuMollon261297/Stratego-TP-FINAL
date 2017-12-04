@@ -5,6 +5,7 @@
 #include "pos.h"
 #include "ranks.h"
 #include "gameState.h"
+#include "button.h"
 #include <vector>
 #include <iostream>
 
@@ -57,6 +58,15 @@ public:
 	void unselectRankCemetery(rank r);
 	void toggleSelectRankCemetery(rank r);
 
+	void setFichasPlacedTrue();
+	void setFichasPlacedFalse();
+	bool getFichasPlaced();
+
+	//manejo de botones
+
+	button * getButtonReference(int index);
+	void pushButton(button b);
+	void deleteButtons();
 
 	//timer
 	int getTime();
@@ -95,12 +105,15 @@ private:
 	int timeRemaining;
 
 	bool moveDone;
+	bool fichasPlaced;
 	bool won; //true si el jugador gano la partida
 
 	currStatus myPosStatus;
 	currStatus opPosStatus;
 	int rescuesRemaining;
 	int repeatMoveCounter;
+
+	std::vector<button> botones;
 
 	std::string message;
 

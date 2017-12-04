@@ -143,6 +143,7 @@
     <ClInclude Include="ficha.h" />
     <ClInclude Include="finishingPlacing.h" />
     <ClInclude Include="GameModel.h" />
+    <ClInclude Include="gameOverSelected.h" />
     <ClInclude Include="gameOverState.h" />
     <ClInclude Include="gameState.h" />
     <ClInclude Include="GenericModel.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="OpAttacking.h" />
     <ClInclude Include="OpMoving.h" />
     <ClInclude Include="OpTurn.h" />
+    <ClInclude Include="plaAgainSelected.h" />
     <ClInclude Include="PlacingFichas.h" />
     <ClInclude Include="Quiting.h" />
     <ClInclude Include="ranks.h" />
@@ -190,6 +192,7 @@
     <ClCompile Include="ficha.cpp" />
     <ClCompile Include="finishingPlacing.cpp" />
     <ClCompile Include="GameModel.cpp" />
+    <ClCompile Include="gameOverSelected.cpp" />
     <ClCompile Include="gameOverState.cpp" />
     <ClCompile Include="gameState.cpp" />
     <ClCompile Include="IdleState.cpp" />
@@ -207,6 +210,7 @@
     <ClCompile Include="OpAttacking.cpp" />
     <ClCompile Include="OpMoving.cpp" />
     <ClCompile Include="OpTurn.cpp" />
+    <ClCompile Include="plaAgainSelected.cpp" />
     <ClCompile Include="PlacingFichas.cpp" />
     <ClCompile Include="pos.cpp" />
     <ClCompile Include="Sprite.cpp" />

@@ -1,6 +1,10 @@
 #pragma once
 #include "pos.h"
 
+#define PLACE_READY_B 1
+#define PLAY_AGAIN_B 2
+#define GAME_OVER_B 3
+
 class button
 {
 public:
@@ -9,6 +13,7 @@ public:
 	void unpress();
 	bool getPressStatus();
 	int getIndex();
+	bool isTouched(double x, double y);
 	~button();
 private:
 	pos verticeLL; //low left

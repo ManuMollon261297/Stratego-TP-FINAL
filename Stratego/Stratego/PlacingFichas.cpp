@@ -104,4 +104,15 @@ gameState * PlacingFichas::OnWater(MouseEvent & Mev, MouseStates Mstate, mouseGa
 	return nullptr;
 }
 
+gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel)
+{
+	if (p2GameModel->isCemeteryEmpty())
+	{
+		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
+		p2GameModel->getButtonReference(PLACE_READY)->press(); //seleccion del boton
+		p2GameModel->setMessage("Ejercito listo para la batalla, esperando al oponente");
+	}
+	return nullptr;
+}
+
 

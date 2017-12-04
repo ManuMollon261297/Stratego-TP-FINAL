@@ -10,6 +10,8 @@
 #include "MyAttacking.h"
 #include "OpAttacking.h"
 #include "gameOverState.h"
+#include "PlaAgainSelected.h"
+#include "gameOverSelected.h"
 
 
 #define IS_CEMETERY_TOUCHED(x, y) ( ((x > MARGEN_X_CEMETERY) && (x < (MARGEN_X_CEMETERY + SIZE_CEMETERY_X))) && ((y > MARGEN_Y_CEMETERY) && (y < (MARGEN_Y_CEMETERY + SIZE_CEMETERY_Y))) )
@@ -72,6 +74,9 @@ MouseEvent mouseGameController::shape(double x, double y)
 			Mev.r = fetchMevRankFromCemetery(Mev.evPos.y);
 			Mev.type = CEMETERY_EV;
 			break;
+		case BOTON_PLACE_READY:
+			Mev.type = BOTON_PLACE_READY_EV;
+			break;
 		case INVALID_SECTOR:
 			Mev.evPos = { -1, -1 };
 			Mev.type = NO_EVENT;
@@ -104,6 +109,8 @@ void mouseGameController::dispatch(MouseEvent Mev)
 		case CEMETERY_EV:
 			proximoEstado = estadoModel->OnCemetery(Mev, Mstate, this, p2gameModel);
 			break;
+		case BOTON_PLACE_READY_EV:
+			proximoEstado = estadoModel->OnConfirmPlaces(p2gameModel);
 	}
 	
 	if (proximoEstado != nullptr) //hubo cambio de estado
@@ -118,29 +125,51 @@ void mouseGameController::dispatch(MouseEvent Mev)
 sectors mouseGameController::getSectorTouched(double x, double y)
 {
 	sectors sectorRet;
-
-	if (IS_CEMETERY_TOUCHED(x, y))
+	if ((p2gameModel->getState()) != GAME_OVER)
 	{
-		sectorRet = CEMETERY_SECTOR;
-	}
-	else if (IS_BATTLEFIELD_TOUCHED(x, y))
-	{
-		if (IS_FRIENDLY_BATTLEFIELD_TOUCHED(x, y))
+		if (IS_CEMETERY_TOUCHED(x, y))
 		{
-			sectorRet = FRIENDLY_BATTLEFIELD;
+			sectorRet = CEMETERY_SECTOR;
 		}
-		else if (IS_HOSTIL_BATTLEFIELD_TOUCHED(x, y))
+		else if (IS_BATTLEFIELD_TOUCHED(x, y))
 		{
-			sectorRet = HOSTIL_BATTLEFIELD;
+			if (IS_FRIENDLY_BATTLEFIELD_TOUCHED(x, y))
+			{
+				sectorRet = FRIENDLY_BATTLEFIELD;
+			}
+			else if (IS_HOSTIL_BATTLEFIELD_TOUCHED(x, y))
+			{
+				sectorRet = HOSTIL_BATTLEFIELD;
+			}
+			else
+			{
+				sectorRet = NEUTRAL_BATTLEFIELD;
+			}
 		}
 		else
 		{
-			sectorRet = NEUTRAL_BATTLEFIELD;
+			sectorRet = INVALID_SECTOR;
 		}
 	}
-	else
+	
+	else if ((p2gameModel->getState()) == GAME_OVER)
 	{
-		sectorRet = INVALID_SECTOR;
+		if (p2gameModel->getButtonReference(PLACE_READY_B)->isTouched(x, y))
+		{
+			sectorRet = BOTON_PLACE_READY;
+		}
+		else if (p2gameModel->getButtonReference(PLAY_AGAIN_B)->isTouched(x, y))
+		{
+			sectorRet = BOTON_PLAY_AGAIN;
+		}
+		else if (p2gameModel->getButtonReference(GAME_OVER_B)->isTouched(x, y))
+		{
+			sectorRet = BOTON_GAME_OVER;
+		}
+		else
+		{
+			sectorRet = INVALID_SECTOR;
+		}
 	}
 
 	return sectorRet;
@@ -325,6 +354,13 @@ void mouseGameController::updateControllerState(int modelState)
 				break;
 			case ENDING_PLACING_FICHAS:
 				estadoModel = new finishingPlacing;
+				break;
+			case PLAY_AGAIN_SELECTED:
+				estadoModel = new plaAgainSelected;
+				break;
+			case GAME_OVER_SELECTED:
+				estadoModel = new gameOverSelected;
+				break;
 		}
 	}
 }

@@ -30,6 +30,18 @@ int button::getIndex()
 	return index;
 }
 
+bool button::isTouched(double x, double y)
+{
+	bool ret = false;
+
+	if ((x > verticeLL.x) && (x < verticeHR.x) && (y > verticeHR.y) && (y < verticeLL.y))
+	{
+		ret = true;
+	}
+
+	return ret;
+}
+
 button::~button()
 {
 }

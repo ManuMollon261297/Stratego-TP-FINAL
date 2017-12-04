@@ -8,6 +8,7 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	gameOver = false;
 
 	moveDone = false;
+	fichasPlaced = false;
 
 	message = "Stratego: Tu lideras el ejercito rojo";
 
@@ -303,6 +304,34 @@ void GameModel::toggleSelectRankCemetery(rank r)
 	cemetery[r][2] = (!cemetery[r][2]);
 }
 
+void GameModel::setFichasPlacedTrue()
+{
+	fichasPlaced = true;
+}
+
+void GameModel::setFichasPlacedFalse()
+{
+	fichasPlaced = false;
+}
+
+bool GameModel::getFichasPlaced()
+{
+	return fichasPlaced;
+}
+
+button * GameModel::getButtonReference(int index)
+{
+	for (int i = 0; i < botones.size(); i++)
+	{
+		if (index == botones[i].getIndex())
+		{
+			return &botones[i];
+		}
+	}
+	return nullptr;
+	return nullptr;
+}
+
 rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 {
 	if (battlefield[currpos.x][currpos.y] == nullptr)
@@ -501,4 +530,14 @@ GameModel::~GameModel()
 			}
 		}
 	}
+}
+
+void GameModel::pushButton(button b)
+{
+	botones.push_back(b);
+}
+
+void GameModel::deleteButtons()
+{
+	botones.clear();
 }

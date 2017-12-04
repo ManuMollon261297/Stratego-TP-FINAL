@@ -15,6 +15,7 @@
 #define MARGEN_X_BATTLEFIELD MARGEN_X_CEMETERY + SIZE_CEMETERY_X + SIZE_CASILLERO_X //cemetery a la izquierda de battlefield
 #define MARGEN_Y_BATTLEFIELD SIZE_CASILLERO_Y
 
+
 class mouseGameController
 {
 public:

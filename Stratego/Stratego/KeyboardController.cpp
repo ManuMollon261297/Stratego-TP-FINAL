@@ -10,7 +10,7 @@ KeyboardController::KeyboardController(MenuModel * mm, ALLEGRO_EVENT_QUEUE * que
 
 	IpCount = 0;
 	NameCount = 0;
-	mayus = false;
+	bloqMayus = false;
 
 	/*
 	queue = al_create_event_queue();
@@ -47,21 +47,24 @@ void KeyboardController::takeEvent(GenericEvent * genEv)
 				ALLEGRO_KEYBOARD_STATE key_state;
 				al_get_keyboard_state(&key_state);
 
-				bool mayusShift = (al_key_down(&key_state, ALLEGRO_KEY_LSHIFT) || al_key_down(&key_state, ALLEGRO_KEY_RSHIFT)); //Chequeo si se está usando mayusculas o minusculas
+				bool mayusShift = (al_key_down(&key_state, ALLEGRO_KEY_LSHIFT) ||
+									al_key_down(&key_state, ALLEGRO_KEY_RSHIFT));
+				//Chequeo si se está tocando el shift izquierdo o derecho
 
-				if ((mayusShift || mayus) && !(mayusShift && mayus))
-					pMenuModel->addCharToWorkingString(butonPressed + 64);		 //Le sumo un desfasaje para pasarlo a ascii (en mayuscula)
+				if ((mayusShift || bloqMayus) && !(mayusShift && bloqMayus))		//Chequeo si bloq mayus ya estaba activado
+					pMenuModel->addCharToWorkingString(butonPressed + 64);			 //Le sumo un desfasaje para pasarlo a ascii (en mayuscula)
 				
 				else
-					pMenuModel->addCharToWorkingString(butonPressed + 96);		//Le sumo un desfasaje para pasarlo a ascii (en minuscula)
+					pMenuModel->addCharToWorkingString(butonPressed + 96);			//Le sumo un desfasaje para pasarlo a ascii (en minuscula)
 			}
 		}
+		
 		else if ((butonPressed >= ALLEGRO_KEY_0) && (butonPressed <= ALLEGRO_KEY_9))
 		{
 			if (validateAdd())
-				pMenuModel->addCharToWorkingString(butonPressed + 21);			//Le sumo un desfasaje para pasarlo a ascii
+				pMenuModel->addCharToWorkingString(butonPressed + 21);				//Le sumo un desfasaje para pasarlo a ascii
 		}
-
+		
 		else if (butonPressed == ALLEGRO_KEY_SPACE)
 		{
 			if (validateAdd())
@@ -71,7 +74,7 @@ void KeyboardController::takeEvent(GenericEvent * genEv)
 			pMenuModel->setWorkingIp(!(pMenuModel->getWorkingIp()));
 		
 		else if (butonPressed == ALLEGRO_KEY_CAPSLOCK)
-			mayus = !mayus;
+			bloqMayus = !bloqMayus;
 	
 		else if ((butonPressed == ALLEGRO_KEY_BACKSPACE) && (validateSub()))
 			pMenuModel->deleteCharToWorkingString();

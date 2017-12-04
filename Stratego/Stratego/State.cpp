@@ -5,96 +5,54 @@
 //menos quit y error
 //Hay que cerrrar la comunicacion despues de enviar el paquete de error.
 
-GenericState:: ~GenericState()
+NetworkingState:: ~NetworkingState()
 {
 
 }
 
-GenericState* GenericState::Play_again(GenericEvent& ev,  NetworkingModel* p_nwm, GameModel * Gm)
-{
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
-	return nullptr;
-}
-
-GenericState* GenericState::Name(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::Play_again(NetWorkingEvent& ev,  NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(message, 1);
 	return nullptr;
 }
 
-GenericState* GenericState::Name_is(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::Name(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(message, 1);
 	return nullptr;
 }
 
-GenericState* GenericState::I_start(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::Name_is(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(message, 1);
 	return nullptr;
 }
 
-GenericState* GenericState::You_start(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(message, 1);
 	return nullptr;
 }
 
-GenericState* GenericState::R_u_ready(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(message, 1);
 	return nullptr;
 }
 
-GenericState* GenericState::I_am_ready(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(message, 1);
 	return nullptr;
 }
 
-GenericState* GenericState::You_start(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
-	return nullptr;
-}
-
-GenericState* GenericState::Ack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
-	return nullptr;
-}
-
-GenericState* GenericState::Game_over(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
-	return nullptr;
-}
-
-GenericState* GenericState::Move(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
-	return nullptr;
-}
-
-GenericState* GenericState::You_won(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
-	return nullptr;
-}
-
-GenericState* GenericState::Attack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::I_am_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(message, 1);
@@ -102,17 +60,59 @@ GenericState* GenericState::Attack(GenericEvent& ev, NetworkingModel* p_nwm, Gam
 }
 
 
-GenericState* GenericState::Quit(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+{
+	char message[1] = { ERROR_HEADER };
+	p_nwm->sendPackage(message, 1);
+	return nullptr;
+}
+
+NetworkingState* NetworkingState::Game_over(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+{
+	char message[1] = { ERROR_HEADER };
+	p_nwm->sendPackage(message, 1);
+	return nullptr;
+}
+
+NetworkingState* NetworkingState::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+{
+	char message[1] = { ERROR_HEADER };
+	p_nwm->sendPackage(message, 1);
+	return nullptr;
+}
+
+NetworkingState* NetworkingState::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+{
+	char message[1] = { ERROR_HEADER };
+	p_nwm->sendPackage(message, 1);
+	return nullptr;
+}
+
+NetworkingState* NetworkingState::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+{
+	char message[1] = { ERROR_HEADER };
+	p_nwm->sendPackage(message, 1);
+	return nullptr;
+}
+
+
+NetworkingState* NetworkingState::Quit(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char message[1] = { ACK_HEADER };
 	p_nwm->sendPackage(message, 1);
 	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
 	return nullptr;
 }
 
-GenericState* GenericState::Error(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::Error(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	char message[1] = { ERROR_HEADER };
-	p_nwm->sendPackage(message, 1);
+	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
 	return nullptr;
+}
+
+NetworkingState* NetworkingState::ButtonPressed(MouseEvent&, NetworkingModel* p_nwm, GameModel * Gm)
+{
+	return nullptr; //En el caso general si llega un evento del mouse o ignora.
 }

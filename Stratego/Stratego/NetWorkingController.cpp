@@ -2,13 +2,21 @@
 
 NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 {
-	NWM = new NetworkingModel(); //Recibe algo para construirse?
+	char user_name[256];
+	NWM = new NetworkingModel(new boost::asio::io_service());
+	std::ifstream ip_file("./ip.txt");
+	std::ifstream name_file("./temporal.txt");
+	ip_file.getline(ip, MAX_IP_LENGTH); //Consigo la ip del otro jugador
+	name_file.getline(user_name, 255); //Consigo el nombreo de mi usuario.
+	std::string user_nameS(user_name);
+
+	NWM->setMe(user_nameS);
 	Gm = p2GameModel;
 	proxState = nullptr;
 	srand(time(NULL));
 	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
 	char pckg[1];
-	if ((NWM->connectAsClient(waiting_time, ip))) //hay que conseguir el ip del otro y pasarselo.
+	if ((NWM->connectAsClient(waiting_time, ip))) 
 	{
 		NWM->setServer(CLIENT);
 		actualState = new WaitingName;
@@ -32,8 +40,27 @@ NetWorkingController::~NetWorkingController()
 
 void NetWorkingController::dispatch(GenericEvent& newEvent)
 {
-	//Antes de entrar a la fsm habria que ver si hay que mandar un paquete de move.
-	//o de ru_ready.
+	
+	if ( (Gm->getState()== ENDING_PLACING_FICHAS)&&(NWM->getServer()== SERVER) )
+	
+	{
+		if ( Gm->getRed())//termine de poner las fichas y soy el que empieza
+		{
+			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
+			delete actualState;
+			actualState = new NetPlacingFichas;
+		}
+		else
+		{
+			Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
+			delete actualState;
+			actualState = new WaitingMove;
+		}
+		char pckg[1];
+		pckg[0] = R_U_READY_HEADER;
+
+		NWM->sendPackage(pckg, 1);
+	}
 	if ( Gm->getMoveDone()) //El usuario hizo un movimiento valido
 	{
 		Gm->setMoveDoneFalse();
@@ -58,7 +85,6 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 		else
 		{
 			actualState = new StartingAttack; //Si es ofensivo espero un ataque.
-			Gm->setState(OP_TURN);
 		}
 		
 
@@ -117,5 +143,33 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			actualState = proxState;
 			proxState = nullptr;
 		}
+	}
+	else if ((newEvent.GetEvent()) == MOUSE)
+	{
+		//Habria que ver bien como hacer aca. Proablemente hay que agregarle cosas al mouse event.
+		//Los posibles casos que me interesarian son:
+		// cuando se clickea para terminar la seleccion de fichas, cuando se hace el ultimoo click que deciide
+		//una movida valida, cuando se cierra el dislpay, al final de juego cuando se elige si se desea jugar
+		//e nuevo o terminar la partida.
+		/*
+		switch(ev.ButtonPressed)
+		{
+			case FINISHED_SELECTION:
+					actual_state->FinishedSelection();
+					break;
+
+			case PLAY_AGAIN_BUTTON:
+					actual_state->PlayAgainSelected();
+					break;
+
+			case GAME_OVER_BUTTON:
+					actual_state->GameOverSelected();
+					break;
+
+			case MOVE_DONE:
+					actual_state->MoveDone();
+					break;
+		}
+		*/
 	}
 }

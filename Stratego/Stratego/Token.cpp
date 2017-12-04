@@ -9,5 +9,5 @@ Token::Token(rank k, ALLEGRO_BITMAP * i)
 
 Token::~Token()
 {
-	al_destroy_bitmap(image);
+	//al_destroy_bitmap(image);
 }

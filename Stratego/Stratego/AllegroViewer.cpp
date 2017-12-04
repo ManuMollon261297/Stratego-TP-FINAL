@@ -1,12 +1,17 @@
 #include "AllegroViewer.h"
+#include "currStatus.h"
 
-
-
-AllegroViewer::AllegroViewer(int h, int w, GameModel &gm) //CAMBIAR VALORES DE LOS FORS CUANDO YA ESTEN LA IMAGENES
+#define CASO_ESPECIAL(r, q) ( ((r == MINER) && (q == BOMB)) || ((r == SPY) && (q == MARSHAL)) )
+AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 {
-	engine = gm;
+	color = c;
+	attackPending = false;
+	screenHeight = h;
+	screenWidth = w;
+	fichaHeight = (h / 11);
+	fichaWidth = (w / 12);
 	//inicializacion de allegro
-	if (al_init()&& al_init_font_addon())
+	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
 	{
 		ALLEGRO_display = al_create_display(w, h);
 		initialized = true;
@@ -18,58 +23,192 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm) //CAMBIAR VALORES DE L
 	//inicializacion de strings
 	for (int i =0;i<13;i++)
 	{
-		char caux = '0' + i;
-		std::string aux = "\\Allegro Data\\BT\\" + caux;
+		std::string aux = "../Allegro Data/BT/";
+		if (i <= 9)
+		{
+			char caux = '0' + i;
+			aux.push_back(caux);
+		}
+		else
+		{
+			char caux1;
+			char caux2;
+			caux1 = '0' + (i / 10);
+			caux2 = '0' + (i % 10);
+			aux.push_back(caux1);
+			aux.push_back(caux2);
+		}
 		aux +=".png";
 		BlueFichaImagesDir.push_back(aux);
 	}
 	for (int i = 0; i<13; i++)
 	{
-		char caux = '0' + i;
-		std::string aux = "\\Allegro Data\\RT\\" + caux;
+		std::string aux = "../Allegro Data/RT/";
+		if (i <= 9)
+		{
+			char caux = '0' + i;
+			aux.push_back(caux);
+		}
+		else
+		{
+			char caux1;
+			char caux2;
+			caux1 = '0' + (i / 10);
+			caux2 = '0' + (i % 10);
+			aux.push_back(caux1);
+			aux.push_back(caux2);
+		}
 		aux += ".png";
-		BlueFichaImagesDir.push_back(aux);
+		RedFichaImagesDir.push_back(aux);
 	}
-	for (int i = 0; i<0/*CAMBIAR*/; i++)
+	for (int i = 0; i<1; i++)
 	{
 		char caux = '0' + i;
-		std::string aux = "\\Allegro Data\\GO\\" + caux;
+		std::string aux = "../Allegro Data/GO/";
+		aux.push_back(caux);
 		aux += ".png";
 		GameOverDir.push_back(aux);
 	}
-	botonDir = "\\Allegro Data\\button.png";
-	battleBackgroundDir = "\\Allegro Data\\battleBackground.png";
-	mapDir = "\\Allegro Data\\map.png";
-	menuBackgroundDir = "\\Allegro Data\\menuBackground.png";
-	muteDir = "\\Allegro Data\\mute.png";
-	unMuteDir = "\\Allegro Data\\unmute.png";
-	nameInputDir = "\\Allegro Data\\nameInput.png";
-	for (int i = 0; i<0/*CAMBIAR*/; i++)
+	botonDir = "../Allegro Data/button.png";
+	battleBackgroundDir = "../Allegro Data/battleBackground.png";
+	mapDir = "../Allegro Data/map.png";
+	menuBackgroundDir = "../Allegro Data/menuBackground.png";
+	muteDir = "../Allegro Data/mute.png";
+	unMuteDir = "../Allegro Data/unmute.png";
+	nameInputDir = "../Allegro Data/nameInput.png";
+	fieldDir = "../Allegro Data/field.png";
+	int jmax;
+	for (int i = 0; i<11; i++)
 	{
-		char caux1 = '0' + i;
-		for (int j = 0; j<0/*CAMBIAR*/; j++)
+		std::vector<std::string> auxV;
+		jmax = getCantSprites(i);
+		if (i <= 9)
 		{
-			char caux2 = '0' + j;
-			std::string aux = "\\Allegro Data\\BC\\" + caux1;
-			aux += '//' + caux2;
-			aux += ".png";
-			GameOverDir.push_back(aux);
+			char caux = '0' + i;
+			for (int j = 0; j<jmax; j++)
+			{
+				char caux2 = '0' + j;
+				std::string aux = "../Allegro Data/BC/";
+				aux.push_back(caux);
+				aux += '/';
+				if (j <= 9)
+				{
+					char caux2 = '0' + j;
+					aux.push_back(caux2);
+				}
+				else
+				{
+					char caux3;
+					char caux4;
+					caux3 = '0' + (j / 10);
+					caux4 = '0' + (j % 10);
+					aux.push_back(caux3);
+					aux.push_back(caux4);
+				}
+				aux += ".png";
+				auxV.push_back(aux);
+			}
 		}
+		else
+		{
+			char caux1;
+			char caux2;
+			caux1 = '0' + (i / 10);
+			caux2 = '0' + (i % 10);
+			for (int j = 0; j<jmax; j++)
+			{
+				char caux2 = '0' + j;
+				std::string aux = "../Allegro Data/BC/";
+				aux.push_back(caux1);
+				aux.push_back(caux2);
+				aux += '/';
+				if (j <= 9)
+				{
+					char caux2 = '0' + j;
+					aux.push_back(caux2);
+				}
+				else
+				{
+					char caux3;
+					char caux4;
+					caux3 = '0' + (j / 10);
+					caux4 = '0' + (j % 10);
+					aux.push_back(caux3);
+					aux.push_back(caux4);
+				}
+				aux += ".png";
+				auxV.push_back(aux);
+			}
+		}
+		BlueCharactersDir.push_back(auxV);
 	}
-	for (int i = 0; i<0/*CAMBIAR*/; i++)
+	for (int i = 0; i<11; i++)
 	{
-		char caux1 = '0' + i;
-		for (int j = 0; j<0/*CAMBIAR*/; j++)
+		std::vector<std::string> auxV;
+		jmax = getCantSprites(i);
+		if (i <= 9)
 		{
-			char caux2 = '0' + j;
-			std::string aux = "\\Allegro Data\\RC\\" + caux1;
-			aux += '//' + caux2;
-			aux += ".png";
-			GameOverDir.push_back(aux);
+			char caux = '0' + i;
+			for (int j = 0; j<jmax; j++)
+			{
+				char caux2 = '0' + j;
+				std::string aux = "../Allegro Data/RC/";
+				aux.push_back(caux);
+				aux += '/';
+				if (j <= 9)
+				{
+					char caux2 = '0' + j;
+					aux.push_back(caux2);
+				}
+				else
+				{
+					char caux3;
+					char caux4;
+					caux3 = '0' + (j / 10);
+					caux4 = '0' + (j % 10);
+					aux.push_back(caux3);
+					aux.push_back(caux4);
+				}
+				aux += ".png";
+				auxV.push_back(aux);
+			}
 		}
+		else
+		{
+			char caux1;
+			char caux2;
+			caux1 = '0' + (i / 10);
+			caux2 = '0' + (i % 10);
+			for (int j = 0; j<jmax; j++)
+			{
+				char caux2 = '0' + j;
+				std::string aux = "../Allegro Data/RC/";
+				aux.push_back(caux1);
+				aux.push_back(caux2);
+				aux += '/';
+				if (j <= 9)
+				{
+					char caux2 = '0' + j;
+					aux.push_back(caux2);
+				}
+				else
+				{
+					char caux3;
+					char caux4;
+					caux3 = '0' + (j / 10);
+					caux4 = '0' + (j % 10);
+					aux.push_back(caux3);
+					aux.push_back(caux4);
+				}
+				aux += ".png";
+				auxV.push_back(aux);
+			}
+		}
+		RedCharactersDir.push_back(auxV);
 	}
-	titlettfDir = "\\Allegro Data\\Prince Valiant.ttf";
-	messagettfDir = "\\Allegro Data\\ARDED___.TTF";
+	titlettfDir = "../Allegro Data/Prince Valiant.ttf";
+	optionsttfDir = "../Allegro Data/Prince Valiant.ttf";
+	messagettfDir = "../Allegro Data/Eutemia-I Italic.ttf";
 	//nullptr a todos los punteros
 	ALLEGRO_battleBackground = nullptr;
 	ALLEGRO_map = nullptr;
@@ -81,7 +220,7 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm) //CAMBIAR VALORES DE L
 	ALLEGRO_titlettf = nullptr;
 	ALLEGRO_optionsttf = nullptr;
 	ALLEGRO_messagesttf = nullptr;
-	ALLEGRO_display = nullptr;
+	ALLEGRO_field = nullptr;
 }
 
 bool AllegroViewer::isViewerInitialized()
@@ -89,7 +228,7 @@ bool AllegroViewer::isViewerInitialized()
 	return initialized;
 }
 
-void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
+void AllegroViewer::initImagesAndFonts()
 {
 	for (int i = 0; i < BlueFichaImagesDir.size(); i++)
 	{
@@ -101,31 +240,28 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 		Token tAux((rank)i, al_load_bitmap(RedFichaImagesDir[i].c_str()));
 		ALLEGRO_RedFichaImages.push_back(tAux);
 	}
+	int jmax;
 	for (int i = 0; i < BlueCharactersDir.size(); i++)
 	{
 		Sprite sAux(i);
-		std::string aux = BlueCharactersDir[i];
-		for (int j =0;j<10;j++)
+		jmax = getCantSprites(i);
+		for (int j =0;j<jmax;j++)
 		{
-			char auxCh = '0' + j;
-			aux =+ '/'+auxCh+ ".png";
-			sAux.pushImage(al_load_bitmap(aux.c_str()));
+			sAux.pushImage(al_load_bitmap(BlueCharactersDir[i][j].c_str()));
 		}
 		ALLEGRO_BlueCharacters.push_back(sAux);
 	}
-	for (int i = 0; i < RedCharactersDir.size(); i++)
+	for (int i = 0; i < BlueCharactersDir.size(); i++)
 	{
 		Sprite sAux(i);
-		std::string aux = RedCharactersDir[i];
-		for (int j = 0; j<10; j++)
+		jmax = getCantSprites(i);
+		for (int j = 0; j<jmax; j++)
 		{
-			char auxCh = '0' + j;
-			aux = +'/' + auxCh + ".png";
-			sAux.pushImage(al_load_bitmap(aux.c_str()));
+			sAux.pushImage(al_load_bitmap(RedCharactersDir[i][j].c_str()));
 		}
 		ALLEGRO_RedCharacters.push_back(sAux);
 	}
-	for(int i=0;i<0/*CAMBIAR*/;i++)
+	for(int i=0;i<1;i++)
 	{
 		ALLEGRO_BITMAP * aux = al_load_bitmap(GameOverDir[i].c_str());
 		ALLEGRO_GameOver.push_back(aux);
@@ -137,6 +273,7 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 	ALLEGRO_mute = al_load_bitmap(muteDir.c_str());
 	ALLEGRO_unMute = al_load_bitmap(unMuteDir.c_str());
 	ALLEGRO_nameInput = al_load_bitmap(nameInputDir.c_str());
+	ALLEGRO_field = al_load_bitmap(fieldDir.c_str());
 	ALLEGRO_titlettf = al_load_font(titlettfDir.c_str(), 20, 0);	//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_optionsttf = al_load_font(optionsttfDir.c_str(), 15, 0);//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_messagesttf = al_load_font(messagettfDir.c_str(), 5, 0);//cambiar el tamanio de la letra aca si es necesario
@@ -144,48 +281,692 @@ void AllegroViewer::initImagesAndFonts() //TERMINAR EL MAX DEL FOR DE SPRITES
 
 void AllegroViewer::drawBattlefield()
 {
+	al_draw_scaled_bitmap(ALLEGRO_map, 0, 0, al_get_bitmap_width(ALLEGRO_map), al_get_bitmap_height(ALLEGRO_map),
+		fichaWidth, fichaHeight, screenWidth - fichaWidth, screenHeight - fichaHeight,0);
+	for (int i =0;i<10;i++)
+	{
+		for (int j =0;j<10;j++)
+		{
+			pos pAux(i, j);
+			rank rAux = engine.getRankFromPos(pAux);
+			if ((rAux != rank::WATER)&&(rAux != rank::LAND)&&(rAux != rank::OTHERS))
+			{
+				if (color == BLUE)
+				{
+					al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rAux].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_BlueFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rAux].image),
+						(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+				else
+				{
+					al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rAux].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_RedFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rAux].image),
+						(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+			}
+			else if (rAux == rank::OTHERS)
+			{
+				if (color == BLUE)
+				{
+					al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rAux].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_RedFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rAux].image),
+						(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+				else
+				{
+					al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rAux].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_BlueFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rAux].image),
+						(j + 1)*(fichaWidth+5.5) + 19, (i + 1)*(fichaHeight-2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+			}
+		}
+	}
 }
 
 void AllegroViewer::drawCemetery()
 {
+	for (int i =0;i<10;i++)
+	{
+		pos pAux(i, 0);
+		rank rAux = (rank)i;
+		if (color == BLUE)
+		{
+			al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rAux].image, 0, 0,
+				al_get_bitmap_width(ALLEGRO_BlueFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rAux].image),
+				5, (i + 1)*fichaHeight+2, fichaWidth - 5, fichaHeight - 5, 0);
+		}
+		else
+		{
+			al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rAux].image, 0, 0,
+				al_get_bitmap_width(ALLEGRO_RedFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rAux].image),
+				5, (i + 1)*fichaHeight+2, fichaWidth - 5, fichaHeight - 5, 0);
+		}
+		//al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), 0, fichaWidth*(i + 1 / 2), 0, "%d", engine.getNumberInCemetery(rAux));
+	}
 }
 
-void AllegroViewer::playBattleWarmUp()
+void AllegroViewer::drawBackground()
 {
-}
-
-void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
-{
-}
-
-void AllegroViewer::moveToken(pos init, pos fin)
-{
-}
-
-void AllegroViewer::update()
-{
+	al_draw_scaled_bitmap(ALLEGRO_battleBackground, 0, 0, al_get_bitmap_width(ALLEGRO_battleBackground),
+		al_get_bitmap_height(ALLEGRO_battleBackground), 0, 0, screenWidth, screenHeight, 0);
 }
 
 void AllegroViewer::highligthToken(pos init)
 {
+	drawHalo((init.y + 1)*(fichaWidth + 5.5) + 19, (init.x + 1)*(fichaHeight - 2.2) + 18, fichaWidth-10, fichaHeight-10);
 }
 
 void AllegroViewer::highlightCemetery(rank r)
 {
+	drawHalo(5, fichaHeight*((int)r + 1) + 5, fichaWidth-10, fichaHeight-10);
 }
 
 void AllegroViewer::drawMessage()
 {
+	//al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), 0, 5, 5, engine.getMessage().c_str());
 }
 
 void AllegroViewer::drawGameOver(bool playerWon)
 {
+	for (int i=0;i<ALLEGRO_GameOver.size();i++)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_GameOver[i], 0, 0, al_get_bitmap_width(ALLEGRO_GameOver[i]),
+			al_get_bitmap_height(ALLEGRO_GameOver[i]), 0, 0, screenWidth, screenHeight, 0);
+		al_flip_display();
+	}
+	if (playerWon)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 10, screenHeight / 2, 0, "You Won!");
+	}
+	else
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 10, screenHeight / 2, 0, "You Lost!");
+	}
 }
 
 void AllegroViewer::drawRemainingTime()
 {
+	int total = engine.getTime();
+	int minutes = total / 60;
+	int seconds = total % 60;
+	//al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth-100, 5, 0, "%d:%d",minutes,seconds);
 }
 
+void AllegroViewer::playBattleWarmUp(rank playerRank) //TERMINAR FADE IN
+{
+	for (int i = 1; i <= 10; i++)
+	{
+		ALLEGRO_COLOR Color;
+		Color.a = 255-(10*i);
+		Color.r = 0;
+		Color.g = 0;
+		Color.b = 0;
+		al_draw_tinted_scaled_bitmap(ALLEGRO_field, Color, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+			al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+		al_flip_display();
+	}
+	al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+		al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+	int x=0;
+	int y=0;
+	int aWidth=0;
+	int aHeight=0;
+	getDrawingCoord(x, y, aWidth, aHeight, playerRank, false);
+	switch (color)
+	{
+	case RED:
+		ALLEGRO_RedCharacters[(int)playerRank].drawFirst(x, y, aWidth, aHeight, false);
+		break;
+	case BLUE:
+		ALLEGRO_BlueCharacters[(int)playerRank].drawFirst(x, y, aWidth, aHeight, false);
+		break;
+	}
+	al_flip_display();
+}
+
+void AllegroViewer::moveToken(pos init, pos fin)
+{
+	al_draw_scaled_bitmap(ALLEGRO_map, 0, 0, al_get_bitmap_width(ALLEGRO_map), al_get_bitmap_height(ALLEGRO_map),
+		fichaWidth, fichaHeight, screenWidth - fichaWidth, screenHeight - fichaHeight, 0);
+	for (int i = 0; i<10; i++)
+	{
+		for (int j = 0; j<10; j++)
+		{
+			if (!((i == init.x) && (j == init.y)))
+			{
+				pos pAux(i, j);
+				rank rAux = engine.getRankFromPos(pAux);
+				if ((rAux != rank::WATER) && (rAux != rank::LAND) && (rAux != rank::OTHERS))
+				{
+					if (color == BLUE)
+					{
+						al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rAux].image, 0, 0,
+							al_get_bitmap_width(ALLEGRO_BlueFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rAux].image),
+							(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+					}
+					else
+					{
+						al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rAux].image, 0, 0,
+							al_get_bitmap_width(ALLEGRO_RedFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rAux].image),
+							(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+					}
+				}
+				else if (rAux == rank::OTHERS)
+				{
+					if (color == BLUE)
+					{
+						al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rAux].image, 0, 0,
+							al_get_bitmap_width(ALLEGRO_RedFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rAux].image),
+							(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+					}
+					else
+					{
+						al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rAux].image, 0, 0,
+							al_get_bitmap_width(ALLEGRO_BlueFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rAux].image),
+							(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+					}
+				}
+			}
+		}
+	}
+	drawCemetery();
+	drawMessage();
+	drawRemainingTime();
+	ALLEGRO_BITMAP *  dAux = al_get_target_bitmap();
+	ALLEGRO_BITMAP *  aux = al_clone_bitmap(dAux);
+	rank currR = engine.getRankFromPos(init);
+	if (init.y == fin.y) //se mueve verticalmente
+	{
+		int offset = (int)abs((init.x - fin.x));
+		int totalOffset = offset*(fichaHeight-2.2);
+		for (int i =0;i<=totalOffset;i++)
+		{
+			al_draw_bitmap(aux, 0, 0, 0);
+			if (init.x > fin.x) //se mueve para arriba
+			{
+				if (((currR != OTHERS) && (color == BLUE)) || ((currR == OTHERS) && (color == RED)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_BlueFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19, (init.x + 1)*(fichaHeight - 2.2) + 18 - i, fichaWidth - 10, fichaHeight - 10, 0);
+
+				}
+				else if (((currR != OTHERS) && (color == RED)) || ((currR == OTHERS) && (color == BLUE)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_RedFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19, (init.x + 1)*(fichaHeight - 2.2) + 18 -i, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+			}
+			else //se mueve para abajo
+			{
+				if (((currR != OTHERS) && (color == BLUE)) || ((currR == OTHERS) && (color == RED)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_BlueFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19, (init.x + 1)*(fichaHeight - 2.2) + 18 + i, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+				else if (((currR != OTHERS) && (color == RED)) || ((currR == OTHERS) && (color == BLUE)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_RedFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19, (init.x + 1)*(fichaHeight - 2.2) + 18 + i, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+			}
+			al_flip_display();
+		}
+	}
+	else if (init.x == fin.x) //se mueve horizontalmente
+	{
+		int offset = (int)abs((init.y - fin.y));
+		int totalOffset = offset*(fichaWidth+ 5.5);
+		for (int i = 0; i<totalOffset; i++)
+		{
+			al_draw_bitmap(aux, 0, 0, 0);
+			if (init.y > fin.y) //se mueve para la izquierda
+			{
+				if (((currR != OTHERS) && (color == BLUE)) || ((currR == OTHERS) && (color == RED)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_BlueFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19-i, (init.x + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+
+				}
+				else if (((currR != OTHERS) && (color == RED)) || ((currR == OTHERS) && (color == BLUE)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_RedFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19-i, (init.x + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+			}
+			else //se mueve para la derecha
+			{
+				if (((currR != OTHERS) && (color == BLUE)) || ((currR == OTHERS) && (color == RED)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_BlueFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19+i, (init.x + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+				else if (((currR != OTHERS) && (color == RED)) || ((currR == OTHERS) && (color == BLUE)))
+				{
+					al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[currR].image, 0, 0,
+						al_get_bitmap_width(ALLEGRO_RedFichaImages[currR].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[currR].image),
+						(init.y + 1)*(fichaWidth + 5.5) + 19+i, (init.x + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
+				}
+			}
+			al_flip_display();
+		}
+	}
+	else
+	{
+		//movimiento invalido
+	}
+
+}
+
+enum whoWon{PLAYER,OPPONENT,TIE};
+
+void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
+{
+	whoWon status;
+	switch (engine.getState()) //asumo sprites mirando a la izquierda
+	{
+	case MY_ATTACKING:
+			if (opponentRank == FLAG)
+			{
+				status = PLAYER;
+			}
+			else if ((playerRank!= MINER)&&(opponentRank == BOMB))
+			{
+				status = OPPONENT;
+			}
+			else if (CASO_ESPECIAL(playerRank, opponentRank) || (playerRank < opponentRank))
+			{
+				status = PLAYER;
+			}
+			else if (playerRank == opponentRank)
+			{
+				status = TIE;
+			}
+			else
+			{
+				status = OPPONENT;
+			}
+			break;
+	case OP_ATTACKING:
+		if (playerRank == FLAG)
+		{
+			status = OPPONENT;
+		}
+		else if ((CASO_ESPECIAL(opponentRank, playerRank)) || ((opponentRank < playerRank) && (playerRank != BOMB))) //entra si gano el opponent
+		{
+			status = OPPONENT;
+		}
+		else if (playerRank == opponentRank) //empate
+		{
+			status = TIE;
+		}
+		else //gane
+		{
+			status = PLAYER;
+		}
+		break;
+	}
+
+	int pX =0;
+	int pY =0;
+	int pWidth=0;
+	int pHeight=0;
+	
+	int oX = 0;
+	int oY = 0;
+	int oWidth = 0;
+	int oHeight = 0;
+	getDrawingCoord(pX, pY, pWidth, pHeight, playerRank, false);
+	getDrawingCoord(oX, oY, oWidth, oHeight, opponentRank, true);
+	switch (status)
+	{
+	case PLAYER:
+		switch (color)
+		{
+		case RED:
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX,oY,oWidth,oHeight,true);
+			ALLEGRO_RedCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[playerRank].drawFirst(pX, pY, pWidth, pHeight, false);
+			ALLEGRO_BlueCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
+			break;
+		case BLUE:
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			ALLEGRO_BlueCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[playerRank].drawFirst(pX, pY, pWidth, pHeight, false);
+			ALLEGRO_RedCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
+			break;
+		}
+		break;
+	case OPPONENT:
+		switch (color)
+		{
+		case RED:
+			ALLEGRO_BlueCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			ALLEGRO_RedCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
+			break;
+		case BLUE:
+			ALLEGRO_RedCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			ALLEGRO_BlueCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
+			break;
+		}
+		break;
+	case TIE:
+		switch (color)
+		{
+		case RED:
+			ALLEGRO_BlueCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			ALLEGRO_RedCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			ALLEGRO_RedCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_BlueCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
+			break;
+		case BLUE:
+			ALLEGRO_RedCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			ALLEGRO_BlueCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			ALLEGRO_BlueCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
+			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
+				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			ALLEGRO_RedCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
+			break;
+		}
+		break;
+	}
+}
+
+void AllegroViewer::drawHalo(double x, double y, double sizeX, double sizeY)
+{
+	for (int i = 1; i <= 5; i++)
+	{
+		al_draw_rectangle(x - i, y - i, x + sizeX + i, y + sizeY + i, al_map_rgb(0, 255 - i * 20, 0), 1.0);
+	}
+}
+
+void AllegroViewer::update()
+{
+	//Menu Model
+	/*
+	switch (menuEngine.getState())
+	{
+	case MENU:
+		break;
+	case WRITING_NAME:
+		break;
+	case RULES:
+		break;
+	case MUTE_TOGGLE:
+		break;
+	case LEADERBOARD:
+		break;
+	}
+	*/
+
+	//Game Model
+	currStatus myS = engine.GetmyPosStatus();
+	currStatus opS = engine.GetopPosStatus();
+	switch (engine.getState())
+	{
+	case PLACING_FICHAS:
+		drawBackground();
+		drawBattlefield();
+		drawCemetery();
+		drawMessage();
+		break;
+	//case FINISHING_PLACING:
+		//break;
+	case MY_TURN:
+		drawBackground();
+		drawBattlefield();
+		drawCemetery();
+		drawMessage();
+		drawRemainingTime();
+		break;
+	case MY_ATTACKING:
+		playBattleWarmUp(engine.getRankFromPos(myS.previous));
+		break;
+	case MY_MOVING:
+		moveToken(myS.previous,myS.next);
+		break;
+	case OP_TURN:
+		drawBackground();
+		drawBattlefield();
+		drawCemetery();
+		drawMessage();
+		drawRemainingTime();
+		break;
+	case OP_ATTACKING:
+		playBattleWarmUp(engine.getRankFromPos(opS.next));
+		break;
+	case OP_MOVING:
+		moveToken(opS.previous,opS.next);
+		break;
+	case GAME_OVER:
+		drawGameOver(engine.didPlayerWin());
+		break;
+	}
+}
+
+int AllegroViewer::getCantSprites(int i)
+{
+	int aux;
+	switch(i)
+	{
+	case 0:
+		aux = 36;
+		break;
+	case 1:
+		aux = 17;
+		break;
+	case 2:
+		aux = 9;
+		break;
+	case 3:
+		aux = 26;
+		break;
+	case 4:
+		aux = 19;
+		break;
+	case 5:
+		aux = 55;
+		break;
+	case 6:
+		aux = 35;
+		break; 
+	case 7:
+		aux = 61;
+		break; 
+	case 8:
+		aux = 19;
+		break;
+	case 9:
+		aux = 23;
+		break;
+	case 10:
+		aux = 44;
+		break;
+	}
+	return aux;
+}
+
+void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight,rank& r, bool opponent)
+{
+	if (opponent)
+	{
+		switch (r)
+		{
+		case rank::BOMB:
+			x = 4.5*screenWidth / 7;
+			y = (screenHeight * 5) / 8;
+			aWidth = 150;
+			aHeight = 200;
+			break;
+		case rank::CAPTAIN:
+			x = 3*screenWidth / 8;
+			y = (screenHeight * 4) / 8;
+			aWidth = 500;
+			aHeight = 300;
+			break;
+		case rank::CORONEL:
+			x = 1.5*screenWidth / 5;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::FLAG:
+			x = screenWidth / 5;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::GENERAL:
+			x = 1.5*screenWidth / 5;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::LIEUTENANT:
+			x = 1.5*screenWidth / 5;
+			y = (screenHeight * 3) / 8;
+			aWidth = 500;
+			aHeight = 400;
+			break;
+		case rank::MAJOR:
+			x = 3*screenWidth / 9;
+			y = (screenHeight * 4) / 9;
+			aWidth = 500;
+			aHeight = 350;
+			break;
+		case rank::MARSHAL:
+			x = 5*screenWidth / 12;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::MINER:
+			x = (screenWidth*5) / 12;
+			y = (screenHeight * 3) / 8;
+			aWidth = 500;
+			aHeight = 400;
+			break;
+		case rank::SCOUT:
+			x = 2.5*screenWidth / 7;
+			y = (screenHeight * 5) / 8;
+			aWidth = 450;
+			aHeight = 200;
+			break;
+		case rank::SERGEANT:
+			x = screenWidth*3 / 9;
+			y = (screenHeight * 2) / 8;
+			aWidth = 600;
+			aHeight = 600;
+			break;
+		}
+	}
+	else
+	{
+		switch (r)
+		{
+		case rank::BOMB:
+			x = screenWidth / 7;
+			y = (screenHeight * 5) / 8;
+			aWidth = 150;
+			aHeight = 200;
+			break;
+		case rank::CAPTAIN:
+			x = screenWidth / 8;
+			y = (screenHeight * 4) / 8;
+			aWidth = 500;
+			aHeight = 300;
+			break;
+		case rank::CORONEL:
+			x = screenWidth / 5;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::FLAG:
+			x = screenWidth / 5;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::GENERAL:
+			x = screenWidth / 5;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::LIEUTENANT:
+			x = screenWidth / 5;
+			y = (screenHeight * 3) / 8;
+			aWidth = 500;
+			aHeight = 400;
+			break;
+		case rank::MAJOR:
+			x = screenWidth / 9;
+			y = (screenHeight * 4) / 9;
+			aWidth = 500;
+			aHeight = 350;
+			break;
+		case rank::MARSHAL:
+			x = screenWidth / 12;
+			y = (screenHeight * 5) / 8;
+			aWidth = 500;
+			aHeight = 200;
+			break;
+		case rank::MINER:
+			x = screenWidth / 12;
+			y = (screenHeight * 3) / 8;
+			aWidth = 500;
+			aHeight = 400;
+			break;
+		case rank::SCOUT:
+			x = screenWidth / 7;
+			y = (screenHeight * 5) / 8;
+			aWidth = 450;
+			aHeight = 200;
+			break;
+		case rank::SERGEANT:
+			x = screenWidth / 9;
+			y = (screenHeight * 2) / 8;
+			aWidth = 600;
+			aHeight = 600;
+			break;
+		}
+	}
+}
 
 AllegroViewer::~AllegroViewer()
 {

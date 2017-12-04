@@ -5,14 +5,9 @@
 #include "NetworkingModel.h"
 #include "GameModel.h"
 
-class Quiting : public GenericState
+class Quiting : public NetworkingState
 {
 public:
-	Quiting();
-	virtual ~Quiting();
 
-	virtual GenericState* Error(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* Quit(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-
-	virtual GenericState* Ack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

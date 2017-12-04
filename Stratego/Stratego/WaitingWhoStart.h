@@ -3,13 +3,13 @@
 #include "State.h"
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
-#include "PlacingFichas.h"
+#include "NetPlacingFichas.h"
 #include "GameModel.h"
 
-class WaitingWhoStart : public GenericState
+class WaitingWhoStart : public NetworkingState
 {
 public:
-	virtual GenericState* I_start(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* You_start(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 
 };

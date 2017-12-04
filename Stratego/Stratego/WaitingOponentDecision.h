@@ -5,14 +5,9 @@
 #include "NetworkingModel.h"
 #include "GameModel.h"
 
-class WaitingOponentDecision : public GenericState
+class WaitingOponentDecision : public NetworkingState
 {
 public:
-	WaitingOponentDecision();
-	virtual ~WaitingOponentDecision();
 
-	virtual GenericState* Error(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* Quit(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-
-	virtual GenericState* R_u_ready(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

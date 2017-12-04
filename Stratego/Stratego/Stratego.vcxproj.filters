@@ -153,10 +153,7 @@
     <ClInclude Include="gameOverState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="plaAgainSelected.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameOverSelected.h">
+    <ClInclude Include="NetworkingFuncs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -272,10 +269,16 @@
     <ClCompile Include="gameOverState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="plaAgainSelected.cpp">
+    <ClCompile Include="NetPlacingFichas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameOverSelected.cpp">
+    <ClCompile Include="StartingAttack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkingFuncs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quiting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

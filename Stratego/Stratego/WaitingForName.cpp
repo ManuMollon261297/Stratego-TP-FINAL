@@ -1,19 +1,10 @@
 #include "WaitingForName.h"
 
-WaitingName::WaitingName()
+
+
+NetworkingState*  WaitingName::Name(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-
-}
-
-WaitingName::~WaitingName()
-{
-
-}
-
-
-GenericState*  WaitingName::Name(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	GenericState* p_state;
+	NetworkingState* p_state;
 	std::string my_name = (p_nwm->getMe());
 	unsigned char count = my_name.size();
 	std::string pckg;

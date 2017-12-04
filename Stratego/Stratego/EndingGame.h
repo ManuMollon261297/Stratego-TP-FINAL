@@ -5,14 +5,9 @@
 #include "NetworkingModel.h"
 #include "GameModel.h"
 
-class EndingGame: public GenericState
+class EndingGame: public NetworkingState
 {
 public:
-	EndingGame();
-	virtual ~EndingGame();
 
-	virtual GenericState* Error(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* Quit(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-
-	virtual GenericState* Ack(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);  //puede ser de WaitingPlayerDecision o de WaitingNewGameResponse
+	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);  //puede ser de WaitingPlayerDecision o de WaitingNewGameResponse
 };

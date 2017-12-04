@@ -1,18 +1,14 @@
 #include "WaitingNameIs.h"
 
-WaitingNameIs::WaitingNameIs()
+
+
+NetworkingState* WaitingNameIs::Name_is(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-
-}
-
-
-GenericState* WaitingNameIs::Name_is(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
-{
-	GenericState* state;
+	NetworkingState* state;
 	char pckg[1];
 	pckg[0] = ACK_HEADER;
 	p_nwm->sendPackage(pckg, 1);
-	if (p_nwm->getServer())
+	if (p_nwm->getServer() == SERVER)
 	{
 		
 		state=  new WaitingName; //si soy el server paso a waiting name
@@ -24,9 +20,4 @@ GenericState* WaitingNameIs::Name_is(GenericEvent& ev, NetworkingModel* p_nwm, G
 	}
 
 	return state;
-}
-
- WaitingNameIs:: ~WaitingNameIs()
-{
-
 }

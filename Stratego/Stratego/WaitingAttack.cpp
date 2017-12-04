@@ -9,9 +9,9 @@ rank GetRank(unsigned char );
 //Funcion que recibe el rank en formato de paquete y lo devuelve en el formato
 //que usamos para realizar las cuentas.
 
-GenericState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	GenericState* p_state;
+	NetworkingState* p_state;
 	std::string pckg = ev.GetRecieved();
 	unsigned char enemy_rank = pckg[1];
 	if ( !ValidateRank(enemy_rank)) 
@@ -19,6 +19,8 @@ GenericState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm,
 		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
 		p_nwm->sendPackage(error_pckg, 1);
+		Gm->setState(GAME_OVER);
+		Gm->SetExit(true);
 		p_state = new Quiting;
 	}
 	else 
@@ -42,7 +44,7 @@ GenericState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm,
 	
 }
 
-GenericState* WaitingAttack::You_won(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingAttack::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	Gm->setState(GAME_OVER);
 	//Habria que preguntarle al usuario de alguna forma si quiere volver a jugar de nuevo.
@@ -64,6 +66,7 @@ bool ValidateRank(unsigned char rank)
 	
 	return valid;
 }
+
 
 rank GetRank(unsigned char pckg_rank)
 {

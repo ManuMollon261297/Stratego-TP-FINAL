@@ -7,6 +7,8 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	//inicializacion del juego
 	gameOver = false;
 
+	Exit = false;
+
 	moveDone = false;
 	fichasPlaced = false;
 
@@ -100,6 +102,16 @@ void GameModel::setMessage(char * message_)
 	message = message_;
 }
 
+bool GameModel::GetExit()const
+{
+	return Exit;
+}
+
+void GameModel::SetExit(bool value)
+{
+	Exit = value;
+}
+
 bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una ficha movil valida
 {												// devuelve true si se movio la ficha, false si es un ataque y todavia no se resolvio
 
@@ -161,6 +173,16 @@ void GameModel::resolveAttack(rank r)
 			state = GAME_OVER;
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
+		}
+		else if ((myRank != MINER)&&(r == BOMB))	//perdi, este caso no aparece en OP_ATTACKING porque las bombas
+		{											//no pueden atacar
+			if ((battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::BOMB) && (battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::FLAG))
+			{
+				cemetery[myRank][1]++;
+				cemetery[13][1]++; //aumento fichas propias totales fuera del tablero
+			}
+			delete battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
+			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr;
 		}
 		else if (CASO_ESPECIAL(myRank, r) || (myRank < r))
 		{
@@ -402,6 +424,26 @@ void GameModel::setMoveDoneTrue()
 void GameModel::setMoveDoneFalse()
 {
 	moveDone = false;
+}
+
+currStatus GameModel::GetmyPosStatus() const
+{
+	return myPosStatus;
+}
+
+currStatus GameModel::GetopPosStatus() const
+{
+	return opPosStatus;
+}
+
+void GameModel::playerWon()
+{
+	won = true;
+}
+
+bool GameModel::didPlayerWin()
+{
+	return won;
 }
 
 bool GameModel::verifyMovement()

@@ -18,7 +18,7 @@ ficha::ficha(rank rango_)
 		canRescue = true;
 		canBeRescued = true;
 		break;
-	case COLONEL:
+	case CORONEL:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;

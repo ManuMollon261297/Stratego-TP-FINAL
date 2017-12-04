@@ -8,10 +8,10 @@
 #include "WaitingMove.h"
 #include "GameModel.h"
 
-class WaitingAttack : public GenericState
+class WaitingAttack : public NetworkingState
 {
 public:
 
-	virtual GenericState* Attack(NetWorkingEvent&, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* You_won(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Attack(NetWorkingEvent&, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

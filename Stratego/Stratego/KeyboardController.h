@@ -12,19 +12,17 @@ public:
 	void takeEvent(GenericEvent * genEv);
 
 private:
-
-	bool mayus;
-
 	bool validateAdd(void);
 	bool validateSub(void);
 
 	MenuModel * pMenuModel;
+	ALLEGRO_EVENT_QUEUE * queue;
+
+	bool bloqMayus;
+	bool initOk;
 
 	unsigned int IpMax;
 	unsigned int NameMax;
-
 	unsigned int IpCount;
 	unsigned int NameCount;
-	bool initOk;
-	ALLEGRO_EVENT_QUEUE * queue;
 };

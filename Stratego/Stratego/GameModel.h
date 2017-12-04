@@ -5,7 +5,6 @@
 #include "pos.h"
 #include "ranks.h"
 #include "gameState.h"
-#include "button.h"
 #include <vector>
 #include <iostream>
 
@@ -22,6 +21,9 @@ public:
 	//state
 	int getState();
 	void setState(int state_);
+
+	//Exit
+	void SetExit(bool);
 
 	//red
 	bool getRed();
@@ -55,14 +57,6 @@ public:
 	void unselectRankCemetery(rank r);
 	void toggleSelectRankCemetery(rank r);
 
-	void setFichasPlacedTrue();
-	void setFichasPlacedFalse();
-	bool getFichasPlaced();
-
-	//manejo de botones
-	button * getButtonReference(int index);
-	void pushButton(button b);
-	void deleteButtons();
 
 	//timer
 	int getTime();
@@ -76,7 +70,11 @@ public:
 	//Getters
 	currStatus GetmyPosStatus()const;
 	currStatus GetopPosStatus()const;
+	bool GetExit()const;
 
+	//winner
+	void playerWon();
+	bool didPlayerWin();
 	//verify
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde
 	bool verifyRescue(); //verifica si en la posicion actual el jugador es apto para hacer un rescue
@@ -86,6 +84,7 @@ public:
 	void printBattlefield();
 private:
 	bool gameOver;
+	bool Exit; //Se pone en true cuando sucede alguna situacion que genera el cierre del programa.
 
 	bool red;
 	ficha * battlefield[FILAS][COLUMNAS]; //la parte alta es la del contrario y la baja la del final
@@ -96,14 +95,12 @@ private:
 	int timeRemaining;
 
 	bool moveDone;
-	bool fichasPlaced;
+	bool won; //true si el jugador gano la partida
 
 	currStatus myPosStatus;
 	currStatus opPosStatus;
 	int rescuesRemaining;
 	int repeatMoveCounter;
-
-	std::vector<button> botones;
 
 	std::string message;
 

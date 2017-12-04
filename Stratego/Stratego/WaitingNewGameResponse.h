@@ -5,14 +5,8 @@
 #include "NetworkingModel.h"
 #include "GameModel.h"
 
-class WaitingNewGameResponse : public GenericState
+class WaitingNewGameResponse : public NetworkingState
 {
 public:
-	WaitingNewGameResponse();
-	virtual ~WaitingNewGameResponse();
-
-	virtual GenericState* Error(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual GenericState* Quit(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-
-	virtual GenericState* Play_again(GenericEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Play_again(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

@@ -8,7 +8,7 @@ unsigned int GenericEvent:: GetEvent(void)
 
 void GenericEvent::SetEvent(unsigned int type)
 {
-	eventType = type;
+	eventType = (ev)type;
 }
 char GenericEvent::GetUd(void)
 {

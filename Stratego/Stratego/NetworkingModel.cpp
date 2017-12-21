@@ -95,7 +95,7 @@ void NetworkingModel::SetServerFinishedPlacing(bool value)
 	server_Finished_placing_fichas = value;
 }
 
-bool NetworkingModel::connectAsClient(int time,char * ip)	// Fijarse el tema del IP.
+bool NetworkingModel::connectAsClient(int time,char * ip)	
 {															
 	client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
 	endpoint = client_resolver->resolve(boost::asio::ip::tcp::resolver::query(ip, PORT_C));

@@ -1,0 +1,25 @@
+MAN~ Allegro Viewer:
+ 	- inicializar las fonts
+ 	- playBattleWarmUp falta el fade in
+ 	- fijarse tema de eliminar bitmaps
+	- hacer model del menu principal
+	- cuando termina la partida
+T~ Event Generator:
+	- hacerlo a partitr de lo que hay (worms)
+~ Generic Model:
+	- hacerlo y heredar de los models
+	- ver si hace falta hacer GenericObservers
+MAT/MAN~ Mouse Event:
+	- fijarse que las dimensiones de los clicks respecto al viewer
+MAT~ Mouse Controller:
+	- terminarlo
+E~ Networking Model:
+	- debugear
+E~ Networking Controller:
+	- terminar los mouse event
+E~ Networking Funcs:
+	- debugear
+T~ Keyboard Controller:
+	- cambiar y juntar con el event generator
+MAT~ agregar cpp de estados de game model
+MAT~ hacer controller de menu

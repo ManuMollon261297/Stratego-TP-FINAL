@@ -6,6 +6,7 @@
 //QUE EN UPDATE SE DIBUJEN LOS HALOS, DEBUGGEAR UPDATE CUANDO ESTE EL CONTROLLER
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
+#include "allegro5\allegro_ttf.h"
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
 #include "Sprite.h"

@@ -1,5 +1,4 @@
 MAN~ Allegro Viewer:
- 	- inicializar las fonts
  	- playBattleWarmUp falta el fade in
  	- fijarse tema de eliminar bitmaps
 	- hacer model del menu principal

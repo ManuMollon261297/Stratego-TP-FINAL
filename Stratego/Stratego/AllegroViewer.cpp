@@ -11,7 +11,7 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 	fichaHeight = (h / 11);
 	fichaWidth = (w / 12);
 	//inicializacion de allegro
-	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
+	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()&&al_init_ttf_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
 	{
 		ALLEGRO_display = al_create_display(w, h);
 		initialized = true;
@@ -274,9 +274,9 @@ void AllegroViewer::initImagesAndFonts()
 	ALLEGRO_unMute = al_load_bitmap(unMuteDir.c_str());
 	ALLEGRO_nameInput = al_load_bitmap(nameInputDir.c_str());
 	ALLEGRO_field = al_load_bitmap(fieldDir.c_str());
-	ALLEGRO_titlettf = al_load_font(titlettfDir.c_str(), 20, 0);	//cambiar el tamanio de la letra aca si es necesario
-	ALLEGRO_optionsttf = al_load_font(optionsttfDir.c_str(), 15, 0);//cambiar el tamanio de la letra aca si es necesario
-	ALLEGRO_messagesttf = al_load_font(messagettfDir.c_str(), 5, 0);//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 20, 0);	//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_optionsttf = al_load_ttf_font(optionsttfDir.c_str(), 15, 0);//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_messagesttf = al_load_ttf_font(messagettfDir.c_str(), 5, 0);//cambiar el tamanio de la letra aca si es necesario
 }
 
 void AllegroViewer::drawBattlefield()

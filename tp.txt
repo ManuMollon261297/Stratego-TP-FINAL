@@ -1,7 +1,7 @@
 MAN~ Allegro Viewer:
- 	- fijarse tema de eliminar bitmaps
-	- terminar model del menu principal
+	- terminar leaderboard y update del emnu principal
 	- cuando termina la partida (ver si es un estado mas en viewer o que)
+	- fijarse tema de eliminar bitmaps
 T~ Event Generator:
 	- hacerlo a partitr de lo que hay (worms)
 ~ Generic Model:

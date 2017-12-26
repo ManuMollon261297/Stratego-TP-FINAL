@@ -17,16 +17,17 @@ public:
 	void initImagesAndFonts();
 	void update();
 	~MenuViewer();
-private:
+	//SOLO EN PUBLIC PSRS DEBUGEAR
 	void drawMenu();
 	void drawLeaderboard();
 	void drawRules();
 	void drawWritingName();
+	std::string name;
+private:
 	int screenWidth;
 	int screenHeight;
 	MenuModel & engine;
 	//direcciones de bmps
-	std::string name;
 	std::string menuBackgroundDir;
 	std::string botonLayoutDir;
 	std::string muteDir;

@@ -22,6 +22,7 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e) : engine(p2e)
 	menuBackgroundDir = "../Allegro Data/menuBackground.png";
 	muteDir = "../Allegro Data/mute.png";
 	unmuteDir = "../Allegro Data/unmute.png";
+	nameInputDir = "../Allegro Data/nameInput.png";
 	//fonts
 	titlettfDir = "../Allegro Data/Prince Valiant.ttf";
 	optionsttfDir = "../Allegro Data/Prince Valiant.ttf";
@@ -86,7 +87,7 @@ void MenuViewer::initImagesAndFonts()
 	ALLEGRO_nameInput = al_load_bitmap(nameInputDir.c_str());
 	ALLEGRO_boton = al_load_bitmap(botonLayoutDir.c_str());
 
-	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 100, 0);	//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 160, 0);	//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_optionsttf = al_load_ttf_font(optionsttfDir.c_str(), 60, 0);//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_messagesttf = al_load_ttf_font(messagettfDir.c_str(), 50, 0);//cambiar el tamanio de la letra aca si es necesario
 }
@@ -114,45 +115,86 @@ void MenuViewer::drawMenu()
 		al_get_bitmap_height(ALLEGRO_menuBackground), 0, 0, screenWidth, screenHeight, 0);
 	for (int i = 0; i < 3; i++)
 	{
-		al_draw_bitmap(ALLEGRO_boton, (screenWidth / 2) - (al_get_bitmap_width(ALLEGRO_boton) / 2), 
-			screenHeight / 3 + i*(al_get_bitmap_height(ALLEGRO_boton) +2), 0);
+		al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+			(screenWidth / 2) - 200, screenHeight / 3 + i*(al_get_bitmap_height(ALLEGRO_boton) + 2)
+			, 400, 130, 0);
 	}
-	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2, screenHeight / 3, 0, "Play");
-	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2, 
-		screenHeight / 3 + (al_get_bitmap_height(ALLEGRO_boton) + 2), 0, "Rules");
-	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2,
-		screenHeight / 3 + 2*(al_get_bitmap_height(ALLEGRO_boton) + 2), 0, "Leaderboard");
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2-50, (screenHeight / 3)+30, 0, "Play");
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2-60, (screenHeight / 3)+140, 0, "Rules");
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2-125,(screenHeight / 3)+250, 0, "Leaderboard");
 	if (muteOn)
 	{
-		al_draw_bitmap(ALLEGRO_mute, screenWidth - al_get_bitmap_width(ALLEGRO_mute), 
-			screenHeight - al_get_bitmap_height(ALLEGRO_mute), 0);
+		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
 	}
 	else
 	{
-		al_draw_bitmap(ALLEGRO_unMute, screenWidth - al_get_bitmap_width(ALLEGRO_unMute),
-			screenHeight - al_get_bitmap_height(ALLEGRO_unMute), 0);
+		al_draw_scaled_bitmap(ALLEGRO_unMute, 0, 0, al_get_bitmap_width(ALLEGRO_unMute), al_get_bitmap_height(ALLEGRO_unMute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
 	}
-	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth/2, screenHeight / 4, 0, "STRATEGO");
+	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (screenWidth/2)-225, screenHeight / 20
+		, 0, "Stratego");
 	al_flip_display();
 }
 
 void MenuViewer::drawLeaderboard() //sacarlos del archivo
 {
+
 }
 
-void MenuViewer::drawRules()//escribir las reglas principales
+void MenuViewer::drawRules()
 {
-	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 2, screenHeight + 00, 0, "dsjdksjdkddsjd", name.c_str());
-	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 2, screenHeight + 20, 0, "  mdsnmdnsmdns", name.c_str());
-	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 2, screenHeight + 40, 0, "ms,m,dms,mds,d", name.c_str());
-	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 2, screenHeight + 60, 0, "ksldkldksdssls", name.c_str());
-	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 2, screenHeight + 80, 0, "dklsdklsdsslss", name.c_str());
+	al_draw_scaled_bitmap(ALLEGRO_menuBackground, 0, 0, al_get_bitmap_width(ALLEGRO_menuBackground),
+		al_get_bitmap_height(ALLEGRO_menuBackground), 0, 0, screenWidth, screenHeight, 0);
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*0, 0,
+		"The object of the game is to capture your opponent's flag. On your");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*1, 0,
+		"turn you can move your pieces or attack. Pieces move one square at a");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*2, 0,
+		"time, forward, backward or sideways. Except for Scouts (rank 1)");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*3, 0,
+		"that move multiple squares They cannot jump over another piece or to");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*4, 0,
+		"water areas Pieces cannot move back and forth the same squares in");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 5, 0,
+		"three consecutive turns. The Bomb and Flag pieces cannot be moved.");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 6, 0,
+		"When attacking, pieces with the lower higher number lose, except when the spy");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 7, 0,
+		"attacks the marshall or miner attacks the bomb.");
+	if (muteOn)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
+	}
+	else
+	{
+		al_draw_scaled_bitmap(ALLEGRO_unMute, 0, 0, al_get_bitmap_width(ALLEGRO_unMute), al_get_bitmap_height(ALLEGRO_unMute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
+	}
+	al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+		screenWidth - 330, screenHeight - 128, 220, 120, 0);
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth -270, screenHeight-100, 0, "Back");
+	al_flip_display();
 }
 
 void MenuViewer::drawWritingName()
 {
 	al_draw_scaled_bitmap(ALLEGRO_nameInput, 0, 0, al_get_bitmap_width(ALLEGRO_nameInput),
 		al_get_bitmap_height(ALLEGRO_nameInput), 0, 0, screenWidth, screenHeight, 0);
-	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 2, screenHeight / 4, 0, "%s",name.c_str());
+	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), 50, screenHeight / 4, 0, "%s",name.c_str());
+	if (muteOn)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
+	}
+	else
+	{
+		al_draw_scaled_bitmap(ALLEGRO_unMute, 0, 0, al_get_bitmap_width(ALLEGRO_unMute), al_get_bitmap_height(ALLEGRO_unMute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
+	}
+	al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+		screenWidth - 350, screenHeight - 128, 270, 120, 0);
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 305, screenHeight - 100, 0, "Confirm");
 	al_flip_display();
 }

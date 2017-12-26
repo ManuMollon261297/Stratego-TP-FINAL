@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "button.h"
-
+enum menuStates{MENU,WRITING_NAME,RULES,MUTE_TOGGLE,LEADERBOARD};
 class MenuModel
 {
 public:

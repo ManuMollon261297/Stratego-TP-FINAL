@@ -1,9 +1,9 @@
 #pragma once
 //FIJARSE LA DETSRUCCION DE LOS BITMAPS
-//QUE INICILAIZEN LAS FONTS 
 //QUE LA BOMB A VECES NO SE INICIALIZA
 //ANIMACIONES Y DIM DE LA FLAG
 //QUE EN UPDATE SE DIBUJEN LOS HALOS, DEBUGGEAR UPDATE CUANDO ESTE EL CONTROLLER
+//MUTE/UNMUTE
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
 #include "allegro5\allegro_ttf.h"
@@ -12,6 +12,7 @@
 #include "Sprite.h"
 #include "Token.h"
 #include <vector>
+#include "AllegroFuncs.h"
 #include "GameModel.h"
 #include "ranks.h"
 #include "pos.h"
@@ -26,7 +27,7 @@ public:
 	void initImagesAndFonts();
 	void update();
 	~AllegroViewer();
-	//SON PRIVADAS ESTAN EN PUBLIC SOLO PARA DEBUGEAR
+private:
 	void drawBattlefield();
 	void drawCemetery();
 	void drawBackground();
@@ -40,8 +41,7 @@ public:
 	void highligthToken(pos init);
 	void highlightCemetery(rank r);
 	int  getCantSprites(int i);
-	void getDrawingCoord(int& x, int& y, int& aWidth,int& aHeight, rank& r,bool opponent);
-private:
+	void getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, rank& r, bool opponent);
 	GameModel & engine;
 	bool initialized;
 	bool attackPending;

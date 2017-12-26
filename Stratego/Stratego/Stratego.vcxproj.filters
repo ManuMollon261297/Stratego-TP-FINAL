@@ -162,6 +162,12 @@
     <ClInclude Include="plaAgainSelected.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AllegroFuncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameModel.cpp">
@@ -291,6 +297,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="plaAgainSelected.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AllegroFuncs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

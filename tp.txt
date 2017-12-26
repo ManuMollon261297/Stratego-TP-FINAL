@@ -1,8 +1,7 @@
 MAN~ Allegro Viewer:
- 	- playBattleWarmUp falta el fade in
  	- fijarse tema de eliminar bitmaps
-	- hacer model del menu principal
-	- cuando termina la partida
+	- terminar model del menu principal
+	- cuando termina la partida (ver si es un estado mas en viewer o que)
 T~ Event Generator:
 	- hacerlo a partitr de lo que hay (worms)
 ~ Generic Model:

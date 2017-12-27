@@ -1,5 +1,7 @@
 #pragma once
-
+//VER LO DEL FADE OUT Y CAMBIO DE ESTADO
+//VER LO DEL DISPLAY
+//VER LO DEL ENTER EN LEADERBAORD
 #include "MenuModel.h"
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
@@ -17,7 +19,7 @@ public:
 	void initImagesAndFonts();
 	void update();
 	~MenuViewer();
-	//SOLO EN PUBLIC PSRS DEBUGEAR
+	//SOLO EN PUBLIC PARA DEBUGEAR
 	void drawMenu();
 	void drawLeaderboard();
 	void drawRules();

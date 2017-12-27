@@ -93,9 +93,9 @@ button * MenuModel::getButtonReference(int index)
 	return nullptr;
 }
 
-std::vector<char> MenuModel::getLeadreboardInfo()
+std::vector<std::string> MenuModel::getLeadreboardInfo()
 {
-	std::vector<char> info;
+	std::vector<std::string> info;
 	std::string aux;
 	std::ifstream lbFile;
 	lbFile.open(leaderboardFile, std::ios::binary);
@@ -103,8 +103,7 @@ std::vector<char> MenuModel::getLeadreboardInfo()
 	{
 		while (getline(lbFile, aux))
 		{
-			std::copy(aux.begin(), aux.end(), std::back_inserter(info)); 
-			info.push_back('\n');//aux a vector
+			info.push_back(aux);
 		}
 		lbFile.close();
 	}

@@ -97,14 +97,23 @@ void MenuViewer::update()
 	switch (engine.getState())
 	{
 	case MENU:
+		fade_out(1, screenWidth, screenHeight);
+		drawMenu();
 		break;
 	case WRITING_NAME:
+		fade_out(1, screenWidth, screenHeight);
+		drawWritingName();
 		break;
 	case RULES:
+		fade_out(1, screenWidth, screenHeight);
+		drawRules();
 		break;
 	case MUTE_TOGGLE:
+		//ver si es un estado o solo genera un notify y cada estado lo dibuja bien solo
 		break;
 	case LEADERBOARD:
+		fade_out(1, screenWidth, screenHeight);
+		drawLeaderboard();
 		break;
 	}
 }
@@ -137,9 +146,33 @@ void MenuViewer::drawMenu()
 	al_flip_display();
 }
 
-void MenuViewer::drawLeaderboard() //sacarlos del archivo
+void MenuViewer::drawLeaderboard()
 {
-
+	al_draw_scaled_bitmap(ALLEGRO_menuBackground, 0, 0, al_get_bitmap_width(ALLEGRO_menuBackground),
+		al_get_bitmap_height(ALLEGRO_menuBackground), 0, 0, screenWidth, screenHeight, 0);
+	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (screenWidth / 2) - 340, screenHeight / 20
+		, 0, "Leaderboard");
+	std::vector<std::string> info;
+	info = engine.getLeadreboardInfo();
+	for (int i=0; (i<5)&&(i<info.size());i++)
+	{
+		al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * (i+3), 0,
+			info[i].c_str());
+	}
+	if (muteOn)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
+	}
+	else
+	{
+		al_draw_scaled_bitmap(ALLEGRO_unMute, 0, 0, al_get_bitmap_width(ALLEGRO_unMute), al_get_bitmap_height(ALLEGRO_unMute)
+			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
+	}
+	al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+		screenWidth - 330, screenHeight - 128, 220, 120, 0);
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 270, screenHeight - 100, 0, "Back");
+	al_flip_display();
 }
 
 void MenuViewer::drawRules()

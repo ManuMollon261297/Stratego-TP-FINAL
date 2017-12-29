@@ -7,7 +7,10 @@ Token::Token(rank k, ALLEGRO_BITMAP * i)
 	image = i;
 }
 
-Token::~Token()
+void Token::deleteBmps()
 {
-	//al_destroy_bitmap(image);
+	if (image != nullptr)
+	{
+		al_destroy_bitmap(image);
+	}
 }

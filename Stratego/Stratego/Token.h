@@ -7,6 +7,6 @@ public:
 	Token(rank k, ALLEGRO_BITMAP * i);
 	rank TokenRank;
 	ALLEGRO_BITMAP * image;
-	~Token();
+	void deleteBmps();
 };
 

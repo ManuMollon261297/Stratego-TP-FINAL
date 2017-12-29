@@ -940,6 +940,26 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight,ra
 
 AllegroViewer::~AllegroViewer()
 {
+	for (int i=0;i< ALLEGRO_BlueFichaImages.size();i++)
+	{
+		ALLEGRO_BlueFichaImages[i].deleteBmps();
+	}
+	for (int i = 0; i< ALLEGRO_RedFichaImages.size(); i++)
+	{
+		ALLEGRO_RedFichaImages[i].deleteBmps();
+	}
+	for (int i = 0; i< ALLEGRO_BlueCharacters.size(); i++)
+	{
+		ALLEGRO_BlueCharacters[i].deleteBmps();
+	}
+	for (int i = 0; i< ALLEGRO_RedCharacters.size(); i++)
+	{
+		ALLEGRO_RedCharacters[i].deleteBmps();
+	}
+	if (ALLEGRO_field != nullptr)
+	{
+		al_destroy_bitmap(ALLEGRO_field);
+	}
 	if (ALLEGRO_battleBackground != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_battleBackground);

@@ -76,11 +76,12 @@ public:
 	bool getMoveDone();
 	void setMoveDoneTrue();
 	void setMoveDoneFalse();
-
+	void setMute(bool state);
 	//Getters
 	currStatus GetmyPosStatus()const;
 	currStatus GetopPosStatus()const;
 	bool GetExit()const;
+	bool isMuteOn();
 
 	//winner
 	void playerWon();
@@ -95,7 +96,7 @@ public:
 private:
 	bool gameOver;
 	bool Exit; //Se pone en true cuando sucede alguna situacion que genera el cierre del programa.
-
+	bool mute;
 	bool red;
 	ficha * battlefield[FILAS][COLUMNAS]; //la parte alta es la del contrario y la baja la del final
 	//std::vector<ficha> queue;

@@ -426,6 +426,11 @@ void GameModel::setMoveDoneFalse()
 	moveDone = false;
 }
 
+void GameModel::setMute(bool state)
+{
+	mute = state;
+}
+
 currStatus GameModel::GetmyPosStatus() const
 {
 	return myPosStatus;
@@ -514,6 +519,11 @@ void GameModel::printBattlefield()
 		std::cout << std::endl;
 	}
 	std::cout << std::endl;
+}
+
+bool GameModel::isMuteOn()
+{
+	return mute;
 }
 
 bool GameModel::verifyRescue()

@@ -1,11 +1,16 @@
 #pragma once
-//ANIMACIONES Y DIM DE LA FLAG
+//IMAGEN DE LA FLAG Y VER COMO MOSTRAR CUANDO LA ATACAN/ES ATACADA
 //QUE EN UPDATE SE DIBUJEN LOS HALOS
+//SACAR TODO LO QUE SEA DEL MENU VIEWER
+//MUTE/UNMUTE
+//DEBUGEAR SONIDOS
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
 #include "allegro5\allegro_ttf.h"
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include "Sprite.h"
 #include "Token.h"
 #include <vector>
@@ -23,7 +28,7 @@ public:
 	bool isViewerInitialized();
 	void initImagesAndFonts();
 	void update();
-	//
+	//para debugeo
 	void drawBattlefield();
 	void drawCemetery();
 	void drawBackground();
@@ -38,12 +43,14 @@ public:
 	void highlightCemetery(rank r);
 	int  getCantSprites(int i);
 	void getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, rank& r, bool opponent);
+	void manageSoundtrack();
 	//
 	~AllegroViewer();
 private:
 	GameModel & engine;
 	bool initialized;
 	bool attackPending;
+	bool sound;
 	colour color;
 	unsigned int screenWidth;
 	unsigned int screenHeight;
@@ -63,6 +70,10 @@ private:
 	std::string unMuteDir;
 	std::string nameInputDir;
 	std::string fieldDir;
+	std::string attackDir;
+	std::string deathDir;
+	std::string introDir;
+	std::string soundtrackDir;
 	//direccion del font
 	std::string titlettfDir;
 	std::string optionsttfDir;
@@ -85,7 +96,11 @@ private:
 	ALLEGRO_FONT * ALLEGRO_titlettf;
 	ALLEGRO_FONT * ALLEGRO_optionsttf;
 	ALLEGRO_FONT * ALLEGRO_messagesttf;
+	//allegro samples (sounds)
+	ALLEGRO_SAMPLE * wavAttack;
+	ALLEGRO_SAMPLE * wavDeath;
+	ALLEGRO_SAMPLE * wavIntro;
+	ALLEGRO_SAMPLE * wavSoundtrack;
 	//display
 	ALLEGRO_DISPLAY * ALLEGRO_display;
 };
-

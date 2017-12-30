@@ -1,8 +1,6 @@
 #pragma once
-//QUE LA BOMB A VECES NO SE INICIALIZA
 //ANIMACIONES Y DIM DE LA FLAG
-//QUE EN UPDATE SE DIBUJEN LOS HALOS, DEBUGGEAR UPDATE CUANDO ESTE EL CONTROLLER
-//MUTE/UNMUTE
+//QUE EN UPDATE SE DIBUJEN LOS HALOS
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
 #include "allegro5\allegro_ttf.h"
@@ -25,8 +23,7 @@ public:
 	bool isViewerInitialized();
 	void initImagesAndFonts();
 	void update();
-	~AllegroViewer();
-private:
+	//
 	void drawBattlefield();
 	void drawCemetery();
 	void drawBackground();
@@ -41,6 +38,9 @@ private:
 	void highlightCemetery(rank r);
 	int  getCantSprites(int i);
 	void getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, rank& r, bool opponent);
+	//
+	~AllegroViewer();
+private:
 	GameModel & engine;
 	bool initialized;
 	bool attackPending;

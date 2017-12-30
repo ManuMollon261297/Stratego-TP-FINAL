@@ -369,15 +369,23 @@ void AllegroViewer::drawMessage()
 void AllegroViewer::drawGameOver(bool playerWon)
 {
 	fade_out(1, screenWidth, screenHeight);
-	fade_in(ALLEGRO_GameOver[0], 1);
+	fade_in(ALLEGRO_GameOver[0], 1, screenWidth, screenHeight);
 	if (playerWon)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth/3, screenHeight*2 /3 , 0, "You Won!");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth/3, screenHeight /6 , 0, "You Won!");
 	}
 	else
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth / 3, screenHeight*2 / 3, 0, "You Lost!");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth / 3, screenHeight / 6, 0, "You Lost!");
 	}
+	for (int i = 1; i < 3; i++)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+			(screenWidth / 2) - 200, screenHeight / 3 + i*(al_get_bitmap_height(ALLEGRO_boton) + 2) +50
+			, 400, 130, 0);
+	}
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth / 2 - 45, (screenHeight / 3) + 190, 0, "Exit");
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth / 2 - 125, (screenHeight / 3) + 300, 0, "Play Again");
 	al_flip_display();
 }
 
@@ -714,8 +722,6 @@ void AllegroViewer::update()
 		drawCemetery();
 		drawMessage();
 		break;
-	//case FINISHING_PLACING:
-		//break;
 	case MY_TURN:
 		drawBackground();
 		drawBattlefield();

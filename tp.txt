@@ -1,5 +1,4 @@
 MAN~ Allegro Viewer:
-	- cuando termina la partida (ver si es un estado mas en viewer o que)
 	- lo que dice en los headers de los viewers
 	- agregar el audio
 T~ Event Generator:

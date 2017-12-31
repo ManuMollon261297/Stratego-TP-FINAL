@@ -412,7 +412,6 @@ void AllegroViewer::playBattleWarmUp(rank playerRank)
 {
 	fade_out(1, screenWidth, screenHeight);
 	fade_in(ALLEGRO_field, 1, screenWidth, screenHeight);
-	al_play_sample(wavIntro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	int x=0;
 	int y=0;
 	int aWidth=0;
@@ -428,6 +427,8 @@ void AllegroViewer::playBattleWarmUp(rank playerRank)
 		break;
 	}
 	al_flip_display();
+	al_play_sample(wavIntro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+	al_rest(1.5);
 }
 
 void AllegroViewer::moveToken(pos init, pos fin)

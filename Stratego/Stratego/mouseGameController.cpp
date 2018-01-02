@@ -21,6 +21,7 @@
 
 mouseGameController::mouseGameController()
 {
+	p2gameModel = new GameModel;
 	estadoModel = new IdleState; //debe ser un iddle state
 	Mstate = NONE_SELECTED;
 }

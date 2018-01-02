@@ -9,6 +9,7 @@ enum MouseStates { NONE_SELECTED, SOLDIER_SELECTED, CEMETERY_SELECTED };
 class gameState
 {
 public:
+	gameState();
 	virtual ~gameState();						//rutinas de accion ante un evento
 	virtual gameState* OnSoldier(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel);          
 	virtual gameState* OnCemetery(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel);

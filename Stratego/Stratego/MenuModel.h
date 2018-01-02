@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "button.h"
-
+enum menuStates{MENU,WRITING_NAME,RULES,MUTE_TOGGLE,LEADERBOARD};
 class MenuModel
 {
 public:
@@ -17,7 +17,7 @@ public:
 	void pushButton(button b);
 	void deleteButtons();
 	button * getButtonReference(int index);
-	std::vector<char> getLeadreboardInfo();
+	std::vector<std::string> getLeadreboardInfo();
 private:
 	std::string bakcUpFile;
 	std::string leaderboardFile;

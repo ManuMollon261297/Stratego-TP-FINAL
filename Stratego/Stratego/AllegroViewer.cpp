@@ -6,12 +6,14 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 {
 	color = c;
 	attackPending = false;
+	sound = false;
 	screenHeight = h;
 	screenWidth = w;
 	fichaHeight = (h / 11);
 	fichaWidth = (w / 12);
 	//inicializacion de allegro
-	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
+	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()
+		&&al_init_ttf_addon()&& al_install_audio() && al_init_acodec_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
 	{
 		ALLEGRO_display = al_create_display(w, h);
 		initialized = true;
@@ -20,6 +22,7 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 	{
 		initialized = false;
 	}
+	al_reserve_samples(4);
 	//inicializacion de strings
 	for (int i =0;i<13;i++)
 	{
@@ -77,6 +80,10 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 	unMuteDir = "../Allegro Data/unmute.png";
 	nameInputDir = "../Allegro Data/nameInput.png";
 	fieldDir = "../Allegro Data/field.png";
+	attackDir = "../Allegro Data/AUDIO/attack1.wav";
+	deathDir = "../Allegro Data/AUDIO/death.wav";
+	introDir = "../Allegro Data/AUDIO/intro.wav";
+	soundtrackDir = "../Allegro Data/AUDIO/soundtrack.wav";
 	int jmax;
 	for (int i = 0; i<11; i++)
 	{
@@ -274,9 +281,13 @@ void AllegroViewer::initImagesAndFonts()
 	ALLEGRO_unMute = al_load_bitmap(unMuteDir.c_str());
 	ALLEGRO_nameInput = al_load_bitmap(nameInputDir.c_str());
 	ALLEGRO_field = al_load_bitmap(fieldDir.c_str());
-	ALLEGRO_titlettf = al_load_font(titlettfDir.c_str(), 20, 0);	//cambiar el tamanio de la letra aca si es necesario
-	ALLEGRO_optionsttf = al_load_font(optionsttfDir.c_str(), 15, 0);//cambiar el tamanio de la letra aca si es necesario
-	ALLEGRO_messagesttf = al_load_font(messagettfDir.c_str(), 5, 0);//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 100, 0);	//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_optionsttf = al_load_ttf_font(optionsttfDir.c_str(), 60, 0);//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_messagesttf = al_load_ttf_font(messagettfDir.c_str(), 50, 0);//cambiar el tamanio de la letra aca si es necesario
+	wavAttack = al_load_sample(attackDir.c_str());
+	wavDeath = al_load_sample(deathDir.c_str());
+	wavIntro = al_load_sample(introDir.c_str());
+	wavSoundtrack = al_load_sample(soundtrackDir.c_str());
 }
 
 void AllegroViewer::drawBattlefield()
@@ -341,7 +352,7 @@ void AllegroViewer::drawCemetery()
 				al_get_bitmap_width(ALLEGRO_RedFichaImages[rAux].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rAux].image),
 				5, (i + 1)*fichaHeight+2, fichaWidth - 5, fichaHeight - 5, 0);
 		}
-		//al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), 0, fichaWidth*(i + 1 / 2), 0, "%d", engine.getNumberInCemetery(rAux));
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), fichaWidth/2-10, fichaHeight*(i+ 1 + 1 / 2)-10, 0, "%d", engine.getNumberInCemetery(rAux));
 	}
 }
 
@@ -363,25 +374,30 @@ void AllegroViewer::highlightCemetery(rank r)
 
 void AllegroViewer::drawMessage()
 {
-	//al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), 0, 5, 5, engine.getMessage().c_str());
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth/2, 5, 5, engine.getMessage().c_str());
 }
 
 void AllegroViewer::drawGameOver(bool playerWon)
 {
-	for (int i=0;i<ALLEGRO_GameOver.size();i++)
-	{
-		al_draw_scaled_bitmap(ALLEGRO_GameOver[i], 0, 0, al_get_bitmap_width(ALLEGRO_GameOver[i]),
-			al_get_bitmap_height(ALLEGRO_GameOver[i]), 0, 0, screenWidth, screenHeight, 0);
-		al_flip_display();
-	}
+	fade_out(1, screenWidth, screenHeight);
+	fade_in(ALLEGRO_GameOver[0], 1, screenWidth, screenHeight);
 	if (playerWon)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 10, screenHeight / 2, 0, "You Won!");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth/3, screenHeight /6 , 0, "You Won!");
 	}
 	else
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 10, screenHeight / 2, 0, "You Lost!");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth / 3, screenHeight / 6, 0, "You Lost!");
 	}
+	for (int i = 1; i < 3; i++)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+			(screenWidth / 2) - 200, screenHeight / 3 + i*(al_get_bitmap_height(ALLEGRO_boton) + 2) +50
+			, 400, 130, 0);
+	}
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth / 2 - 45, (screenHeight / 3) + 190, 0, "Exit");
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth / 2 - 125, (screenHeight / 3) + 300, 0, "Play Again");
+	al_flip_display();
 }
 
 void AllegroViewer::drawRemainingTime()
@@ -389,24 +405,13 @@ void AllegroViewer::drawRemainingTime()
 	int total = engine.getTime();
 	int minutes = total / 60;
 	int seconds = total % 60;
-	//al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth-100, 5, 0, "%d:%d",minutes,seconds);
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth-120, -10, 0, "%d:%d",minutes,seconds);
 }
 
-void AllegroViewer::playBattleWarmUp(rank playerRank) //TERMINAR FADE IN
+void AllegroViewer::playBattleWarmUp(rank playerRank)
 {
-	for (int i = 1; i <= 10; i++)
-	{
-		ALLEGRO_COLOR Color;
-		Color.a = 255-(10*i);
-		Color.r = 0;
-		Color.g = 0;
-		Color.b = 0;
-		al_draw_tinted_scaled_bitmap(ALLEGRO_field, Color, 0, 0, al_get_bitmap_width(ALLEGRO_field),
-			al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
-		al_flip_display();
-	}
-	al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
-		al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+	fade_out(1, screenWidth, screenHeight);
+	fade_in(ALLEGRO_field, 1, screenWidth, screenHeight);
 	int x=0;
 	int y=0;
 	int aWidth=0;
@@ -422,6 +427,8 @@ void AllegroViewer::playBattleWarmUp(rank playerRank) //TERMINAR FADE IN
 		break;
 	}
 	al_flip_display();
+	al_play_sample(wavIntro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+	al_rest(1.5);
 }
 
 void AllegroViewer::moveToken(pos init, pos fin)
@@ -569,7 +576,7 @@ enum whoWon{PLAYER,OPPONENT,TIE};
 void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 {
 	whoWon status;
-	switch (engine.getState()) //asumo sprites mirando a la izquierda
+	switch (engine.getState()) //asume que sprites esta mirando a la izquierda
 	{
 	case MY_ATTACKING:
 			if (opponentRank == FLAG)
@@ -624,6 +631,7 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 	int oHeight = 0;
 	getDrawingCoord(pX, pY, pWidth, pHeight, playerRank, false);
 	getDrawingCoord(oX, oY, oWidth, oHeight, opponentRank, true);
+	al_play_sample(wavAttack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	switch (status)
 	{
 	case PLAYER:
@@ -637,6 +645,7 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_RedCharacters[playerRank].drawFirst(pX, pY, pWidth, pHeight, false);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_BlueCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
 			break;
 		case BLUE:
@@ -647,6 +656,7 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_BlueCharacters[playerRank].drawFirst(pX, pY, pWidth, pHeight, false);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_RedCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
 			break;
 		}
@@ -659,6 +669,7 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_RedCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
 			break;
 		case BLUE:
@@ -666,6 +677,7 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_BlueCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
 			break;
 		}
@@ -678,13 +690,16 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			al_play_sample(wavAttack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_RedCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_RedCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_BlueCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
 			break;
 		case BLUE:
@@ -692,18 +707,23 @@ void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			al_play_sample(wavAttack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_BlueCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
 			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_BlueCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			al_play_sample(wavDeath, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 			ALLEGRO_RedCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
 			break;
 		}
 		break;
 	}
+	al_rest(1);
+	fade_out(1,screenWidth,screenHeight);
 }
 
 void AllegroViewer::drawHalo(double x, double y, double sizeX, double sizeY)
@@ -716,37 +736,19 @@ void AllegroViewer::drawHalo(double x, double y, double sizeX, double sizeY)
 
 void AllegroViewer::update()
 {
-	//Menu Model
-	/*
-	switch (menuEngine.getState())
-	{
-	case MENU:
-		break;
-	case WRITING_NAME:
-		break;
-	case RULES:
-		break;
-	case MUTE_TOGGLE:
-		break;
-	case LEADERBOARD:
-		break;
-	}
-	*/
-
-	//Game Model
 	currStatus myS = engine.GetmyPosStatus();
 	currStatus opS = engine.GetopPosStatus();
 	switch (engine.getState())
 	{
 	case PLACING_FICHAS:
+		manageSoundtrack();
 		drawBackground();
 		drawBattlefield();
 		drawCemetery();
 		drawMessage();
 		break;
-	//case FINISHING_PLACING:
-		//break;
 	case MY_TURN:
+		manageSoundtrack();
 		drawBackground();
 		drawBattlefield();
 		drawCemetery();
@@ -760,6 +762,7 @@ void AllegroViewer::update()
 		moveToken(myS.previous,myS.next);
 		break;
 	case OP_TURN:
+		manageSoundtrack();
 		drawBackground();
 		drawBattlefield();
 		drawCemetery();
@@ -968,69 +971,117 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight,ra
 	}
 }
 
+void AllegroViewer::manageSoundtrack()
+{
+	if (sound&&engine.isMuteOn())
+	{
+		//apagar la musica
+		al_stop_samples();
+		sound = false;
+	}
+	else if ((!sound) && !engine.isMuteOn())
+	{
+		//empiezo musica
+		al_play_sample(wavSoundtrack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+		sound = true;
+	}
+	else if ((!sound) && engine.isMuteOn())
+	{
+		//nada
+	}
+	else if (sound && !engine.isMuteOn())
+	{
+		//nada
+	}
+}
+
 AllegroViewer::~AllegroViewer()
 {
+	for (int i=0;i< ALLEGRO_BlueFichaImages.size();i++)
+	{
+		ALLEGRO_BlueFichaImages[i].deleteBmps();
+	}
+	for (int i = 0; i< ALLEGRO_RedFichaImages.size(); i++)
+	{
+		ALLEGRO_RedFichaImages[i].deleteBmps();
+	}
+	for (int i = 0; i< ALLEGRO_BlueCharacters.size(); i++)
+	{
+		ALLEGRO_BlueCharacters[i].deleteBmps();
+	}
+	for (int i = 0; i< ALLEGRO_RedCharacters.size(); i++)
+	{
+		ALLEGRO_RedCharacters[i].deleteBmps();
+	}
+	if (ALLEGRO_field != nullptr)
+	{
+		al_destroy_bitmap(ALLEGRO_field);
+	}
 	if (ALLEGRO_battleBackground != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_battleBackground);
-		ALLEGRO_battleBackground = nullptr;
 	}
 	if (ALLEGRO_map != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_map);
-		ALLEGRO_map = nullptr;
 	}
 	if (ALLEGRO_menuBackground != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_menuBackground);
-		ALLEGRO_menuBackground = nullptr;
 	}
 	if (ALLEGRO_boton != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_boton);
-		ALLEGRO_boton = nullptr;
 	}
 	if (ALLEGRO_mute != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_mute);
-		ALLEGRO_mute = nullptr;
 	}
 	if (ALLEGRO_unMute != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_unMute);
-		ALLEGRO_unMute = nullptr;
 	}
 	if (ALLEGRO_nameInput != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_nameInput);
-		ALLEGRO_nameInput = nullptr;
 	}
 	if (ALLEGRO_titlettf != nullptr)
 	{
 		al_destroy_font(ALLEGRO_titlettf);
-		ALLEGRO_titlettf = nullptr;
 	}
 	if (ALLEGRO_optionsttf != nullptr)
 	{
 		al_destroy_font(ALLEGRO_optionsttf);
-		ALLEGRO_optionsttf = nullptr;
 	}
 	if (ALLEGRO_messagesttf != nullptr)
 	{
 		al_destroy_font(ALLEGRO_messagesttf);
-		ALLEGRO_messagesttf = nullptr;
 	}
 	if (ALLEGRO_display != nullptr)
 	{
 		al_destroy_display(ALLEGRO_display);
-		ALLEGRO_display = nullptr;
 	}
 	for (int i = 0; i < ALLEGRO_GameOver.size() ; i++)
 	{
 		if (ALLEGRO_GameOver[i] != nullptr)
 		{
 			al_destroy_bitmap(ALLEGRO_GameOver[i]);
-			ALLEGRO_GameOver[i] = nullptr;
 		}
+	}
+	if (wavAttack != nullptr)
+	{
+		al_destroy_sample(wavAttack);
+	}
+	if (wavDeath != nullptr)
+	{
+		al_destroy_sample(wavDeath);
+	}
+	if (wavIntro != nullptr)
+	{
+		al_destroy_sample(wavIntro);
+	}
+	if (wavSoundtrack != nullptr)
+	{
+		al_destroy_sample(wavSoundtrack);
 	}
 }

@@ -5,15 +5,15 @@ Sprite::Sprite(int code_)
 	code = code_;
 }
 
-
-Sprite::~Sprite()
+void Sprite::deleteBmps()
 {
-	/*
 	for (int i = 0; i< sequence.size(); i++)
 	{
-		al_destroy_bitmap(sequence[i]);
+		if(sequence[i] != nullptr)
+		{
+			al_destroy_bitmap(sequence[i]);
+		}
 	}
-	*/
 }
 
 void Sprite::playSequence(int dx, int dy,int dw,int dh, bool facingLeft)

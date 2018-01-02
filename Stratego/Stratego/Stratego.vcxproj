@@ -80,6 +80,7 @@
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonColor>true</Allegro_AddonColor>
     <Allegro_AddonVideo>true</Allegro_AddonVideo>
+    <Allegro_AddonImage>true</Allegro_AddonImage>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
@@ -92,6 +93,7 @@
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonColor>true</Allegro_AddonColor>
     <Allegro_AddonVideo>true</Allegro_AddonVideo>
+    <Allegro_AddonImage>true</Allegro_AddonImage>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -134,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AllegroFuncs.h" />
     <ClInclude Include="AllegroViewer.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="currStatus.h" />
@@ -151,6 +154,7 @@
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MenuModel.h" />
+    <ClInclude Include="MenuViewer.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="mouseGameController.h" />
     <ClInclude Include="MyAttacking.h" />
@@ -185,6 +189,7 @@
     <ClInclude Include="WaitingWhoStart.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AllegroFuncs.cpp" />
     <ClCompile Include="AllegroViewer.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="currStatus.cpp" />
@@ -201,6 +206,7 @@
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="mainDePrueba.cpp" />
     <ClCompile Include="MenuModel.cpp" />
+    <ClCompile Include="MenuViewer.cpp" />
     <ClCompile Include="mouseGameController.cpp" />
     <ClCompile Include="MyAttacking.cpp" />
     <ClCompile Include="MyMoving.cpp" />

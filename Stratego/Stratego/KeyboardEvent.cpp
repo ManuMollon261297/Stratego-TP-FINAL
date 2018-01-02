@@ -17,7 +17,7 @@ unsigned int KeyboardEvent::GetEvent(void)
 
 void KeyboardEvent::SetEvent(unsigned int newEv)
 {
-	//eventType = newEv;
+	eventType = (ev)newEv;
 }
 
 ALLEGRO_EVENT * KeyboardEvent::getAlEv(void)

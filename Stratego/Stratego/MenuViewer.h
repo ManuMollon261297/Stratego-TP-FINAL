@@ -1,7 +1,9 @@
 #pragma once
+
+//-------------------------------------------
+//CAMBIAR LO DEL DISPLAY CUANDO JUNTEMOS TODO
 //VER LO DEL FADE OUT Y CAMBIO DE ESTADO
-//VER LO DEL DISPLAY
-//VER LO DEL ENTER EN LEADERBAORD
+
 #include "MenuModel.h"
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"

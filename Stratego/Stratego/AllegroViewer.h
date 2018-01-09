@@ -1,9 +1,11 @@
 #pragma once
+
+//VER CUANDO SE RESUELVE EL ATAQUE
+//-------------------------------------------
+//CAMBIAR LO DEL DISPLAY CUANDO JUNTEMOS TODO
 //IMAGEN DE LA FLAG Y VER COMO MOSTRAR CUANDO LA ATACAN/ES ATACADA
-//QUE EN UPDATE SE DIBUJEN LOS HALOS
-//SACAR TODO LO QUE SEA DEL MENU VIEWER
-//MUTE/UNMUTE
-//DEBUGEAR SONIDOS
+
+#include <vector>
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
 #include "allegro5\allegro_ttf.h"
@@ -13,7 +15,6 @@
 #include <allegro5/allegro_acodec.h>
 #include "Sprite.h"
 #include "Token.h"
-#include <vector>
 #include "AllegroFuncs.h"
 #include "GameModel.h"
 #include "ranks.h"
@@ -33,6 +34,7 @@ public:
 	void drawCemetery();
 	void drawBackground();
 	void drawMessage();
+	void drawSoundB();
 	void drawGameOver(bool playerWon);
 	void drawRemainingTime();
 	void drawHalo(double x, double y, double sizeX, double sizeY);
@@ -65,10 +67,8 @@ private:
 	std::string botonDir;						//dir de una imagen de un boton
 	std::string battleBackgroundDir;			//dir de fondo de pantalla durante la partida
 	std::string mapDir;							//dir de imagen del mapa de juego  
-	std::string menuBackgroundDir;				//dir de fondo de pantalla durante el menu
 	std::string muteDir;
 	std::string unMuteDir;
-	std::string nameInputDir;
 	std::string fieldDir;
 	std::string attackDir;
 	std::string deathDir;
@@ -87,10 +87,8 @@ private:
 	ALLEGRO_BITMAP * ALLEGRO_boton;				//imagenes boton
 	ALLEGRO_BITMAP * ALLEGRO_battleBackground;	//fondo de pantalla durante la partida
 	ALLEGRO_BITMAP * ALLEGRO_map;				//imagen del mapa de juego  
-	ALLEGRO_BITMAP * ALLEGRO_menuBackground;	//fondo de pantalla durante el menu 
 	ALLEGRO_BITMAP * ALLEGRO_mute;
 	ALLEGRO_BITMAP * ALLEGRO_unMute;
-	ALLEGRO_BITMAP * ALLEGRO_nameInput;
 	ALLEGRO_BITMAP * ALLEGRO_field;
 	//allegro font
 	ALLEGRO_FONT * ALLEGRO_titlettf;

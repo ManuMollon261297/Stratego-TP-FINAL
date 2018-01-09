@@ -75,10 +75,8 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 	botonDir = "../Allegro Data/button.png";
 	battleBackgroundDir = "../Allegro Data/battleBackground.png";
 	mapDir = "../Allegro Data/map.png";
-	menuBackgroundDir = "../Allegro Data/menuBackground.png";
 	muteDir = "../Allegro Data/mute.png";
 	unMuteDir = "../Allegro Data/unmute.png";
-	nameInputDir = "../Allegro Data/nameInput.png";
 	fieldDir = "../Allegro Data/field.png";
 	attackDir = "../Allegro Data/AUDIO/attack1.wav";
 	deathDir = "../Allegro Data/AUDIO/death.wav";
@@ -219,11 +217,9 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 	//nullptr a todos los punteros
 	ALLEGRO_battleBackground = nullptr;
 	ALLEGRO_map = nullptr;
-	ALLEGRO_menuBackground = nullptr;
 	ALLEGRO_boton = nullptr;
 	ALLEGRO_mute = nullptr;
 	ALLEGRO_unMute = nullptr;
-	ALLEGRO_nameInput = nullptr;
 	ALLEGRO_titlettf = nullptr;
 	ALLEGRO_optionsttf = nullptr;
 	ALLEGRO_messagesttf = nullptr;
@@ -276,10 +272,8 @@ void AllegroViewer::initImagesAndFonts()
 	ALLEGRO_boton = al_load_bitmap(botonDir.c_str());
 	ALLEGRO_battleBackground = al_load_bitmap(battleBackgroundDir.c_str());
 	ALLEGRO_map = al_load_bitmap(mapDir.c_str());
-	ALLEGRO_menuBackground = al_load_bitmap(menuBackgroundDir.c_str());
 	ALLEGRO_mute = al_load_bitmap(muteDir.c_str());
 	ALLEGRO_unMute = al_load_bitmap(unMuteDir.c_str());
-	ALLEGRO_nameInput = al_load_bitmap(nameInputDir.c_str());
 	ALLEGRO_field = al_load_bitmap(fieldDir.c_str());
 	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 100, 0);	//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_optionsttf = al_load_ttf_font(optionsttfDir.c_str(), 60, 0);//cambiar el tamanio de la letra aca si es necesario
@@ -330,6 +324,10 @@ void AllegroViewer::drawBattlefield()
 						(j + 1)*(fichaWidth+5.5) + 19, (i + 1)*(fichaHeight-2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
 				}
 			}
+			if (engine.isSelectedFromPos(pAux))
+			{
+				highligthToken(pAux);
+			}
 		}
 	}
 }
@@ -353,6 +351,10 @@ void AllegroViewer::drawCemetery()
 				5, (i + 1)*fichaHeight+2, fichaWidth - 5, fichaHeight - 5, 0);
 		}
 		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), fichaWidth/2-10, fichaHeight*(i+ 1 + 1 / 2)-10, 0, "%d", engine.getNumberInCemetery(rAux));
+		if (engine.isRankCemeterySelected(rAux))
+		{
+			highlightCemetery(rAux);
+		}
 	}
 }
 
@@ -406,6 +408,20 @@ void AllegroViewer::drawRemainingTime()
 	int minutes = total / 60;
 	int seconds = total % 60;
 	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth-120, -10, 0, "%d:%d",minutes,seconds);
+}
+
+void AllegroViewer::drawSoundB()
+{
+	if (engine.isMuteOn())
+	{
+		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
+			, 10, 10, 70, 60, 0);
+	}
+	else
+	{
+		al_draw_scaled_bitmap(ALLEGRO_unMute, 0, 0, al_get_bitmap_width(ALLEGRO_unMute), al_get_bitmap_height(ALLEGRO_unMute)
+			, 15, 5, 70, 60, 0);
+	}
 }
 
 void AllegroViewer::playBattleWarmUp(rank playerRank)
@@ -746,6 +762,8 @@ void AllegroViewer::update()
 		drawBattlefield();
 		drawCemetery();
 		drawMessage();
+		drawSoundB();
+		al_flip_display();
 		break;
 	case MY_TURN:
 		manageSoundtrack();
@@ -754,12 +772,14 @@ void AllegroViewer::update()
 		drawCemetery();
 		drawMessage();
 		drawRemainingTime();
+		drawSoundB();
+		al_flip_display();
 		break;
 	case MY_ATTACKING:
 		playBattleWarmUp(engine.getRankFromPos(myS.previous));
 		break;
 	case MY_MOVING:
-		moveToken(myS.previous,myS.next);
+		moveToken(myS.previous, myS.next);
 		break;
 	case OP_TURN:
 		manageSoundtrack();
@@ -768,12 +788,14 @@ void AllegroViewer::update()
 		drawCemetery();
 		drawMessage();
 		drawRemainingTime();
+		drawSoundB();
+		al_flip_display();
 		break;
 	case OP_ATTACKING:
 		playBattleWarmUp(engine.getRankFromPos(opS.next));
 		break;
 	case OP_MOVING:
-		moveToken(opS.previous,opS.next);
+		moveToken(opS.previous, opS.next);
 		break;
 	case GAME_OVER:
 		drawGameOver(engine.didPlayerWin());
@@ -1025,10 +1047,6 @@ AllegroViewer::~AllegroViewer()
 	{
 		al_destroy_bitmap(ALLEGRO_map);
 	}
-	if (ALLEGRO_menuBackground != nullptr)
-	{
-		al_destroy_bitmap(ALLEGRO_menuBackground);
-	}
 	if (ALLEGRO_boton != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_boton);
@@ -1040,10 +1058,6 @@ AllegroViewer::~AllegroViewer()
 	if (ALLEGRO_unMute != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_unMute);
-	}
-	if (ALLEGRO_nameInput != nullptr)
-	{
-		al_destroy_bitmap(ALLEGRO_nameInput);
 	}
 	if (ALLEGRO_titlettf != nullptr)
 	{

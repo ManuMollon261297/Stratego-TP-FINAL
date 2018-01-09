@@ -154,6 +154,13 @@ void MenuViewer::drawLeaderboard()
 		, 0, "Leaderboard");
 	std::vector<std::string> info;
 	info = engine.getLeadreboardInfo();
+	for (int i = 0; i < info.size(); i++)
+	{
+		if (info[i][info[i].size() - 1] == '\r')
+		{
+			info[i].pop_back();
+		}
+	}
 	for (int i=0; (i<5)&&(i<info.size());i++)
 	{
 		al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * (i+3), 0,

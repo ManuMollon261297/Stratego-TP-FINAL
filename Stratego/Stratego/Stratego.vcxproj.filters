@@ -168,6 +168,9 @@
     <ClInclude Include="MenuViewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RefreshEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameModel.cpp">
@@ -303,6 +306,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MenuViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RefreshEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

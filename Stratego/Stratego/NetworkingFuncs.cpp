@@ -123,7 +123,7 @@ bool ValidateRank(unsigned char rank)
 
 rank GetRank(unsigned char pckg_rank)
 {
-	rank result;
+	rank result= WATER;
 	if ((pckg_rank >= '1') && (pckg_rank <= '9')) //Es una tropa comun
 	{
 		result = (rank)(pckg_rank - '1');
@@ -148,7 +148,7 @@ rank GetRank(unsigned char pckg_rank)
 
 unsigned char ConvertRankToPackageFormat(rank my_rank)
 {
-	unsigned char rank2send; //rank en el formato valido para el paquete.
+	unsigned char rank2send = '0'; //rank en el formato valido para el paquete.
 	if ((my_rank >= 0) && (my_rank <= 8))
 	{
 		rank2send = '1' + (unsigned char)my_rank;
@@ -165,4 +165,5 @@ unsigned char ConvertRankToPackageFormat(rank my_rank)
 	{
 		rank2send = 'S';
 	}
+	return rank2send;
 }

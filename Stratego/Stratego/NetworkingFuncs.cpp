@@ -87,7 +87,7 @@ bool ValidateMovement(GameModel * Gm, pos ori, pos des)
 		}
 		else
 		{
-			offset = (des.y) - (ori.y) - 1;
+			offset = (des.x) - (ori.x) - 1;
 			pos recorrido;
 			recorrido.y = ori.y;
 			//Se fija que todos los espacios entre las dos posiciones esten vacios.

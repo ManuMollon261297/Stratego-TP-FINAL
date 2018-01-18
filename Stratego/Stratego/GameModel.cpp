@@ -1,4 +1,5 @@
 #include "GameModel.h"
+#include "gameState.h"
 //caso especial: 'r' ataca y 'q' defiende.
 #define CASO_ESPECIAL(r, q) ( ((r == MINER) && (q == BOMB)) || ((r == SPY) && (q == MARSHAL)) )
 
@@ -343,7 +344,7 @@ bool GameModel::getFichasPlaced()
 
 button * GameModel::getButtonReference(int index)
 {
-	for (int i = 0; i < botones.size(); i++)
+	for (unsigned int i = 0; i < botones.size(); i++)
 	{
 		if (index == botones[i].getIndex())
 		{

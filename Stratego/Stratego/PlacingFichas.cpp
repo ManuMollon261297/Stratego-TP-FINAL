@@ -89,7 +89,7 @@ gameState * PlacingFichas::OnLand(MouseEvent & Mev, MouseStates Mstate, mouseGam
 		//no cambia de estado, ni deselecciona la ficha del cementerio, ya que da la opcion de seguir colocando la misma ficha
 		if (p2GameModel->getNumberInCemetery(p2controller->getPreviousEvent().r) == 0)
 		{
-			p2GameModel->unselectRankCemetery(p2controller->getPreviousEvent.r);
+			p2GameModel->unselectRankCemetery(p2controller->getPreviousEvent().r);
 			Mstate = NONE_SELECTED; //en este caso, se cambia el estado
 		}
 		
@@ -109,7 +109,7 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel)
 	if (p2GameModel->isCemeteryEmpty())
 	{
 		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
-		p2GameModel->getButtonReference(PLACE_READY)->press(); //seleccion del boton
+		p2GameModel->getButtonReference(ENDING_PLACING_FICHAS)->press(); //seleccion del boton
 		p2GameModel->setMessage("Ejercito listo para la batalla, esperando al oponente");
 	}
 	return nullptr;

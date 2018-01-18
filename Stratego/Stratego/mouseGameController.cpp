@@ -22,7 +22,7 @@
 mouseGameController::mouseGameController()
 {
 	p2gameModel = new GameModel;
-	estadoModel = new IdleState; //debe ser un iddle state
+	estadoModel_ = new IdleState; //debe ser un iddle state
 	Mstate = NONE_SELECTED;
 }
 
@@ -90,7 +90,8 @@ MouseEvent mouseGameController::shape(double x, double y)
 void mouseGameController::dispatch(MouseEvent Mev)
 {
 	updateControllerState(p2gameModel->getState());
-	gameState * proximoEstado = nullptr;
+	gameState * proximoEstado = nullptr;  //puntero que funciona como memoria para el proximo estado
+	gameState * estadoModel = (gameState *)estadoModel_;  //se crea un puntero auxiliar para poder desreferenciar
 	switch (Mev.type)
 	{
 		case NO_EVENT:
@@ -116,8 +117,9 @@ void mouseGameController::dispatch(MouseEvent Mev)
 	
 	if (proximoEstado != nullptr) //hubo cambio de estado
 	{
-		delete estadoModel;
-		estadoModel = proximoEstado;
+		delete estadoModel_;
+		estadoModel_ = (void *) new gameState;
+		estadoModel_ = proximoEstado;
 		proximoEstado = nullptr;
 		updateModelState();
 	}
@@ -321,46 +323,50 @@ bool mouseGameController::fetchObstacle(int fijoOri, int movilOri, int fijoDest,
 
 void mouseGameController::updateControllerState(int modelState)
 {
+	gameState * estadoModel = (gameState *)estadoModel_;  //se crea un puntero auxiliar para poder desreferenciar
 	if ((estadoModel != nullptr) && (p2gameModel->getState() != estadoModel->getState()))
 	{
-		delete estadoModel;
+		delete estadoModel_;
 		switch (p2gameModel->getState())
 		{
 			case MY_TURN:
-				estadoModel = new MyTurn;
+				estadoModel_ = new MyTurn;
 				break;
 			case OP_TURN:
-				estadoModel = new OpTurn;
+				estadoModel_ = new OpTurn;
 				break;
 			case MY_ATTACKING:
-				estadoModel = new MyAttacking;
+				estadoModel_ = new MyAttacking;
 				break;
 			case OP_ATTACKING:
-				estadoModel = new OpAttacking;
+				estadoModel_ = new OpAttacking;
 				break;
 			case MY_MOVING:
-				estadoModel = new MyMoving;
+				estadoModel_ = new MyMoving;
 				break;
 			case OP_MOVING:
-				estadoModel = new OpMoving;
+				estadoModel_ = new OpMoving;
 				break;
 			case PLACING_FICHAS:
-				estadoModel = new PlacingFichas;
+				estadoModel_ = new PlacingFichas;
 				break;
 			case IDLE:
-				estadoModel = new IdleState;
+				estadoModel_ = new IdleState;
 				break;
 			case GAME_OVER:
-				estadoModel = new gameOverState;
+				estadoModel_ = new gameOverState;
 				break;
 			case ENDING_PLACING_FICHAS:
-				estadoModel = new finishingPlacing;
+				estadoModel_ = new finishingPlacing;
 				break;
 			case PLAY_AGAIN_SELECTED:
-				estadoModel = new plaAgainSelected;
+				estadoModel_ = new plaAgainSelected;
 				break;
 			case GAME_OVER_SELECTED:
-				estadoModel = new gameOverSelected;
+				estadoModel_ = new gameOverSelected;
+				break;
+			default:  //esto no hace falta, pero esta por si en algun momento el switch no llegara a contemplar todos los casos
+				estadoModel_ = new IdleState;
 				break;
 		}
 	}
@@ -368,7 +374,7 @@ void mouseGameController::updateControllerState(int modelState)
 
 void mouseGameController::updateModelState()
 {
-	p2gameModel->setState(estadoModel->getState());
+	p2gameModel->setState(((gameState *)estadoModel_)->getState());
 }
 
 bool mouseGameController::validOffsetMovement(pos destiny)
@@ -417,5 +423,5 @@ bool mouseGameController::validObstacles(pos destiny)  //debe llamarse luego de 
 
 mouseGameController::~mouseGameController()
 {
-	delete estadoModel;
+	delete estadoModel_;
 }

@@ -4,7 +4,6 @@
 #include "currStatus.h"
 #include "pos.h"
 #include "ranks.h"
-#include "gameState.h"
 #include "button.h"
 #include <vector>
 #include <iostream>

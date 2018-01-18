@@ -1,6 +1,7 @@
 #pragma once
 #include "GameModel.h"
 #include "MouseEvent.h"
+enum MouseStates { NONE_SELECTED, SOLDIER_SELECTED, CEMETERY_SELECTED };
 
 
 //dimensiones
@@ -41,7 +42,7 @@ public:
 private:
 	GameModel * p2gameModel;
 
-	gameState * estadoModel;
+	void * estadoModel_;
 
 	MouseStates Mstate;
 

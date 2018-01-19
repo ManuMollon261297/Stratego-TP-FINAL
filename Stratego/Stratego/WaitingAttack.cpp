@@ -46,7 +46,10 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 
 NetworkingState* WaitingAttack::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	NetworkingState* p_state = new WaitingPlayerDecision;
 	Gm->setState(GAME_OVER);
+	Gm->playerWon();
+	return p_state;
 	//Habria que preguntarle al usuario de alguna forma si quiere volver a jugar de nuevo.
 	//en base a eso mando GAME_OVER o PLAY_AGAIN.
 }

@@ -23,7 +23,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			pckg[0]= (YOU_WON_HEADER);
 			Gm->setState(GAME_OVER);
 			p_nwm->sendPackage(pckg, 1);
-			p_state = new WaitingPlayerDecision;
+			p_state = new WaitingOponentDecision;
 		}
 		else //si no gano el otro, mando un paquete de attack con mi rank para que pueda resolver el ataque.
 		{

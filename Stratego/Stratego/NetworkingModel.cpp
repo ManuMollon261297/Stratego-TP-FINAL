@@ -1,7 +1,6 @@
 #include "NetworkingModel.h"
 #include <iostream>
 
-void timer_handler(const boost::system::error_code& error);
 
 NetworkingModel::NetworkingModel(boost::asio::io_service* serv) : deadline_(*serv), heartbeat_timer_(*serv)
 {
@@ -21,7 +20,7 @@ bool NetworkingModel::sendPackage(char * message, int size)
 	{
 		len = socket->write_some(boost::asio::buffer(message, size), error);
 	} while ((error.value() == WSAEWOULDBLOCK));
-	if (error)
+	if (!error) 
 	{
 		return true;
 	}

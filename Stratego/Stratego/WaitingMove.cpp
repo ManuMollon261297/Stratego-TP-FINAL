@@ -10,6 +10,7 @@
 
 NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	bool sent = false;
 	NetworkingState * p_state;
 	Gm->setState(OP_TURN); //Empieza el turno del oponente.
 	std::string pckg = ev.GetRecieved();
@@ -25,7 +26,10 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 	{
 		char error_pckg[1]; //Si el movimiento es invalido significa que hubo un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		p_nwm->sendPackage(error_pckg, 1);
+		do
+		{
+			sent = p_nwm->sendPackage(error_pckg, 1);
+		}while(!sent);
 		Gm->setState(GAME_OVER);
 		Gm->SetExit(true);
 		p_state = new Quiting;
@@ -39,7 +43,10 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 			pckg.clear();
 			pckg[0] = ATTACK_HEADER;
 			pckg[1] = rank2send;
-			p_nwm->sendPackage((char*)pckg.c_str(), 2); //Mando el paquete de attack.
+			do
+			{
+				sent = p_nwm->sendPackage((char*)pckg.c_str(), 2); //Mando el paquete de attack.
+			} while (!sent);
 			p_state = new WaitingAttack;
 
 		}

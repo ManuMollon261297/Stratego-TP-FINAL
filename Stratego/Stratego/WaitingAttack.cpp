@@ -11,6 +11,7 @@ rank GetRank(unsigned char );
 
 NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	bool sent = false;
 	NetworkingState* p_state;
 	std::string pckg = ev.GetRecieved();
 	unsigned char enemy_rank = pckg[1];
@@ -18,7 +19,10 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 	{
 		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		p_nwm->sendPackage(error_pckg, 1);
+		do
+		{
+			sent = p_nwm->sendPackage(error_pckg, 1);
+		} while (!sent);
 		Gm->setState(GAME_OVER);
 		Gm->SetExit(true);
 		p_state = new Quiting;
@@ -31,7 +35,10 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		{
 			pckg.clear();
 			pckg.push_back(YOU_WON_HEADER);
-			p_nwm->sendPackage((char*)pckg.c_str(), 1);
+			do
+			{
+				sent = p_nwm->sendPackage((char*)pckg.c_str(), 1);
+			} while (!sent);
 			p_state = new WaitingPlayerDecision;
 		}
 		else

@@ -9,10 +9,14 @@ NetworkingState* WaitingOponentDecision::Play_again(NetWorkingEvent& ev, Network
 
 NetworkingState* WaitingOponentDecision::Game_over(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	bool sent = false;
 	NetworkingState* p_state = new Quiting;
 	char pckg[1] = { ACK_HEADER };
 	Gm->setState(GAME_OVER); //Hay que informarle al otro usuario que el otor jugador no desea seguir jugando.
 	Gm->SetExit(true);
-	p_nwm->sendPackage(pckg, 1);
+	do
+	{
+		sent = p_nwm->sendPackage(pckg, 1);
+	} while (!sent);
 	return p_state;
 }

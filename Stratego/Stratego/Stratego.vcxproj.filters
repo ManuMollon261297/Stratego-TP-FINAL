@@ -314,6 +314,9 @@
     <ClCompile Include="WaitingOponentDecision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WaitingNewGameResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -2,6 +2,7 @@
 
 NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	bool sent = false;
 	NetworkingState* p_state = nullptr;
 
 	if ( (p_nwm->getServer()) == CLIENT ) //Si me llega R_U_READY tengo que necesariamente ser el client
@@ -20,7 +21,10 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 			{
 				char pckg[1];
 				pckg[0] = I_AM_READY_HEADER;
-				p_nwm->sendPackage(pckg, 1);
+				do
+				{
+					sent = p_nwm->sendPackage(pckg, 1);
+				}while(!sent);
 				p_state = new WaitingMove;
 			}
 		}
@@ -33,7 +37,10 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 	{
 		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		p_nwm->sendPackage(error_pckg, 1);
+		do
+		{
+			sent = p_nwm->sendPackage(error_pckg, 1);
+		} while (!sent);
 		p_state = new Quiting;
 	}
 	return p_state;
@@ -42,6 +49,7 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 
 NetworkingState* NetPlacingFichas::I_am_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	bool sent = false;
 	NetworkingState * p_state = nullptr;
 	if (((p_nwm->getServer()) == SERVER) && (Gm->getRed())) //Si me llega i am ready tengo que ser server y ser el que empieza
 	{
@@ -52,7 +60,10 @@ NetworkingState* NetPlacingFichas::I_am_ready(NetWorkingEvent& ev, NetworkingMod
 	{
 		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		p_nwm->sendPackage(error_pckg, 1);
+		do
+		{
+			sent = p_nwm->sendPackage(error_pckg, 1);
+		} while (!sent);
 		p_state = new Quiting;
 	}
 }

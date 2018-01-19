@@ -234,6 +234,7 @@
     <ClCompile Include="WaitingMove.cpp" />
     <ClCompile Include="WaitingNameIs.cpp" />
     <ClCompile Include="WaitingNameResponse.cpp" />
+    <ClCompile Include="WaitingNewGameResponse.cpp" />
     <ClCompile Include="WaitingOponentDecision.cpp" />
     <ClCompile Include="WaitingStartResponse.cpp" />
     <ClCompile Include="WaitingWhoStart.cpp" />

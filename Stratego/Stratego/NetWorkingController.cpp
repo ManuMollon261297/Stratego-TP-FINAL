@@ -98,24 +98,56 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 	}
 	else if ((newEvent.GetEvent()) == MOUSE)
 	{
-		if ((Gm->getState() == ENDING_PLACING_FICHAS) && (NWM->getServer() == SERVER))
+		bool sent = false;
+		if (Gm->getState() == ENDING_PLACING_FICHAS)
 		{
-			if (Gm->getRed())//termine de poner las fichas y soy el que empieza
+			if (NWM->getServer() == SERVER)
 			{
-				Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
-				delete actualState;
-				actualState = new NetPlacingFichas;
+				if (Gm->getRed())//termine de poner las fichas y soy el que empieza
+				{
+					Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
+					delete actualState;
+					actualState = new NetPlacingFichas;
+				}
+				else
+				{
+					Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
+					delete actualState;
+					actualState = new WaitingMove;
+				}
+				char pckg[1];
+				pckg[0] = R_U_READY_HEADER;
+				do
+				{
+					sent = NWM->sendPackage(pckg, 1);
+				} while (!sent);
 			}
-			else
+			else if (NWM->getServer() == CLIENT)
 			{
-				Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
-				delete actualState;
-				actualState = new WaitingMove;
-			}
-			char pckg[1];
-			pckg[0] = R_U_READY_HEADER;
+				if (NWM->GetServerFinishedPlacing())
+				{
+					NWM->SetServerFinishedPlacing(false);
+					delete actualState;
+					actualState = new WaitingMove;
 
-			NWM->sendPackage(pckg, 1);
+					if (Gm->getRed()) //Si voy primero directamente mando mi primera jugada.
+					{
+						Gm->setState(MY_TURN);
+					}
+					else //si empieza el server respondo i am ready.
+					{
+						char pckg[1];
+						pckg[0] = I_AM_READY_HEADER;
+						do
+						{
+							sent = NWM->sendPackage(pckg, 1);
+						} while (!sent);
+						
+					}
+				}
+			}
+			
+			
 		}
 		else if (Gm->getState() == GAME_OVER_SELECTED)
 		{
@@ -123,7 +155,10 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			delete actualState;
 			actualState = new Quiting;
 			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
-			NWM->sendPackage(pckg, 1);
+			do
+			{
+				sent = NWM->sendPackage(pckg, 1);
+			} while (!sent);
 		}
 		else if (Gm->getState() == PLAY_AGAIN_SELECTED)
 		{
@@ -136,7 +171,10 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 				delete actualState;
 				actualState = new WaitingNewGameResponse;
 				Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
-				NWM->sendPackage(pckg, 1);
+				do
+				{
+					sent = NWM->sendPackage(pckg, 1);
+				} while (!sent);
 
 			}
 			else //Caso en el que quiero jugar de nuevo y perdi.
@@ -161,7 +199,11 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			move_pckg[2] = or_row;
 			move_pckg[3] = des_col;
 			move_pckg[4] = des_row;
-			NWM->sendPackage(move_pckg, 5); //Manda el paquete de move.
+			do
+			{
+				NWM->sendPackage(move_pckg, 5); //Manda el paquete de move.
+			} while (!sent);
+
 			delete actualState;
 			if ((Gm->getState()) == MY_MOVING)
 			{

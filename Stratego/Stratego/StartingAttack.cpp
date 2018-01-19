@@ -4,13 +4,17 @@
 
 NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	bool sent = false;
 	unsigned char enemy_rank = (ev.GetRecieved())[1]; 
 	NetworkingState* p_state;
 	if (!(ValidateRank(enemy_rank)) ) //si el rank es invalido es un error de comunicacion.
 	{
 		char pckg[1];
 		pckg[0] = ERROR_HEADER;
-		p_nwm->sendPackage(pckg, 1);
+		do
+		{
+			sent = p_nwm->sendPackage(pckg, 1);
+		} while (!sent);
 		p_state = new Quiting;
 	}
 	else
@@ -22,7 +26,10 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			char pckg[1];
 			pckg[0]= (YOU_WON_HEADER);
 			Gm->setState(GAME_OVER);
-			p_nwm->sendPackage(pckg, 1);
+			do
+			{
+				sent = p_nwm->sendPackage(pckg, 1);
+			} while (!sent);
 			p_state = new WaitingOponentDecision;
 		}
 		else //si no gano el otro, mando un paquete de attack con mi rank para que pueda resolver el ataque.
@@ -34,7 +41,10 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 			pckg[1] = rank2send;
 			Gm->setState(OP_TURN);
-			p_nwm->sendPackage(pckg, 2);
+			do
+			{
+				sent = p_nwm->sendPackage(pckg, 2);
+			} while (!sent);
 			p_state = new WaitingMove;
 		}
 	}

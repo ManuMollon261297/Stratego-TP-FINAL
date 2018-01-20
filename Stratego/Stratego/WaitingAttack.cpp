@@ -36,7 +36,7 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		}
 		else
 		{
-			//Ya es mi turno, el otro debe esperar que responda con un move.
+			Gm->setState(MY_TURN);//Ya es mi turno, el otro debe esperar que responda con un move.
 			p_state = new WaitingMove;
 		}
 		

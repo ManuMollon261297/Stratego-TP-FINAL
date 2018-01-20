@@ -52,6 +52,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 		}
 		else //El move no fue un ataque
 		{
+			Gm->setState(MY_TURN); //Ya se realizo la movida del oponente asique es mi turno.
 			p_state = nullptr; //No cambia de estado.
 		}
 	}
@@ -69,5 +70,59 @@ NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nw
 	//Habria que preguntarle al usuario de alguna forma si quiere volver a jugar de nuevo.
 	//en base a eso mando GAME_OVER o PLAY_AGAIN.
 
+}
+
+NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
+	{
+		Gm->setMoveDoneFalse();
+		char move_pckg[5];
+		move_pckg[0] = MOVE_HEADER;
+		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
+		char or_row = 1 + ((Gm->GetmyPosStatus()).previous.x);
+		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
+		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		move_pckg[1] = or_col;
+		move_pckg[2] = or_row;
+		move_pckg[3] = des_col;
+		move_pckg[4] = des_row;
+		do
+		{
+			sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
+		} while (!sent);
+
+		Gm->setState(OP_TURN);
+	}
+	return nullptr; //Si es pasivo espero un move
+
+}
+
+NetworkingState* WaitingMove::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	NetworkingState* p_state = nullptr;
+	if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
+	{
+		Gm->setMoveDoneFalse();
+		char move_pckg[5];
+		move_pckg[0] = MOVE_HEADER;
+		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
+		char or_row = 1 + ((Gm->GetmyPosStatus()).previous.x);
+		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
+		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		move_pckg[1] = or_col;
+		move_pckg[2] = or_row;
+		move_pckg[3] = des_col;
+		move_pckg[4] = des_row;
+		do
+		{
+			sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
+		} while (!sent);
+
+		p_state = new StartingAttack; //Si es ofensivo espero un ataque.
+	}
+	return p_state;
 }
 

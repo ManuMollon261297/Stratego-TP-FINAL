@@ -1,316 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="AllegroFuncs.cpp" />
+    <ClCompile Include="AllegroViewer.cpp" />
+    <ClCompile Include="currStatus.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventGenerator.cpp" />
+    <ClCompile Include="gameOverSelected.cpp" />
+    <ClCompile Include="gameOverState.cpp" />
+    <ClCompile Include="KeyboardController.cpp" />
+    <ClCompile Include="KeyboardEvent.cpp" />
+    <ClCompile Include="mainDePrueba.cpp" />
+    <ClCompile Include="MenuModel.cpp" />
+    <ClCompile Include="MenuViewer.cpp" />
+    <ClCompile Include="NetPlacingFichas.cpp" />
+    <ClCompile Include="NetWorkingController.cpp" />
+    <ClCompile Include="NetWorkingEvent.cpp" />
+    <ClCompile Include="NetworkingFuncs.cpp" />
+    <ClCompile Include="NetworkingModel.cpp" />
+    <ClCompile Include="plaAgainSelected.cpp" />
+    <ClCompile Include="pos.cpp" />
+    <ClCompile Include="Quiting.cpp" />
+    <ClCompile Include="RefreshEvent.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StartingAttack.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="Token.cpp" />
+    <ClCompile Include="WaitingAttack.cpp" />
+    <ClCompile Include="WaitingForName.cpp" />
+    <ClCompile Include="WaitingMove.cpp" />
+    <ClCompile Include="WaitingNameIs.cpp" />
+    <ClCompile Include="WaitingNameResponse.cpp" />
+    <ClCompile Include="WaitingNewGameResponse.cpp" />
+    <ClCompile Include="WaitingOponentDecision.cpp" />
+    <ClCompile Include="WaitingPlayerDecision.cpp" />
+    <ClCompile Include="WaitingStartResponse.cpp" />
+    <ClCompile Include="WaitingWhoStart.cpp" />
+    <ClCompile Include="button.cpp" />
+    <ClCompile Include="ficha.cpp" />
+    <ClCompile Include="finishingPlacing.cpp" />
+    <ClCompile Include="GameModel.cpp" />
+    <ClCompile Include="gameState.cpp" />
+    <ClCompile Include="IdleState.cpp" />
+    <ClCompile Include="mouseGameController.cpp" />
+    <ClCompile Include="MyAttacking.cpp" />
+    <ClCompile Include="MyMoving.cpp" />
+    <ClCompile Include="MyTurn.cpp" />
+    <ClCompile Include="OpAttacking.cpp" />
+    <ClCompile Include="OpMoving.cpp" />
+    <ClCompile Include="OpTurn.cpp" />
+    <ClCompile Include="PlacingFichas.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ficha.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="currStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ranks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkingModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AllegroViewer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Token.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EndingGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EventGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GenericModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IdleState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyMoving.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyTurn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NetPlacingFichas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NetWorkingController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NetWorkingEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpMoving.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpTurn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlacingFichas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Quiting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StartingAttack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingAttack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingForName.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingMove.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingNameIs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingNameResponse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingNewGameResponse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingOponentDecision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingPlayerDecision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingStartResponse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingWhoStart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="finishingPlacing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyAttacking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpAttacking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameOverState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkingFuncs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameOverSelected.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="plaAgainSelected.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AllegroFuncs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuViewer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RefreshEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mouseGameController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ficha.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="currStatus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pos.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mainDePrueba.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkingModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AllegroViewer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Token.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Event.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EventGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IdleState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyMoving.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyTurn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NetWorkingController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NetWorkingEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpMoving.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpTurn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingAttack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingForName.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingMove.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingNameIs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingNameResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingStartResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingWhoStart.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyboardController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyboardEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="finishingPlacing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyAttacking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpAttacking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gameOverState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NetPlacingFichas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StartingAttack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkingFuncs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Quiting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gameOverSelected.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="plaAgainSelected.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AllegroFuncs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuViewer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RefreshEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gameState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mouseGameController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlacingFichas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="AllegroFuncs.h" />
+    <ClInclude Include="AllegroViewer.h" />
+    <ClInclude Include="currStatus.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventGenerator.h" />
+    <ClInclude Include="gameOverSelected.h" />
+    <ClInclude Include="gameOverState.h" />
+    <ClInclude Include="GenericModel.h" />
+    <ClInclude Include="KeyboardController.h" />
+    <ClInclude Include="KeyboardEvent.h" />
+    <ClInclude Include="MenuModel.h" />
+    <ClInclude Include="MenuViewer.h" />
+    <ClInclude Include="NetPlacingFichas.h" />
+    <ClInclude Include="NetWorkingController.h" />
+    <ClInclude Include="NetWorkingEvent.h" />
+    <ClInclude Include="NetworkingFuncs.h" />
+    <ClInclude Include="NetworkingModel.h" />
+    <ClInclude Include="plaAgainSelected.h" />
+    <ClInclude Include="Quiting.h" />
+    <ClInclude Include="pos.h" />
+    <ClInclude Include="RefreshEvent.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StartingAttack.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="Token.h" />
+    <ClInclude Include="WaitingAttack.h" />
+    <ClInclude Include="WaitingForName.h" />
+    <ClInclude Include="WaitingMove.h" />
+    <ClInclude Include="WaitingNameIs.h" />
+    <ClInclude Include="WaitingNameResponse.h" />
+    <ClInclude Include="WaitingNewGameResponse.h" />
+    <ClInclude Include="WaitingOponentDecision.h" />
+    <ClInclude Include="WaitingPlayerDecision.h" />
+    <ClInclude Include="WaitingStartResponse.h" />
+    <ClInclude Include="WaitingWhoStart.h" />
+    <ClInclude Include="button.h" />
+    <ClInclude Include="ficha.h" />
+    <ClInclude Include="finishingPlacing.h" />
+    <ClInclude Include="GameModel.h" />
+    <ClInclude Include="gameState.h" />
+    <ClInclude Include="IdleState.h" />
+    <ClInclude Include="MouseEvent.h" />
+    <ClInclude Include="mouseGameController.h" />
+    <ClInclude Include="MyAttacking.h" />
+    <ClInclude Include="MyMoving.h" />
+    <ClInclude Include="MyTurn.h" />
+    <ClInclude Include="OpAttacking.h" />
+    <ClInclude Include="OpMoving.h" />
+    <ClInclude Include="OpTurn.h" />
+    <ClInclude Include="PlacingFichas.h" />
+    <ClInclude Include="ranks.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

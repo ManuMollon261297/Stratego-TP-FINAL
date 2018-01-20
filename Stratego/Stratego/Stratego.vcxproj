@@ -170,8 +170,8 @@
     <ClInclude Include="plaAgainSelected.h" />
     <ClInclude Include="PlacingFichas.h" />
     <ClInclude Include="Quiting.h" />
-    <ClInclude Include="ranks.h" />
     <ClInclude Include="pos.h" />
+    <ClInclude Include="ranks.h" />
     <ClInclude Include="RefreshEvent.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StartingAttack.h" />

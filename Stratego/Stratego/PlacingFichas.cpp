@@ -1,4 +1,5 @@
 #include "PlacingFichas.h"
+#include "finishingPlacing.h"
 
 
 
@@ -12,7 +13,7 @@ PlacingFichas::~PlacingFichas()
 {
 }
 
-gameState * PlacingFichas::OnSoldier(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnSoldier(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	switch (Mstate)
 	{
@@ -36,13 +37,14 @@ gameState * PlacingFichas::OnSoldier(MouseEvent & Mev, MouseStates Mstate, mouse
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnCemetery(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnCemetery(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	switch (Mstate)
 	{
 	case NONE_SELECTED:
 		Mstate = CEMETERY_SELECTED;
 		p2GameModel->selectRankCemetery(Mev.r);
+		p2GameModel->unselectAllExcepetOneRankCemetery(Mev.r);
 		p2controller->saveEvent(Mev);
 		break;
 	case SOLDIER_SELECTED:
@@ -58,6 +60,7 @@ gameState * PlacingFichas::OnCemetery(MouseEvent & Mev, MouseStates Mstate, mous
 		}
 		else
 		{
+			p2controller->saveEvent(Mev);
 			p2GameModel->selectRankCemetery(Mev.r);
 		}
 		break;
@@ -65,40 +68,52 @@ gameState * PlacingFichas::OnCemetery(MouseEvent & Mev, MouseStates Mstate, mous
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnOponent(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnOponent(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Las tropas aun no estan preparadas para el ataque");
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnLand(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnLand(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
-	switch (Mstate)
+	if (Mev.sector == FRIENDLY_BATTLEFIELD)
 	{
-	case NONE_SELECTED:
-		p2GameModel->setMessage("Terreno vacio");
-		break;
-	case SOLDIER_SELECTED:
-		p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
-		p2GameModel->swap(p2controller->getPreviousEvent().evPos, Mev.evPos);
-		Mstate = NONE_SELECTED;
-		break;
-	case CEMETERY_SELECTED:
-
-		p2GameModel->setFicha(p2controller->getPreviousEvent().r, Mev.evPos);
-		//no cambia de estado, ni deselecciona la ficha del cementerio, ya que da la opcion de seguir colocando la misma ficha
-		if (p2GameModel->getNumberInCemetery(p2controller->getPreviousEvent().r) == 0)
+		switch (Mstate)
 		{
-			p2GameModel->unselectRankCemetery(p2controller->getPreviousEvent().r);
-			Mstate = NONE_SELECTED; //en este caso, se cambia el estado
+		case NONE_SELECTED:
+			p2GameModel->setMessage("Terreno vacio");
+			break;
+		case SOLDIER_SELECTED:
+			p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
+			p2GameModel->swap(p2controller->getPreviousEvent().evPos, Mev.evPos);
+			Mstate = NONE_SELECTED;
+			break;
+		case CEMETERY_SELECTED:
+
+			p2GameModel->setFicha(p2controller->getPreviousEvent().r, Mev.evPos);
+			//no cambia de estado, ni deselecciona la ficha del cementerio, ya que da la opcion de seguir colocando la misma ficha
+			if (p2GameModel->getNumberInCemetery(p2controller->getPreviousEvent().r) == 0)
+			{
+				p2GameModel->unselectRankCemetery(p2controller->getPreviousEvent().r);
+				Mstate = NONE_SELECTED; //en este caso, se cambia el estado
+			}
+			if (p2GameModel->isCemeteryEmpty())
+			{
+				//aqui se podria setear un flag que habilite el boton para confirmar las posiciones
+			}
+
+			break;
 		}
-		
-		break;
 	}
+	else
+	{
+		p2GameModel->setMessage("No es posible acceder a este terreno en esta instancia de la batalla");
+	}
+	
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnWater(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnWater(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Laguna, las tropas no pueden dirigirse alli");
 	return nullptr;
@@ -109,10 +124,18 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel)
 	if (p2GameModel->isCemeteryEmpty())
 	{
 		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
-		p2GameModel->getButtonReference(ENDING_PLACING_FICHAS)->press(); //seleccion del boton
 		p2GameModel->setMessage("Ejercito listo para la batalla, esperando al oponente");
+		if (p2GameModel->getButtonReference(ENDING_PLACING_FICHAS) != nullptr)
+		{
+			p2GameModel->getButtonReference(ENDING_PLACING_FICHAS)->press(); //seleccion del boton
+		}
+		gameState * prox_estado = new finishingPlacing;
+		return prox_estado;
 	}
-	return nullptr;
+	else
+	{
+		return nullptr;
+	}
 }
 
 

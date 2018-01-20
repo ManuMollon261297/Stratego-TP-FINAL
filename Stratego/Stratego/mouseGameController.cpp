@@ -14,21 +14,35 @@
 #include "gameOverSelected.h"
 
 
-#define IS_CEMETERY_TOUCHED(x, y) ( ((x > MARGEN_X_CEMETERY) && (x < (MARGEN_X_CEMETERY + SIZE_CEMETERY_X))) && ((y > MARGEN_Y_CEMETERY) && (y < (MARGEN_Y_CEMETERY + SIZE_CEMETERY_Y))) )
-#define IS_BATTLEFIELD_TOUCHED(x, y) ( ((x > MARGEN_X_BATTLEFIELD) && (x < (MARGEN_X_BATTLEFIELD + SIZE_BATTLEFIELD_X))) && ((y > MARGEN_Y_BATTLEFIELD) && (y < (MARGEN_Y_BATTLEFIELD + SIZE_BATTLEFIELD_Y))) )
-#define IS_FRIENDLY_BATTLEFIELD_TOUCHED(x, y) ( ((x > MARGEN_X_BATTLEFIELD) && (x < (MARGEN_X_BATTLEFIELD + SIZE_BATTLEFIELD_X))) && ((y > MARGEN_Y_BATTLEFIELD + SIZE_BATTLEFIELD_Y - (4 * SIZE_CASILLERO_Y)) && (y < (MARGEN_Y_BATTLEFIELD + SIZE_BATTLEFIELD_Y))) )
-#define IS_HOSTIL_BATTLEFIELD_TOUCHED(x, y) ( ((x > MARGEN_X_BATTLEFIELD) && (x < (MARGEN_X_BATTLEFIELD + SIZE_BATTLEFIELD_X))) && ((y > MARGEN_Y_BATTLEFIELD) && (y < (MARGEN_Y_BATTLEFIELD + (4 * SIZE_CASILLERO_Y)))) )
-
-mouseGameController::mouseGameController()
+mouseGameController::mouseGameController(int h, int w, GameModel * p2gameModel_)
 {
-	p2gameModel = new GameModel;
-	estadoModel_ = new IdleState; //debe ser un iddle state
+	p2gameModel = p2gameModel_;
+	estadoModel_ = new PlacingFichas;
 	Mstate = NONE_SELECTED;
+
+	screenHeight = (unsigned int) h;
+	screenWidth = (unsigned int) w;
+	fichaHeight = (unsigned int) (h / 11);
+	fichaWidth = (unsigned int) (w / 12);
+	cemeteryMargenY = fichaHeight; //margen superior
+	cemeteryMargenX = 0;
+	cemeteryHeight = screenHeight - cemeteryMargenY;  //cemetery dispuesto verticalmente
+	cemeteryWidth = fichaWidth - cemeteryMargenX;
+	battlefieldMargenY = cemeteryMargenY;
+	battlefieldMargenX = cemeteryMargenX + cemeteryWidth;
+	battlefieldHeight = screenHeight - battlefieldMargenY;
+	battlefieldWidth = screenWidth - battlefieldMargenX;
+
 }
 
 GameModel * mouseGameController::getP2model()
 {
 	return p2gameModel;
+}
+
+void * mouseGameController::getp2estadoModel()
+{
+	return estadoModel_;
 }
 
 void mouseGameController::saveEvent(MouseEvent & Mev)
@@ -130,17 +144,17 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 	sectors sectorRet;
 	if ((p2gameModel->getState()) != GAME_OVER)
 	{
-		if (IS_CEMETERY_TOUCHED(x, y))
+		if (isCemeteryTouched(x, y))
 		{
 			sectorRet = CEMETERY_SECTOR;
 		}
-		else if (IS_BATTLEFIELD_TOUCHED(x, y))
+		else if (isBattlefieldTouched(x, y))
 		{
-			if (IS_FRIENDLY_BATTLEFIELD_TOUCHED(x, y))
+			if (isFriendlyBattlefieldTouched(x, y))
 			{
 				sectorRet = FRIENDLY_BATTLEFIELD;
 			}
-			else if (IS_HOSTIL_BATTLEFIELD_TOUCHED(x, y))
+			else if (isHostilBattlefieldTouched(x, y))
 			{
 				sectorRet = HOSTIL_BATTLEFIELD;
 			}
@@ -153,21 +167,33 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 		{
 			sectorRet = INVALID_SECTOR;
 		}
+		if ((p2gameModel->getState()) == PLACING_FICHAS) //me fijo si se toco algun boton
+		{
+			if (p2gameModel->getButtonReference(PLACE_READY_B) != nullptr) //me fijo si existe el boton de finish placing fichas
+			{
+				if (p2gameModel->getButtonReference(PLACE_READY_B)->isTouched(x, y)) //me fijo si se selecciono
+				{
+					sectorRet = BOTON_PLACE_READY;
+				}
+			}
+		}
 	}
 	
 	else if ((p2gameModel->getState()) == GAME_OVER)
 	{
-		if (p2gameModel->getButtonReference(PLACE_READY_B)->isTouched(x, y))
+		if (p2gameModel->getButtonReference(PLAY_AGAIN_B) != nullptr)
 		{
-			sectorRet = BOTON_PLACE_READY;
+			if (p2gameModel->getButtonReference(PLAY_AGAIN_B)->isTouched(x, y))
+			{
+				sectorRet = BOTON_PLAY_AGAIN;
+			}
 		}
-		else if (p2gameModel->getButtonReference(PLAY_AGAIN_B)->isTouched(x, y))
+		else if (p2gameModel->getButtonReference(GAME_OVER_B) != nullptr)
 		{
-			sectorRet = BOTON_PLAY_AGAIN;
-		}
-		else if (p2gameModel->getButtonReference(GAME_OVER_B)->isTouched(x, y))
-		{
-			sectorRet = BOTON_GAME_OVER;
+			if (p2gameModel->getButtonReference(GAME_OVER_B)->isTouched(x, y))
+			{
+				sectorRet = BOTON_GAME_OVER;
+			}
 		}
 		else
 		{
@@ -182,8 +208,8 @@ pos mouseGameController::translateBattlefieldCoords(double x, double y)
 {
 	pos ret;
 
-	ret.x = (int) ((x - MARGEN_X_BATTLEFIELD) / SIZE_CASILLERO_X);  //devuelve coordenada entera entre 0 y la cantidad de columnas -1
-	ret.y = (int) ((y - MARGEN_Y_BATTLEFIELD) / SIZE_CASILLERO_Y);  //devuelve coordenada entera entre 0 y la cantidad de filas -1
+	ret.y = (int) ((x - battlefieldMargenX) / fichaWidth);  //devuelve coordenada entera entre 0 y la cantidad de columnas -1
+	ret.x = (int) ((y - battlefieldMargenY) / fichaHeight);  //devuelve coordenada entera entre 0 y la cantidad de filas -1
 
 	return ret;
 }
@@ -193,7 +219,7 @@ pos mouseGameController::translateCemeteryCoords(double x, double y)
 	pos ret;
 
 	ret.x = -1; //pos.x siempre se setea en -1
-	ret.y = (int)((y - MARGEN_Y_CEMETERY) / SIZE_CASILLERO_Y);
+	ret.y = (int)((y - cemeteryMargenY) / fichaHeight);
 
 	return ret;
 }
@@ -375,6 +401,27 @@ void mouseGameController::updateControllerState(int modelState)
 void mouseGameController::updateModelState()
 {
 	p2gameModel->setState(((gameState *)estadoModel_)->getState());
+}
+
+bool mouseGameController::isCemeteryTouched(int x, int y)
+{
+
+	return (((x > cemeteryMargenX) && (x < (cemeteryMargenX + cemeteryWidth))) && ((y > cemeteryMargenY) && (y < (cemeteryMargenY + cemeteryHeight))));
+}
+
+bool mouseGameController::isBattlefieldTouched(int x, int y)
+{
+	return (((x > battlefieldMargenX) && (x < (battlefieldMargenX + battlefieldWidth))) && ((y > battlefieldMargenY) && (y < (battlefieldMargenY + battlefieldHeight))));
+}
+
+bool mouseGameController::isFriendlyBattlefieldTouched(int x, int y)
+{
+	return  (((x > battlefieldMargenX) && (x < (battlefieldMargenX + battlefieldWidth))) && ((y > battlefieldMargenY + battlefieldHeight - (4 * fichaHeight)) && (y < (battlefieldMargenY + battlefieldHeight))));
+}
+
+bool mouseGameController::isHostilBattlefieldTouched(int x, int y)
+{
+	return (((x > battlefieldMargenX) && (x < (battlefieldMargenX + battlefieldWidth))) && ((y > battlefieldMargenY) && (y < (battlefieldMargenY + (4 * fichaHeight)))));
 }
 
 bool mouseGameController::validOffsetMovement(pos destiny)

@@ -1,4 +1,6 @@
 #include "MyTurn.h"
+#include "MyAttacking.h"
+#include "MyMoving.h"
 
 
 
@@ -7,7 +9,7 @@ MyTurn::MyTurn()
 	state = MY_TURN;
 }
 
-gameState * MyTurn::OnSoldier(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnSoldier(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	switch (Mstate)
 	{
@@ -31,14 +33,15 @@ gameState * MyTurn::OnSoldier(MouseEvent & Mev, MouseStates Mstate, mouseGameCon
 	return nullptr;
 }
 
-gameState * MyTurn::OnCemetery(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnCemetery(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Estos soldados han sido derrotados, estan fuera de combate");
 	return nullptr;
 }
 
-gameState * MyTurn::OnOponent(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnOponent(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
+	gameState * pRet = nullptr;
 	switch (Mstate)
 	{
 	case NONE_SELECTED:
@@ -52,6 +55,7 @@ gameState * MyTurn::OnOponent(MouseEvent & Mev, MouseStates Mstate, mouseGameCon
 				p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
 				p2GameModel->setMessage("Movimiento ofensivo");
 				Mstate = NONE_SELECTED;
+				pRet = new MyAttacking;
 			}
 			else
 			{
@@ -67,11 +71,12 @@ gameState * MyTurn::OnOponent(MouseEvent & Mev, MouseStates Mstate, mouseGameCon
 
 		break;
 	}
-	return nullptr;
+	return pRet;
 }
 
-gameState * MyTurn::OnLand(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnLand(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
+	gameState * pRet = nullptr;
 	switch (Mstate)
 	{
 	case NONE_SELECTED:
@@ -82,9 +87,11 @@ gameState * MyTurn::OnLand(MouseEvent & Mev, MouseStates Mstate, mouseGameContro
 		{
 			if (p2controller->validObstacles(Mev.evPos))
 			{
+				p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
 				p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
 				p2GameModel->setMessage("Movimiento inofensivo"); 
 				Mstate = NONE_SELECTED;
+				pRet = new MyMoving;
 			}
 			else
 			{
@@ -100,10 +107,10 @@ gameState * MyTurn::OnLand(MouseEvent & Mev, MouseStates Mstate, mouseGameContro
 		
 		break;
 	}
-	return nullptr;
+	return pRet;
 }
 
-gameState * MyTurn::OnWater(MouseEvent & Mev, MouseStates Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnWater(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Lago, por aqui las tropas no pueden pasar");
 	return nullptr;

@@ -314,12 +314,23 @@ void GameModel::toggleFicha(pos p)
 
 void GameModel::selectRankCemetery(rank r)
 {
-	cemetery[r][2] = 1;
+	cemetery[r][2] = 1;  //seleccion de el rango requerido
 }
 
 void GameModel::unselectRankCemetery(rank r)
 {
-	cemetery[r][3] = 0;
+	cemetery[r][2] = 0;
+}
+
+void GameModel::unselectAllExcepetOneRankCemetery(rank r)
+{
+	for (int i = 0; i < TIPOS_DE_RANK; i++)
+	{
+		if (i != r)
+		{
+			unselectRankCemetery((rank)i);
+		}
+	}
 }
 
 void GameModel::toggleSelectRankCemetery(rank r)

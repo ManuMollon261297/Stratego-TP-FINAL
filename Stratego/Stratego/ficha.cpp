@@ -4,6 +4,7 @@
 
 ficha::ficha(rank rango_)
 {
+	selected = false;
 	fichaRank = rango_;
 	hasRescued = 0;
 	switch (rango_)
@@ -12,91 +13,76 @@ ficha::ficha(rank rango_)
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case GENERAL:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case CORONEL:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case MAJOR:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case CAPTAIN:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case LIEUTENANT:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case SERGEANT:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case MINER:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case SCOUT:
 		maxOffset = 10;
 		canRescue = false;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case SPY:
 		maxOffset = 1;
 		canRescue = true;
 		canBeRescued = true;
-		selected = false;
 		break;
 	case BOMB:
 		maxOffset = 0;
 		canRescue = false;
 		canBeRescued = false;
-		selected = false;
 		break;
 	case FLAG:
 		maxOffset = 0;
 		canRescue = false;
 		canBeRescued = false;
-		selected = false;
 		break;
 	case WATER:
 		maxOffset = 0;
 		canRescue = false;
 		canBeRescued = false;
-		selected = false;
 		break;
 	case OTHERS:
 		maxOffset = 10;
 		canRescue = false;
 		canBeRescued = false;
-		selected = false;
 		break;
 	case LAND:
 		maxOffset = 0;
 		canRescue = false;
 		canBeRescued = false;
-		selected = false;
 		break;
 	}
 }

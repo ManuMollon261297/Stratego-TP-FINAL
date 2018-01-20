@@ -1,9 +1,9 @@
 #pragma once
 
+#include "ranks.h"
 #include "ficha.h"
 #include "currStatus.h"
 #include "pos.h"
-#include "ranks.h"
 #include "button.h"
 #include <vector>
 #include <iostream>
@@ -55,6 +55,7 @@ public:
 	void toggleFicha(pos p);
 	void selectRankCemetery(rank r);
 	void unselectRankCemetery(rank r);
+	void unselectAllExcepetOneRankCemetery(rank r);
 	void toggleSelectRankCemetery(rank r);
 
 	void setFichasPlacedTrue();

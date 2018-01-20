@@ -140,7 +140,6 @@
     <ClInclude Include="AllegroViewer.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="currStatus.h" />
-    <ClInclude Include="EndingGame.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="ficha.h" />
@@ -236,6 +235,7 @@
     <ClCompile Include="WaitingNameResponse.cpp" />
     <ClCompile Include="WaitingNewGameResponse.cpp" />
     <ClCompile Include="WaitingOponentDecision.cpp" />
+    <ClCompile Include="WaitingPlayerDecision.cpp" />
     <ClCompile Include="WaitingStartResponse.cpp" />
     <ClCompile Include="WaitingWhoStart.cpp" />
   </ItemGroup>

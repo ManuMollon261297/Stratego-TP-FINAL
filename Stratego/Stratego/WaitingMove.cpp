@@ -61,7 +61,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 
 NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	Gm->setState(GAME_OVER);
+	Gm->setState(GAME_OVER); //Este estado deberia funcionar para alertar al usuario que se ggano la partida.
 	Gm->playerWon();
 	NetworkingState * p_state = new WaitingPlayerDecision;
 	return p_state;

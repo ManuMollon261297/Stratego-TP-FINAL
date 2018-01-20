@@ -15,4 +15,5 @@ NetworkingState* WaitingNewGameResponse::Game_over(NetWorkingEvent& ev, Networki
 {
 	NetworkingState* p_state = new Quiting;
 	Gm->SetExit(true);
+	return p_state;
 }

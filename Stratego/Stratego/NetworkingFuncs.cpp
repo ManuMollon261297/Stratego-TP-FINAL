@@ -138,7 +138,7 @@ rank GetRank(unsigned char pckg_rank)
 		{
 			result = BOMB;
 		}
-		else //es el flag
+		else if (pckg_rank == 'F') //es el flag
 		{
 			result = FLAG;
 		}

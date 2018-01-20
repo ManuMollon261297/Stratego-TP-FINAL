@@ -98,125 +98,30 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 	}
 	else if ((newEvent.GetEvent()) == MOUSE)
 	{
-		bool sent = false;
-		if (Gm->getState() == ENDING_PLACING_FICHAS)
+		switch (Gm->getState())
 		{
-			if (NWM->getServer() == SERVER)
-			{
-				if (Gm->getRed())//termine de poner las fichas y soy el que empieza
-				{
-					Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
-					delete actualState;
-					actualState = new NetPlacingFichas;
-				}
-				else
-				{
-					Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
-					delete actualState;
-					actualState = new WaitingMove;
-				}
-				char pckg[1];
-				pckg[0] = R_U_READY_HEADER;
-				do
-				{
-					sent = NWM->sendPackage(pckg, 1);
-				} while (!sent);
-			}
-			else if (NWM->getServer() == CLIENT)
-			{
-				if (NWM->GetServerFinishedPlacing())
-				{
-					NWM->SetServerFinishedPlacing(false);
-					delete actualState;
-					actualState = new WaitingMove;
-
-					if (Gm->getRed()) //Si voy primero directamente mando mi primera jugada.
-					{
-						Gm->setState(MY_TURN);
-					}
-					else //si empieza el server respondo i am ready.
-					{
-						char pckg[1];
-						pckg[0] = I_AM_READY_HEADER;
-						do
-						{
-							sent = NWM->sendPackage(pckg, 1);
-						} while (!sent);
-						
-					}
-				}
-			}
-			
-			
+		case ENDING_PLACING_FICHAS:
+			proxState = actualState->EndedPlacing(NWM, Gm);
+			break;
+		case GAME_OVER_SELECTED:
+			proxState = actualState->SelectedGameOver(NWM, Gm);
+			break;
+		case PLAY_AGAIN_SELECTED:
+			proxState = actualState->SelectedPlayAgain(NWM, Gm);
+			break;
+		case MY_MOVING:
+			proxState = actualState->MoveDone(NWM, Gm);
+			break;
+		case MY_ATTACKING:
+			proxState = actualState->AttackDone(NWM, Gm);
+			break;
 		}
-		else if (Gm->getState() == GAME_OVER_SELECTED)
+		if (proxState != nullptr)
 		{
-			char pckg[1] = { GAME_OVER_HEADER };
 			delete actualState;
-			actualState = new Quiting;
-			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
-			do
-			{
-				sent = NWM->sendPackage(pckg, 1);
-			} while (!sent);
-		}
-		else if (Gm->getState() == PLAY_AGAIN_SELECTED)
-		{
-			char pckg[1];
-			//Hay que ver Como Reiniciar todo el GameModel para prepararlo para
-			//un juego nuevo.
-			if (Gm->didPlayerWin()) //Caso en el que quiero jugar de nuevo y gane
-			{
-				pckg[0] = (PLAY_AGAIN_HEADER);
-				delete actualState;
-				actualState = new WaitingNewGameResponse;
-				Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
-				do
-				{
-					sent = NWM->sendPackage(pckg, 1);
-				} while (!sent);
-
-			}
-			else //Caso en el que quiero jugar de nuevo y perdi.
-			{
-				delete actualState;
-				actualState = new NetPlacingFichas;
-				Gm->setState(PLACING_FICHAS);
-				NWM->setServer(SERVER);
-				Gm->setRed(!(Gm->getRed())); //Se alterna el turno de quien empieza la partida.
-			}
-		}
-		if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
-		{
-			Gm->setMoveDoneFalse();
-			char move_pckg[5];
-			move_pckg[0] = MOVE_HEADER;
-			char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
-			char or_row = 1 + ((Gm->GetmyPosStatus()).previous.x);
-			char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
-			char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
-			move_pckg[1] = or_col;
-			move_pckg[2] = or_row;
-			move_pckg[3] = des_col;
-			move_pckg[4] = des_row;
-			do
-			{
-				NWM->sendPackage(move_pckg, 5); //Manda el paquete de move.
-			} while (!sent);
-
-			delete actualState;
-			if ((Gm->getState()) == MY_MOVING)
-			{
-				actualState = new WaitingMove; //Si es pasivo espero un move
-				Gm->setState(OP_TURN);
-			}
-
-			else
-			{
-				actualState = new StartingAttack; //Si es ofensivo espero un ataque.
-			}
-
-
+			actualState = proxState;
+			proxState = nullptr;
 		}
 	}
+		
 }

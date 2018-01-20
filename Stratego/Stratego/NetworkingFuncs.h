@@ -10,6 +10,7 @@ bool ValidateRank(unsigned char rank);
 rank GetRank(unsigned char);
 //Funcion que recibe el rank en formato de paquete y lo devuelve en el formato
 //que usamos para realizar las cuentas.
+//Si el rank es invalido devuelve WATER.
 
 bool ValidateMovement(GameModel * Gm, pos ori, pos des);
 //Funcion que valida que el movimiento del oponente sea valido.
@@ -17,4 +18,4 @@ bool ValidateMovement(GameModel * Gm, pos ori, pos des);
 
 unsigned char ConvertRankToPackageFormat(rank);
 //Recibee un rank y lo devuelve en el formato correcto para mandar en un
-//paquete de attack.
+//paquete de attack. Si recibe un rank invalido devuelve '0'

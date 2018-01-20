@@ -1,6 +1,7 @@
 #pragma once
 
 #include "State.h"
+#include "NetworkingFuncs.h"
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
 #include "Quiting.h"

@@ -10,6 +10,7 @@
 
 NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	bool sent = false;
 	NetworkingState * p_state;
 	Gm->setState(OP_TURN); //Empieza el turno del oponente.
 	std::string pckg = ev.GetRecieved();
@@ -25,7 +26,10 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 	{
 		char error_pckg[1]; //Si el movimiento es invalido significa que hubo un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		p_nwm->sendPackage(error_pckg, 1);
+		do
+		{
+			sent = p_nwm->sendPackage(error_pckg, 1);
+		}while(!sent);
 		Gm->setState(GAME_OVER);
 		Gm->SetExit(true);
 		p_state = new Quiting;
@@ -39,12 +43,16 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 			pckg.clear();
 			pckg[0] = ATTACK_HEADER;
 			pckg[1] = rank2send;
-			p_nwm->sendPackage((char*)pckg.c_str(), 2); //Mando el paquete de attack.
+			do
+			{
+				sent = p_nwm->sendPackage((char*)pckg.c_str(), 2); //Mando el paquete de attack.
+			} while (!sent);
 			p_state = new WaitingAttack;
 
 		}
 		else //El move no fue un ataque
 		{
+			Gm->setState(MY_TURN); //Ya se realizo la movida del oponente asique es mi turno.
 			p_state = nullptr; //No cambia de estado.
 		}
 	}
@@ -54,8 +62,67 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 
 NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	Gm->setState(GAME_OVER);
+	Gm->setState(GAME_OVER); //Este estado deberia funcionar para alertar al usuario que se ggano la partida.
+	Gm->playerWon();
+	NetworkingState * p_state = new WaitingPlayerDecision;
+	return p_state;
+
 	//Habria que preguntarle al usuario de alguna forma si quiere volver a jugar de nuevo.
 	//en base a eso mando GAME_OVER o PLAY_AGAIN.
+
+}
+
+NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
+	{
+		Gm->setMoveDoneFalse();
+		char move_pckg[5];
+		move_pckg[0] = MOVE_HEADER;
+		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
+		char or_row = 1 + ((Gm->GetmyPosStatus()).previous.x);
+		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
+		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		move_pckg[1] = or_col;
+		move_pckg[2] = or_row;
+		move_pckg[3] = des_col;
+		move_pckg[4] = des_row;
+		do
+		{
+			sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
+		} while (!sent);
+
+		Gm->setState(OP_TURN);
+	}
+	return nullptr; //Si es pasivo espero un move
+
+}
+
+NetworkingState* WaitingMove::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	NetworkingState* p_state = nullptr;
+	if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
+	{
+		Gm->setMoveDoneFalse();
+		char move_pckg[5];
+		move_pckg[0] = MOVE_HEADER;
+		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
+		char or_row = 1 + ((Gm->GetmyPosStatus()).previous.x);
+		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
+		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		move_pckg[1] = or_col;
+		move_pckg[2] = or_row;
+		move_pckg[3] = des_col;
+		move_pckg[4] = des_row;
+		do
+		{
+			sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
+		} while (!sent);
+
+		p_state = new StartingAttack; //Si es ofensivo espero un ataque.
+	}
+	return p_state;
 }
 

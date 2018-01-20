@@ -112,7 +112,68 @@ NetworkingState* NetworkingState::Error(NetWorkingEvent& ev, NetworkingModel* p_
 	return nullptr;
 }
 
-NetworkingState* NetworkingState::ButtonPressed(MouseEvent&, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::EndedPlacing(NetworkingModel* p_nwm, GameModel * Gm)
 {
-	return nullptr; //En el caso general si llega un evento del mouse o ignora.
+	bool sent = false;
+	char pckg[1] = { ERROR_HEADER };
+	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
+	do
+	{
+		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
+	} while (!sent);
+
+	return nullptr;
+}
+NetworkingState* NetworkingState::SelectedGameOver(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	char pckg[1] = { ERROR_HEADER };
+	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
+	do
+	{
+		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
+	} while (!sent);
+
+	return nullptr;
+}
+NetworkingState* NetworkingState::SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	char pckg[1] = { ERROR_HEADER };
+	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
+	do
+	{
+		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
+	} while (!sent);
+
+	return nullptr;
+}
+NetworkingState* NetworkingState::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	char pckg[1] = { ERROR_HEADER };
+	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
+	do
+	{
+		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
+	} while (!sent);
+
+	return nullptr;
+}
+NetworkingState* NetworkingState::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	bool sent = false;
+	char pckg[1] = { ERROR_HEADER };
+	Gm->setState(GAME_OVER);
+	Gm->SetExit(true);
+	do
+	{
+		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
+	} while (!sent);
+
+	return nullptr;
 }

@@ -4,9 +4,11 @@
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
 #include "GameModel.h"
+#include "WaitingNewGameResponse.h"
+#include "NetPlacingFichas.h"
 
 class WaitingPlayerDecision : public NetworkingState
 {
-public:
-	virtual NetworkingState* You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);		//Puede ser desde un WaitingMove o desde un WaitingAttack
+	virtual NetworkingState* SelectedGameOver(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm);
 };

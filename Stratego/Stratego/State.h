@@ -14,6 +14,7 @@ class NetworkingState
 {
 public:
 	virtual ~NetworkingState();
+	//Rutinas vinculadas a paquetes recibidos
 	virtual NetworkingState* Play_again(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Name(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Name_is(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
@@ -28,5 +29,11 @@ public:
 	virtual NetworkingState* Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Error(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Quit(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual NetworkingState* ButtonPressed(MouseEvent&, NetworkingModel* p_nwm, GameModel * Gm);
+
+	//Rutinas vinculadas al input del usuario
+	virtual NetworkingState* EndedPlacing(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* SelectedGameOver(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* MoveDone(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* AttackDone(NetworkingModel* p_nwm, GameModel * Gm);
 };

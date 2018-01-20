@@ -3,7 +3,6 @@
 #include "NetWorkingEvent.h"
 #include "State.h"
 #include "NetworkingModel.h"
-#include "EndingGame.h"
 #include <time.h>
 #include <fstream>
 #include "NetPlacingFichas.h"

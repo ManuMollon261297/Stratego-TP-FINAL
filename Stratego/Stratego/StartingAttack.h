@@ -6,6 +6,7 @@
 #include "GameModel.h"
 #include "Quiting.h"
 #include "WaitingMove.h"
+#include "WaitingOponentDecision.h"
 
 class StartingAttack : public NetworkingState
 {

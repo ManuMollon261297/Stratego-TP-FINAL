@@ -6,6 +6,7 @@
 #include "WaitingNameIs.h"
 #include "WaitingStartResponse.h"
 #include "GameModel.h"
+#include "gameState.h"
 
 class WaitingNameResponse : public NetworkingState
 {

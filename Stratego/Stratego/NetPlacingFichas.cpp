@@ -68,6 +68,7 @@ NetworkingState* NetPlacingFichas::I_am_ready(NetWorkingEvent& ev, NetworkingMod
 		} while (!sent);
 		p_state = new Quiting;
 	}
+	return p_state;
 }
 
 

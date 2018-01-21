@@ -19,6 +19,7 @@
 #include "WaitingStartResponse.h"
 #include "WaitingWhoStart.h"
 #include "GameModel.h"
+#include "gameState.h"
 
 #define MAX_IP_LENGTH 45
 

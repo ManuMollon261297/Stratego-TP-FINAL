@@ -5,6 +5,7 @@
 #include "NetworkingModel.h"
 #include "NetPlacingFichas.h"
 #include "GameModel.h"
+#include "gameState.h"
 
 class WaitingStartResponse : public NetworkingState
 {

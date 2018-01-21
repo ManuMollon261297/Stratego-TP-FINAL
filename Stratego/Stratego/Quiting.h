@@ -4,6 +4,7 @@
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
 #include "GameModel.h"
+#include "gameState.h"
 
 class Quiting : public NetworkingState
 {

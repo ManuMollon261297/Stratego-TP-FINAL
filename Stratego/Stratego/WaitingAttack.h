@@ -8,6 +8,7 @@
 #include "WaitingPlayerDecision.h"
 #include "WaitingMove.h"
 #include "GameModel.h"
+#include "gameState.h"
 
 class WaitingAttack : public NetworkingState
 {

@@ -5,6 +5,7 @@
 #include "NetworkingModel.h"
 #include "WaitingNameResponse.h"
 #include "GameModel.h"
+#include "gameState.h"
 #include <iostream>
 
 class WaitingName : public NetworkingState

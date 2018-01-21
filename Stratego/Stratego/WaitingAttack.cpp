@@ -41,6 +41,7 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		}
 		
 	}
+	return p_state;
 	
 }
 

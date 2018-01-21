@@ -6,10 +6,11 @@ NetworkingModel::NetworkingModel(boost::asio::io_service* serv) : deadline_(*ser
 {
 	boost::asio::io_service* IO_handler = serv;
 	time_done = false;
-	socket = new boost::asio::ip::tcp::socket(*IO_handler);
-	socket->non_blocking(true);
+	socket_a = new boost::asio::ip::tcp::socket(*IO_handler);
+	socket_a->non_blocking(true);
 	serverStat = UNINITIALIZED;
 	server_Finished_placing_fichas = false;
+
 }
 
 bool NetworkingModel::sendPackage(char * message, int size)
@@ -18,7 +19,7 @@ bool NetworkingModel::sendPackage(char * message, int size)
 	boost::system::error_code error;
 	do
 	{
-		len = socket->write_some(boost::asio::buffer(message, size), error);
+		len = socket_a->write_some(boost::asio::buffer(message, size), error);
 	} while ((error.value() == WSAEWOULDBLOCK));
 	if (!error) 
 	{
@@ -37,7 +38,7 @@ std::vector<char> NetworkingModel::readPackage()
 	boost::system::error_code error;
 	do
 	{
-		len = socket->read_some(boost::asio::buffer(aux), error);
+		len = socket_a->read_some(boost::asio::buffer(aux), error);
 
 	} while (error.value() == WSAEWOULDBLOCK);
 	return aux;
@@ -96,13 +97,18 @@ void NetworkingModel::SetServerFinishedPlacing(bool value)
 
 bool NetworkingModel::connectAsClient(int time,char * ip)	
 {															
-	client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
-	endpoint = client_resolver->resolve(boost::asio::ip::tcp::resolver::query(ip, PORT_C));
+	//client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
+	//endpoint = client_resolver->resolve(boost::asio::ip::tcp::resolver::query(ip, PORT_C));
+	endpoint_a = new boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), PORT);
 	std::cout << "Trying to connect to " << ip << " on port " << PORT_C << std::endl;
-	//boost::asio::connect(*socket, endpoint);
 	deadline_.expires_from_now(boost::posix_time::milliseconds(time)); //Tiempo a tratar la conexion.
 	deadline_.async_wait(&NetworkingModel::timer_handler);
-	boost::asio::async_connect(*socket, endpoint, &NetworkingModel::client_connect_handler); //Creo que seria asi para que funque con timer
+	socket_a->async_connect(*endpoint_a,
+            boost::bind(&NetworkingModel::client_connect_handler, this,
+				socket_a,
+            boost::asio::placeholders::error)
+            );
+	//boost::asio::async_connect(*socket, endpoint, &NetworkingModel::client_connect_handler); //Creo que seria asi para que funque con timer
 	while (  (!time_done)&&(serverStat!= CLIENT) )
 	{
 		//Espera hasta que se conecte como cliente o hasta que termine el tiempo de time out.
@@ -126,13 +132,14 @@ bool NetworkingModel::connectAsServer()
 		boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
 	boost::system::error_code error;
 	std::cout << std::endl << "Ready. Port " << PORT << " created" << std::endl;
-	server_acceptor->accept(*socket, error);
+	server_acceptor->accept(*socket_a, error);
 	if (!error)
 	{
 		return true;
 	}
 	else //error connecting to client
 	{
+		std::cout << error.message() << std::endl;
 		return false;
 	}
 
@@ -141,17 +148,14 @@ bool NetworkingModel::connectAsServer()
 
 NetworkingModel::~NetworkingModel()
 {
-	socket->close();
-	delete socket;
+	socket_a->close();
+	delete socket_a;
 	delete IO_handler;
+	delete endpoint_a;
 	if (serverStat == SERVER)
 	{
 		server_acceptor->close();
 		delete server_acceptor;
-	}
-	else if(serverStat == CLIENT)
-	{
-		delete client_resolver;
 	}
 	else if (serverStat == UNINITIALIZED)
 	{
@@ -163,37 +167,24 @@ void NetworkingModel::Shutdown()
 {
 	time_done = true;
 	boost::system::error_code ignored_ec;
-	(*socket).close(ignored_ec);
+	(*socket_a).close(ignored_ec);
 	deadline_.cancel();
 	heartbeat_timer_.cancel();
 }
 
 
-void NetworkingModel::client_connect_handler(const boost::system::error_code& error, boost::asio::ip::tcp::resolver::iterator iterator_)
+void NetworkingModel::client_connect_handler(const boost::system::error_code& error)
 {
-	if (time_done)
+	
+	if (!error)
 	{
-		return;
-	}
-		
-
-
-	if (!(socket->is_open()))
-	{
-		std::cout << "Connect timed out\n";
-	}
-
-	// Check if the connect operation failed before the deadline expired.
-	else if (error)
-	{
-		std::cout << "Connect error: " << error.message() << std::endl;
-
-		socket->close();
+		deadline_.expires_at(boost::posix_time::pos_infin); //Para que no vuelva a llamarlo hasta que se defina nuevo tiempo.
+		std::cout << "Connected Succesfully As Client." << std::endl;
+		serverStat = CLIENT;
 	}
 	else
 	{
-		std::cout << "Connected to " << iterator_->endpoint() << std::endl;
-		serverStat = CLIENT;
+		std::cout << error.message() << std::endl;
 	}
 }
 
@@ -203,7 +194,14 @@ void NetworkingModel::timer_handler(const boost::system::error_code& error)
 	{
 		//Expiro el timer.
 		time_done = true;
-		socket->close(); //Interrumpe la conexion.
+		//socket_a->cancel();
+		socket_a->close(); //Interrumpe la conexion.
 		deadline_.expires_at(boost::posix_time::pos_infin); //Para que no vuelva a llamarlo hasta que se defina nuevo tiempo.
+	}
+	else if(error && error != boost::asio::error::operation_aborted)
+	{
+		std::cout << error.message() << std::endl;
+		//socket_a->cancel();
+		socket_a->close(); //Interrumpe la conexion.
 	}
 }

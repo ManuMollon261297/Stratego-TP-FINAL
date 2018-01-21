@@ -57,14 +57,14 @@ private:
 	serverStatus serverStat;
 	std::string me;
 	std::string you;
-	void client_connect_handler(const boost::system::error_code& error, boost::asio::ip::tcp::resolver::iterator iterator_);
+	void client_connect_handler(const boost::system::error_code& error);
 	void timer_handler(const boost::system::error_code& error);
 	//boost
 	boost::asio::io_service*  IO_handler;
-	boost::asio::ip::tcp::socket* socket;
+	boost::asio::ip::tcp::socket* socket_a;
 	boost::asio::ip::tcp::acceptor* server_acceptor;
-	boost::asio::ip::tcp::resolver* client_resolver;
-	boost::asio::ip::tcp::resolver::iterator endpoint;
+	//boost::asio::ip::tcp::resolver* client_resolver;
+	boost::asio::ip::tcp::endpoint* endpoint_a;
 	deadline_timer deadline_;
 	deadline_timer heartbeat_timer_;
 };

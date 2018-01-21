@@ -4,6 +4,7 @@
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
 #include "GameModel.h"
+#include "gameState.h"
 #include "WaitingNewGameResponse.h"
 #include "NetPlacingFichas.h"
 

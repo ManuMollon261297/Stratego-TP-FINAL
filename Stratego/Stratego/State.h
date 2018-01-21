@@ -5,6 +5,7 @@
 #include "MouseEvent.h"
 #include "NetworkingModel.h"
 #include "GameModel.h"
+#include "gameState.h"
 
 
 

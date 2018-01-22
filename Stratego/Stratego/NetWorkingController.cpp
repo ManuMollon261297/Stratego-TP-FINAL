@@ -3,11 +3,11 @@
 NetWorkingController::NetWorkingController(GameModel* p2GameModel)
 {
 	char user_name[256];
-	NWM = new NetworkingModel(new boost::asio::io_service());
+	NWM = new NetworkingModel();
 	std::ifstream ip_file("./ip.txt");
 	std::ifstream name_file("./temporal.txt");
 	ip_file.getline(ip, MAX_IP_LENGTH); //Consigo la ip del otro jugador
-	name_file.getline(user_name, 255); //Consigo el nombreo de mi usuario.
+	name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
 	std::string user_nameS(user_name);
 
 	NWM->setMe(user_nameS);

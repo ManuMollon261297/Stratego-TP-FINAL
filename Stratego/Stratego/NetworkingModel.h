@@ -32,7 +32,7 @@ enum serverStatus {SERVER,CLIENT,UNINITIALIZED};
 class NetworkingModel
 {
 public:
-	NetworkingModel(boost::asio::io_service*);
+	NetworkingModel();
 	bool sendPackage(char * message, int size); //envia un paquete de chars de tamanio size
 	std::vector<char> readPackage(); // busca si llego un package 
 	int getState();
@@ -65,7 +65,7 @@ private:
 	boost::asio::ip::tcp::acceptor* server_acceptor;
 	//boost::asio::ip::tcp::resolver* client_resolver;
 	boost::asio::ip::tcp::endpoint* endpoint_a;
-	deadline_timer deadline_;
-	deadline_timer heartbeat_timer_;
+	deadline_timer* deadline_;
+	deadline_timer* heartbeat_timer_;
 };
 

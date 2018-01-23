@@ -4,11 +4,14 @@
 
 NetworkingModel::NetworkingModel()
 {
-	boost::asio::io_service* IO_handler = new boost::asio::io_service;
+	comm_error = false;
+	reading = false;
+	IO_handler = new boost::asio::io_context;
 	deadline_= new deadline_timer(*IO_handler);
 	heartbeat_timer_ = new deadline_timer(*IO_handler);
 	time_done = false;
 	socket_a = new boost::asio::ip::tcp::socket(*IO_handler);
+	socket_a->open(boost::asio::ip::tcp::v4());
 	socket_a->non_blocking(true);
 	serverStat = UNINITIALIZED;
 	server_Finished_placing_fichas = false;
@@ -83,6 +86,11 @@ std::string NetworkingModel::getYou()
 	return you;
 }
 
+bool NetworkingModel::GetReading()const
+{
+	IO_handler->poll();
+	return reading;
+}
 void NetworkingModel::setYou(std::string you_)
 {
 	you = you_;
@@ -101,22 +109,16 @@ void NetworkingModel::SetServerFinishedPlacing(bool value)
 
 bool NetworkingModel::connectAsClient(int time,char * ip)	
 {															
-	//client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
-	//endpoint = client_resolver->resolve(boost::asio::ip::tcp::resolver::query(ip, PORT_C));
 	endpoint_a = new boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), PORT);
 	std::cout << "Trying to connect to " << ip << " on port " << PORT_C << std::endl;
 	deadline_->expires_from_now(boost::posix_time::milliseconds(time)); //Tiempo a tratar la conexion.
-	deadline_->async_wait(&NetworkingModel::timer_handler);
+	deadline_->async_wait(boost::bind(&NetworkingModel::timer_handler, this, boost::asio::placeholders::error));
 	socket_a->async_connect(*endpoint_a,
             boost::bind(&NetworkingModel::client_connect_handler, this,
 				socket_a,
             boost::asio::placeholders::error)
             );
-	//boost::asio::async_connect(*socket, endpoint, &NetworkingModel::client_connect_handler); //Creo que seria asi para que funque con timer
-	while (  (!time_done)&&(serverStat!= CLIENT) )
-	{
-		//Espera hasta que se conecte como cliente o hasta que termine el tiempo de time out.
-	};
+	IO_handler->run();
 
 	if (time_done)
 	{
@@ -174,7 +176,7 @@ void NetworkingModel::Shutdown()
 }
 
 
-void NetworkingModel::client_connect_handler(const boost::system::error_code& error)
+void NetworkingModel::client_connect_handler(boost::asio::ip::tcp::socket* s, const boost::system::error_code& error)
 {
 	
 	if (!error)
@@ -204,5 +206,106 @@ void NetworkingModel::timer_handler(const boost::system::error_code& error)
 		std::cout << error.message() << std::endl;
 		//socket_a->cancel();
 		socket_a->close(); //Interrumpe la conexion.
+	}
+}
+
+std::size_t NetworkingModel::completion_condition(const boost::system::error_code& error,
+													std::size_t bytes_transferred)
+{
+	if (!error)
+	{
+		unsigned char name_size = 0;
+		if (bytes_transferred > 0)
+		{
+			switch (buffer[0])
+			{
+				case ACK_HEADER:
+				case NAME_HEADER:
+				case YOU_START_HEADER:
+				case I_START_HEADER:
+				case R_U_READY_HEADER:
+				case I_AM_READY_HEADER:
+				case YOU_WON_HEADER:
+				case PLAY_AGAIN_HEADER:
+				case GAME_OVER_HEADER:
+				case QUIT_HEADER:
+				case ERROR_HEADER:
+						if (bytes_transferred == 1)
+						{
+							return 0;
+						}
+						else
+						{
+							comm_error = true; //error
+							return 0;
+						}
+						break;
+				case NAME_IS_HEADER:
+					
+					if (bytes_transferred > 1)
+					{
+						name_size = buffer[1];
+						return (name_size + 2 - bytes_transferred); //Vale 0 cuando se recibio el paquete completo.
+					}
+					else
+					{
+						return 1;
+					}
+					break;
+				case MOVE_HEADER:
+					if (bytes_transferred < 6)
+					{
+						return (5 - bytes_transferred);
+					}
+					else
+					{
+						comm_error;
+						return 0;
+					}
+					break;
+				case ATTACK_HEADER:
+					if (bytes_transferred < 3)
+					{
+						return (2 - bytes_transferred);
+					}
+					else
+					{
+						comm_error = true;
+						return 0;
+					}
+					break;
+				default:
+					comm_error = true; //error
+					return 0;
+			}
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		comm_error = true;
+		std::cout << std::endl << error.message() << std::endl;
+		return 0;
+	}
+}
+
+void NetworkingModel::read_handler(const boost::system::error_code& error,
+					std::size_t bytes_transferred)
+{
+	if (!error)
+	{
+		reading = false;
+		if (comm_error)
+		{
+			Shutdown();
+		}
+		
+	}
+	else
+	{
+		std::cout << std::endl << error.message() << std::endl;
 	}
 }

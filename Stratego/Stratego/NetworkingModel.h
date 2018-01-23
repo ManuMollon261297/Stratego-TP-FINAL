@@ -44,6 +44,7 @@ public:
 	std::string getMe();
 	void setMe(std::string me_);
 	std::string getYou();
+	bool GetReading()const;
 	void setYou(std::string you_);
 	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
@@ -52,18 +53,27 @@ public:
 private:
 	int state;
 	int port;
+	bool comm_error;
 	bool server_Finished_placing_fichas;
 	bool time_done;
+	bool reading; //Indica si se termino de llenar el buffer o no.
+	char buffer[300];
 	serverStatus serverStat;
 	std::string me;
 	std::string you;
-	void client_connect_handler(const boost::system::error_code& error);
+
+	//Handlers
+	void client_connect_handler(boost::asio::ip::tcp::socket*, const boost::system::error_code& error);
 	void timer_handler(const boost::system::error_code& error);
+	std::size_t completion_condition(const boost::system::error_code& error,
+									std::size_t bytes_transferred);
+
+	void read_handler(const boost::system::error_code& error,
+					std::size_t bytes_transferred );
 	//boost
-	boost::asio::io_service*  IO_handler;
+	boost::asio::io_context*  IO_handler;
 	boost::asio::ip::tcp::socket* socket_a;
 	boost::asio::ip::tcp::acceptor* server_acceptor;
-	//boost::asio::ip::tcp::resolver* client_resolver;
 	boost::asio::ip::tcp::endpoint* endpoint_a;
 	deadline_timer* deadline_;
 	deadline_timer* heartbeat_timer_;

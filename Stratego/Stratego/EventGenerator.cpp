@@ -3,11 +3,6 @@
 
 EventGenerator::EventGenerator(GameModel * gm_, NetworkingModel * nwm_, ALLEGRO_EVENT_QUEUE* ev_q)
 {
-	for (int i = 0; i < 512; i++)
-	{
-		buffer[i] = 0;
-	}
-
 	gm = gm_;
 	nwm = nwm_;
 	eventQueue = ev_q;
@@ -24,8 +19,7 @@ EventGenerator::~EventGenerator()
 void EventGenerator::searchForEvents()
 {
 	bool finished = false;
-
-	size_t cant;
+	\
 	while (!finished)
 	{
 		if (al_get_next_event(eventQueue, &evento)) //Eventos de Allegro
@@ -132,30 +126,3 @@ void EventGenerator::shape(std::string pckg)
 	eventList.push_back(eve);
 }
 
-
-/*
-Little Endian --> True
-Big Endian -----> False
-*/
-bool EventGenerator::DetectLittleEndian(void)
-{
-	bool returnValue = true;
-
-	uint32_t temp = 1;
-
-	uint32_t *ptemp = &temp;
-
-	char firstByte = *((char *)ptemp);		//Tomo el primer byte EN MEMORIA de temp:
-											//Little:	01 00 00 00
-											//Big:		00 00 00 01
-	if (firstByte)
-	{
-		returnValue = true;
-	}
-	else
-	{
-		returnValue = false;
-	}
-
-	return returnValue;
-}

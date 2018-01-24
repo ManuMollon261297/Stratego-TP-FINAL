@@ -4,7 +4,6 @@
 #include "State.h"
 #include "Event.h"
 #include "allegro5\allegro.h"
-#include "boost\asio.hpp"
 
 #include "GameModel.h"
 #include "NetworkingModel.h"
@@ -30,7 +29,6 @@ public:
 private:
 	void shape(ALLEGRO_EVENT ev);
 	void shape(std::string);
-	//bool DetectLittleEndian(void);
 
 	ALLEGRO_EVENT_QUEUE * eventQueue;
 	ALLEGRO_EVENT evento;
@@ -39,10 +37,7 @@ private:
 	NetworkingModel * nwm;
 
 
-	char buffer[512];
 
 	std::list<GenericEvent*> eventList;
-	
-	boost::asio::ip::tcp::socket* socket_; //lo necesario para poder leer y escribir
 };
 

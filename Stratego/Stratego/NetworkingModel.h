@@ -34,9 +34,7 @@ class NetworkingModel
 public:
 	NetworkingModel();
 	bool sendPackage(char * message, int size); //envia un paquete de chars de tamanio size
-	std::vector<char> readPackage(); // busca si llego un package 
-	int getState();
-	void setState(int state_);
+	void StartReading(); // busca si llego un package 
 	serverStatus getServer();
 	void setServer(serverStatus server_);
 	bool GetServerFinishedPlacing()const;
@@ -44,20 +42,22 @@ public:
 	std::string getMe();
 	void setMe(std::string me_);
 	std::string getYou();
-	bool GetReading()const;
+	bool GetReading();
+	bool WasPackageRecieved()const;
+	std::string GetPackage();
 	void setYou(std::string you_);
 	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
 	void Shutdown();
 	~NetworkingModel();
 private:
-	int state;
-	int port;
 	bool comm_error;
 	bool server_Finished_placing_fichas;
 	bool time_done;
 	bool reading; //Indica si se termino de llenar el buffer o no.
-	char buffer[300];
+	std::size_t package_size;
+	bool package_recieved;
+	char buffer_for_reading[300];
 	serverStatus serverStat;
 	std::string me;
 	std::string you;

@@ -4,6 +4,7 @@
 
 NetworkingModel::NetworkingModel()
 {
+	package_recieved = false;
 	comm_error = false;
 	reading = false;
 	IO_handler = new boost::asio::io_context;
@@ -38,28 +39,19 @@ bool NetworkingModel::sendPackage(char * message, int size)
 	}
 }
 
-std::vector<char> NetworkingModel::readPackage()
+void NetworkingModel::StartReading()
 {
-	std::vector<char> aux;
-	size_t len = 0;
-	boost::system::error_code error;
-	do
-	{
-		len = socket_a->read_some(boost::asio::buffer(aux), error);
+	reading = true;
+	boost::asio::async_read(*socket_a, boost::asio::buffer(buffer_for_reading),
+							boost::bind(&NetworkingModel::completion_condition, this,
+							boost::asio::placeholders::error,
+							boost::asio::placeholders::bytes_transferred),
+							boost::bind(&NetworkingModel::read_handler, this,
+							boost::asio::placeholders::error,
+							boost::asio::placeholders::bytes_transferred));
 
-	} while (error.value() == WSAEWOULDBLOCK);
-	return aux;
 }
 
-int NetworkingModel::getState()
-{
-	return state;
-}
-
-void NetworkingModel::setState(int state_)
-{
-	state = state_;
-}
 
 serverStatus NetworkingModel::getServer()
 {
@@ -86,17 +78,32 @@ std::string NetworkingModel::getYou()
 	return you;
 }
 
-bool NetworkingModel::GetReading()const
+bool NetworkingModel::GetReading()
 {
 	IO_handler->poll();
 	return reading;
+}
+
+bool NetworkingModel::WasPackageRecieved()const
+{
+	return package_recieved;
 }
 void NetworkingModel::setYou(std::string you_)
 {
 	you = you_;
 }
 
-
+std::string  NetworkingModel::GetPackage()
+{
+	package_recieved = false;
+	std::string aux;
+	for (unsigned int i = 0; i < package_size; i++)
+	{
+		aux += buffer_for_reading[i];
+	}
+	return aux;
+	
+}
 bool NetworkingModel::GetServerFinishedPlacing()const
 {
 	return server_Finished_placing_fichas;
@@ -217,7 +224,7 @@ std::size_t NetworkingModel::completion_condition(const boost::system::error_cod
 		unsigned char name_size = 0;
 		if (bytes_transferred > 0)
 		{
-			switch (buffer[0])
+			switch (buffer_for_reading[0])
 			{
 				case ACK_HEADER:
 				case NAME_HEADER:
@@ -244,7 +251,7 @@ std::size_t NetworkingModel::completion_condition(const boost::system::error_cod
 					
 					if (bytes_transferred > 1)
 					{
-						name_size = buffer[1];
+						name_size = buffer_for_reading[1];
 						return (name_size + 2 - bytes_transferred); //Vale 0 cuando se recibio el paquete completo.
 					}
 					else
@@ -298,6 +305,8 @@ void NetworkingModel::read_handler(const boost::system::error_code& error,
 	if (!error)
 	{
 		reading = false;
+		package_recieved = true;
+		package_size = bytes_transferred;
 		if (comm_error)
 		{
 			Shutdown();

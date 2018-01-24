@@ -2,13 +2,7 @@
 #include <iostream>
 #include "Event.h"
 
-/*
-enum NetWorkingTypeEvent
-{
-PLAY_AGAIN, NAME, NAME_IS, R_U_READY, I_START, YOU_START,
-ERROR, QUIT, ACK, GAME_OVER, MOVE, ATTACK, YOU_WON
-};
-*/
+
 
 
 

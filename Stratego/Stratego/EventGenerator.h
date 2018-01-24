@@ -26,11 +26,10 @@ public:
 	bool hayEvento();
 		
 	GenericEvent* getNextEvent();
-	//std::list<WormInfo>::iterator getListIterator();
 
 private:
 	void shape(ALLEGRO_EVENT ev);
-	void shape(char * buf, unsigned int cant);
+	void shape(std::string);
 	//bool DetectLittleEndian(void);
 
 	ALLEGRO_EVENT_QUEUE * eventQueue;

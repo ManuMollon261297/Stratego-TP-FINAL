@@ -24,30 +24,26 @@ EventGenerator::~EventGenerator()
 void EventGenerator::searchForEvents()
 {
 	bool finished = false;
-	boost::system::error_code error;
 
 	size_t cant;
 	while (!finished)
 	{
-		if (al_get_next_event(eventQueue,&evento)) //Eventos de Allegro
+		if (al_get_next_event(eventQueue, &evento)) //Eventos de Allegro
 		{
 			shape(evento);
+			finished = true;
 		}
-		else if (cant = socket_->read_some(boost::asio::buffer(buffer),error)) //Eventos de Boost
+		else if (!(nwm->GetReading())) //Eventos de Boost
 		{
-			if (!error)
-			{
-				if ((buffer[0] == 'W')||(buffer[0] == 'E')||(buffer[0] == 'Q')) //Cambiar validacion (si es alguno de los eventos que puede recibir)
-				{
-					shape(buffer, cant);
-				}
-			}
+			nwm->StartReading();
 		}
-		else 
+		if (nwm->WasPackageRecieved())
 		{
+			shape(nwm->GetPackage());
 			finished = true;
 		}
 	}
+			
 }
 
 bool EventGenerator::hayEvento()
@@ -129,72 +125,11 @@ void EventGenerator::shape(ALLEGRO_EVENT ev)
 }
 
 
-//asume que el package es de un worm, se debe chequear antes de llamar a esta funcion que el buf[0] sea una 'W', una 'Q' o una 'E' 
-/*
-Estructura del Worm Package: (12 chars)
-buffer[0] ---> 'W' header del package
-buffer[1] ---> Numero del Worm, para diferenciarlos cuando hay mas de uno
-buffer[2] ---> Char del estado del Worm
-buffer[3] ---> Char del Frame Counter del Worm
-buffer[4] ---> Char de orientacion del Worm
-buffer[5]-buffer[8] ---> uint32_t de posx del Worm
-buffer[9]-buffer[12] --> uint32_t de posy del Worm
-*/
 
-void EventGenerator::shape(char * buf, unsigned int cant)
+void EventGenerator::shape(std::string pckg)
 {
-	if (buf[0] == 'W')
-	{
-		if (cant < 12)
-		{
-		}
-		else
-		{
-			WormInfo newInfo;
-			newInfo.wormNumber = buf[1];
-			newInfo.state = buf[2];
-			newInfo.frame = buf[3];
-			newInfo.orientation = buf[4];
-			uint32_t  * a;
-			a = (uint32_t *)&buf[5];
-			newInfo.posx = a[0];
-			newInfo.posy = a[1];
-			if (wormsList.size() == 0)
-			{
-				wormsList.push_back(newInfo); // si todavia no hay ningun worm se agrega sin verficiacion
-			}
-			else
-			{
-				std::list<WormInfo>::iterator it; //me fijo en la lista si ya se encuentra y lo reemplazo
-				it = wormsList.begin();
-				bool inserted = false;
-				for (int i = 0; i < wormsList.size(); i++, it++)
-				{
-					if (it->wormNumber == buf[1])
-					{
-						(*it) = newInfo;
-						inserted = true;
-					}
-				}
-				if (inserted == false) // signficia que no hay un worm con ese numero en la lista en el momento
-				{
-					wormsList.push_back(newInfo);
-				}
-
-			}
-		}
-
-	}
-	else if (buf[0] == 'Q')
-	{
-		// se recibe package de quit
-		quit = true;
-		std::cout << "Otro jugador a finalizado la simulacion" << endl;
-	}
-	else if (buf[0] == 'E')
-	{
-		//se recibe package de error
-	}
+	GenericEvent* eve = new NetWorkingEvent(pckg);
+	eventList.push_back(eve);
 }
 
 

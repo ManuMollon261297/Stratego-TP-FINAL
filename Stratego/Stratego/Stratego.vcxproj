@@ -149,10 +149,12 @@
     <ClInclude Include="gameOverState.h" />
     <ClInclude Include="gameState.h" />
     <ClInclude Include="GenericModel.h" />
+    <ClInclude Include="mouseMenuEvent.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MenuModel.h" />
+    <ClInclude Include="menuMouseController.h" />
     <ClInclude Include="MenuViewer.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="mouseGameController.h" />
@@ -207,6 +209,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainDePrueba.cpp" />
     <ClCompile Include="MenuModel.cpp" />
+    <ClCompile Include="menuMouseController.cpp" />
     <ClCompile Include="MenuViewer.cpp" />
     <ClCompile Include="mouseGameController.cpp" />
     <ClCompile Include="MyAttacking.cpp" />

@@ -2,7 +2,8 @@
 #include <string>
 #include <vector>
 #include "button.h"
-enum menuStates{MENU,WRITING_NAME,RULES,MUTE_TOGGLE,LEADERBOARD};
+
+enum menuStates{MENU,WRITING_NAME,RULES,MUTE_TOGGLE,LEADERBOARD,PLAY};
 class MenuModel
 {
 public:
@@ -18,6 +19,8 @@ public:
 	void deleteButtons();
 	button * getButtonReference(int index);
 	std::vector<std::string> getLeadreboardInfo();
+	unsigned int getNumberOfButtons(void);
+	std::vector<button> & getButtonsVector(void);
 private:
 	std::string bakcUpFile;
 	std::string leaderboardFile;

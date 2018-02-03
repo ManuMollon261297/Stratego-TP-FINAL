@@ -51,6 +51,7 @@
     <ClCompile Include="OpTurn.cpp" />
     <ClCompile Include="PlacingFichas.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menuMouseController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroFuncs.h" />
@@ -104,6 +105,8 @@
     <ClInclude Include="OpTurn.h" />
     <ClInclude Include="PlacingFichas.h" />
     <ClInclude Include="ranks.h" />
+    <ClInclude Include="menuMouseController.h" />
+    <ClInclude Include="mouseMenuEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

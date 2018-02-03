@@ -109,3 +109,13 @@ std::vector<std::string> MenuModel::getLeadreboardInfo()
 	}
 	return info;
 }
+
+unsigned int MenuModel::getNumberOfButtons(void)
+{
+	return botones.size();
+}
+
+std::vector<button>& MenuModel::getButtonsVector(void)
+{
+	return botones;
+}

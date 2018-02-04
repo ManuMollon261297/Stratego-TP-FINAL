@@ -22,6 +22,8 @@ private:
 
 	dataButtonsPos dataButtons;
 
+	int state;
+
 
 
 

@@ -223,6 +223,12 @@ void MenuViewer::drawWritingName()
 	al_draw_scaled_bitmap(ALLEGRO_nameInput, 0, 0, al_get_bitmap_width(ALLEGRO_nameInput),
 		al_get_bitmap_height(ALLEGRO_nameInput), 0, 0, screenWidth, screenHeight, 0);
 	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), 50, screenHeight / 4, 0, "%s",name.c_str());
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 0, 0,
+		"Please write your name");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 1, 0,
+		"You cant leave this blank empty");
+	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 2, 0,
+		"You can write up to 12 letters");
 	if (muteOn)
 	{
 		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
@@ -234,7 +240,10 @@ void MenuViewer::drawWritingName()
 			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
 	}
 	al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
-		screenWidth - 350, screenHeight - 128, 270, 120, 0);
+		screenWidth - 330, screenHeight - 128, 220, 120, 0);
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 270, screenHeight - 100, 0, "Back");
+	al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+		screenWidth - 350 -300, screenHeight - 128, 270, 120, 0);
 	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 305, screenHeight - 100, 0, "Confirm");
 	al_flip_display();
 }

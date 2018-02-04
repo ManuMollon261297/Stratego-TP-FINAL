@@ -356,6 +356,41 @@ void AllegroViewer::drawCemetery()
 			highlightCemetery(rAux);
 		}
 	}
+	if (color == BLUE)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rank::BOMB].image, 0, 0,
+			al_get_bitmap_width(ALLEGRO_BlueFichaImages[rank::BOMB].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rank::BOMB].image),
+			5, 2, fichaWidth - 5, fichaHeight - 5, 0);
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::BOMB));
+	}
+	else
+	{
+		al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rank::BOMB].image, 0, 0,
+			al_get_bitmap_width(ALLEGRO_RedFichaImages[rank::BOMB].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rank::BOMB].image),
+			5, 2, fichaWidth - 5, fichaHeight - 5, 0);
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::BOMB));
+	}
+	if (engine.getState() == PLACING_FICHAS)
+	{
+		al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
+			(screenWidth)-130, -17, 130, 90, 0);
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 110, -11, 0, "done");
+		//dibujo la ficha especial (flag)
+		if (color == BLUE)
+		{
+			al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rank::FLAG].image, 0, 0,
+				al_get_bitmap_width(ALLEGRO_BlueFichaImages[rank::FLAG].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rank::FLAG].image),
+				5 + fichaWidth, 2, (fichaWidth)-5, fichaHeight - 5, 0);
+			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) + fichaWidth - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::FLAG));
+		}
+		else
+		{
+			al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rank::FLAG].image, 0, 0,
+				al_get_bitmap_width(ALLEGRO_RedFichaImages[rank::FLAG].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rank::FLAG].image),
+				5 + fichaWidth, 2, (fichaWidth)-5, fichaHeight - 5, 0);
+			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) + fichaWidth - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::FLAG));
+		}
+	}
 }
 
 void AllegroViewer::drawBackground()
@@ -415,12 +450,12 @@ void AllegroViewer::drawSoundB()
 	if (engine.isMuteOn())
 	{
 		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
-			, 10, 10, 70, 60, 0);
+			, screenWidth - 195, 3, 70, 60, 0);
 	}
 	else
 	{
 		al_draw_scaled_bitmap(ALLEGRO_unMute, 0, 0, al_get_bitmap_width(ALLEGRO_unMute), al_get_bitmap_height(ALLEGRO_unMute)
-			, 15, 5, 70, 60, 0);
+			, screenWidth - 195, 3, 70, 60, 0);
 	}
 }
 

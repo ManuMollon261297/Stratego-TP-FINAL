@@ -83,7 +83,7 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c, ALLEGRO_DISPL
 	introDir = "../Allegro Data/AUDIO/intro.wav";
 	soundtrackDir = "../Allegro Data/AUDIO/soundtrack.wav";
 	int jmax;
-	for (int i = 0; i<11; i++)
+	for (int i = 0; i<=11; i++)
 	{
 		std::vector<std::string> auxV;
 		jmax = getCantSprites(i);
@@ -147,7 +147,7 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c, ALLEGRO_DISPL
 		}
 		BlueCharactersDir.push_back(auxV);
 	}
-	for (int i = 0; i<11; i++)
+	for (int i = 0; i<=11; i++)
 	{
 		std::vector<std::string> auxV;
 		jmax = getCantSprites(i);
@@ -840,6 +840,9 @@ int AllegroViewer::getCantSprites(int i)
 		break;
 	case 10:
 		aux = 44;
+		break;
+	case 11:
+		aux = 1;
 		break;
 	}
 	return aux;

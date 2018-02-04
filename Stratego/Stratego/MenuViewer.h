@@ -1,7 +1,5 @@
 #pragma once
 
-//-------------------------------------------
-//CAMBIAR LO DEL DISPLAY CUANDO JUNTEMOS TODO
 //VER LO DEL FADE OUT Y CAMBIO DE ESTADO
 
 #include "MenuModel.h"
@@ -16,7 +14,7 @@
 class MenuViewer
 {
 public:
-	MenuViewer(int w, int h, MenuModel & p2e);
+	MenuViewer(int w, int h, MenuModel & p2e, ALLEGRO_DISPLAY * disp);
 	bool isViewerInitialized();
 	void initImagesAndFonts();
 	void update();

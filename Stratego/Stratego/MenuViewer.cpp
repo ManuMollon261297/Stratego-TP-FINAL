@@ -2,12 +2,12 @@
 
 
 
-MenuViewer::MenuViewer(int w, int h,MenuModel & p2e) : engine(p2e)
+MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : engine(p2e)
 {
 	//inicializacion de allegro
-	if (al_init() && al_init_font_addon() && al_init_primitives_addon() && al_init_image_addon() && al_init_ttf_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
+	ALLEGRO_display = disp;
+	if (al_init_font_addon() && al_init_primitives_addon() && al_init_image_addon() && al_init_ttf_addon())
 	{
-		ALLEGRO_display = al_create_display(w, h);
 		initialized = true;
 	}
 	else

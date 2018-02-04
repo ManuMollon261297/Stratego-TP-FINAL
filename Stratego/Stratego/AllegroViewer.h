@@ -2,7 +2,6 @@
 
 //VER CUANDO SE RESUELVE EL ATAQUE
 //-------------------------------------------
-//CAMBIAR LO DEL DISPLAY CUANDO JUNTEMOS TODO
 //IMAGEN DE LA FLAG Y VER COMO MOSTRAR CUANDO LA ATACAN/ES ATACADA
 
 #include <vector>
@@ -25,7 +24,7 @@ enum colour{RED,BLUE};
 class AllegroViewer
 {
 public:
-	AllegroViewer(int h ,int w,GameModel &gm,colour c);
+	AllegroViewer(int h ,int w,GameModel &gm,colour c,ALLEGRO_DISPLAY * disp);
 	bool isViewerInitialized();
 	void initImagesAndFonts();
 	void update();

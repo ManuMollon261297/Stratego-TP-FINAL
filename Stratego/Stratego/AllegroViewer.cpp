@@ -2,7 +2,7 @@
 #include "currStatus.h"
 
 #define CASO_ESPECIAL(r, q) ( ((r == MINER) && (q == BOMB)) || ((r == SPY) && (q == MARSHAL)) )
-AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
+AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c, ALLEGRO_DISPLAY * disp) : engine(gm)
 {
 	color = c;
 	attackPending = false;
@@ -12,10 +12,10 @@ AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c) : engine(gm)
 	fichaHeight = (h / 11);
 	fichaWidth = (w / 12);
 	//inicializacion de allegro
-	if (al_init()&& al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()
-		&&al_init_ttf_addon()&& al_install_audio() && al_init_acodec_addon()) //SACAR AL_INIT DESPUES DE DEBUGGEAR
+	ALLEGRO_display = disp;
+	if (al_init_font_addon()&&al_init_primitives_addon()&&al_init_image_addon()
+		&&al_init_ttf_addon()&& al_install_audio() && al_init_acodec_addon())
 	{
-		ALLEGRO_display = al_create_display(w, h);
 		initialized = true;
 	}
 	else
@@ -1070,10 +1070,6 @@ AllegroViewer::~AllegroViewer()
 	if (ALLEGRO_messagesttf != nullptr)
 	{
 		al_destroy_font(ALLEGRO_messagesttf);
-	}
-	if (ALLEGRO_display != nullptr)
-	{
-		al_destroy_display(ALLEGRO_display);
 	}
 	for (int i = 0; i < ALLEGRO_GameOver.size() ; i++)
 	{

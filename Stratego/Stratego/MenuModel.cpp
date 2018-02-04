@@ -8,7 +8,7 @@ MenuModel::MenuModel()
 	bakcUpFile = "temporal.txt";
 	leaderboardFile = "STPFLB.txt"; //Stratego Tp Final Leader Board
 	workingIp = false;
-
+	exit = false;
 }
 
 MenuModel::~MenuModel()
@@ -81,6 +81,11 @@ void MenuModel::deleteButtons()
 	botones.clear();
 }
 
+void MenuModel::setExit(void)
+{
+	exit = true;
+}
+
 button * MenuModel::getButtonReference(int index)
 {
 	for (int i = 0; i < botones.size(); i++)
@@ -118,4 +123,9 @@ unsigned int MenuModel::getNumberOfButtons(void)
 std::vector<button>& MenuModel::getButtonsVector(void)
 {
 	return botones;
+}
+
+std::string & MenuModel::getName(void)
+{
+	return name;
 }

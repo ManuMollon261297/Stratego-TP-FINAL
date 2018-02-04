@@ -35,6 +35,7 @@ void menuMouseController::refreshButtons(void)
 	button leaderboard_b(LEADERBOARD_B, dataButtons.ll_leaderboard, dataButtons.hr_leaderboard);
 	button sound_b(SOUND_B, dataButtons.ll_sound, dataButtons.hr_sound);
 	button goback_b(GOBACK_B, dataButtons.ll_goback, dataButtons.hr_goback);
+	button confirm_b(CONFIRM_B, dataButtons.ll_confirm, dataButtons.hr_confirm);
 
 	switch (p2menuModel->getState())
 	{
@@ -47,8 +48,46 @@ void menuMouseController::refreshButtons(void)
 		case RULES:
 		case LEADERBOARD:
 			p2menuModel->pushButton(goback_b);
+			p2menuModel->pushButton(sound_b);
 			break;
+		case WRITING_NAME:
+			p2menuModel->pushButton(goback_b);
+			p2menuModel->pushButton(confirm_b);
+			p2menuModel->pushButton(sound_b);
 
+	}
+}
+
+void menuMouseController::dispatch(mouseMenuEvent & menuEvMouse)
+{
+	if (p2menuModel->getState() != state)
+	{
+		state = p2menuModel->getState();
+		refreshButtons();
+	}
+	switch (menuEvMouse.botonTouched)
+	{
+		case PLAY_B:
+			state = WRITING_NAME;
+			break;
+		case HELP_B:
+			state = RULES;
+			break;
+		case GOBACK_B:
+			state = MENU;
+			break;
+		case LEADERBOARD_B:
+			state = LEADERBOARD;
+			break;
+		case SOUND_B:
+			
+			break;
+		case CONFIRM_B:
+			if ((p2menuModel->getName().size() > 0) && (p2menuModel->getName().size() < 12))
+			{
+				p2menuModel->setExit();
+			}
+			break;
 	}
 }
 

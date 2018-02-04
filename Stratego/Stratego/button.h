@@ -9,6 +9,7 @@
 #define GOBACK_B 6
 #define LEADERBOARD_B 7
 #define SOUND_B 8
+#define CONFIRM_B 9
 
 typedef struct
 {
@@ -22,6 +23,8 @@ typedef struct
 	pos hr_leaderboard;
 	pos ll_sound;
 	pos hr_sound;
+	pos ll_confirm;
+	pos hr_confirm;
 }dataButtonsPos;
 
 class button

@@ -1,4 +1,4 @@
-#include "EventGenerator.h"
+/*#include "EventGenerator.h"
 
 
 EventGenerator::EventGenerator(GameModel * gm_, NetworkingModel * nwm_, ALLEGRO_EVENT_QUEUE* ev_q)
@@ -53,10 +53,10 @@ bool EventGenerator::hayEvento()
 }
 
 
-/*
-	La funcion  getNextEvent supone que hay por lo menos un elemento en la lista, se debe preguntar antes
-	si lo hay con la funcion hayEvento
-*/
+
+//	La funcion  getNextEvent supone que hay por lo menos un elemento en la lista, se debe preguntar antes
+//si lo hay con la funcion hayEvento
+
 GenericEvent * EventGenerator::getNextEvent()
 {
 	std::list<GenericEvent*>::iterator it= eventList.begin();
@@ -126,3 +126,4 @@ void EventGenerator::shape(std::string pckg)
 	eventList.push_back(eve);
 }
 
+*/

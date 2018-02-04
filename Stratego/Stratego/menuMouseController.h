@@ -8,7 +8,7 @@ class menuMouseController
 {
 public:
 	menuMouseController(MenuModel * p2menuModel_, dataButtonsPos & dataButtonsPos_);
-
+	~menuMouseController();
 	mouseMenuEvent shape(int x, int y);
 
 	void refreshButtons(void);
@@ -24,9 +24,5 @@ private:
 
 	int state;
 
-
-
-
-	~menuMouseController();
 };
 

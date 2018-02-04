@@ -1,4 +1,4 @@
-#include "KeyboardEvent.h"
+/*#include "KeyboardEvent.h"
 
 KeyboardEvent::KeyboardEvent()
 {
@@ -24,3 +24,5 @@ ALLEGRO_EVENT * KeyboardEvent::getAlEv(void)
 {
 	return alEvent;
 }
+
+*/

@@ -10,7 +10,6 @@
     <ClCompile Include="gameOverState.cpp" />
     <ClCompile Include="KeyboardController.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
-    <ClCompile Include="mainDePrueba.cpp" />
     <ClCompile Include="MenuModel.cpp" />
     <ClCompile Include="MenuViewer.cpp" />
     <ClCompile Include="NetPlacingFichas.cpp" />
@@ -21,7 +20,6 @@
     <ClCompile Include="plaAgainSelected.cpp" />
     <ClCompile Include="pos.cpp" />
     <ClCompile Include="Quiting.cpp" />
-    <ClCompile Include="RefreshEvent.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StartingAttack.cpp" />
     <ClCompile Include="State.cpp" />
@@ -74,7 +72,6 @@
     <ClInclude Include="plaAgainSelected.h" />
     <ClInclude Include="Quiting.h" />
     <ClInclude Include="pos.h" />
-    <ClInclude Include="RefreshEvent.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StartingAttack.h" />
     <ClInclude Include="State.h" />

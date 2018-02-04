@@ -1,4 +1,4 @@
-#include "KeyboardController.h"
+/*#include "KeyboardController.h"
 
 KeyboardController::KeyboardController(MenuModel * mm, ALLEGRO_EVENT_QUEUE * queue_, unsigned int maxIp, unsigned int maxName)
 {
@@ -20,7 +20,7 @@ KeyboardController::KeyboardController(MenuModel * mm, ALLEGRO_EVENT_QUEUE * que
 		initOk = false;
 	}
 	al_register_event_source(queue, al_get_display_event_source(display));
-	*/
+
 
 	queue = queue_;
 
@@ -132,3 +132,5 @@ bool KeyboardController::validateSub()
 
 	return ret;
 }
+
+*/

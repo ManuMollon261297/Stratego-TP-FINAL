@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "MenuModel.h"
 #include "KeyboardEvent.h"
 #include <allegro5\allegro.h>
@@ -26,3 +26,4 @@ private:
 	unsigned int IpCount;
 	unsigned int NameCount;
 };
+*/

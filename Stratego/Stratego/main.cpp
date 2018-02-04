@@ -1,30 +1,36 @@
 #include "mouseGameController.h"
 #include "AllegroViewer.h"
-
-enum states { //SOLO PARA DEBUGGING
-	MY_TURN, OP_TURN, MY_ATTACKING, OP_ATTACKING, MY_MOVING, OP_MOVING, PLACING_FICHAS, GAME_OVER, IDLE
-	, ENDING_PLACING_FICHAS, WAITING_FOR_OPPONENTS_SELECTION, PLAY_AGAIN_SELECTED, GAME_OVER_SELECTED
-};
-//#include <allegro5\allegro.h>
+#include "menuMouseController.h"
+#include "MenuViewer.h"
 
 using namespace std;
+
+dataButtonsPos fillButtonsInfo(void);
 
 void printStateModel(int state);
 
 int main()
 {
-	pos inicial(6, 5);
-	pos final(6, 0);
-	GameModel engine;
-	engine.setRed(true);
-	AllegroViewer viewer(720, 1080, engine, RED);
-	viewer.initImagesAndFonts();
-	mouseGameController mouseControl(720, 1080, &engine);
+	dataButtonsPos dataButtons = fillButtonsInfo();
+	MenuModel menu;
+	menuMouseController menuControllerMouse(&menu, dataButtons);
 
-	pos bPlaceReadyLL(0, 65);
-	pos bPlaceReadyHR(65, 0);
-	button placeReady_B(PLACE_READY_B, bPlaceReadyLL, bPlaceReadyHR);
-	engine.pushButton(placeReady_B);
+	ALLEGRO_DISPLAY * display = nullptr;
+
+
+	if (!al_init()) {
+		return -1;
+	}
+
+	display = al_create_display(720, 1080);
+
+	MenuViewer menuView(720, 1080, menu, display);
+
+	menuView.initImagesAndFonts();
+	menuView.isViewerInitialized();
+	menuView.drawMenu();
+
+	
 
 	ALLEGRO_EVENT_QUEUE* event_queue = nullptr;  ////////////event generator
 
@@ -40,22 +46,6 @@ int main()
 	}
 	al_register_event_source(event_queue, al_get_mouse_event_source());  //////////////
 
-
-
-
-
-	for (int i = 6; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			pos curr(i, j);
-			engine.setFicha(SCOUT, curr);
-		}
-	}
-	//engine.setState(MY_TURN); //DEBUG
-	viewer.drawBackground();
-	viewer.drawBattlefield();
-	viewer.drawCemetery();
 	al_flip_display();
 	ALLEGRO_EVENT ev;
 	while (1)
@@ -64,13 +54,10 @@ int main()
 		{
 			if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 			{
-				mouseControl.dispatch(mouseControl.shape(ev.mouse.x, ev.mouse.y));
-				viewer.drawBackground();
-				viewer.drawBattlefield();
-				viewer.drawCemetery();
+				menuControllerMouse.dispatch(menuControllerMouse.shape(ev.mouse.x, ev.mouse.y));
+				
+				menuView.update();
 				al_flip_display();
-				engine.printBattlefield();
-				printStateModel(engine.getState());  //deberia imprimir PLACING_FICHAS
 			}
 			
 		}
@@ -128,4 +115,10 @@ void printStateModel(int state)
 	default:
 		cout << "estado desconocido" << endl;
 	}
+}
+
+dataButtonsPos fillButtonsInfo(void)
+{
+	dataButtonsPos ret;
+	return ret;
 }

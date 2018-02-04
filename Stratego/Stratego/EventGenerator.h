@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include <list>
 #include "State.h"
 #include "Event.h"
@@ -41,3 +41,4 @@ private:
 	std::list<GenericEvent*> eventList;
 };
 
+*/

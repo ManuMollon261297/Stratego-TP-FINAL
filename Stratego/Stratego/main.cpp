@@ -22,15 +22,15 @@ int main()
 		return -1;
 	}
 
-	display = al_create_display(720, 1080);
+	display = al_create_display(1080, 720);
 
-	MenuViewer menuView(720, 1080, menu, display);
+	MenuViewer menuView(1080, 720, menu, display);
 
 	menuView.initImagesAndFonts();
 	menuView.isViewerInitialized();
 	menuView.drawMenu();
 
-	
+	al_flip_display();
 
 	ALLEGRO_EVENT_QUEUE* event_queue = nullptr;  ////////////event generator
 
@@ -46,7 +46,7 @@ int main()
 	}
 	al_register_event_source(event_queue, al_get_mouse_event_source());  //////////////
 
-	al_flip_display();
+	
 	ALLEGRO_EVENT ev;
 	while (1)
 	{
@@ -54,8 +54,9 @@ int main()
 		{
 			if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 			{
+				cout << "x: " << ev.mouse.x << endl;
+				cout << "y: " << ev.mouse.y << endl;
 				menuControllerMouse.dispatch(menuControllerMouse.shape(ev.mouse.x, ev.mouse.y));
-				
 				menuView.update();
 				al_flip_display();
 			}
@@ -120,5 +121,19 @@ void printStateModel(int state)
 dataButtonsPos fillButtonsInfo(void)
 {
 	dataButtonsPos ret;
+	ret.ll_play.x = 377;
+	ret.ll_play.y = 358;
+	ret.hr_play.x = 704;
+	ret.hr_play.y = 268;
+
+	ret.ll_help.x = 377;
+	ret.ll_help.y = 464;
+	ret.hr_help.x = 704;
+	ret.hr_help.y = 377;
+
+	ret.ll_goback.x = 771;
+	ret.ll_goback.y = 703;
+	ret.hr_goback.x = 951;
+	ret.hr_goback.y = 619;
 	return ret;
 }

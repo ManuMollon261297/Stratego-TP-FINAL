@@ -9,6 +9,7 @@ menuMouseController::menuMouseController(MenuModel * p2menuModel_, dataButtonsPo
 {
 	p2menuModel = p2menuModel_;
 	dataButtons = dataButtonsPos_;
+	refreshButtons();
 }
 
 mouseMenuEvent menuMouseController::shape(int x, int y)
@@ -68,16 +69,16 @@ void menuMouseController::dispatch(mouseMenuEvent & menuEvMouse)
 	switch (menuEvMouse.botonTouched)
 	{
 		case PLAY_B:
-			state = WRITING_NAME;
+			p2menuModel->setState(WRITING_NAME);
 			break;
 		case HELP_B:
-			state = RULES;
+			p2menuModel->setState(RULES);
 			break;
 		case GOBACK_B:
-			state = MENU;
+			p2menuModel->setState(MENU);
 			break;
 		case LEADERBOARD_B:
-			state = LEADERBOARD;
+			p2menuModel->setState(LEADERBOARD);
 			break;
 		case SOUND_B:
 			
@@ -88,6 +89,12 @@ void menuMouseController::dispatch(mouseMenuEvent & menuEvMouse)
 				p2menuModel->setExit();
 			}
 			break;
+	}
+
+	if (p2menuModel->getState() != state)
+	{
+		state = p2menuModel->getState();
+		refreshButtons();
 	}
 }
 

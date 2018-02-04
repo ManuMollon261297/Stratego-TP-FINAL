@@ -1,8 +1,6 @@
 #pragma once
 
 //VER CUANDO SE RESUELVE EL ATAQUE
-//-------------------------------------------
-//IMAGEN DE LA FLAG Y VER COMO MOSTRAR CUANDO LA ATACAN/ES ATACADA
 
 #include <vector>
 #include "allegro5\allegro.h"

@@ -1,7 +1,5 @@
 #pragma once
 
-//VER LO DEL FADE OUT Y CAMBIO DE ESTADO
-
 #include "MenuModel.h"
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"

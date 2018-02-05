@@ -121,19 +121,36 @@ void printStateModel(int state)
 dataButtonsPos fillButtonsInfo(void)
 {
 	dataButtonsPos ret;
-	ret.ll_play.x = 377;
+
+	ret.ll_play.x = 378;
 	ret.ll_play.y = 358;
-	ret.hr_play.x = 704;
+	ret.hr_play.x = 707;
 	ret.hr_play.y = 268;
 
-	ret.ll_help.x = 377;
+	ret.ll_leaderboard.x = 378;
+	ret.ll_leaderboard.y = 576;
+	ret.hr_leaderboard.x = 707;
+	ret.hr_leaderboard.y = 488;
+
+	ret.ll_help.x = 378;
 	ret.ll_help.y = 464;
-	ret.hr_help.x = 704;
+	ret.hr_help.x = 707;
 	ret.hr_help.y = 377;
 
 	ret.ll_goback.x = 771;
 	ret.ll_goback.y = 703;
 	ret.hr_goback.x = 951;
 	ret.hr_goback.y = 619;
+
+	ret.ll_sound.x = 984;
+	ret.ll_sound.y = 622;
+	ret.hr_sound.x = 1058;
+	ret.hr_sound.y = 696;
+		//falta completar confirm porque hay que mover el boton primero
+	ret.ll_confirm.x = 0;
+	ret.ll_confirm.y = 0;
+	ret.hr_confirm.x = 0;
+	ret.hr_confirm.y = 0;
+
 	return ret;
 }

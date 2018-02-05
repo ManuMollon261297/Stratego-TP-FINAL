@@ -23,7 +23,7 @@ int main()
 	}
 
 	display = al_create_display(1080, 720);
-
+	al_set_window_title(display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
 	MenuViewer menuView(1080, 720, menu, display);
 
 	menuView.initImagesAndFonts();

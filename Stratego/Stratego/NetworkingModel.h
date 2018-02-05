@@ -55,27 +55,32 @@ private:
 	bool server_Finished_placing_fichas;
 	bool time_done;
 	bool reading; //Indica si se termino de llenar el buffer o no.
+	bool finished_writing;
 	std::size_t package_size;
 	bool package_recieved;
 	char buffer_for_reading[300];
+	char buffer_for_writing[300];
 	serverStatus serverStat;
 	std::string me;
 	std::string you;
 
 	//Handlers
-	void client_connect_handler(boost::asio::ip::tcp::socket*, const boost::system::error_code& error);
+	void client_connect_handler(const boost::system::error_code& error);
+	void server_connect_handler(const boost::system::error_code& error);
 	void timer_handler(const boost::system::error_code& error);
 	std::size_t completion_condition(const boost::system::error_code& error,
 									std::size_t bytes_transferred);
 
 	void read_handler(const boost::system::error_code& error,
 					std::size_t bytes_transferred );
+	void write_handler(const boost::system::error_code& error,
+		std::size_t bytes_transferred);
+
 	//boost
-	boost::asio::io_context*  IO_handler;
+	boost::asio::io_service*  IO_handler;
 	boost::asio::ip::tcp::socket* socket_a;
 	boost::asio::ip::tcp::acceptor* server_acceptor;
 	boost::asio::ip::tcp::endpoint* endpoint_a;
 	deadline_timer* deadline_;
-	deadline_timer* heartbeat_timer_;
 };
 

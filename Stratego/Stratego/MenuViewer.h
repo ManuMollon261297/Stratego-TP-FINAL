@@ -22,6 +22,7 @@ public:
 	void drawLeaderboard();
 	void drawRules();
 	void drawWritingName();
+	void manageSoundtrack();
 	std::string name;
 private:
 	int screenWidth;

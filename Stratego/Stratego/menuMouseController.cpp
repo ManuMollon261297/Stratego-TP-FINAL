@@ -81,7 +81,7 @@ void menuMouseController::dispatch(mouseMenuEvent & menuEvMouse)
 			p2menuModel->setState(LEADERBOARD);
 			break;
 		case SOUND_B:
-			
+			p2menuModel->toggleSound();
 			break;
 		case CONFIRM_B:
 			if ((p2menuModel->getName().size() > 0) && (p2menuModel->getName().size() < 12))

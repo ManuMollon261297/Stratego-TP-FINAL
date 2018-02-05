@@ -108,9 +108,6 @@ void MenuViewer::update()
 		fade_out(1, screenWidth, screenHeight);
 		drawRules();
 		break;
-	case MUTE_TOGGLE:
-		//ver si es un estado o solo genera un notify y cada estado lo dibuja bien solo
-		break;
 	case LEADERBOARD:
 		fade_out(1, screenWidth, screenHeight);
 		drawLeaderboard();
@@ -246,4 +243,30 @@ void MenuViewer::drawWritingName()
 		screenWidth - 350 -220, screenHeight - 128, 270, 120, 0);
 	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 525, screenHeight - 100, 0, "Confirm");
 	al_flip_display();
+}
+
+void MenuViewer::manageSoundtrack()
+{
+	/*
+	if (sound&&engine.isMuteOn())
+	{
+		//apagar la musica
+		al_stop_samples();
+		sound = false;
+	}
+	else if ((!sound) && !engine.isMuteOn())
+	{
+		//empiezo musica
+		al_play_sample(wavSoundtrack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+		sound = true;
+	}
+	else if ((!sound) && engine.isMuteOn())
+	{
+		//nada
+	}
+	else if (sound && !engine.isMuteOn())
+	{
+		//nada
+	}
+	*/
 }

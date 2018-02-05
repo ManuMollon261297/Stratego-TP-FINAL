@@ -18,6 +18,8 @@ public:
 	void pushButton(button b);
 	void deleteButtons();
 	void setExit(void);
+	void toggleSound();
+	bool getSoundState();
 	button * getButtonReference(int index);
 	std::vector<std::string> getLeadreboardInfo();
 	unsigned int getNumberOfButtons(void);
@@ -32,5 +34,6 @@ private:
 	std::string ip;
 	std::vector<button> botones;
 	bool exit;
+	bool sound;
 };
 

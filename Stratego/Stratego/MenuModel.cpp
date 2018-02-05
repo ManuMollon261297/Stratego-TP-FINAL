@@ -9,6 +9,7 @@ MenuModel::MenuModel()
 	leaderboardFile = "STPFLB.txt"; //Stratego Tp Final Leader Board
 	workingIp = false;
 	exit = false;
+	sound = true;
 }
 
 MenuModel::~MenuModel()
@@ -84,6 +85,16 @@ void MenuModel::deleteButtons()
 void MenuModel::setExit(void)
 {
 	exit = true;
+}
+
+void MenuModel::toggleSound()
+{
+	sound = !sound;
+}
+
+bool MenuModel::getSoundState()
+{
+	return sound;
 }
 
 button * MenuModel::getButtonReference(int index)

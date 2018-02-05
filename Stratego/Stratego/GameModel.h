@@ -26,6 +26,10 @@ public:
 	int getState();
 	void setState(int state_);
 
+	//Opponent
+	void SetOpponentName(std::string);
+	std::string& GetOpponentName();
+
 	//Exit
 	void SetExit(bool);
 
@@ -121,6 +125,7 @@ private:
 	std::vector<button> botones;
 
 	std::string message;
+	std::string opponents_name;
 
 	bool checkMoveRepetead(pos prev, pos next);
 	bool clearSurroundings(int i, int j);

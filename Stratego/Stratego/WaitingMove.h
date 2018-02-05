@@ -7,6 +7,7 @@
 #include "gameState.h"
 #include "Quiting.h"
 #include "WaitingAttack.h"
+#include "WaitingOponentDecision.h"
 #include "StartingAttack.h"
 
 class WaitingMove : public NetworkingState
@@ -17,4 +18,5 @@ public:
 	virtual NetworkingState* You_won(NetWorkingEvent&, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* MoveDone(NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* AttackDone(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
 };

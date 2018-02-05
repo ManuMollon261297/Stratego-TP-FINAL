@@ -8,12 +8,17 @@ NetworkingState* WaitingWhoStart::I_start(NetWorkingEvent& ev, NetworkingModel* 
 	bool sent = false;
 	Gm->setRed(false);
 	pckg[0] = ACK_HEADER;
-	do
+	sent = p_nwm->sendPackage(pckg, 1);
+	if (sent)
 	{
-		sent = p_nwm->sendPackage(pckg, 1);
-	} while (!sent);
-	p_state = new NetPlacingFichas;
-	Gm->setState(PLACING_FICHAS);
+		p_state = new NetPlacingFichas;
+		Gm->setState(PLACING_FICHAS);
+	}
+	else //se perdio la comunicacion.
+	{
+		Gm->SetExit(true);
+		p_state = new Quiting;
+	}
 	return p_state;
 }
 
@@ -24,11 +29,17 @@ NetworkingState* WaitingWhoStart::You_start(NetWorkingEvent& ev, NetworkingModel
 	bool  sent = false;
 	Gm->setRed(true);
 	pckg[0] = ACK_HEADER;
-	do
+	sent = p_nwm->sendPackage(pckg, 1);
+	if (sent)
 	{
-		sent = p_nwm->sendPackage(pckg, 1);
-	} while (!sent);
-	p_state = new NetPlacingFichas;
-	Gm->setState(PLACING_FICHAS);
+		p_state = new NetPlacingFichas;
+		Gm->setState(PLACING_FICHAS);
+	}
+	else
+	{
+		Gm->SetExit(true);
+		p_state = new Quiting;
+	}
+	
 	return p_state;
 }

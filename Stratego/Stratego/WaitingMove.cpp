@@ -26,10 +26,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 	{
 		char error_pckg[1]; //Si el movimiento es invalido significa que hubo un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		do
-		{
-			sent = p_nwm->sendPackage(error_pckg, 1);
-		}while(!sent);
+		sent = p_nwm->sendPackage(error_pckg, 1);
 		Gm->setState(GAME_OVER);
 		Gm->SetExit(true);
 		p_state = new Quiting;
@@ -43,16 +40,22 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 			pckg.clear();
 			pckg[0] = ATTACK_HEADER;
 			pckg[1] = rank2send;
-			do
+			sent = p_nwm->sendPackage((char*)pckg.c_str(), 2); //Mando el paquete de attack.
+			if (sent)
 			{
-				sent = p_nwm->sendPackage((char*)pckg.c_str(), 2); //Mando el paquete de attack.
-			} while (!sent);
-			p_state = new WaitingAttack;
+				p_state = new WaitingAttack;
+			}
+			else
+			{
+				Gm->SetExit(true);
+				p_state = new Quiting;
+			}
 
 		}
 		else //El move no fue un ataque
 		{
 			Gm->setState(MY_TURN); //Ya se realizo la movida del oponente asique es mi turno.
+			Gm->restartTimer();
 			p_state = nullptr; //No cambia de estado.
 		}
 	}
@@ -74,6 +77,7 @@ NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nw
 
 NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
 {
+	NetworkingState* p_state = nullptr;
 	bool sent = false;
 	if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
 	{
@@ -88,14 +92,16 @@ NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
 		move_pckg[2] = or_row;
 		move_pckg[3] = des_col;
 		move_pckg[4] = des_row;
-		do
-		{
-			sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
-		} while (!sent);
+		sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
 
 		Gm->setState(OP_TURN);
 	}
-	return nullptr; //Si es pasivo espero un move
+	if (!sent) //Error de comunicacion.
+	{
+		Gm->SetExit(true);
+		p_state = new Quiting;
+	}
+	return p_state; //Si es pasivo espero un move
 
 }
 
@@ -116,13 +122,51 @@ NetworkingState* WaitingMove::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
 		move_pckg[2] = or_row;
 		move_pckg[3] = des_col;
 		move_pckg[4] = des_row;
-		do
-		{
-			sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
-		} while (!sent);
+		sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
 
-		p_state = new StartingAttack; //Si es ofensivo espero un ataque.
+		if (sent)
+		{
+			p_state = new StartingAttack; //Si es ofensivo espero un ataque.
+		}
+		else
+		{
+			Gm->SetExit(true);
+			p_state = new Quiting;
+		}
+		
 	}
 	return p_state;
+}
+
+NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	NetworkingState* p_state = nullptr;
+	bool sent = false;
+	if ((Gm->getState()) == MY_TURN)
+	{
+		Gm->decrementTime();
+		if ((Gm->getTime()) == 0) //Gana el otro jugador por tardar demaasiado.
+		{
+			char pckg[1] = { YOU_WON_HEADER };
+			Gm->setState(GAME_OVER);
+			Gm->setMessage("Derrota! se acabo el tiempo");
+			sent = p_nwm->sendPackage(pckg, 1);
+			if (sent)
+			{
+				p_state = new WaitingOponentDecision; 
+			}
+			else
+			{
+				Gm->SetExit(true);
+				p_state = new Quiting;
+			}
+		}
+		else if ((Gm->getTime()) == 60)
+		{
+			Gm->setMessage("Queda menos de un minuto");
+		}
+	}
+	return p_state;
+	
 }
 

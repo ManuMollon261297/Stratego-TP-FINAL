@@ -96,7 +96,7 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			proxState = nullptr;
 		}
 	}
-	else if ((newEvent.GetEvent()) == MOUSE)
+	else if ((newEvent.GetEvent()) == MOUSE) //Input deel usuario.
 	{
 		switch (Gm->getState())
 		{
@@ -123,5 +123,16 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			proxState = nullptr;
 		}
 	}
+	else if ((newEvent.GetEvent()) == TIMER) //Cada vez que pasa un segundo.
+	{
+		proxState = actualState->OnTimer(NWM, Gm);
+		if (proxState != nullptr)
+		{
+			delete actualState;
+			actualState = proxState;
+			proxState = nullptr;
+		}
+	}
+
 		
 }

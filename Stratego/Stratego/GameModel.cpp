@@ -12,6 +12,7 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 
 	moveDone = false;
 	fichasPlaced = false;
+	won = false;
 
 	message = "Stratego: Tu lideras el ejercito rojo";
 
@@ -68,7 +69,7 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 
 	//inicializacion del state
 	state = PLACING_FICHAS;
-	timeRemaining = 0;
+	timeRemaining = 120; // El jugador tiene 120 segundos para decidir antes de perder.
 	rescuesRemaining = 2;
 	repeatMoveCounter = 0;
 }
@@ -112,6 +113,17 @@ void GameModel::SetExit(bool value)
 {
 	Exit = value;
 }
+
+void GameModel::SetOpponentName(std::string str)
+{
+	opponents_name = str;
+}
+
+std::string& GameModel::GetOpponentName()
+{
+	return opponents_name;
+}
+
 
 bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una ficha movil valida
 {												// devuelve true si se movio la ficha, false si es un ataque y todavia no se resolvio
@@ -420,7 +432,7 @@ void GameModel::decrementTime()
 
 void GameModel::restartTimer()
 {
-	timeRemaining = 0;
+	timeRemaining = 120;
 }
 
 bool GameModel::getMoveDone()
@@ -456,6 +468,7 @@ currStatus GameModel::GetopPosStatus() const
 void GameModel::playerWon()
 {
 	won = true;
+	setMessage("Victoria! Has ganado.");
 }
 
 bool GameModel::didPlayerWin()

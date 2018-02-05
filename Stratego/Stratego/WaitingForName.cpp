@@ -13,10 +13,12 @@ NetworkingState*  WaitingName::Name(NetWorkingEvent& ev, NetworkingModel* p_nwm,
 	pckg.append(1, NAME_IS_HEADER);
 	pckg.append(1, count);
 	pckg += my_name;
-	do
+	sent = p_nwm->sendPackage((char*)pckg.c_str(), pckg.size()); //Mando paquete con mi nombre
+	if (!sent) //Error de comunicacion.
 	{
-		sent = p_nwm->sendPackage((char*)pckg.c_str(), pckg.size()); //Mando paquete con mi nombre
-	} while (!sent);
+		Gm->SetExit(true);
+		p_state = new Quiting;
+	}
 	return p_state;
 
 }

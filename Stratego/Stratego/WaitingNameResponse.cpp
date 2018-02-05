@@ -15,19 +15,14 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 		{
 			Gm->setRed(false);
 			pckg[0] = YOU_START_HEADER; //Si el numero sorteado es impar empieza el cliente.
-			do
-			{
-				sent = p_nwm->sendPackage(pckg, 1);
-			} while (!sent);
+			sent = p_nwm->sendPackage(pckg, 1);
+
 		}
 		else
 		{
 			Gm->setRed(true);
 			pckg[0] = I_START_HEADER; //Si el numero sorteado es par, empieza el server.
-			do
-			{
-				sent = p_nwm->sendPackage(pckg, 1);
-			} while (!sent);
+			sent = p_nwm->sendPackage(pckg, 1);
 		}
 		p_state = new WaitingStartResponse;
 
@@ -36,12 +31,14 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 	{
 		char pckg[1];
 		pckg[0] = NAME_HEADER;
-		do
-		{
-			sent = p_nwm->sendPackage(pckg, 1); //si soy el client pregunto el nombre del server y espero la respuesta.
-		} while (!sent); 
+		sent = p_nwm->sendPackage(pckg, 1); //si soy el client pregunto el nombre del server y espero la respuesta.
 		p_state = new WaitingNameIs;
 	}
 
+	if (!sent)
+	{
+		Gm->SetExit(true);
+		p_state = new Quiting;
+	}
 	return p_state;
 }

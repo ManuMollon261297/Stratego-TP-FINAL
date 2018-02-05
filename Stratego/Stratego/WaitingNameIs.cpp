@@ -5,23 +5,36 @@
 NetworkingState* WaitingNameIs::Name_is(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	NetworkingState* state;
+	std::string recieved = ev.GetRecieved();
+	unsigned int count = recieved[1];
+	std::string opp_name;
 	bool sent = false;
 	char pckg[1];
 	pckg[0] = ACK_HEADER;
-	do
+	for (unsigned int i=0; i < count; ++i)
 	{
-		sent = p_nwm->sendPackage(pckg, 1);
-	} while (!sent);
-
-	if (p_nwm->getServer() == SERVER)
-	{
-		
-		state=  new WaitingName; //si soy el server paso a waiting name
-		
+		opp_name.push_back(recieved[2 + i]); //empiezo con offset porque este el header y el byte de count.
 	}
-	else
+	Gm->SetOpponentName(opp_name); //Guardo el nombre del oponente.
+	sent = p_nwm->sendPackage(pckg, 1);
+
+	if (sent)
 	{
-		state = new WaitingWhoStart; //si soy el client paso a esperar el orden de jugada.
+		if (p_nwm->getServer() == SERVER)
+		{
+
+			state = new WaitingName; //si soy el server paso a waiting name
+
+		}
+		else
+		{
+			state = new WaitingWhoStart; //si soy el client paso a esperar el orden de jugada.
+		}
+	}
+	else //Se perdio la comunicacion.
+	{
+		Gm->SetExit(true);
+		state = new Quiting;
 	}
 
 	return state;

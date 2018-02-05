@@ -11,10 +11,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 	{
 		char pckg[1];
 		pckg[0] = ERROR_HEADER;
-		do
-		{
-			sent = p_nwm->sendPackage(pckg, 1);
-		} while (!sent);
+		sent = p_nwm->sendPackage(pckg, 1);
 		p_state = new Quiting;
 	}
 	else
@@ -26,10 +23,8 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			char pckg[1];
 			pckg[0]= (YOU_WON_HEADER);
 			Gm->setState(GAME_OVER);
-			do
-			{
-				sent = p_nwm->sendPackage(pckg, 1);
-			} while (!sent);
+			Gm->setMessage("Derrota! has perdido");
+			sent = p_nwm->sendPackage(pckg, 1);
 			p_state = new WaitingOponentDecision;
 		}
 		else //si no gano el otro, mando un paquete de attack con mi rank para que pueda resolver el ataque.
@@ -41,11 +36,14 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 			pckg[1] = rank2send;
 			Gm->setState(OP_TURN);
-			do
-			{
-				sent = p_nwm->sendPackage(pckg, 2);
-			} while (!sent);
+			sent = p_nwm->sendPackage(pckg, 2);
 			p_state = new WaitingMove;
+		}
+
+		if (!sent) //Error de comunicacion.
+		{
+			Gm->SetExit(true);
+			p_state = new Quiting;
 		}
 	}
 

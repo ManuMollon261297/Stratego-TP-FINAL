@@ -15,17 +15,23 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 			if (Gm->getRed()) //Si voy primero directamente mando mi primera jugada.
 			{
 				Gm->setState(MY_TURN);
+				Gm->restartTimer();
 				p_state = new WaitingMove;
 			}
 			else //si empieza el server respondo i am ready.
 			{
 				char pckg[1];
 				pckg[0] = I_AM_READY_HEADER;
-				do
+				sent = p_nwm->sendPackage(pckg, 1);
+				if (sent)
 				{
-					sent = p_nwm->sendPackage(pckg, 1);
-				}while(!sent);
-				p_state = new WaitingMove;
+					p_state = new WaitingMove;
+				}
+				else //Error de comunicacion.
+				{
+					Gm->SetExit(true);
+					p_state = new Quiting;
+				}
 			}
 		}
 		else
@@ -37,10 +43,7 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 	{
 		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		do
-		{
-			sent = p_nwm->sendPackage(error_pckg, 1);
-		} while (!sent);
+		sent = p_nwm->sendPackage(error_pckg, 1);
 		p_state = new Quiting;
 	}
 	return p_state;
@@ -56,16 +59,14 @@ NetworkingState* NetPlacingFichas::I_am_ready(NetWorkingEvent& ev, NetworkingMod
 		//Asumo que si me llega i am ready es porque ya mande r_u_ready.
 
 		Gm->setState(MY_TURN); //Le indico al jugador que haga su jugada.
+		Gm->restartTimer();
 		p_state = new WaitingMove; 
 	}
 	else //error de comunicacion.
 	{
 		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
 		error_pckg[0] = ERROR_HEADER;
-		do
-		{
-			sent = p_nwm->sendPackage(error_pckg, 1);
-		} while (!sent);
+		sent = p_nwm->sendPackage(error_pckg, 1);
 		p_state = new Quiting;
 	}
 	return p_state;

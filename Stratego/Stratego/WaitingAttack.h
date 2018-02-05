@@ -6,6 +6,7 @@
 #include "NetworkingModel.h"
 #include "Quiting.h"
 #include "WaitingPlayerDecision.h"
+#include "WaitingOponentDecision.h"
 #include "WaitingMove.h"
 #include "GameModel.h"
 #include "gameState.h"

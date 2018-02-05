@@ -37,4 +37,7 @@ public:
 	virtual NetworkingState* SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* MoveDone(NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* AttackDone(NetworkingModel* p_nwm, GameModel * Gm);
+
+	//Rutina del timer
+	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
 };

@@ -118,10 +118,8 @@ NetworkingState* NetworkingState::EndedPlacing(NetworkingModel* p_nwm, GameModel
 	char pckg[1] = { ERROR_HEADER };
 	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
-	do
-	{
-		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
-	} while (!sent);
+
+	sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
 
 	return nullptr;
 }
@@ -131,10 +129,9 @@ NetworkingState* NetworkingState::SelectedGameOver(NetworkingModel* p_nwm, GameM
 	char pckg[1] = { ERROR_HEADER };
 	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
-	do
-	{
-		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
-	} while (!sent);
+
+	sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
+
 
 	return nullptr;
 }
@@ -144,10 +141,9 @@ NetworkingState* NetworkingState::SelectedPlayAgain(NetworkingModel* p_nwm, Game
 	char pckg[1] = { ERROR_HEADER };
 	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
-	do
-	{
-		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
-	} while (!sent);
+	
+	sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
+	
 
 	return nullptr;
 }
@@ -157,10 +153,7 @@ NetworkingState* NetworkingState::MoveDone(NetworkingModel* p_nwm, GameModel * G
 	char pckg[1] = { ERROR_HEADER };
 	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
-	do
-	{
-		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
-	} while (!sent);
+	sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
 
 	return nullptr;
 }
@@ -170,10 +163,13 @@ NetworkingState* NetworkingState::AttackDone(NetworkingModel* p_nwm, GameModel *
 	char pckg[1] = { ERROR_HEADER };
 	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
-	do
-	{
-		sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
-	} while (!sent);
+	
+	sent = p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
 
 	return nullptr;
+}
+
+NetworkingState* NetworkingState::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	return nullptr; //el caso base no hace nada.
 }

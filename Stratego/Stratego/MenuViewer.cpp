@@ -243,7 +243,7 @@ void MenuViewer::drawWritingName()
 		screenWidth - 330, screenHeight - 128, 220, 120, 0);
 	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 270, screenHeight - 100, 0, "Back");
 	al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
-		screenWidth - 350 -300, screenHeight - 128, 270, 120, 0);
-	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 605, screenHeight - 100, 0, "Confirm");
+		screenWidth - 350 -220, screenHeight - 128, 270, 120, 0);
+	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 525, screenHeight - 100, 0, "Confirm");
 	al_flip_display();
 }

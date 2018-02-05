@@ -146,11 +146,11 @@ dataButtonsPos fillButtonsInfo(void)
 	ret.ll_sound.y = 622;
 	ret.hr_sound.x = 1058;
 	ret.hr_sound.y = 696;
-		//falta completar confirm porque hay que mover el boton primero
-	ret.ll_confirm.x = 0;
-	ret.ll_confirm.y = 0;
-	ret.hr_confirm.x = 0;
-	ret.hr_confirm.y = 0;
+	
+	ret.ll_confirm.x = 538;
+	ret.ll_confirm.y = 700;
+	ret.hr_confirm.x = 757;
+	ret.hr_confirm.y = 620;
 
 	return ret;
 }

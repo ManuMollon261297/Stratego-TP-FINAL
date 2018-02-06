@@ -13,7 +13,11 @@ NetworkingState* WaitingNewGameResponse::R_u_ready(NetWorkingEvent& ev, Networki
 
 NetworkingState* WaitingNewGameResponse::Game_over(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	char pckg[1] = { ACK_HEADER };
 	NetworkingState* p_state = new Quiting;
 	Gm->SetExit(true);
+	Gm->setMessage("El oponente no desea jugar de nuevo, desconectando...");
+	p_nwm->sendPackage(pckg, 1);
+	p_nwm->Shutdown();
 	return p_state;
 }

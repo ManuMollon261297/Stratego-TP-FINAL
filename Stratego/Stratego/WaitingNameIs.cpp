@@ -33,7 +33,7 @@ NetworkingState* WaitingNameIs::Name_is(NetWorkingEvent& ev, NetworkingModel* p_
 	}
 	else //Se perdio la comunicacion.
 	{
-		Gm->SetExit(true);
+		ErrorRoutine(p_nwm, Gm);
 		state = new Quiting;
 	}
 

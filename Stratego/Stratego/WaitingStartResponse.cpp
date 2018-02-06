@@ -6,6 +6,7 @@ NetworkingState* WaitingStartResponse::Ack(NetWorkingEvent& ev, NetworkingModel*
 	p_nwm->ResetTimeout();
 	Gm->setState(PLACING_FICHAS);
 	return new NetPlacingFichas;
+	Gm->setMessage("Posicione sus fichas");
 }
 
 NetworkingState* WaitingStartResponse::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)

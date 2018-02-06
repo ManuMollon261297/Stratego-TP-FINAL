@@ -44,7 +44,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 			}
 			else
 			{
-				Gm->SetExit(true);
+				ErrorRoutine(p_nwm, Gm);
 				p_state = new Quiting;
 			}
 
@@ -52,6 +52,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 		else //El move no fue un ataque
 		{
 			Gm->setState(MY_TURN); //Ya se realizo la movida del oponente asique es mi turno.
+			Gm->setMessage("Por favor realiz una jugada");
 			Gm->restartTimer();
 			p_state = nullptr; //No cambia de estado.
 		}
@@ -62,9 +63,10 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 
 NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	Gm->setState(GAME_OVER); //Este estado deberia funcionar para alertar al usuario que se ggano la partida.
+	Gm->setState(GAME_OVER); 
 	Gm->playerWon();
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
+	Gm->setMessage("Victoria! has ganado");
 	NetworkingState * p_state = new WaitingPlayerDecision;
 	return p_state;
 
@@ -80,6 +82,7 @@ NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
 	if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
 	{
 		Gm->setMoveDoneFalse();
+		Gm->restartTimer();
 		char move_pckg[5];
 		move_pckg[0] = MOVE_HEADER;
 		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
@@ -93,10 +96,11 @@ NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
 		sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
 
 		Gm->setState(OP_TURN);
+		Gm->setMessage("Comienza el turno del oponente");
 	}
 	if (!sent) //Error de comunicacion.
 	{
-		Gm->SetExit(true);
+		ErrorRoutine(p_nwm, Gm);
 		p_state = new Quiting;
 	}
 	return p_state; //Si es pasivo espero un move
@@ -110,6 +114,7 @@ NetworkingState* WaitingMove::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
 	if (Gm->getMoveDone()) //El usuario hizo un movimiento valido
 	{
 		Gm->setMoveDoneFalse();
+		Gm->restartTimer();
 		char move_pckg[5];
 		move_pckg[0] = MOVE_HEADER;
 		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
@@ -128,7 +133,7 @@ NetworkingState* WaitingMove::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
 		}
 		else
 		{
-			Gm->SetExit(true);
+			ErrorRoutine(p_nwm, Gm);
 			p_state = new Quiting;
 		}
 		
@@ -155,7 +160,7 @@ NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
 			}
 			else
 			{
-				Gm->SetExit(true);
+				ErrorRoutine(p_nwm, Gm);
 				p_state = new Quiting;
 			}
 		}

@@ -16,6 +16,7 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 			{
 				Gm->setState(MY_TURN);
 				Gm->restartTimer();
+				Gm->setMessage("Por favor realizar una jugada valida");
 				p_state = new WaitingMove;
 			}
 			else //si empieza el server respondo i am ready.
@@ -25,11 +26,13 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 				sent = p_nwm->sendPackage(pckg, 1);
 				if (sent)
 				{
+					Gm->setState(OP_TURN);
+					Gm->setMessage("Esperando jugada del oponente");
 					p_state = new WaitingMove;
 				}
 				else //Error de comunicacion.
 				{
-					Gm->SetExit(true);
+					ErrorRoutine(p_nwm, Gm);
 					p_state = new Quiting;
 				}
 			}
@@ -79,19 +82,23 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 		if (Gm->getRed())//termine de poner las fichas y soy el que empieza
 		{
 			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
+			Gm->setMessage("Esperando que el oponente termine...");
 			p_state = new NetPlacingFichas;
 		}
 		else
 		{
 			Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
+			Gm->setMessage("Esperando jugada del oponente");
 			p_state = new WaitingMove;
 		}
 		char pckg[1];
 		pckg[0] = R_U_READY_HEADER;
-		do
+		sent = NWM->sendPackage(pckg, 1);
+		if (!sent)
 		{
-			sent = NWM->sendPackage(pckg, 1);
-		} while (!sent);
+			ErrorRoutine(NWM, Gm);
+			p_state = new Quiting;
+		}
 	}
 	else if (NWM->getServer() == CLIENT)
 	{
@@ -103,16 +110,20 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 			if (Gm->getRed()) //Si voy primero directamente mando mi primera jugada.
 			{
 				Gm->setState(MY_TURN);
+				Gm->setMessage("Por favor realizar una jugada valida");
 			}
 			else //si empieza el server respondo i am ready.
 			{
 				Gm->setState(OP_TURN);
+				Gm->setMessage("Esperando jugada del oponente");
 				char pckg[1];
 				pckg[0] = I_AM_READY_HEADER;
-				do
+				sent = NWM->sendPackage(pckg, 1);
+				if (!sent)
 				{
-					sent = NWM->sendPackage(pckg, 1);
-				} while (!sent);
+					ErrorRoutine(NWM, Gm);
+					p_state = new Quiting;
+				}
 
 			}
 		}

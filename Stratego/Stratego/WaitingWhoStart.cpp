@@ -13,6 +13,7 @@ NetworkingState* WaitingWhoStart::I_start(NetWorkingEvent& ev, NetworkingModel* 
 	{
 		p_state = new NetPlacingFichas;
 		Gm->setState(PLACING_FICHAS);
+		Gm->setMessage("Posicione sus fichas");
 	}
 	else //se perdio la comunicacion.
 	{
@@ -34,6 +35,7 @@ NetworkingState* WaitingWhoStart::You_start(NetWorkingEvent& ev, NetworkingModel
 	{
 		p_state = new NetPlacingFichas;
 		Gm->setState(PLACING_FICHAS);
+		Gm->setMessage("Posicione sus fichas");
 	}
 	else
 	{

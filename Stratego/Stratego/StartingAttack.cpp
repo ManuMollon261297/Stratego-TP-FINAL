@@ -22,7 +22,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			char pckg[1];
 			pckg[0]= (YOU_WON_HEADER);
 			Gm->setState(GAME_OVER);
-			Gm->setMessage("Derrota! has perdido");
+			Gm->setMessage("Derrota! esperando decision del oponente");
 			sent = p_nwm->sendPackage(pckg, 1);
 			p_state = new WaitingOponentDecision;
 		}
@@ -35,13 +35,14 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 			pckg[1] = rank2send;
 			Gm->setState(OP_TURN);
+			Gm->setMessage("Esperando jugada del oponente");
 			sent = p_nwm->sendPackage(pckg, 2);
 			p_state = new WaitingMove;
 		}
 
 		if (!sent) //Error de comunicacion.
 		{
-			Gm->SetExit(true);
+			ErrorRoutine(p_nwm, Gm);
 			p_state = new Quiting;
 		}
 	}

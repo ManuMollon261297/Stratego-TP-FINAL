@@ -11,11 +11,7 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
 	if ( !ValidateRank(enemy_rank)) 
 	{
-		char error_pckg[1]; //Si el rank es invalido lo trata como un error en la comunicacion.
-		error_pckg[0] = ERROR_HEADER;
-		sent = p_nwm->sendPackage(error_pckg, 1);
-		Gm->setState(GAME_OVER);
-		Gm->SetExit(true);
+		ErrorRoutine(p_nwm, Gm);
 		p_state = new Quiting;
 	}
 	else 
@@ -29,11 +25,12 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 			sent = p_nwm->sendPackage((char*)pckg.c_str(), 1);
 			if (sent)
 			{
+				Gm->setMessage("Derrota! esperando decision del oponente");
 				p_state = new WaitingOponentDecision;
 			}
 			else //Error de comunicacion.
 			{
-				Gm->SetExit(true);
+				ErrorRoutine(p_nwm, Gm);
 				p_state = new Quiting;
 			}
 			
@@ -42,6 +39,7 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		{
 			Gm->setState(MY_TURN);//Ya es mi turno, el otro debe esperar que responda con un move.
 			Gm->restartTimer();
+			Gm->setMessage("Por favor realizar una jugada valida");
 			p_state = new WaitingMove;
 		}
 		
@@ -56,6 +54,7 @@ NetworkingState* WaitingAttack::You_won(NetWorkingEvent& ev, NetworkingModel* p_
 	Gm->setState(GAME_OVER);
 	Gm->playerWon();
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
+	Gm->setMessage("Victoria! has ganado");
 	return p_state;
 	//Habria que preguntarle al usuario de alguna forma si quiere volver a jugar de nuevo.
 	//en base a eso mando GAME_OVER o PLAY_AGAIN.
@@ -67,12 +66,8 @@ NetworkingState* WaitingAttack::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
 	p_nwm->IncrementTime();
 	if (p_nwm->TimeEnded())
 	{
-		char error_pckg[1] = { ERROR_HEADER };
-		Gm->SetExit(true);
+		ErrorRoutine(p_nwm, Gm);
 		p_state = new Quiting;
-		Gm->setMessage("Se perdio la comunicacion, cerrando...");
-		p_nwm->sendPackage(error_pckg, 1);
-		p_nwm->Shutdown();
 	}
 
 	return p_state;

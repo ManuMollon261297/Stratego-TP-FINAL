@@ -7,6 +7,7 @@ NetworkingState* WaitingPlayerDecision::SelectedGameOver(NetworkingModel* NWM, G
 	char pckg[1] = { GAME_OVER_HEADER };
 	p_state = new Quiting;
 	Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
+	Gm->setMessage("Informando al otro jugador");
 	sent = NWM->sendPackage(pckg, 1);
 	if (!sent)
 	{
@@ -27,6 +28,7 @@ NetworkingState* WaitingPlayerDecision::SelectedPlayAgain(NetworkingModel* NWM, 
 		pckg[0] = (PLAY_AGAIN_HEADER);
 		p_state = new WaitingNewGameResponse;
 		Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
+		Gm->setMessage("Esperando decision del oponente");
 		sent = NWM->sendPackage(pckg, 1);
 		if (!sent)
 		{

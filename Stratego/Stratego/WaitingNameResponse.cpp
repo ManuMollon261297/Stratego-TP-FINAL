@@ -38,7 +38,7 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 
 	if (!sent)
 	{
-		Gm->SetExit(true);
+		ErrorRoutine(p_nwm, Gm);
 		p_state = new Quiting;
 	}
 	return p_state;

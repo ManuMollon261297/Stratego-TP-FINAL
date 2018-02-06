@@ -29,6 +29,7 @@ int main()
 	menuView.initImagesAndFonts();
 	menuView.isViewerInitialized();
 	menuView.drawMenu();
+	menuView.manageSoundtrack();
 
 	al_flip_display();
 

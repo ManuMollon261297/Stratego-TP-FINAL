@@ -79,6 +79,8 @@ int main()
 #ifdef NETWORKING_TEST
 	char user_name[256];
 	char ip[MAX_IP_LENGTH + 1];
+	std::string pckg;
+	pckg += NAME_IS_HEADER;
 	bool sent = false;
 	NetworkingModel* NWM = new NetworkingModel();
 	std::ifstream ip_file("./ip.txt");
@@ -88,12 +90,14 @@ int main()
 	std::string user_nameS(user_name);
 
 	NWM->setMe(user_nameS);
+	pckg += (char)(user_nameS.size());
+	pckg += user_nameS;
 	srand(time(NULL));
 	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
 	if ((NWM->connectAsClient(waiting_time, ip)))
 	{
 		NWM->setServer(CLIENT);
-		sent = NWM->sendPackage((char*)user_nameS.c_str(), user_nameS.size()); //mando mi nombre
+		sent = NWM->sendPackage((char*)pckg.c_str(), pckg.size()); //mando mi nombre
 		if (!sent)
 		{
 			NWM->Shutdown();

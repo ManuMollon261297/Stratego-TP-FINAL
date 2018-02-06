@@ -161,6 +161,7 @@ bool NetworkingModel::connectAsClient(int time,char * ip)
 		if (time_done)
 		{
 			time_done = false;
+			comm_error = false;
 			return false;
 		}
 		else

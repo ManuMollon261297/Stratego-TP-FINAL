@@ -2,15 +2,21 @@
 #include "AllegroViewer.h"
 #include "menuMouseController.h"
 #include "MenuViewer.h"
+#include "NetworkingModel.h"
+#include <fstream>
 
 using namespace std;
 
 dataButtonsPos fillButtonsInfo(void);
 
 void printStateModel(int state);
+#define MAX_IP_LENGTH 45
+#define NETWORKING_TEST
+//#define MENU_TEST
 
 int main()
 {
+#ifdef MENU_TEST
 	dataButtonsPos dataButtons = fillButtonsInfo();
 	MenuModel menu;
 	menuMouseController menuControllerMouse(&menu, dataButtons);
@@ -66,7 +72,49 @@ int main()
 	}
 	getchar();
 	al_destroy_event_queue(event_queue);
+
+#endif //MENU_TEST
+
+#ifdef NETWORKING_TEST
+	char user_name[256];
+	char ip[MAX_IP_LENGTH + 1];
+	bool sent = false;
+	NetworkingModel* NWM = new NetworkingModel();
+	std::ifstream ip_file("./ip.txt");
+	std::ifstream name_file("./temporal.txt");
+	ip_file.getline(ip, MAX_IP_LENGTH); //Consigo la ip del otro jugador
+	name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
+	std::string user_nameS(user_name);
+
+	NWM->setMe(user_nameS);
+	srand(time(NULL));
+	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
+	if ((NWM->connectAsClient(waiting_time, ip)))
+	{
+		NWM->setServer(CLIENT);
+		sent = NWM->sendPackage((char*)user_nameS.c_str(), user_nameS.size()); //mando mi nombre
+		if (!sent)
+		{
+			NWM->Shutdown();
+		}
+	}
+	else
+	{
+		if (NWM->connectAsServer()) //recibo el paquete con el nombre
+		{
+			NWM->setServer(SERVER);
+			NWM->StartReading();
+			while (!(NWM->WasPackageRecieved()))
+			{
+				NWM->GetReading();
+			}
+			std::cout << std::endl << NWM->GetPackage() << std::endl;
+		}
+	}
+	getchar();
+#endif //NETWORKING_TEST
 	return 0;
+
 }
 
 void printStateModel(int state)

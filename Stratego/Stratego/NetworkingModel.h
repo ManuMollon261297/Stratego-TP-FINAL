@@ -25,6 +25,9 @@ using boost::asio::deadline_timer;
 #define ERROR_HEADER (char)0xFE
 #define QUIT_HEADER (char)0xFF
 
+#define READING_ERROR (char)0xCC //No es del protocolo de comunicacion,
+								//sirve para detectar errores de lectura.
+
 #define		PORT	13225
 #define		PORT_C	"13225"
 

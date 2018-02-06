@@ -87,6 +87,8 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 		case YOU_WON_HEADER:
 			proxState = actualState->You_won((NetWorkingEvent&)newEvent, NWM, Gm);
 			break;
+		default:
+			proxState = actualState->UnknownHeader(NWM, Gm);
 		}
 
 		if (proxState != nullptr)

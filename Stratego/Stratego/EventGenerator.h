@@ -1,5 +1,5 @@
 #pragma once
-/*
+
 #include <list>
 #include "State.h"
 #include "Event.h"
@@ -13,7 +13,6 @@
 #include "MouseEvent.h"
 #include "NetWorkingEvent.h"
 
-#include "RefreshEvent.h"
 
 
 class EventGenerator
@@ -41,4 +40,3 @@ private:
 	std::list<GenericEvent*> eventList;
 };
 
-*/

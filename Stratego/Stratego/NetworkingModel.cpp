@@ -46,7 +46,6 @@ bool NetworkingModel::sendPackage(char * message, int size)
 	}
 	else
 	{
-		IO_handler->reset();
 		return true;
 	}
 }
@@ -202,37 +201,55 @@ NetworkingModel::~NetworkingModel()
 			socket_a->close();
 		}
 		delete socket_a;
+		socket_a = nullptr;
 	}
 
 	if (endpoint_a != nullptr) //destruyo el endpoint
 	{
 		delete endpoint_a;
+		endpoint_a = nullptr;
 	}
 
 	if (server_acceptor != nullptr) //destruyo el acceptor.
 	{
-		server_acceptor->close();
+		if (server_acceptor->is_open())
+		{
+			server_acceptor->close();
+		}
 		delete server_acceptor;
+		server_acceptor = nullptr;
 	}
 	if (deadline_ != nullptr) //destruyo el timer de boost.
 	{
 		delete deadline_;
+		deadline_ = nullptr;
 	}
 
 	if (IO_handler != nullptr) //destruyo el servicio de boost.
 	{
 		delete IO_handler;
+		IO_handler = nullptr;
 	}
 }
 
 void NetworkingModel::Shutdown()
 {
-	if (socket_a->is_open())
+	if (socket_a != nullptr)
 	{
-		socket_a->close();
+		if (socket_a->is_open())
+		{
+			socket_a->close();
+		}
 	}
+	
 
-	deadline_->cancel();
+	if (server_acceptor != nullptr)
+	{
+		if (server_acceptor->is_open())
+		{
+			server_acceptor->close();
+		}
+	}
 }
 
 
@@ -368,14 +385,15 @@ std::size_t NetworkingModel::completion_condition(const boost::system::error_cod
 void NetworkingModel::read_handler(const boost::system::error_code& error,
 					std::size_t bytes_transferred)
 {
+	reading = false;
+	package_recieved = true;
 	if (!error)
 	{
-		reading = false;
-		package_recieved = true;
 		package_size = bytes_transferred;
 		if (comm_error)
 		{
-			Shutdown();
+			buffer_for_reading[0] = READING_ERROR;
+			package_size = 1;
 		}
 		
 	}
@@ -383,7 +401,8 @@ void NetworkingModel::read_handler(const boost::system::error_code& error,
 	{
 		std::cout << std::endl << error.message() << std::endl;
 		comm_error = true;
-		Shutdown();
+		buffer_for_reading[0] = READING_ERROR;
+		package_size = 1;
 	}
 }
 

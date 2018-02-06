@@ -102,6 +102,12 @@ NetworkingState* NetworkingState::Error(NetWorkingEvent& ev, NetworkingModel* p_
 	return nullptr;
 }
 
+NetworkingState* NetworkingState::UnknownHeader(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	ErrorRoutine(p_nwm, Gm);
+	return nullptr;
+}
+
 NetworkingState* NetworkingState::EndedPlacing(NetworkingModel* p_nwm, GameModel * Gm)
 {
 	ErrorRoutine(p_nwm, Gm);

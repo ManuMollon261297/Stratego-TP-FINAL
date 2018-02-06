@@ -30,6 +30,7 @@ public:
 	virtual NetworkingState* Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Error(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Quit(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* UnknownHeader(NetworkingModel* p_nwm, GameModel * Gm);
 
 	//Rutinas vinculadas al input del usuario
 	virtual NetworkingState* EndedPlacing(NetworkingModel* p_nwm, GameModel * Gm);

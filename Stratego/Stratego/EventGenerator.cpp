@@ -1,4 +1,4 @@
-/*#include "EventGenerator.h"
+#include "EventGenerator.h"
 
 
 EventGenerator::EventGenerator(GameModel * gm_, NetworkingModel * nwm_, ALLEGRO_EVENT_QUEUE* ev_q)
@@ -70,52 +70,33 @@ enum {ioEvent,otherEvent};
 void EventGenerator::shape(ALLEGRO_EVENT ev)
 {
 	int type;
-	GenericEvent events;
-	switch (ev.type)		//Falta SOUND, GRAPHICS, ver TIMER (ver tipo de evento de TIMER, hasta ahora son todos ioEvent)
-		
-							//NET, GRAPHICS, KEYBOARD, MOUSE, SOUND, TIMER
-
+	GenericEvent* p_event;
+	switch (ev.type)		//Falta SOUND y corregir el de MOUSE.
 	{
 		case ALLEGRO_EVENT_TIMER:
-			events.SetEvent(TIMER);
-			events.SetUd(0);
-			type = ioEvent;
+			p_event = new GenericEvent;
+			p_event->SetEvent(TIMER);
 			break;
-		case ALLEGRO_EVENT_KEY_DOWN:
-			events.SetEvent(KEYBOARD);
-			type = ioEvent;
+		//case ALLEGRO_EVENT_KEY_DOWN:
+		//	p_event = new KeyboardEvent;
+		//	break;
+		//case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+		//	p_event = new MouseEvent;
+		//	break;	
+		case ALLEGRO_EVENT_DISPLAY_CLOSE: //Es el unico evento del display que nos importa.
+			p_event = new GenericEvent;
+			p_event->SetEvent(GRAPHICS);
 			break;
-		case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-			events.SetEvent(MOUSE);
-			type = ioEvent;
-			break;		
 		default:
-			type = otherEvent;
+			p_event = new GenericEvent; //Eventos que ignoramos.
+			p_event->SetEvent(OTHER);
 			break;
 	}
-	if (type == ioEvent)
+	if ((p_event->GetEvent()) != OTHER)
 	{
-		if (!(events.GetEvent() == QUIT))				//Ver para que tipo de evento no guardo informacion
-		{
-			GenericEvent * genEv = new RefreshEvent(events);
-
-			((RefreshEvent*)genEv)->gm_ = gm;			//ver
-			((RefreshEvent*)genEv)->nwm_ = nwm;			//ver
-			
-			((RefreshEvent*)genEv)->socket_ = socket_;
-			eventList.push_back(genEv);
-		}
-		else 
-		{
-			GenericEvent * genEve = new RefreshEvent(events);
-			((RefreshEvent*)genEve)->socket_ = socket_;
-			eventList.push_back(genEve);
-		}
+		eventList.push_back(p_event);
 	}
-	else if (type == otherEvent)
-	{
-		//no nos interesa otro tipo de evento para este tp
-	}
+	
 }
 
 
@@ -126,4 +107,3 @@ void EventGenerator::shape(std::string pckg)
 	eventList.push_back(eve);
 }
 
-*/

@@ -1,6 +1,6 @@
 #pragma once
 
-enum ev { NET, GRAPHICS, KEYBOARD, MOUSE, SOUND, TIMER};
+enum ev { NET, GRAPHICS, KEYBOARD, MOUSE, SOUND, TIMER, OTHER};
 
 class GenericEvent
 {

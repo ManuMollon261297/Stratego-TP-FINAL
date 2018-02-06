@@ -182,7 +182,7 @@ void MenuViewer::drawLeaderboard()
 	if (engine.isMuteOn())
 	{
 		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
-			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
+			, screenWidth - 110, screenHeight - 100, 90, 80, 0);
 	}
 	else
 	{

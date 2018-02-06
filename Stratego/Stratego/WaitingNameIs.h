@@ -10,5 +10,6 @@
 class WaitingNameIs : public NetworkingState
 {
 public:
+	WaitingNameIs();
 	virtual NetworkingState* Name_is(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 };

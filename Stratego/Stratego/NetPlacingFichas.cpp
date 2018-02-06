@@ -1,5 +1,16 @@
 #include "NetPlacingFichas.h"
 
+
+NetPlacingFichas::NetPlacingFichas()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In NetPlacingFichas" << std::endl;
+
+#endif //DEBUG
+}
+
+
 NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	bool sent = false;

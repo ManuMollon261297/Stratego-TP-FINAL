@@ -4,7 +4,14 @@
 #include "NetworkingFuncs.h"
 
 
+WaitingMove::WaitingMove()
+{
+#ifdef DEBUG
 
+	std::cout << std::endl << "In WaitingMove" << std::endl;
+
+#endif //DEBUG
+}
 
 
 

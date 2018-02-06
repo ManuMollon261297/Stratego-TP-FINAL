@@ -1,6 +1,13 @@
 #include "WaitingForName.h"
 
+WaitingForName::WaitingForName()
+{
+#ifdef DEBUG
 
+	std::cout << std::endl << "In WaitingForName" << std::endl;
+
+#endif //DEBUG
+}
 
 NetworkingState*  WaitingName::Name(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {

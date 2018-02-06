@@ -1,6 +1,16 @@
 #include "Quiting.h"
 
 
+Quiting::Quiting()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In Quiting" << std::endl;
+
+#endif //DEBUG
+}
+
+
 NetworkingState* Quiting::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	p_nwm->ResetTimeout(); //reincio el timeout.

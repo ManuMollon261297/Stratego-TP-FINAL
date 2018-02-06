@@ -10,6 +10,8 @@
 
 class WaitingPlayerDecision : public NetworkingState
 {
+public:
+	WaitingPlayerDecision();
 	virtual NetworkingState* SelectedGameOver(NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm);
 };

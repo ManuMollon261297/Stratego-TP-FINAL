@@ -1,5 +1,15 @@
 #include "WaitingOponentDecision.h"
 
+WaitingOponentDecision::WaitingOponentDecision()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In WaitingOponentDecision" << std::endl;
+
+#endif //DEBUG
+}
+
+
 NetworkingState* WaitingOponentDecision::Play_again(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	NetworkingState* p_state = new WaitingPlayerDecision;

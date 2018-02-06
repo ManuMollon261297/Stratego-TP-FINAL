@@ -7,7 +7,7 @@
 #include "GameModel.h"
 #include "gameState.h"
 
-
+#define DEBUG
 
 
 

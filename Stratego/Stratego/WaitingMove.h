@@ -13,7 +13,7 @@
 class WaitingMove : public NetworkingState
 {
 public:
-
+	WaitingMove();
 	virtual NetworkingState* Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* You_won(NetWorkingEvent&, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* MoveDone(NetworkingModel* p_nwm, GameModel * Gm);

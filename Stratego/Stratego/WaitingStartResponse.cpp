@@ -1,5 +1,13 @@
 #include "WaitingStartResponse.h"
 
+WaitingStartResponse::WaitingStartResponse()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In WaitingStartResponse" << std::endl;
+
+#endif //DEBUG
+}
 
 NetworkingState* WaitingStartResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {

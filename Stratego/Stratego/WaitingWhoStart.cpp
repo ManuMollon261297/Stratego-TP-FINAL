@@ -1,6 +1,15 @@
 #include "WaitingWhoStart.h"
 
 
+WaitingWhoStart::WaitingWhoStart()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In WaitingWhoStart" << std::endl;
+
+#endif //DEBUG
+}
+
 NetworkingState* WaitingWhoStart::I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char pckg[1];

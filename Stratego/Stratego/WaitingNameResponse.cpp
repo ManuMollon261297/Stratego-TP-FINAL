@@ -1,6 +1,16 @@
 #include "WaitingNameResponse.h"
 #include <time.h>
 
+
+WaitingNameResponse::WaitingNameResponse()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In WaitingNameResponse" << std::endl;
+
+#endif //DEBUG
+}
+
 NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	NetworkingState* p_state;

@@ -1,5 +1,14 @@
 #include "WaitingPlayerDecision.h"
 
+WaitingPlayerDecision::WaitingPlayerDecision()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In WaitingPlayerDecision" << std::endl;
+
+#endif //DEBUG
+}
+
 NetworkingState* WaitingPlayerDecision::SelectedGameOver(NetworkingModel* NWM, GameModel * Gm)
 {
 	bool sent = false;

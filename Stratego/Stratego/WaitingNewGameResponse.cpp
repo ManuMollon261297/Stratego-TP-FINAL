@@ -1,5 +1,15 @@
 #include "WaitingNewGameResponse.h"
 
+WaitingNewGameResponse::WaitingNewGameResponse()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In WaitingNewGameResponse" << std::endl;
+
+#endif //DEBUG
+}
+
+
 NetworkingState* WaitingNewGameResponse::R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	NetworkingState* p_state= new NetPlacingFichas;

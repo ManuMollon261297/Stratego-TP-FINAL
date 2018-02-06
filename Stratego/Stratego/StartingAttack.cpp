@@ -2,6 +2,17 @@
 #include "NetworkingFuncs.h"
 #include "currStatus.h"
 
+
+StartingAttack::StartingAttack()
+{
+#ifdef DEBUG
+
+	std::cout << std::endl << "In StartingAttack" << std::endl;
+
+#endif //DEBUG
+}
+
+
 NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	bool sent = false;

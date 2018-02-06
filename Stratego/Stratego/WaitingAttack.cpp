@@ -1,6 +1,13 @@
 #include "WaitingAttack.h"
 
+WaitingAttack::WaitingAttack()
+{
+#ifdef DEBUG
 
+	std::cout << std::endl << "In WaitingAttack" << std::endl;
+
+#endif //DEBUG
+}
 
 NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {

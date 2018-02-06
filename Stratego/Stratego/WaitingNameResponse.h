@@ -13,4 +13,5 @@ class WaitingNameResponse : public NetworkingState
 public:
 
 	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
 };

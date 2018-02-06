@@ -5,6 +5,7 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 {
 	NetworkingState* p_state;
 	bool sent = false;
+	p_nwm->ResetTimeout();
 	if (p_nwm->getServer() == SERVER)
 	{
 		//sorteo orden de jugada, envio los ordenes y espero la respuesta
@@ -39,6 +40,22 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 	{
 		Gm->SetExit(true);
 		p_state = new Quiting;
+	}
+	return p_state;
+}
+
+NetworkingState* WaitingNameResponse::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	NetworkingState* p_state = nullptr;
+	p_nwm->IncrementTime();
+	if (p_nwm->TimeEnded())
+	{
+		char error_pckg[1] = { ERROR_HEADER };
+		p_state = new Quiting;
+		Gm->SetExit(true);
+		Gm->setMessage("Se perdio la comunicacion, cerrando...");
+		p_nwm->sendPackage(error_pckg, 1);
+		p_nwm->Shutdown();
 	}
 	return p_state;
 }

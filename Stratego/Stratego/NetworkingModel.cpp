@@ -4,6 +4,7 @@
 
 NetworkingModel::NetworkingModel()
 {
+	timeout_counter = 0;
 	//Flags
 	package_recieved = false;
 	comm_error = false;
@@ -82,6 +83,26 @@ std::string NetworkingModel::getMe()
 void NetworkingModel::setMe(std::string me_)
 {
 	me = me_;
+}
+bool NetworkingModel::TimeEnded()const
+{
+	if (timeout_counter == TIMEOUT)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+void NetworkingModel::IncrementTime()
+{
+	timeout_counter++;
+}
+
+void NetworkingModel::ResetTimeout()
+{
+	timeout_counter = 0;
 }
 
 std::string NetworkingModel::getYou()

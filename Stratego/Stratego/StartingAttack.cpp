@@ -7,6 +7,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 	bool sent = false;
 	unsigned char enemy_rank = (ev.GetRecieved())[1]; 
 	NetworkingState* p_state;
+	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
 	if (!(ValidateRank(enemy_rank)) ) //si el rank es invalido es un error de comunicacion.
 	{
 		char pckg[1];
@@ -50,4 +51,20 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 	return p_state;
 
 
+}
+
+NetworkingState* StartingAttack::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+{
+	NetworkingState* p_state = nullptr;
+	p_nwm->IncrementTime();
+	if ( p_nwm->TimeEnded() )
+	{
+		char error_pckg[1] = {ERROR_HEADER};
+		p_state = new Quiting;
+		Gm->SetExit(true);
+		Gm->setMessage("Se perdio la comunicacion, cerrando...");
+		p_nwm->sendPackage(error_pckg, 1);
+		p_nwm->Shutdown();
+	}
+	return p_state;
 }

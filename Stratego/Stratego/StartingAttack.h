@@ -14,4 +14,5 @@ class StartingAttack : public NetworkingState
 public:
 
 	virtual NetworkingState* Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
 };

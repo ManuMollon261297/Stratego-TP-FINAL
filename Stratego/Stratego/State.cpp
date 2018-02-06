@@ -107,8 +107,10 @@ NetworkingState* NetworkingState::Quit(NetWorkingEvent& ev, NetworkingModel* p_n
 
 NetworkingState* NetworkingState::Error(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
+	p_nwm->Shutdown();
 	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
+	Gm->setMessage("Error de comunicacion, cerrando...");
 	return nullptr;
 }
 

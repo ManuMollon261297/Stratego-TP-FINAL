@@ -28,6 +28,10 @@ using boost::asio::deadline_timer;
 #define		PORT	13225
 #define		PORT_C	"13225"
 
+//Timer
+#define TIMEOUT 150 //despues de 2 minutos y medio sin respuesta 
+					//se asumme que se perdio la comunicacion.
+
 enum serverStatus {SERVER,CLIENT,UNINITIALIZED};
 class NetworkingModel
 {
@@ -45,6 +49,9 @@ public:
 	bool GetReading();
 	bool WasPackageRecieved()const;
 	std::string GetPackage();
+	bool TimeEnded()const;
+	void IncrementTime();
+	void ResetTimeout();
 	void setYou(std::string you_);
 	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
@@ -58,6 +65,7 @@ private:
 	bool finished_writing;
 	std::size_t package_size;
 	bool package_recieved;
+	unsigned int timeout_counter;
 	char buffer_for_reading[300];
 	char buffer_for_writing[300];
 	serverStatus serverStat;

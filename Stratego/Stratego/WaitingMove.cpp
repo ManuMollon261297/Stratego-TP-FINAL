@@ -13,6 +13,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 	bool sent = false;
 	NetworkingState * p_state;
 	Gm->setState(OP_TURN); //Empieza el turno del oponente.
+	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
 	std::string pckg = ev.GetRecieved();
 	int original_posY = pckg[1] - 'A'; //Le resta el valor de la primera columna para obtener el numero.
 	int original_posX = pckg[2] - 1; //le resta uno porque tomamos posiciones de 0 a 9 y llegan de 1 a 10.
@@ -67,6 +68,7 @@ NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nw
 {
 	Gm->setState(GAME_OVER); //Este estado deberia funcionar para alertar al usuario que se ggano la partida.
 	Gm->playerWon();
+	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
 	NetworkingState * p_state = new WaitingPlayerDecision;
 	return p_state;
 
@@ -164,6 +166,19 @@ NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
 		else if ((Gm->getTime()) == 60)
 		{
 			Gm->setMessage("Queda menos de un minuto");
+		}
+	}
+	else if ((Gm->getState()) == OP_TURN) //Si pasan 2 minutos y medio
+	{									//se asume que se perdio la comunicacion.
+		p_nwm->IncrementTime();
+		if (p_nwm->TimeEnded())
+		{
+			char error_pckg[1] = { ERROR_HEADER };
+			Gm->SetExit(true);
+			Gm->setMessage("Se perdio la comunicacion, cerrando...");
+			p_state = new Quiting;
+			sent = p_nwm->sendPackage(error_pckg, 1);
+			p_nwm->Shutdown();
 		}
 	}
 	return p_state;

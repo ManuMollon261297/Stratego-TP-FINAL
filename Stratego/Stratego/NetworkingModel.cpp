@@ -426,11 +426,8 @@ void NetworkingModel::read_handler(const boost::system::error_code& error,
 
 void NetworkingModel::write_handler(const boost::system::error_code& error, std::size_t bytes_transferred)
 {
-	if (!error)
-	{
-		finished_writing = true;
-	}
-	else
+	finished_writing = true;
+	if(error)
 	{
 		std::cout << std::endl << error.message() << std::endl;
 		comm_error = true;

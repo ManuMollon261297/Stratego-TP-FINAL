@@ -9,7 +9,7 @@ MenuModel::MenuModel()
 	leaderboardFile = "STPFLB.txt"; //Stratego Tp Final Leader Board
 	workingIp = false;
 	exit = false;
-	sound = true;
+	muteOn = false;
 }
 
 MenuModel::~MenuModel()
@@ -89,12 +89,12 @@ void MenuModel::setExit(void)
 
 void MenuModel::toggleSound()
 {
-	sound = !sound;
+	muteOn = !muteOn;
 }
 
-bool MenuModel::getSoundState()
+bool MenuModel::isMuteOn()
 {
-	return sound;
+	return muteOn;
 }
 
 button * MenuModel::getButtonReference(int index)

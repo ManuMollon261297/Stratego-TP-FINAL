@@ -19,7 +19,7 @@ public:
 	void deleteButtons();
 	void setExit(void);
 	void toggleSound();
-	bool getSoundState();
+	bool isMuteOn();
 	button * getButtonReference(int index);
 	std::vector<std::string> getLeadreboardInfo();
 	unsigned int getNumberOfButtons(void);
@@ -34,6 +34,6 @@ private:
 	std::string ip;
 	std::vector<button> botones;
 	bool exit;
-	bool sound;
+	bool muteOn;
 };
 

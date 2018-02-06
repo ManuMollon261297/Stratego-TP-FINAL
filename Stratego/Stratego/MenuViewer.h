@@ -6,6 +6,8 @@
 #include "allegro5\allegro_ttf.h"
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include "AllegroFuncs.h"
 #include <vector>
 
@@ -38,8 +40,10 @@ private:
 	std::string titlettfDir;
 	std::string optionsttfDir;
 	std::string messagettfDir;
+	//direccion de sonidos
+	std::string soundtrackDir;
 	//bools
-	bool muteOn;
+	bool sound;
 	bool initialized;
 	// allegro bmps
 	ALLEGRO_BITMAP * ALLEGRO_menuBackground;	//fondo de pantalla durante el menu 
@@ -51,6 +55,8 @@ private:
 	ALLEGRO_FONT * ALLEGRO_titlettf;
 	ALLEGRO_FONT * ALLEGRO_optionsttf;
 	ALLEGRO_FONT * ALLEGRO_messagesttf;
+	//allegro samples (sounds)
+	ALLEGRO_SAMPLE * wavSoundtrack;
 	//display
 	ALLEGRO_DISPLAY * ALLEGRO_display;
 

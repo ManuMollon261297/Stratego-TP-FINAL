@@ -62,7 +62,6 @@ int main()
 			}
 			
 		}
-		
 	}
 	getchar();
 	al_destroy_event_queue(event_queue);
@@ -143,9 +142,9 @@ dataButtonsPos fillButtonsInfo(void)
 	ret.hr_goback.y = 619;
 
 	ret.ll_sound.x = 984;
-	ret.ll_sound.y = 622;
+	ret.ll_sound.y = 694;
 	ret.hr_sound.x = 1058;
-	ret.hr_sound.y = 696;
+	ret.hr_sound.y = 622;
 	
 	ret.ll_confirm.x = 538;
 	ret.ll_confirm.y = 700;

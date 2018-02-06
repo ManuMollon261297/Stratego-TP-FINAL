@@ -6,7 +6,8 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 {
 	//inicializacion de allegro
 	ALLEGRO_display = disp;
-	if (al_init_font_addon() && al_init_primitives_addon() && al_init_image_addon() && al_init_ttf_addon())
+	if (al_init_font_addon() && al_init_primitives_addon() && al_init_image_addon() && al_init_ttf_addon()
+		&& al_install_audio() && al_init_acodec_addon())
 	{
 		initialized = true;
 	}
@@ -14,9 +15,10 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 	{
 		initialized = false;
 	}
+	al_reserve_samples(4);
 	screenHeight = h;
 	screenWidth = w;
-	muteOn = false;
+	sound = false;
 	//bmps
 	botonLayoutDir = "../Allegro Data/button.png";
 	menuBackgroundDir = "../Allegro Data/menuBackground.png";
@@ -27,6 +29,8 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 	titlettfDir = "../Allegro Data/Prince Valiant.ttf";
 	optionsttfDir = "../Allegro Data/Prince Valiant.ttf";
 	messagettfDir = "../Allegro Data/Eutemia-I Italic.ttf";
+	//sounds
+	soundtrackDir = "../Allegro Data/AUDIO/soundtrack.wav";
 
 	ALLEGRO_menuBackground = nullptr;
 	ALLEGRO_mute = nullptr;
@@ -77,6 +81,10 @@ MenuViewer::~MenuViewer()
 		al_destroy_font(ALLEGRO_messagesttf);
 		ALLEGRO_messagesttf = nullptr;
 	}
+	if (wavSoundtrack != nullptr)
+	{
+		al_destroy_sample(wavSoundtrack);
+	}
 }
 
 void MenuViewer::initImagesAndFonts()
@@ -90,6 +98,8 @@ void MenuViewer::initImagesAndFonts()
 	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 160, 0);	//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_optionsttf = al_load_ttf_font(optionsttfDir.c_str(), 60, 0);//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_messagesttf = al_load_ttf_font(messagettfDir.c_str(), 50, 0);//cambiar el tamanio de la letra aca si es necesario
+
+	wavSoundtrack = al_load_sample(soundtrackDir.c_str());
 }
 
 void MenuViewer::update()
@@ -98,18 +108,22 @@ void MenuViewer::update()
 	{
 	case MENU:
 		fade_out(1, screenWidth, screenHeight);
+		manageSoundtrack();
 		drawMenu();
 		break;
 	case WRITING_NAME:
 		fade_out(1, screenWidth, screenHeight);
+		manageSoundtrack();
 		drawWritingName();
 		break;
 	case RULES:
 		fade_out(1, screenWidth, screenHeight);
+		manageSoundtrack();
 		drawRules();
 		break;
 	case LEADERBOARD:
 		fade_out(1, screenWidth, screenHeight);
+		manageSoundtrack();
 		drawLeaderboard();
 		break;
 	}
@@ -128,7 +142,7 @@ void MenuViewer::drawMenu()
 	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2-50, (screenHeight / 3)+30, 0, "Play");
 	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2-60, (screenHeight / 3)+140, 0, "Rules");
 	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth/2-125,(screenHeight / 3)+250, 0, "Leaderboard");
-	if (muteOn)
+	if (engine.isMuteOn())
 	{
 		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
 			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
@@ -163,7 +177,7 @@ void MenuViewer::drawLeaderboard()
 		al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * (i+3), 0,
 			info[i].c_str());
 	}
-	if (muteOn)
+	if (engine.isMuteOn())
 	{
 		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
 			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
@@ -199,7 +213,7 @@ void MenuViewer::drawRules()
 		"When attacking, pieces with the lower higher number lose, except when the spy");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 7, 0,
 		"attacks the marshall or miner attacks the bomb.");
-	if (muteOn)
+	if (engine.isMuteOn())
 	{
 		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
 			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
@@ -226,7 +240,7 @@ void MenuViewer::drawWritingName()
 		"You cant leave this blank empty");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 20, 30 + 80 * 2, 0,
 		"You can write up to 12 letters");
-	if (muteOn)
+	if (engine.isMuteOn())
 	{
 		al_draw_scaled_bitmap(ALLEGRO_mute, 0, 0, al_get_bitmap_width(ALLEGRO_mute), al_get_bitmap_height(ALLEGRO_mute)
 			, screenWidth - 100, screenHeight - 100, 90, 80, 0);
@@ -247,7 +261,6 @@ void MenuViewer::drawWritingName()
 
 void MenuViewer::manageSoundtrack()
 {
-	/*
 	if (sound&&engine.isMuteOn())
 	{
 		//apagar la musica
@@ -268,5 +281,4 @@ void MenuViewer::manageSoundtrack()
 	{
 		//nada
 	}
-	*/
 }

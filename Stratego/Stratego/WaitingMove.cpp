@@ -25,11 +25,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 	pos destination(destination_posX, destination_posY);
 	if ( !(ValidateMovement(Gm, origin, destination)) )
 	{
-		char error_pckg[1]; //Si el movimiento es invalido significa que hubo un error en la comunicacion.
-		error_pckg[0] = ERROR_HEADER;
-		sent = p_nwm->sendPackage(error_pckg, 1);
-		Gm->setState(GAME_OVER);
-		Gm->SetExit(true);
+		ErrorRoutine(p_nwm, Gm);
 		p_state = new Quiting;
 	}
 	else
@@ -173,12 +169,8 @@ NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
 		p_nwm->IncrementTime();
 		if (p_nwm->TimeEnded())
 		{
-			char error_pckg[1] = { ERROR_HEADER };
-			Gm->SetExit(true);
-			Gm->setMessage("Se perdio la comunicacion, cerrando...");
+			ErrorRoutine(p_nwm, Gm);
 			p_state = new Quiting;
-			sent = p_nwm->sendPackage(error_pckg, 1);
-			p_nwm->Shutdown();
 		}
 	}
 	return p_state;

@@ -133,6 +133,27 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			proxState = nullptr;
 		}
 	}
+	else if ((newEvent.GetEvent()) == GRAPHICS) //Caso en el que se cierra el display.
+	{
+		bool sent = false;
+		char pckg[1] = { QUIT_HEADER };
+		Gm->setState(GAME_OVER);
+		NWM->ResetTimeout();
+		sent = NWM->sendPackage(pckg, 1);
+		if (!sent) //error de comunicacion.
+		{
+			NWM->Shutdown();
+			Gm->setMessage("Error de comunicacion, cerrando...");
+			Gm->SetExit(true);
+		}
+		else
+		{
+			Gm->setMessage("Finalizando la comunicacion...");
+		}
+		delete actualState;
+		actualState = new Quiting;
+
+	}
 
 		
 }

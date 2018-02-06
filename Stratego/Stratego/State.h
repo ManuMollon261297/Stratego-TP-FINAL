@@ -40,4 +40,8 @@ public:
 
 	//Rutina del timer
 	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
+
+
+protected:
+	void ErrorRoutine(NetworkingModel* p_nwm, GameModel * Gm);
 };

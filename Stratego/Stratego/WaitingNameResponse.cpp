@@ -50,12 +50,8 @@ NetworkingState* WaitingNameResponse::OnTimer(NetworkingModel* p_nwm, GameModel 
 	p_nwm->IncrementTime();
 	if (p_nwm->TimeEnded())
 	{
-		char error_pckg[1] = { ERROR_HEADER };
+		ErrorRoutine(p_nwm, Gm);
 		p_state = new Quiting;
-		Gm->SetExit(true);
-		Gm->setMessage("Se perdio la comunicacion, cerrando...");
-		p_nwm->sendPackage(error_pckg, 1);
-		p_nwm->Shutdown();
 	}
 	return p_state;
 }

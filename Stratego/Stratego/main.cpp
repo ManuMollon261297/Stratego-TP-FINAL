@@ -90,7 +90,7 @@ int main()
 	std::string user_nameS(user_name);
 
 	NWM->setMe(user_nameS);
-	pckg += (char)(user_nameS.size());
+	pckg += (char)user_nameS.size();
 	pckg += user_nameS;
 	srand(time(NULL));
 	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.

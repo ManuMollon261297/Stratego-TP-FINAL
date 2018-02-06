@@ -6,6 +6,7 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 {
 	//inicializacion de allegro
 	ALLEGRO_display = disp;
+	prevState = MENU;
 	if (al_init_font_addon() && al_init_primitives_addon() && al_init_image_addon() && al_init_ttf_addon()
 		&& al_install_audio() && al_init_acodec_addon())
 	{
@@ -104,29 +105,30 @@ void MenuViewer::initImagesAndFonts()
 
 void MenuViewer::update()
 {
+	if (engine.getState() != prevState)
+	{
+		fade_out(1, screenWidth, screenHeight);
+	}
 	switch (engine.getState())
 	{
 	case MENU:
-		fade_out(1, screenWidth, screenHeight);
 		manageSoundtrack();
 		drawMenu();
 		break;
 	case WRITING_NAME:
-		fade_out(1, screenWidth, screenHeight);
 		manageSoundtrack();
 		drawWritingName();
 		break;
 	case RULES:
-		fade_out(1, screenWidth, screenHeight);
 		manageSoundtrack();
 		drawRules();
 		break;
 	case LEADERBOARD:
-		fade_out(1, screenWidth, screenHeight);
 		manageSoundtrack();
 		drawLeaderboard();
 		break;
 	}
+	prevState = engine.getState();
 }
 
 void MenuViewer::drawMenu()

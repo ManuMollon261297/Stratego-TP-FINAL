@@ -29,6 +29,7 @@ public:
 private:
 	int screenWidth;
 	int screenHeight;
+	int prevState;
 	MenuModel & engine;
 	//direcciones de bmps
 	std::string menuBackgroundDir;

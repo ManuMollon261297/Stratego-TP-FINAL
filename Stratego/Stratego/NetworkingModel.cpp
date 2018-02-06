@@ -1,6 +1,6 @@
 #include "NetworkingModel.h"
 #include <iostream>
-
+#include <boost/exception/all.hpp>
 
 NetworkingModel::NetworkingModel()
 {
@@ -147,47 +147,64 @@ void NetworkingModel::SetServerFinishedPlacing(bool value)
 }
 
 bool NetworkingModel::connectAsClient(int time,char * ip)	
-{															
-	endpoint_a = new boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), PORT);
-	std::cout << "Trying to connect to " << ip << " on port " << PORT_C << std::endl;
-	deadline_->expires_from_now(boost::posix_time::milliseconds(time)); //Tiempo a tratar la conexion.
-	deadline_->async_wait(boost::bind(&NetworkingModel::timer_handler, this, boost::asio::placeholders::error));
-	socket_a->async_connect(*endpoint_a, boost::bind(&NetworkingModel::client_connect_handler, this,
-            boost::asio::placeholders::error) );
-	IO_handler->run();
-
-	if (time_done)
+{		
+	try
 	{
-		time_done = false;
+		endpoint_a = new boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), PORT);
+		std::cout << "Trying to connect to " << ip << " on port " << PORT_C << std::endl;
+		deadline_->expires_from_now(boost::posix_time::milliseconds(time)); //Tiempo a tratar la conexion.
+		deadline_->async_wait(boost::bind(&NetworkingModel::timer_handler, this, boost::asio::placeholders::error));
+		socket_a->async_connect(*endpoint_a, boost::bind(&NetworkingModel::client_connect_handler, this,
+			boost::asio::placeholders::error));
+		IO_handler->run();
+
+		if (time_done)
+		{
+			time_done = false;
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	catch(boost::exception const&  ex)
+	{
+		std::cout << std::endl << diagnostic_information(ex) << std::endl;
 		return false;
 	}
-	else
-	{
-		return true;
-	}
+	
 
 }
 
 bool NetworkingModel::connectAsServer()
 {
-	server_acceptor = new boost::asio::ip::tcp::acceptor(*IO_handler,
-					boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
-	boost::system::error_code error;
-	std::cout << std::endl << "Ready. Port " << PORT << " created" << std::endl;
-	server_acceptor->async_accept(*socket_a, boost::bind(&NetworkingModel::server_connect_handler,
-								this, boost::asio::placeholders::error));
-	IO_handler->reset();
-	IO_handler->run(); //Como esta ahora, bloquea hasta conectarse como server o que haya error.
-	IO_handler->reset();
-	if (!comm_error)
+	try
 	{
-		return true;
-	}
-	else
-	{
-		Shutdown();
-		return false;
+		server_acceptor = new boost::asio::ip::tcp::acceptor(*IO_handler,
+			boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
+		boost::system::error_code error;
+		std::cout << std::endl << "Ready. Port " << PORT << " created" << std::endl;
+		server_acceptor->async_accept(*socket_a, boost::bind(&NetworkingModel::server_connect_handler,
+			this, boost::asio::placeholders::error));
+		IO_handler->reset();
+		IO_handler->run(); //Como esta ahora, bloquea hasta conectarse como server o que haya error.
+		IO_handler->reset();
+		if (!comm_error)
+		{
+			return true;
+		}
+		else
+		{
+			Shutdown();
+			return false;
 
+		}
+	}
+	catch (boost::exception const&  ex)
+	{
+		std::cout << std::endl << diagnostic_information(ex) << std::endl;
+		return false;
 	}
 }
 

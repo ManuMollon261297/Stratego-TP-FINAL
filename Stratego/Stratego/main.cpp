@@ -8,9 +8,6 @@ using namespace std;
 
 void printStateModel(int state);
 #define MAX_IP_LENGTH 45
-//#define NETWORKING_TEST
-//#define MENU_TEST
-#define FINAL_TEST
 
 typedef struct
 {
@@ -24,7 +21,6 @@ void DoExit(resources* r); //Se ocupa ded todos los recurso a la salida del prog
 int main()
 {
 
-#ifdef FINAL_TEST
 	resources res;
 	bool success = true;
 	success = Init(&res);
@@ -39,110 +35,7 @@ int main()
 
 	DoExit(&res);
 
-#endif //FINAL_TEST
 
-
-#ifdef MENU_TEST
-	dataButtonsPos dataButtons = fillButtonsInfo();
-	MenuModel menu;
-	menuMouseController menuControllerMouse(&menu, dataButtons);
-
-	ALLEGRO_DISPLAY * display = nullptr;
-
-
-	if (!al_init()) {
-		return -1;
-	}
-
-	display = al_create_display(1080, 720);
-	al_set_window_title(display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
-	MenuViewer menuView(1080, 720, menu, display);
-
-	menuView.initImagesAndFonts();
-	menuView.isViewerInitialized();
-	menuView.drawMenu();
-	menuView.manageSoundtrack();
-
-	al_flip_display();
-
-	ALLEGRO_EVENT_QUEUE* event_queue = nullptr;  ////////////event generator
-
-	if (!al_install_mouse())
-	{
-		return false;
-	}
-
-	event_queue = al_create_event_queue();
-	if (!event_queue)
-	{
-		return false;
-	}
-	al_register_event_source(event_queue, al_get_mouse_event_source());  //////////////
-
-	
-	ALLEGRO_EVENT ev;
-	while (1)
-	{
-		if (al_get_next_event(event_queue, &ev))
-		{
-			if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-			{
-				cout << "x: " << ev.mouse.x << endl;
-				cout << "y: " << ev.mouse.y << endl;
-				menuControllerMouse.dispatch(menuControllerMouse.shape(ev.mouse.x, ev.mouse.y));
-				menuView.update();
-				al_flip_display();
-			}
-			
-		}
-	}
-	getchar();
-	al_destroy_event_queue(event_queue);
-
-#endif //MENU_TEST
-
-#ifdef NETWORKING_TEST
-	char user_name[256];
-	char ip[MAX_IP_LENGTH + 1];
-	std::string pckg;
-	pckg += NAME_IS_HEADER;
-	bool sent = false;
-	NetworkingModel* NWM = new NetworkingModel();
-	std::ifstream ip_file("./ip.txt");
-	std::ifstream name_file("./temporal.txt");
-	ip_file.getline(ip, MAX_IP_LENGTH); //Consigo la ip del otro jugador
-	name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
-	std::string user_nameS(user_name);
-
-	NWM->setMe(user_nameS);
-	pckg += (char)user_nameS.size();
-	pckg += user_nameS;
-	srand(time(NULL));
-	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
-	if ((NWM->connectAsClient(waiting_time, ip)))
-	{
-		NWM->setServer(CLIENT);
-		sent = NWM->sendPackage((char*)pckg.c_str(), pckg.size()); //mando mi nombre
-		if (!sent)
-		{
-			NWM->Shutdown();
-		}
-	}
-	else
-	{
-		if (NWM->connectAsServer()) //recibo el paquete con el nombre
-		{
-			NWM->setServer(SERVER);
-			NWM->StartReading();
-			while (!(NWM->WasPackageRecieved()))
-			{
-				NWM->GetReading();
-			}
-			std::cout << std::endl << NWM->GetPackage() << std::endl;
-		}
-	}
-	getchar();
-#endif //NETWORKING_TEST
 	return 0;
 
 }

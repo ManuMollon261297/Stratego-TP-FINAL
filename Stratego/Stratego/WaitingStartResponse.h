@@ -10,7 +10,7 @@
 class WaitingStartResponse : public NetworkingState
 {
 public:
-	WaitingStartResponse();
+	WaitingStartResponse(void);
 	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
 };

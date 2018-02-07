@@ -1,6 +1,6 @@
 #include "WaitingStartResponse.h"
 
-WaitingStartResponse::WaitingStartResponse()
+WaitingStartResponse::WaitingStartResponse(void)
 {
 #ifdef DEBUG
 

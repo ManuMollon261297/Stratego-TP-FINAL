@@ -10,7 +10,7 @@
 class WaitingWhoStart : public NetworkingState
 {
 public:
-	WaitingWhoStart();
+	WaitingWhoStart(void);
 	virtual NetworkingState* I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 

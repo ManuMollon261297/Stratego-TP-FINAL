@@ -1,7 +1,7 @@
 #include "WaitingWhoStart.h"
 
 
-WaitingWhoStart::WaitingWhoStart()
+WaitingWhoStart::WaitingWhoStart(void)
 {
 #ifdef DEBUG
 

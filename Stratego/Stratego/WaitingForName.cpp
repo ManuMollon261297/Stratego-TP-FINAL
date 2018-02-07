@@ -1,6 +1,6 @@
 #include "WaitingForName.h"
 
-WaitingForName::WaitingForName()
+WaitingName::WaitingName(void)
 {
 #ifdef DEBUG
 

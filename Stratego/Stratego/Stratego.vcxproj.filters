@@ -50,6 +50,7 @@
     <ClCompile Include="PlacingFichas.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menuMouseController.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroFuncs.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="ranks.h" />
     <ClInclude Include="menuMouseController.h" />
     <ClInclude Include="mouseMenuEvent.h" />
+    <ClInclude Include="MainMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

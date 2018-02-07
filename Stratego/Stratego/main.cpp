@@ -1,22 +1,47 @@
-#include "mouseGameController.h"
-#include "AllegroViewer.h"
-#include "menuMouseController.h"
-#include "MenuViewer.h"
+#include "MainMenu.h"
 #include "NetworkingModel.h"
 #include <fstream>
 #include <time.h>
 
 using namespace std;
 
-dataButtonsPos fillButtonsInfo(void);
 
 void printStateModel(int state);
 #define MAX_IP_LENGTH 45
-#define NETWORKING_TEST
+//#define NETWORKING_TEST
 //#define MENU_TEST
+#define FINAL_TEST
+
+typedef struct
+{
+	ALLEGRO_DISPLAY* display = nullptr;
+	ALLEGRO_EVENT_QUEUE* event_queue = nullptr;
+}resources;
+
+bool Init(resources* r); //Inicializa todos los recursos necesarios.
+void DoExit(resources* r); //Se ocupa ded todos los recurso a la salida del programa.
 
 int main()
 {
+
+#ifdef FINAL_TEST
+	resources res;
+	bool success = true;
+	success = Init(&res);
+	if (!success)
+	{
+		return -1;
+	}
+
+	MainMenu* p_menu = new MainMenu(res.display, res.event_queue); //Se inicializa, corre y destruye el menu del juego.
+	p_menu->Run();
+	delete p_menu;
+
+	DoExit(&res);
+
+#endif //FINAL_TEST
+
+
 #ifdef MENU_TEST
 	dataButtonsPos dataButtons = fillButtonsInfo();
 	MenuModel menu;
@@ -171,39 +196,32 @@ void printStateModel(int state)
 	}
 }
 
-dataButtonsPos fillButtonsInfo(void)
+bool Init(resources* r)
 {
-	dataButtonsPos ret;
+	if (!al_init()) {
+		return false;
+	}
+	r->display = al_create_display(1080, 720);
+	al_set_window_title(r->display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
 
-	ret.ll_play.x = 378;
-	ret.ll_play.y = 358;
-	ret.hr_play.x = 707;
-	ret.hr_play.y = 268;
+	if (!al_install_mouse())
+	{
+		return false;
+	}
 
-	ret.ll_leaderboard.x = 378;
-	ret.ll_leaderboard.y = 576;
-	ret.hr_leaderboard.x = 707;
-	ret.hr_leaderboard.y = 488;
+	r->event_queue = al_create_event_queue();
+	if (!(r->event_queue))
+	{
+		return false;
+	}
+	al_register_event_source(r->event_queue, al_get_mouse_event_source());
+	al_register_event_source(r->event_queue, al_get_display_event_source(r->display));
+	return true;
 
-	ret.ll_help.x = 378;
-	ret.ll_help.y = 464;
-	ret.hr_help.x = 707;
-	ret.hr_help.y = 377;
+}
 
-	ret.ll_goback.x = 771;
-	ret.ll_goback.y = 703;
-	ret.hr_goback.x = 951;
-	ret.hr_goback.y = 619;
-
-	ret.ll_sound.x = 984;
-	ret.ll_sound.y = 694;
-	ret.hr_sound.x = 1058;
-	ret.hr_sound.y = 622;
-	
-	ret.ll_confirm.x = 538;
-	ret.ll_confirm.y = 700;
-	ret.hr_confirm.x = 757;
-	ret.hr_confirm.y = 620;
-
-	return ret;
+void DoExit(resources* r)
+{
+	al_destroy_display(r->display);
+	al_destroy_event_queue(r->event_queue);
 }

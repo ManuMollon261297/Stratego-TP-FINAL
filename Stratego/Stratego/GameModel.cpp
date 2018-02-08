@@ -175,9 +175,9 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 	}
 }
 
-void GameModel::resolveAttack(rank r)
+void GameModel::resolveAttack(notstd::rank r)
 {
-	rank myRank;
+	notstd::rank myRank;
 	if (state == MY_ATTACKING)
 	{
 		myRank = battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank();
@@ -189,7 +189,7 @@ void GameModel::resolveAttack(rank r)
 		}
 		else if ((myRank != MINER)&&(r == BOMB))	//perdi, este caso no aparece en OP_ATTACKING porque las bombas
 		{											//no pueden atacar
-			if ((battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::BOMB) && (battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::FLAG))
+			if ((battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != notstd::rank::BOMB) && (battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != notstd::rank::FLAG))
 			{
 				cemetery[myRank][1]++;
 				cemetery[13][1]++; //aumento fichas propias totales fuera del tablero
@@ -206,7 +206,7 @@ void GameModel::resolveAttack(rank r)
 		}
 		else if (myRank == r)
 		{
-			if ((battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::BOMB) && (battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::FLAG))
+			if ((battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != notstd::rank::BOMB) && (battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != notstd::rank::FLAG))
 			{
 				cemetery[myRank][1]++;
 				cemetery[13][1]++; //aumento fichas propias totales fuera del tablero
@@ -219,7 +219,7 @@ void GameModel::resolveAttack(rank r)
 		}
 		else //perdi
 		{
-			if ((battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::BOMB) && (battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != rank::FLAG))
+			if ((battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != notstd::rank::BOMB) && (battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank() != notstd::rank::FLAG))
 			{
 				cemetery[myRank][1]++;
 				cemetery[13][1]++; //aumento fichas propias totales fuera del tablero
@@ -239,7 +239,7 @@ void GameModel::resolveAttack(rank r)
 		}
 		else if((CASO_ESPECIAL(r, myRank))||((r < myRank)&&(myRank != BOMB))) //entra si gano el opponent
 		{
-			if ((battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != rank::BOMB) && (battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != rank::FLAG))
+			if ((battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != notstd::rank::BOMB) && (battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != notstd::rank::FLAG))
 			{
 				cemetery[myRank][1]++;
 				cemetery[13][1]++; //aumento fichas propias totales fuera del tablero
@@ -251,7 +251,7 @@ void GameModel::resolveAttack(rank r)
 		}
 		else if (r == myRank) //empate
 		{
-			if ((battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != rank::BOMB) && (battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != rank::FLAG))
+			if ((battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != notstd::rank::BOMB) && (battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank() != notstd::rank::FLAG))
 			{
 				cemetery[myRank][1]++;
 				cemetery[13][1]++; //aumento fichas propias totales fuera del tablero
@@ -282,7 +282,7 @@ bool GameModel::isCemeteryEmpty()
 	}
 }
 
-bool GameModel::isRankCemeterySelected(rank r)
+bool GameModel::isRankCemeterySelected(notstd::rank r)
 {
 	if (cemetery[r][2]) //si esta seleccionado devuelve 1, si no 0 (cero).
 	{
@@ -294,7 +294,7 @@ bool GameModel::isRankCemeterySelected(rank r)
 	}
 }
 
-bool GameModel::setFicha(rank r, pos currpos)
+bool GameModel::setFicha(notstd::rank r, pos currpos)
 {
 	if ((cemetery[r][1] > 0)&&(r <= 11)&&(battlefield[currpos.x][currpos.y] == nullptr))
 	{
@@ -324,28 +324,28 @@ void GameModel::toggleFicha(pos p)
 	battlefield[p.x][p.y]->toggleSelect();
 }
 
-void GameModel::selectRankCemetery(rank r)
+void GameModel::selectRankCemetery(notstd::rank r)
 {
 	cemetery[r][2] = 1;  //seleccion de el rango requerido
 }
 
-void GameModel::unselectRankCemetery(rank r)
+void GameModel::unselectRankCemetery(notstd::rank r)
 {
 	cemetery[r][2] = 0;
 }
 
-void GameModel::unselectAllExcepetOneRankCemetery(rank r)
+void GameModel::unselectAllExcepetOneRankCemetery(notstd::rank r)
 {
 	for (int i = 0; i < TIPOS_DE_RANK; i++)
 	{
 		if (i != r)
 		{
-			unselectRankCemetery((rank)i);
+			unselectRankCemetery((notstd::rank)i);
 		}
 	}
 }
 
-void GameModel::toggleSelectRankCemetery(rank r)
+void GameModel::toggleSelectRankCemetery(notstd::rank r)
 {
 	cemetery[r][2] = (!cemetery[r][2]);
 }
@@ -378,7 +378,7 @@ button * GameModel::getButtonReference(int index)
 	return nullptr;
 }
 
-rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
+notstd::rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 {
 	if (battlefield[currpos.x][currpos.y] == nullptr)
 	{
@@ -390,7 +390,7 @@ rank GameModel::getRankFromPos(pos currpos) //asume que el rango ya fue validado
 	}
 }
 
-unsigned int GameModel::getNumberInCemetery(rank r)
+unsigned int GameModel::getNumberInCemetery(notstd::rank r)
 {
 	return cemetery[r][1];
 }
@@ -534,7 +534,7 @@ void GameModel::printBattlefield()
 		{
 			if (battlefield[i][j] == nullptr)
 			{
-				std::cout << rank::LAND<< " ";
+				std::cout << notstd::rank::LAND<< " ";
 			}
 			else
 			{

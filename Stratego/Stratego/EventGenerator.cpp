@@ -12,6 +12,10 @@ EventGenerator::~EventGenerator()
 {
 	if (!eventList.empty()) //vacio las listas para que ya no puedan ser accedidas
 	{
+		for (std::list<GenericEvent*>::iterator it = eventList.begin(); it != eventList.end(); it++)
+		{
+			delete (*it); //Desaloca toda la memoria.
+		}
 		eventList.clear();
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GenericController.h"
 #include "NetWorkingEvent.h"
 #include "State.h"
 #include "NetworkingModel.h"
@@ -22,12 +23,12 @@
 
 #define MAX_IP_LENGTH 45
 
-class NetWorkingController
+class NetWorkingController: public GenericController
 {
 public:
 	NetWorkingController(GameModel* p2GameModel, NetworkingModel* p2NetModel);
 	~NetWorkingController();
-	void dispatch(GenericEvent& newEvent);
+	virtual void dispatch(GenericEvent& newEvent);
 
 private:
 	NetworkingState * actualState;

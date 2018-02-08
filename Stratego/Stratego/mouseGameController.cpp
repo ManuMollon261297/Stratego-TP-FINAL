@@ -224,14 +224,14 @@ pos mouseGameController::translateCemeteryCoords(double x, double y)
 	return ret;
 }
 
-rank mouseGameController::fetchMevRank(pos p)
+notstd::rank mouseGameController::fetchMevRank(pos p)
 {
 	return (p2gameModel->getRankFromPos(p));
 }
 
-rank mouseGameController::fetchMevRankFromCemetery(int y)
+notstd::rank mouseGameController::fetchMevRankFromCemetery(int y)
 {
-	rank r;
+	notstd::rank r;
 	switch (y)
 	{
 	case 0: r = MARSHAL; break;
@@ -256,7 +256,7 @@ rank mouseGameController::fetchMevRankFromCemetery(int y)
 Mevents mouseGameController::fetchMevType(pos pos_)
 {
 	Mevents ret;
-	rank rank_ = p2gameModel->getRankFromPos(pos_);
+	notstd::rank rank_ = p2gameModel->getRankFromPos(pos_);
 	if (rank_ == LAND)
 	{
 		ret = LAND_EV;

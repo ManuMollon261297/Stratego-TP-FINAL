@@ -15,8 +15,8 @@ bool ValidateMovement(GameModel * Gm, pos ori, pos des)
 		return false;
 	}
 
-	rank rank_in_origin = Gm->getRankFromPos(ori);
-	rank rank_in_destination = Gm->getRankFromPos(des);
+	notstd::rank rank_in_origin = Gm->getRankFromPos(ori);
+	notstd::rank rank_in_destination = Gm->getRankFromPos(des);
 	bool valid = true;
 
 	if ((rank_in_origin != OTHERS))
@@ -121,12 +121,12 @@ bool ValidateRank(unsigned char rank)
 	return valid;
 }
 
-rank GetRank(unsigned char pckg_rank)
+notstd::rank GetRank(unsigned char pckg_rank)
 {
-	rank result= WATER;
+	notstd::rank result= WATER;
 	if ((pckg_rank >= '1') && (pckg_rank <= '9')) //Es una tropa comun
 	{
-		result = (rank)(pckg_rank - '1');
+		result = (notstd::rank)(pckg_rank - '1');
 	}
 	else
 	{
@@ -146,7 +146,7 @@ rank GetRank(unsigned char pckg_rank)
 	return result;
 }
 
-unsigned char ConvertRankToPackageFormat(rank my_rank)
+unsigned char ConvertRankToPackageFormat(notstd::rank my_rank)
 {
 	unsigned char rank2send = '0'; //rank en el formato valido para el paquete.
 	if ((my_rank >= 0) && (my_rank <= 8))

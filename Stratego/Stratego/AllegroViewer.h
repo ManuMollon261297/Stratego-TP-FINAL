@@ -3,6 +3,7 @@
 //VER CUANDO SE RESUELVE EL ATAQUE
 
 #include <vector>
+#include "GenericObserver.h"
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
 #include "allegro5\allegro_ttf.h"
@@ -17,15 +18,17 @@
 #include "ranks.h"
 #include "pos.h"
 
+
+
 enum colour{RED,BLUE};
 
-class AllegroViewer
+class AllegroViewer : public GenericObserver
 {
 public:
 	AllegroViewer(int h ,int w,GameModel &gm,colour c,ALLEGRO_DISPLAY * disp);
 	bool isViewerInitialized();
 	void initImagesAndFonts();
-	void update();
+	virtual void update();
 	//para debugeo
 	void drawBattlefield();
 	void drawCemetery();
@@ -35,13 +38,13 @@ public:
 	void drawGameOver(bool playerWon);
 	void drawRemainingTime();
 	void drawHalo(double x, double y, double sizeX, double sizeY);
-	void playBattleWarmUp(rank playerRank);
-	void playBattle(rank playerRank, rank opponentRank);
+	void playBattleWarmUp(notstd::rank playerRank);
+	void playBattle(notstd::rank playerRank, notstd::rank opponentRank);
 	void moveToken(pos init, pos fin);
 	void highligthToken(pos init);
-	void highlightCemetery(rank r);
+	void highlightCemetery(notstd::rank r);
 	int  getCantSprites(int i);
-	void getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, rank& r, bool opponent);
+	void getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, notstd::rank& r, bool opponent);
 	void manageSoundtrack();
 	//
 	~AllegroViewer();

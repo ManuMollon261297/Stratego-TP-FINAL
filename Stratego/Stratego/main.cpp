@@ -1,8 +1,10 @@
 #include "MainMenu.h"
 #include "NetworkingModel.h"
+#include "NetWorkingController.h"
 #include "GameModel.h"
 #include "EventGenerator.h"
 #include "Event.h"
+#include "GenericController.h"
 #include <fstream>
 #include <time.h>
 #include <vector>
@@ -22,7 +24,8 @@ typedef struct
 
 bool Init(resources* r); //Inicializa todos los recursos necesarios.
 void DoExit(resources* r); //Se ocupa de todos los recursos a la salida del programa.
-//void InitializeControllers(vector<Controller>&);
+void InitializeControllers(vector<GenericController>&, GameModel* p_gm, NetworkingModel* p_nwm);
+//Falta hacer que mouse controller herede de GenericController  e inicializarlo en la funcion.
 
 int main()
 {
@@ -39,35 +42,32 @@ int main()
 	p_menu->Run();
 	delete p_menu;
 /*
-GameModel Gm;
-NetworkingModel Nwm;
-al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
-EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
-vector<Controller> v_contr;
-InitializeControllers(v_contr);
-while ( !(Gm.GetExit()))
-{
-GenericEvent* ev;
-EvGen.searchForEvents();
-if ( EvGen.hayEvento())
-{
-ev = EvGen.getNextEvent();
-for (int i = 0; i < v_contr.size(); i++)
-{
-(v_contr[i])->dispatch(); //Hay que ver si el vector va a tener punteros o los objetos en si.
-}
-delete ev;
-}
+	GameModel Gm;
+	NetworkingModel Nwm;
+	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
+	EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
+	vector<GenericController> v_contr;
+	InitializeControllers(v_contr, &Gm, &Nwm);
 
-}
+	while ( !(Gm.GetExit()))
+	{
+		GenericEvent* ev;
+		EvGen.searchForEvents();
+		if ( EvGen.hayEvento())
+		{
+			ev = EvGen.getNextEvent();
+			for (int i = 0; i < v_contr.size(); i++)
+			{
+				(v_contr[i]).dispatch(*ev); 
+			}
+			delete ev;
+		}
 
+	}
+
+	v_contr.clear(); //Destruye los controllers.
 */
-	
-
-
 	DoExit(&res);
-
-
 	return 0;
 
 }
@@ -156,4 +156,10 @@ void DoExit(resources* r)
 {
 	al_destroy_display(r->display);
 	al_destroy_event_queue(r->event_queue);
+}
+
+void InitializeControllers(vector<GenericController>& v, GameModel* p_gm, NetworkingModel* p_nwm)
+{
+	NetWorkingController NetCont(p_gm, p_nwm);
+	v.push_back(move(NetCont));
 }

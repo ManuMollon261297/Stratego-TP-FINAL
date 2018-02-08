@@ -10,5 +10,5 @@ typedef struct
 	Mevents type;
 	pos evPos;
 	sectors sector;
-	rank r;
+	notstd::rank r;
 } MouseEvent;

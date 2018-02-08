@@ -39,7 +39,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 	{
 		if (!(Gm->move(origin, destination))) //Si devuelve false es porque el move fue un ataque.
 		{
-			rank my_rank = Gm->getRankFromPos(destination);
+			notstd::rank my_rank = Gm->getRankFromPos(destination);
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank); //rank en el formato valido para el paquete.
 			pckg.clear();
 			pckg[0] = ATTACK_HEADER;

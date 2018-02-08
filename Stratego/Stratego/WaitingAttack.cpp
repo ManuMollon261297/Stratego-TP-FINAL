@@ -23,7 +23,7 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 	}
 	else 
 	{
-		rank rank_recieved = GetRank(enemy_rank);
+		notstd::rank rank_recieved = GetRank(enemy_rank);
 		Gm->resolveAttack(rank_recieved);
 		if ( ((Gm->getState()) == GAME_OVER) || (!(Gm->verifyMovement())) ) //Se capturo el flag, o no hay pieza mobiles, gana el enemigo.
 		{

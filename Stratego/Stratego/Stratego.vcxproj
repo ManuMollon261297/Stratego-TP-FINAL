@@ -148,7 +148,9 @@
     <ClInclude Include="gameOverSelected.h" />
     <ClInclude Include="gameOverState.h" />
     <ClInclude Include="gameState.h" />
+    <ClInclude Include="GenericController.h" />
     <ClInclude Include="GenericModel.h" />
+    <ClInclude Include="GenericObserver.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="mouseMenuEvent.h" />
     <ClInclude Include="IdleState.h" />
@@ -203,6 +205,9 @@
     <ClCompile Include="gameOverSelected.cpp" />
     <ClCompile Include="gameOverState.cpp" />
     <ClCompile Include="gameState.cpp" />
+    <ClCompile Include="GenericController.cpp" />
+    <ClCompile Include="GenericModel.cpp" />
+    <ClCompile Include="GenericObserver.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="KeyboardController.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />

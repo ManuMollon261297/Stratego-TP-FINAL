@@ -26,7 +26,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 	}
 	else
 	{
-		rank enemy = GetRank(enemy_rank);
+		notstd::rank enemy = GetRank(enemy_rank);
 		Gm->resolveAttack(enemy);
 		if (((Gm->getState()) == GAME_OVER) || (!(Gm->verifyMovement()))) //Se capturo el flag, o no hay pieza mobiles, gana el enemigo.
 		{
@@ -42,7 +42,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			char pckg[2];
 			pckg[0] = ATTACK_HEADER;
 			currStatus enemy_status = Gm->GetopPosStatus();
-			rank my_rank = (Gm->getRankFromPos(enemy_status.next));
+			notstd::rank my_rank = (Gm->getRankFromPos(enemy_status.next));
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 			pckg[1] = rank2send;
 			Gm->setState(OP_TURN);

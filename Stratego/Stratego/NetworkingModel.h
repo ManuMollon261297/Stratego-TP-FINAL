@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GenericModel.h"
 #include <string>
 #include <vector>
 #include <boost/asio/deadline_timer.hpp>
@@ -36,7 +37,7 @@ using boost::asio::deadline_timer;
 					//se asumme que se perdio la comunicacion.
 
 enum serverStatus {SERVER,CLIENT,UNINITIALIZED};
-class NetworkingModel
+class NetworkingModel : public GenericModel
 {
 public:
 	NetworkingModel();

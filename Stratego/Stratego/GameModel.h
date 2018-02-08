@@ -5,6 +5,7 @@
 #include "currStatus.h"
 #include "pos.h"
 #include "button.h"
+#include "GenericModel.h"
 #include <vector>
 #include <iostream>
 
@@ -18,7 +19,7 @@ enum states {
 	, ENDING_PLACING_FICHAS, WAITING_FOR_OPPONENTS_SELECTION, PLAY_AGAIN_SELECTED, GAME_OVER_SELECTED
 };
 
-class GameModel
+class GameModel : public GenericModel
 {
 public:
 	GameModel();
@@ -46,25 +47,25 @@ public:
 										//si corresponde a un ataque cambia el estado pero no realiza movimiento
 										//si el movimineto no es valido devuelve false
 
-	void resolveAttack(rank r); //resuelve un ataque pendiente con la info en currStatus
+	void resolveAttack(notstd::rank r); //resuelve un ataque pendiente con la info en currStatus
 
-	rank getRankFromPos(pos currpos);
-	unsigned int getNumberInCemetery(rank r);
+	notstd::rank getRankFromPos(pos currpos);
+	unsigned int getNumberInCemetery(notstd::rank r);
 	int getMaxOffsetFromPos(pos currpos);
 	bool isSelectedFromPos(pos currpos);
 	bool isCemeteryEmpty();
-	bool isRankCemeterySelected(rank r);
+	bool isRankCemeterySelected(notstd::rank r);
 	//ficha
 	void swap(pos init, pos final); //asume cambio de coordenadas validas, previamente chequeadas
-	bool setFicha(rank r, pos x);	//setea si es valida, una ficha en el tablero, devuelve false si no fue posible
+	bool setFicha(notstd::rank r, pos x);	//setea si es valida, una ficha en el tablero, devuelve false si no fue posible
 									//usa cemetery para validar el uso de esa ficha y el battlefield para validar las coord
 	void selectFicha(pos p);
 	void unselectFicha(pos p);
 	void toggleFicha(pos p);
-	void selectRankCemetery(rank r);
-	void unselectRankCemetery(rank r);
-	void unselectAllExcepetOneRankCemetery(rank r);
-	void toggleSelectRankCemetery(rank r);
+	void selectRankCemetery(notstd::rank r);
+	void unselectRankCemetery(notstd::rank r);
+	void unselectAllExcepetOneRankCemetery(notstd::rank r);
+	void toggleSelectRankCemetery(notstd::rank r);
 
 	void setFichasPlacedTrue();
 	void setFichasPlacedFalse();

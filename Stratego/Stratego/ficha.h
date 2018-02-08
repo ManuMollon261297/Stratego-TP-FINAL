@@ -1,12 +1,15 @@
 #pragma once
 #include "ranks.h"
+
+using namespace notstd;
+
 class ficha
 {
 public:
-	ficha(rank rango_);
+	ficha(notstd::rank rango_);
 	~ficha();
 	//getters
-	rank getRank();
+	notstd::rank getRank();
 	int getMaxOffset();
 	bool canItRescue();
 	bool canItBeRescued();
@@ -18,7 +21,7 @@ public:
 	void toggleSelect();
 
 private:
-	rank fichaRank;
+	notstd::rank fichaRank;
 	int maxOffset;
 	bool canRescue;
 	bool canBeRescued;

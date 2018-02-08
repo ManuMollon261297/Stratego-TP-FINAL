@@ -1,7 +1,7 @@
 #include "Token.h"
 
 
-Token::Token(rank k, ALLEGRO_BITMAP * i)
+Token::Token(notstd::rank k, ALLEGRO_BITMAP * i)
 {
 	TokenRank = k;
 	image = i;

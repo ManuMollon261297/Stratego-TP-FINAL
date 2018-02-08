@@ -235,12 +235,12 @@ void AllegroViewer::initImagesAndFonts()
 {
 	for (int i = 0; i < BlueFichaImagesDir.size(); i++)
 	{
-		Token tAux((rank)i, al_load_bitmap(BlueFichaImagesDir[i].c_str()));
+		Token tAux((notstd::rank)i, al_load_bitmap(BlueFichaImagesDir[i].c_str()));
 		ALLEGRO_BlueFichaImages.push_back(tAux);
 	}
 	for (int i = 0; i < RedFichaImagesDir.size(); i++)
 	{
-		Token tAux((rank)i, al_load_bitmap(RedFichaImagesDir[i].c_str()));
+		Token tAux((notstd::rank)i, al_load_bitmap(RedFichaImagesDir[i].c_str()));
 		ALLEGRO_RedFichaImages.push_back(tAux);
 	}
 	int jmax;
@@ -293,8 +293,8 @@ void AllegroViewer::drawBattlefield()
 		for (int j =0;j<10;j++)
 		{
 			pos pAux(i, j);
-			rank rAux = engine.getRankFromPos(pAux);
-			if ((rAux != rank::WATER)&&(rAux != rank::LAND)&&(rAux != rank::OTHERS))
+			notstd::rank rAux = engine.getRankFromPos(pAux);
+			if ((rAux != notstd::rank::WATER)&&(rAux != notstd::rank::LAND)&&(rAux != notstd::rank::OTHERS))
 			{
 				if (color == BLUE)
 				{
@@ -309,7 +309,7 @@ void AllegroViewer::drawBattlefield()
 						(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
 				}
 			}
-			else if (rAux == rank::OTHERS)
+			else if (rAux == notstd::rank::OTHERS)
 			{
 				if (color == BLUE)
 				{
@@ -337,7 +337,7 @@ void AllegroViewer::drawCemetery()
 	for (int i =0;i<10;i++)
 	{
 		pos pAux(i, 0);
-		rank rAux = (rank)i;
+		notstd::rank rAux = (notstd::rank)i;
 		if (color == BLUE)
 		{
 			al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rAux].image, 0, 0,
@@ -358,17 +358,17 @@ void AllegroViewer::drawCemetery()
 	}
 	if (color == BLUE)
 	{
-		al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rank::BOMB].image, 0, 0,
-			al_get_bitmap_width(ALLEGRO_BlueFichaImages[rank::BOMB].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rank::BOMB].image),
+		al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[notstd::rank::BOMB].image, 0, 0,
+			al_get_bitmap_width(ALLEGRO_BlueFichaImages[notstd::rank::BOMB].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[notstd::rank::BOMB].image),
 			5, 2, fichaWidth - 5, fichaHeight - 5, 0);
-		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::BOMB));
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) - 10, -12, 0, "%d", engine.getNumberInCemetery(notstd::rank::BOMB));
 	}
 	else
 	{
-		al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rank::BOMB].image, 0, 0,
-			al_get_bitmap_width(ALLEGRO_RedFichaImages[rank::BOMB].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rank::BOMB].image),
+		al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[notstd::rank::BOMB].image, 0, 0,
+			al_get_bitmap_width(ALLEGRO_RedFichaImages[notstd::rank::BOMB].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[notstd::rank::BOMB].image),
 			5, 2, fichaWidth - 5, fichaHeight - 5, 0);
-		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::BOMB));
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) - 10, -12, 0, "%d", engine.getNumberInCemetery(notstd::rank::BOMB));
 	}
 	if (engine.getState() == PLACING_FICHAS)
 	{
@@ -378,17 +378,17 @@ void AllegroViewer::drawCemetery()
 		//dibujo la ficha especial (flag)
 		if (color == BLUE)
 		{
-			al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[rank::FLAG].image, 0, 0,
-				al_get_bitmap_width(ALLEGRO_BlueFichaImages[rank::FLAG].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[rank::FLAG].image),
+			al_draw_scaled_bitmap(ALLEGRO_BlueFichaImages[notstd::rank::FLAG].image, 0, 0,
+				al_get_bitmap_width(ALLEGRO_BlueFichaImages[notstd::rank::FLAG].image), al_get_bitmap_height(ALLEGRO_BlueFichaImages[notstd::rank::FLAG].image),
 				5 + fichaWidth, 2, (fichaWidth)-5, fichaHeight - 5, 0);
-			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) + fichaWidth - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::FLAG));
+			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) + fichaWidth - 10, -12, 0, "%d", engine.getNumberInCemetery(notstd::rank::FLAG));
 		}
 		else
 		{
-			al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[rank::FLAG].image, 0, 0,
-				al_get_bitmap_width(ALLEGRO_RedFichaImages[rank::FLAG].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[rank::FLAG].image),
+			al_draw_scaled_bitmap(ALLEGRO_RedFichaImages[notstd::rank::FLAG].image, 0, 0,
+				al_get_bitmap_width(ALLEGRO_RedFichaImages[notstd::rank::FLAG].image), al_get_bitmap_height(ALLEGRO_RedFichaImages[notstd::rank::FLAG].image),
 				5 + fichaWidth, 2, (fichaWidth)-5, fichaHeight - 5, 0);
-			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) + fichaWidth - 10, -12, 0, "%d", engine.getNumberInCemetery(rank::FLAG));
+			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) + fichaWidth - 10, -12, 0, "%d", engine.getNumberInCemetery(notstd::rank::FLAG));
 		}
 	}
 }
@@ -404,7 +404,7 @@ void AllegroViewer::highligthToken(pos init)
 	drawHalo((init.y + 1)*(fichaWidth + 5.5) + 19, (init.x + 1)*(fichaHeight - 2.2) + 18, fichaWidth-10, fichaHeight-10);
 }
 
-void AllegroViewer::highlightCemetery(rank r)
+void AllegroViewer::highlightCemetery(notstd::rank r)
 {
 	drawHalo(5, fichaHeight*((int)r + 1) + 5, fichaWidth-10, fichaHeight-10);
 }
@@ -459,7 +459,7 @@ void AllegroViewer::drawSoundB()
 	}
 }
 
-void AllegroViewer::playBattleWarmUp(rank playerRank)
+void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
 {
 	fade_out(1, screenWidth, screenHeight);
 	fade_in(ALLEGRO_field, 1, screenWidth, screenHeight);
@@ -493,8 +493,8 @@ void AllegroViewer::moveToken(pos init, pos fin)
 			if (!((i == init.x) && (j == init.y)))
 			{
 				pos pAux(i, j);
-				rank rAux = engine.getRankFromPos(pAux);
-				if ((rAux != rank::WATER) && (rAux != rank::LAND) && (rAux != rank::OTHERS))
+				notstd::rank rAux = engine.getRankFromPos(pAux);
+				if ((rAux != notstd::rank::WATER) && (rAux != notstd::rank::LAND) && (rAux != notstd::rank::OTHERS))
 				{
 					if (color == BLUE)
 					{
@@ -509,7 +509,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 							(j + 1)*(fichaWidth + 5.5) + 19, (i + 1)*(fichaHeight - 2.2) + 18, fichaWidth - 10, fichaHeight - 10, 0);
 					}
 				}
-				else if (rAux == rank::OTHERS)
+				else if (rAux == notstd::rank::OTHERS)
 				{
 					if (color == BLUE)
 					{
@@ -532,7 +532,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 	drawRemainingTime();
 	ALLEGRO_BITMAP *  dAux = al_get_target_bitmap();
 	ALLEGRO_BITMAP *  aux = al_clone_bitmap(dAux);
-	rank currR = engine.getRankFromPos(init);
+	notstd::rank currR = engine.getRankFromPos(init);
 	if (init.y == fin.y) //se mueve verticalmente
 	{
 		int offset = (int)abs((init.x - fin.x));
@@ -624,7 +624,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 
 enum whoWon{PLAYER,OPPONENT,TIE};
 
-void AllegroViewer::playBattle(rank playerRank, rank opponentRank)
+void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRank)
 {
 	whoWon status;
 	switch (engine.getState()) //asume que sprites esta mirando a la izquierda
@@ -883,73 +883,73 @@ int AllegroViewer::getCantSprites(int i)
 	return aux;
 }
 
-void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight,rank& r, bool opponent)
+void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, notstd::rank& r, bool opponent)
 {
 	if (opponent)
 	{
 		switch (r)
 		{
-		case rank::BOMB:
+		case notstd::rank::BOMB:
 			x = 4.5*screenWidth / 7;
 			y = (screenHeight * 5) / 8;
 			aWidth = 150;
 			aHeight = 200;
 			break;
-		case rank::CAPTAIN:
+		case notstd::rank::CAPTAIN:
 			x = 3*screenWidth / 8;
 			y = (screenHeight * 4) / 8;
 			aWidth = 500;
 			aHeight = 300;
 			break;
-		case rank::CORONEL:
+		case notstd::rank::CORONEL:
 			x = 1.5*screenWidth / 5;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::FLAG:
+		case notstd::rank::FLAG:
 			x = screenWidth / 5;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::GENERAL:
+		case notstd::rank::GENERAL:
 			x = 1.5*screenWidth / 5;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::LIEUTENANT:
+		case notstd::rank::LIEUTENANT:
 			x = 1.5*screenWidth / 5;
 			y = (screenHeight * 3) / 8;
 			aWidth = 500;
 			aHeight = 400;
 			break;
-		case rank::MAJOR:
+		case notstd::rank::MAJOR:
 			x = 3*screenWidth / 9;
 			y = (screenHeight * 4) / 9;
 			aWidth = 500;
 			aHeight = 350;
 			break;
-		case rank::MARSHAL:
+		case notstd::rank::MARSHAL:
 			x = 5*screenWidth / 12;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::MINER:
+		case notstd::rank::MINER:
 			x = (screenWidth*5) / 12;
 			y = (screenHeight * 3) / 8;
 			aWidth = 500;
 			aHeight = 400;
 			break;
-		case rank::SCOUT:
+		case notstd::rank::SCOUT:
 			x = 2.5*screenWidth / 7;
 			y = (screenHeight * 5) / 8;
 			aWidth = 450;
 			aHeight = 200;
 			break;
-		case rank::SERGEANT:
+		case notstd::rank::SERGEANT:
 			x = screenWidth*3 / 9;
 			y = (screenHeight * 2) / 8;
 			aWidth = 600;
@@ -961,67 +961,67 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight,ra
 	{
 		switch (r)
 		{
-		case rank::BOMB:
+		case notstd::rank::BOMB:
 			x = screenWidth / 7;
 			y = (screenHeight * 5) / 8;
 			aWidth = 150;
 			aHeight = 200;
 			break;
-		case rank::CAPTAIN:
+		case notstd::rank::CAPTAIN:
 			x = screenWidth / 8;
 			y = (screenHeight * 4) / 8;
 			aWidth = 500;
 			aHeight = 300;
 			break;
-		case rank::CORONEL:
+		case notstd::rank::CORONEL:
 			x = screenWidth / 5;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::FLAG:
+		case notstd::rank::FLAG:
 			x = screenWidth / 5;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::GENERAL:
+		case notstd::rank::GENERAL:
 			x = screenWidth / 5;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::LIEUTENANT:
+		case notstd::rank::LIEUTENANT:
 			x = screenWidth / 5;
 			y = (screenHeight * 3) / 8;
 			aWidth = 500;
 			aHeight = 400;
 			break;
-		case rank::MAJOR:
+		case notstd::rank::MAJOR:
 			x = screenWidth / 9;
 			y = (screenHeight * 4) / 9;
 			aWidth = 500;
 			aHeight = 350;
 			break;
-		case rank::MARSHAL:
+		case notstd::rank::MARSHAL:
 			x = screenWidth / 12;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;
 			aHeight = 200;
 			break;
-		case rank::MINER:
+		case notstd::rank::MINER:
 			x = screenWidth / 12;
 			y = (screenHeight * 3) / 8;
 			aWidth = 500;
 			aHeight = 400;
 			break;
-		case rank::SCOUT:
+		case notstd::rank::SCOUT:
 			x = screenWidth / 7;
 			y = (screenHeight * 5) / 8;
 			aWidth = 450;
 			aHeight = 200;
 			break;
-		case rank::SERGEANT:
+		case notstd::rank::SERGEANT:
 			x = screenWidth / 9;
 			y = (screenHeight * 2) / 8;
 			aWidth = 600;

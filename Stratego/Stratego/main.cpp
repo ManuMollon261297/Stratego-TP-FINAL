@@ -126,9 +126,7 @@ bool Init(resources* r)
 	if (!al_init()) {
 		return false;
 	}
-	r->display = al_create_display(1080, 720);
-	al_set_window_title(r->display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
-
+	
 	if (!al_install_mouse())
 	{
 		return false;
@@ -151,7 +149,11 @@ bool Init(resources* r)
 		return false;
 	}
 
-	//Registro todas las fentes de eventos relevantes, Timer, display y mouse.
+	r->display = al_create_display(1080, 720);
+	al_set_window_title(r->display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
+
+
+	//Registro todas las fentes de eventos relevantes, Timer, display, keyboard y mouse.
 	al_register_event_source(r->event_queue, al_get_mouse_event_source()); 
 	al_register_event_source(r->event_queue, al_get_display_event_source(r->display));
 	al_register_event_source(r->event_queue, al_get_keyboard_event_source());

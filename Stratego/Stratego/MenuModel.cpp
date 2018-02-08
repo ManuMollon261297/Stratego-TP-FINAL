@@ -28,6 +28,12 @@ int MenuModel::getState()
 void MenuModel::setState(int state_)
 {
 	state = state_;
+	
+}
+
+bool MenuModel::GetExit(void)const
+{
+	return exit;
 }
 
 bool MenuModel::getWorkingIp()

@@ -20,6 +20,7 @@ public:
 	void setExit(void);
 	void toggleSound();
 	bool isMuteOn();
+	bool GetExit(void)const;
 	button * getButtonReference(int index);
 	std::vector<std::string> getLeadreboardInfo();
 	unsigned int getNumberOfButtons(void);

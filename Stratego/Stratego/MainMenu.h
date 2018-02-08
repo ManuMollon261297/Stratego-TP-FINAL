@@ -3,6 +3,8 @@
 #include "AllegroViewer.h"
 #include "menuMouseController.h"
 #include "MenuViewer.h"
+#include "KeyboardController.h"
+#include "KeyboardEvent.h"
 
 
 class MainMenu
@@ -16,6 +18,7 @@ private:
 	MenuModel* menu;
 	MenuViewer* menuView;
 	menuMouseController* menuControllerMouse;
+	KeyboardController* KeyController;
 	dataButtonsPos fillButtonsInfo(void);
 	dataButtonsPos dataButtons;
 	bool exit;

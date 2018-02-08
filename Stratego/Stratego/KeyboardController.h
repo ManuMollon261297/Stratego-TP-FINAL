@@ -10,7 +10,7 @@ class KeyboardController : public GenericController
 public:
 	KeyboardController(MenuModel * mm, unsigned int maxIp = 21, unsigned int maxName = 12);
 	~KeyboardController();
-	virtual void update(GenericEvent& genEv);
+	virtual void dispatch(GenericEvent& genEv);
 
 private:
 	bool validateAdd(void);

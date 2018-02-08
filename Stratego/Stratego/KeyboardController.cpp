@@ -16,9 +16,9 @@ KeyboardController::KeyboardController(MenuModel * mm, unsigned int maxIp, unsig
 	
 }
 
-void KeyboardController::update(GenericEvent& genEv)
+void KeyboardController::dispatch(GenericEvent& genEv)
 {
-	if (genEv.GetEvent() == KEYBOARD)
+	if ( (genEv.GetEvent() == KEYBOARD)&&(pMenuModel->getState() == WRITING_NAME))
 	{
 		KeyboardEvent& keyEv = (KeyboardEvent&)genEv;
 		int butonPressed = (keyEv.GetAlEv().keycode);

@@ -81,9 +81,9 @@ void EventGenerator::shape(ALLEGRO_EVENT ev)
 			p_event = new GenericEvent;
 			p_event->SetEvent(TIMER);
 			break;
-		//case ALLEGRO_EVENT_KEY_DOWN:
-		//	p_event = new KeyboardEvent;
-		//	break;
+		case ALLEGRO_EVENT_KEY_UP:
+			p_event = new KeyboardEvent(ev.keyboard);
+			break;
 		//case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
 		//	p_event = new MouseEvent;
 		//	break;	

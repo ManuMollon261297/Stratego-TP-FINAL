@@ -138,6 +138,13 @@ bool Init(resources* r)
 	{
 		return false;
 	}
+
+
+	if (!al_install_keyboard())
+	{
+		return false;
+	}
+
 	r->event_queue = al_create_event_queue();
 	if (!(r->event_queue))
 	{
@@ -147,6 +154,7 @@ bool Init(resources* r)
 	//Registro todas las fentes de eventos relevantes, Timer, display y mouse.
 	al_register_event_source(r->event_queue, al_get_mouse_event_source()); 
 	al_register_event_source(r->event_queue, al_get_display_event_source(r->display));
+	al_register_event_source(r->event_queue, al_get_keyboard_event_source());
 	al_register_event_source(r->event_queue, al_get_timer_event_source(r->timer));
 	return true;
 
@@ -156,6 +164,7 @@ void DoExit(resources* r)
 {
 	al_destroy_display(r->display);
 	al_destroy_event_queue(r->event_queue);
+	al_destroy_timer(r->timer);
 }
 
 void InitializeControllers(vector<GenericController>& v, GameModel* p_gm, NetworkingModel* p_nwm)

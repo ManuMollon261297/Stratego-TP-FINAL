@@ -1,7 +1,11 @@
 #include "MainMenu.h"
 #include "NetworkingModel.h"
+#include "GameModel.h"
+#include "EventGenerator.h"
+#include "Event.h"
 #include <fstream>
 #include <time.h>
+#include <vector>
 
 using namespace std;
 
@@ -13,10 +17,12 @@ typedef struct
 {
 	ALLEGRO_DISPLAY* display = nullptr;
 	ALLEGRO_EVENT_QUEUE* event_queue = nullptr;
+	ALLEGRO_TIMER* timer = nullptr;
 }resources;
 
 bool Init(resources* r); //Inicializa todos los recursos necesarios.
-void DoExit(resources* r); //Se ocupa ded todos los recurso a la salida del programa.
+void DoExit(resources* r); //Se ocupa de todos los recursos a la salida del programa.
+//void InitializeControllers(vector<Controller>&);
 
 int main()
 {
@@ -32,6 +38,32 @@ int main()
 	MainMenu* p_menu = new MainMenu(res.display, res.event_queue); //Se inicializa, corre y destruye el menu del juego.
 	p_menu->Run();
 	delete p_menu;
+/*
+GameModel Gm;
+NetworkingModel Nwm;
+al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
+EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
+vector<Controller> v_contr;
+InitializeControllers(v_contr);
+while ( !(Gm.GetExit()))
+{
+GenericEvent* ev;
+EvGen.searchForEvents();
+if ( EvGen.hayEvento())
+{
+ev = EvGen.getNextEvent();
+for (int i = 0; i < v_contr.size(); i++)
+{
+(v_contr[i])->dispatch(); //Hay que ver si el vector va a tener punteros o los objetos en si.
+}
+delete ev;
+}
+
+}
+
+*/
+	
+
 
 	DoExit(&res);
 
@@ -101,14 +133,21 @@ bool Init(resources* r)
 	{
 		return false;
 	}
-
+	r->timer = al_create_timer(1); //crea un timer de un segundo.
+	if ((r->timer) == nullptr)
+	{
+		return false;
+	}
 	r->event_queue = al_create_event_queue();
 	if (!(r->event_queue))
 	{
 		return false;
 	}
-	al_register_event_source(r->event_queue, al_get_mouse_event_source());
+
+	//Registro todas las fentes de eventos relevantes, Timer, display y mouse.
+	al_register_event_source(r->event_queue, al_get_mouse_event_source()); 
 	al_register_event_source(r->event_queue, al_get_display_event_source(r->display));
+	al_register_event_source(r->event_queue, al_get_timer_event_source(r->timer));
 	return true;
 
 }

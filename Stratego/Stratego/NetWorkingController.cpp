@@ -1,9 +1,9 @@
 #include "NetWorkingController.h"
 
-NetWorkingController::NetWorkingController(GameModel* p2GameModel)
+NetWorkingController::NetWorkingController(GameModel* p2GameModel, NetworkingModel* p2NetModel)
 {
 	char user_name[256];
-	NWM = new NetworkingModel();
+	NWM = p2NetModel;
 	std::ifstream ip_file("./ip.txt");
 	std::ifstream name_file("./temporal.txt");
 	ip_file.getline(ip, MAX_IP_LENGTH); //Consigo la ip del otro jugador

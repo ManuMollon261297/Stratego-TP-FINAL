@@ -25,7 +25,7 @@
 class NetWorkingController
 {
 public:
-	NetWorkingController(GameModel* p2GameModel);
+	NetWorkingController(GameModel* p2GameModel, NetworkingModel* p2NetModel);
 	~NetWorkingController();
 	void dispatch(GenericEvent& newEvent);
 

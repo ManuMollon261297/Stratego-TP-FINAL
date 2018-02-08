@@ -43,7 +43,7 @@ void MainMenu::Run(void)
 			else if (ev.type == ALLEGRO_EVENT_KEY_UP)
 			{
 				KeyController->dispatch(KeyboardEvent(ev.keyboard));
-				std::cout << std::endl << menu->getName() << std::endl;
+				menuView->update();
 			}
 			else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			{

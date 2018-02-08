@@ -25,7 +25,6 @@ public:
 	void drawRules();
 	void drawWritingName();
 	void manageSoundtrack();
-	std::string name;
 private:
 	int screenWidth;
 	int screenHeight;

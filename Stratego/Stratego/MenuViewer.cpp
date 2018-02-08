@@ -235,7 +235,7 @@ void MenuViewer::drawWritingName()
 {
 	al_draw_scaled_bitmap(ALLEGRO_nameInput, 0, 0, al_get_bitmap_width(ALLEGRO_nameInput),
 		al_get_bitmap_height(ALLEGRO_nameInput), 0, 0, screenWidth, screenHeight, 0);
-	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), 50, screenHeight / 4, 0, "%s",name.c_str());
+	al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), 50, screenHeight / 4, 0, "%s",(engine.getName()).c_str());
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 20, 30 + 80 * 0, 0,
 		"Please write your name");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 20, 30 + 80 * 1, 0,

@@ -370,6 +370,79 @@ bool GameModel::getFichasPlaced()
 	return fichasPlaced;
 }
 
+void GameModel::reset()
+{
+	//inicializacion del juego
+	gameOver = false;
+
+	Exit = false;
+
+	moveDone = false;
+	fichasPlaced = false;
+	won = false;
+	attackResolved = false;
+	red = (!red); //cambio de color
+	message = " ";
+
+	//inicializaciondel battlefield
+
+	for (int i = 0; i<FILAS; i++)
+	{
+		for (int j = 0; j<COLUMNAS; j++)
+		{
+			battlefield[i][j] = nullptr;
+		}
+	}
+	for (int i = 0; i<4; i++)
+	{
+		for (int j = 0; j<COLUMNAS; j++)
+		{
+			battlefield[i][j] = new ficha(OTHERS);
+		}
+	}
+	for (int i = 4; i<6; i++)
+	{
+		for (int j = 2; j<4; j++)
+		{
+			battlefield[i][j] = new ficha(WATER);
+		}
+	}
+	for (int i = 4; i<6; i++)
+	{
+		for (int j = 6; j<8; j++)
+		{
+			battlefield[i][j] = new ficha(WATER);
+		}
+	}
+	//inicializacion de cemetery
+	for (int i = 0; i<TIPOS_DE_RANK; i++)
+	{
+		cemetery[i][0] = (MARSHAL + i); //rango que representa una fila
+		cemetery[i][2] = 0;  // las fichas comienzan desseleccionadas. si se seleccionan, se setean con un '1'
+	}
+	cemetery[TIPOS_DE_RANK + 1][0] = -1; //celda vacia sin info util
+										 //cantidad de fichas por cada rango
+	cemetery[MARSHAL][1] = 1;
+	cemetery[GENERAL][1] = 1;
+	cemetery[CORONEL][1] = 2;
+	cemetery[MAJOR][1] = 3;
+	cemetery[CAPTAIN][1] = 4;
+	cemetery[LIEUTENANT][1] = 4;
+	cemetery[SERGEANT][1] = 4;
+	cemetery[MINER][1] = 5;
+	cemetery[SCOUT][1] = 8;
+	cemetery[SPY][1] = 1;
+	cemetery[BOMB][1] = 6;
+	cemetery[FLAG][1] = 1;
+	cemetery[12][1] = 40; //total de fichas
+
+						  //inicializacion del state
+	state = PLACING_FICHAS;
+	timeRemaining = 120; // El jugador tiene 120 segundos para decidir antes de perder.
+	rescuesRemaining = 2;
+	repeatMoveCounter = 0;
+}
+
 button * GameModel::getButtonReference(int index)
 {
 	for (unsigned int i = 0; i < botones.size(); i++)

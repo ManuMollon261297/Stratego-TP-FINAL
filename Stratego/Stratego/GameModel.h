@@ -71,7 +71,7 @@ public:
 	void setFichasPlacedTrue();
 	void setFichasPlacedFalse();
 	bool getFichasPlaced();
-
+	void reset();
 	//manejo de botones
 
 	button * getButtonReference(int index);

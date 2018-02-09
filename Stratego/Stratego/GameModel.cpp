@@ -113,6 +113,7 @@ bool GameModel::GetExit()const
 void GameModel::SetExit(bool value)
 {
 	Exit = value;
+	NotifyAllObservers();
 }
 
 void GameModel::SetOpponentName(std::string str)

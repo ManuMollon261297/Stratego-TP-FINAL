@@ -9,7 +9,7 @@ WaitingStartResponse::WaitingStartResponse(void)
 #endif //DEBUG
 }
 
-NetworkingState* WaitingStartResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingStartResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	p_nwm->ResetTimeout();
 	Gm->setState(PLACING_FICHAS);

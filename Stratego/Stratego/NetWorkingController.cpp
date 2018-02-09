@@ -13,22 +13,31 @@ NetWorkingController::NetWorkingController(GameModel* p2GameModel, NetworkingMod
 	NWM->setMe(user_nameS);
 	Gm = p2GameModel;
 	proxState = nullptr;
-	srand(time(NULL));
-	int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
-	char pckg[1];
-	if ((NWM->connectAsClient(waiting_time, ip))) 
+	MM = nullptr;
+
+}
+
+void NetWorkingController::StartConnection()
+{
+	if (NWM->getServer() == UNINITIALIZED)
 	{
-		NWM->setServer(CLIENT);
-		actualState = new WaitingName;
-	}
-	else
-	{
-		if (NWM->connectAsServer()) //si tuvo exito manda el paquete de name
+		srand(time(NULL));
+		int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
+		char pckg[1];
+		if ((NWM->connectAsClient(waiting_time, ip)))
 		{
-			NWM->setServer(SERVER);
-			pckg[0] = NAME_HEADER;
-			NWM->sendPackage(pckg, 1);
-			actualState = new WaitingNameIs;
+			NWM->setServer(CLIENT);
+			actualState = new WaitingName;
+		}
+		else
+		{
+			if (NWM->connectAsServer()) //si tuvo exito manda el paquete de name
+			{
+				NWM->setServer(SERVER);
+				pckg[0] = NAME_HEADER;
+				NWM->sendPackage(pckg, 1);
+				actualState = new WaitingNameIs;
+			}
 		}
 	}
 }
@@ -38,6 +47,10 @@ NetWorkingController::~NetWorkingController()
 	delete NWM;
 }
 
+void NetWorkingController::AddMainMenu(MenuModel* p_mm)
+{
+	MM = p_mm;
+}
 void NetWorkingController::dispatch(GenericEvent& newEvent)
 {
 	

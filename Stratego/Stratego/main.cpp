@@ -37,15 +37,18 @@ int main()
 	{
 		return -1;
 	}
-
-	MainMenu* p_menu = new MainMenu(res.display, res.event_queue); //Se inicializa, corre y destruye el menu del juego.
-	p_menu->Run();
-	delete p_menu;
-/*
 	GameModel Gm;
 	NetworkingModel Nwm;
-	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
+	NetWorkingController NetContr(&Gm, &Nwm);
 	EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
+	MainMenu* p_menu = new MainMenu(res.display, res.event_queue, &NetContr, &EvGen); //Se inicializa, corre y destruye el menu del juego.
+	p_menu->Run();
+	delete p_menu;
+	p_menu = nullptr;
+
+	colour c = ( (Gm.getRed()) ? RED : BLUE);
+	Gm.AttachObserver(new AllegroViewer(Gm, c, res.display));
+	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
 	vector<GenericController> v_contr;
 	InitializeControllers(v_contr, &Gm, &Nwm);
 
@@ -66,7 +69,7 @@ int main()
 	}
 
 	v_contr.clear(); //Destruye los controllers.
-*/
+
 	DoExit(&res);
 	return 0;
 

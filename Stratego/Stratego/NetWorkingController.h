@@ -20,6 +20,7 @@
 #include "WaitingStartResponse.h"
 #include "WaitingWhoStart.h"
 #include "GameModel.h"
+#include "MenuModel.h"
 
 #define MAX_IP_LENGTH 45
 
@@ -29,11 +30,15 @@ public:
 	NetWorkingController(GameModel* p2GameModel, NetworkingModel* p2NetModel);
 	~NetWorkingController();
 	virtual void dispatch(GenericEvent& newEvent);
+	void StartConnection(void);
+	void AddMainMenu(MenuModel*);
 
 private:
 	NetworkingState * actualState;
 	NetworkingState * proxState;
 	NetworkingModel * NWM;     
 	GameModel * Gm;
+	MenuModel * MM;
+
 	char ip[MAX_IP_LENGTH+1]; //ip del otro jugador
 };

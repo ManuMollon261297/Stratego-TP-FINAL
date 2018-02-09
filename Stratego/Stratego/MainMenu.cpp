@@ -1,7 +1,10 @@
 #include "MainMenu.h"
 
-MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q)
+MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q, NetWorkingController* nw, EventGenerator* ev_g)
 {
+	p_nw = nw;
+	p_nw->AddMainMenu(menu);
+	p_Ev_gen = ev_g;
 	dataButtons = fillButtonsInfo();
 	menu = new MenuModel;
 	v_contr.push_back(new menuMouseController(menu, dataButtons));
@@ -28,7 +31,26 @@ MainMenu::~MainMenu()
 
 void MainMenu::Run(void)
 {
-	ALLEGRO_EVENT ev;
+	while (!(menu->GetExit()))
+	{
+		p_Ev_gen->searchForEvents();
+		if ( p_Ev_gen->hayEvento())
+		{
+			GenericEvent * G_ev = p_Ev_gen->getNextEvent();
+			for (unsigned int i = 0; i<v_contr.size(); i++)
+			{
+				(v_contr[i])->dispatch(*G_ev);
+			}
+			if ( menu->getState() == CONNECTING)
+			{
+				p_nw->StartConnection();
+				p_nw->dispatch(*G_ev);
+			}
+			delete G_ev;
+		}
+
+	}
+	/*
 	do
 	{
 		if (al_get_next_event(queue, &ev))
@@ -53,6 +75,10 @@ void MainMenu::Run(void)
 					(v_contr[i])->dispatch(*G_ev);
 				}
 				delete G_ev;
+				if (menu->getState() == CONNECTING)
+				{
+					p_nw->;
+				}
 			}
 			
 			
@@ -60,7 +86,7 @@ void MainMenu::Run(void)
 		
 
 	} while (!(menu->GetExit()));
-	
+	*/
 }
 
 dataButtonsPos MainMenu::fillButtonsInfo(void)

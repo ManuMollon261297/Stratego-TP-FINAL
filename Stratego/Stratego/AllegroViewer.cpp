@@ -2,7 +2,7 @@
 #include "currStatus.h"
 
 #define CASO_ESPECIAL(r, q) ( ((r == MINER) && (q == BOMB)) || ((r == SPY) && (q == MARSHAL)) )
-AllegroViewer::AllegroViewer(int h, int w, GameModel &gm,colour c, ALLEGRO_DISPLAY * disp) : engine(gm)
+AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int h, int w) : engine(gm)
 {
 	color = c;
 	attackPending = false;

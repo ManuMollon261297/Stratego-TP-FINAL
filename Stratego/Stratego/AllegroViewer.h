@@ -20,12 +20,12 @@
 
 
 
-enum colour{RED,BLUE};
+enum colour{BLUE,RED};
 
 class AllegroViewer : public GenericObserver
 {
 public:
-	AllegroViewer(int h ,int w,GameModel &gm,colour c,ALLEGRO_DISPLAY * disp);
+	AllegroViewer(GameModel &gm,colour c,ALLEGRO_DISPLAY * disp, int h = 720, int w = 1080);
 	bool isViewerInitialized();
 	void initImagesAndFonts();
 	virtual void update();

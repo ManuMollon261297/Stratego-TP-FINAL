@@ -9,11 +9,11 @@ class menuMouseController
 public:
 	menuMouseController(MenuModel * p2menuModel_, dataButtonsPos & dataButtonsPos_);
 	~menuMouseController();
-	mouseMenuEvent shape(int x, int y);
+	int shape(int x, int y);
 
 	void refreshButtons(void);
 
-	void dispatch(mouseMenuEvent & menuEvMouse);
+	virtual void dispatch(GenericEvent & menuEvMouse);
 
 private:
 	MenuModel * p2menuModel;

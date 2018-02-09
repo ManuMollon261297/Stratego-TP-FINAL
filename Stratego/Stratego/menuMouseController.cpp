@@ -12,16 +12,16 @@ menuMouseController::menuMouseController(MenuModel * p2menuModel_, dataButtonsPo
 	refreshButtons();
 }
 
-mouseMenuEvent menuMouseController::shape(int x, int y)
+int menuMouseController::shape(int x, int y)
 {
 	bool butonFounded = false;
-	mouseMenuEvent ret;
-	ret.botonTouched = -1;
+	int ret;
+	ret = -1;
 	for (int i = 0; (i < p2menuModel->getNumberOfButtons()) && (!butonFounded) ; i++)
 	{
 		if (p2menuModel->getButtonsVector()[i].isTouched(x, y))
 		{
-			ret.botonTouched = p2menuModel->getButtonsVector()[i].getIndex();
+			ret = p2menuModel->getButtonsVector()[i].getIndex();
 			butonFounded = true;
 		}
 	}
@@ -59,15 +59,19 @@ void menuMouseController::refreshButtons(void)
 	}
 }
 
-void menuMouseController::dispatch(mouseMenuEvent & menuEvMouse)
+void menuMouseController::dispatch(GenericEvent & menuEvMouse)
 {
-	if (p2menuModel->getState() != state)
+	if (menuEvMouse.GetEvent() == MOUSE)
 	{
-		state = p2menuModel->getState();
-		refreshButtons();
-	}
-	switch (menuEvMouse.botonTouched)
-	{
+		mouseMenuEvent ev = (mouseMenuEvent&)menuEvMouse;
+		int botonTouched = shape(ev.x, ev.y);
+		if (p2menuModel->getState() != state)
+		{
+			state = p2menuModel->getState();
+			refreshButtons();
+		}
+		switch (botonTouched)
+		{
 		case PLAY_B:
 			p2menuModel->setState(WRITING_NAME);
 			break;
@@ -89,13 +93,15 @@ void menuMouseController::dispatch(mouseMenuEvent & menuEvMouse)
 				p2menuModel->setExit();
 			}
 			break;
-	}
+		}
 
-	if (p2menuModel->getState() != state)
-	{
-		state = p2menuModel->getState();
-		refreshButtons();
+		if (p2menuModel->getState() != state)
+		{
+			state = p2menuModel->getState();
+			refreshButtons();
+		}
 	}
+	
 }
 
 menuMouseController::~menuMouseController()

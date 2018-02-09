@@ -217,6 +217,7 @@
     <ClCompile Include="menuMouseController.cpp" />
     <ClCompile Include="MenuViewer.cpp" />
     <ClCompile Include="mouseGameController.cpp" />
+    <ClCompile Include="mouseMenuEvent.cpp" />
     <ClCompile Include="MyAttacking.cpp" />
     <ClCompile Include="MyMoving.cpp" />
     <ClCompile Include="MyTurn.cpp" />

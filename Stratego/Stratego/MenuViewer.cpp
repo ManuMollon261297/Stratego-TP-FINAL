@@ -301,13 +301,19 @@ void MenuViewer::drawConnecting()
 {
 	al_draw_scaled_bitmap(ALLEGRO_menuBackground, 0, 0, al_get_bitmap_width(ALLEGRO_menuBackground),
 		al_get_bitmap_height(ALLEGRO_menuBackground), 0, 0, screenWidth, screenHeight, 0);
-	if (engine.getMessage().size() < 10)
+	if (engine.getMessage().size() <= 27)
 	{
 		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 0, 0,
 			engine.getMessage().c_str());
 	}
 	else
-	{
+	{ 
+		std::string aux = engine.getMessage();
+		std::string aux2 = "";
+		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30, 0,
+				engine.getMessage().c_str());
+		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80, 0,
+			engine.getMessage().c_str());
 		// hay que cortar el texto y ponerlo abajo
 	}
 	al_flip_display();

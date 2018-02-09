@@ -16,7 +16,7 @@ public:
 private:
 	ALLEGRO_EVENT_QUEUE* queue;
 	MenuModel* menu;
-	MenuViewer* menuView;
+	MenuViewer* menu_viewer;
 	menuMouseController* menuControllerMouse;
 	KeyboardController* KeyController;
 	dataButtonsPos fillButtonsInfo(void);

@@ -44,6 +44,7 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 	ALLEGRO_messagesttf = nullptr;
 }
 
+
 bool MenuViewer::isViewerInitialized()
 {
 	return initialized;

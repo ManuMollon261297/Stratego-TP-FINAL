@@ -1,6 +1,15 @@
 #include "GenericObserver.h"
 
 
+GenericObserver::GenericObserver()
+{
+
+}
+GenericObserver::GenericObserver(GenericObserver&&)
+{
+
+}
+
 GenericObserver::~GenericObserver()
 {
 

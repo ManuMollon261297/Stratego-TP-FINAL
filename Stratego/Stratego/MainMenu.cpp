@@ -6,12 +6,11 @@ MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q)
 	menu = new MenuModel;
 	menuControllerMouse = new menuMouseController(menu, dataButtons);
 	KeyController = new KeyboardController(menu);
-	menuView = new MenuViewer(1080, 720, *menu, disp); //crea el viewer del menu
-	menuView->initImagesAndFonts();
-	menuView->isViewerInitialized();
-	menuView->drawMenu();
-	menuView->manageSoundtrack();
-
+	menu_viewer = new MenuViewer(1080, 720, *menu, disp); //crea el viewer del menu
+	menu_viewer->initImagesAndFonts();
+	menu_viewer->isViewerInitialized();
+	menu_viewer->drawMenu();
+	menu_viewer->manageSoundtrack();
 	queue = ev_q;
 	al_flip_display();
 }
@@ -21,7 +20,7 @@ MainMenu::~MainMenu()
 	delete menu;
 	delete menuControllerMouse;
 	delete KeyController;
-	delete menuView;
+	delete menu_viewer;
 }
 
 
@@ -37,13 +36,13 @@ void MainMenu::Run(void)
 				std::cout << "x: " << ev.mouse.x << std::endl;
 				std::cout << "y: " << ev.mouse.y << std::endl;
 				menuControllerMouse->dispatch(menuControllerMouse->shape(ev.mouse.x, ev.mouse.y));
-				menuView->update();
-				al_flip_display();
+				menu_viewer->update();
+				
 			}
 			else if (ev.type == ALLEGRO_EVENT_KEY_UP)
 			{
 				KeyController->dispatch(KeyboardEvent(ev.keyboard));
-				menuView->update();
+				menu_viewer->update();
 			}
 			else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			{

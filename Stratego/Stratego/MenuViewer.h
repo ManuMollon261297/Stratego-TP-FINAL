@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GenericObserver.h"
 #include "MenuModel.h"
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_font.h"
@@ -11,13 +12,13 @@
 #include "AllegroFuncs.h"
 #include <vector>
 
-class MenuViewer
+class MenuViewer : public GenericObserver
 {
 public:
 	MenuViewer(int w, int h, MenuModel & p2e, ALLEGRO_DISPLAY * disp);
 	bool isViewerInitialized();
 	void initImagesAndFonts();
-	void update();
+	virtual void update();
 	~MenuViewer();
 	//SOLO EN PUBLIC PARA DEBUGEAR
 	void drawMenu();

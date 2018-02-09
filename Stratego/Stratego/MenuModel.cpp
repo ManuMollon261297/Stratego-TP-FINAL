@@ -28,7 +28,7 @@ int MenuModel::getState()
 void MenuModel::setState(int state_)
 {
 	state = state_;
-	
+	NotifyAllObservers();
 }
 
 bool MenuModel::GetExit(void)const
@@ -44,6 +44,7 @@ bool MenuModel::getWorkingIp()
 void MenuModel::setWorkingIp(bool isIp)
 {
 	workingIp = isIp;
+	NotifyAllObservers();
 }
 
 void MenuModel::addCharToWorkingString(char a)
@@ -57,6 +58,7 @@ void MenuModel::addCharToWorkingString(char a)
 		name.push_back(a);
 		break;
 	}
+	NotifyAllObservers();
 }
 
 void MenuModel::deleteCharToWorkingString()
@@ -76,26 +78,31 @@ void MenuModel::deleteCharToWorkingString()
 		}
 		break;
 	}
+	NotifyAllObservers();
 }
 
 void MenuModel::pushButton(button b)
 {
 	botones.push_back(b);
+	NotifyAllObservers();
 }
 
 void MenuModel::deleteButtons()
 {
 	botones.clear();
+	NotifyAllObservers();
 }
 
 void MenuModel::setExit(void)
 {
 	exit = true;
+	NotifyAllObservers();
 }
 
 void MenuModel::toggleSound()
 {
 	muteOn = !muteOn;
+	NotifyAllObservers();
 }
 
 bool MenuModel::isMuteOn()

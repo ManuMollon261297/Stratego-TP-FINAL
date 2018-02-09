@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "GenericModel.h"
 #include "button.h"
 
 enum menuStates{MENU,WRITING_NAME,RULES,MUTE_TOGGLE,LEADERBOARD,PLAY};
-class MenuModel
+class MenuModel : public GenericModel
 {
 public:
 	MenuModel();

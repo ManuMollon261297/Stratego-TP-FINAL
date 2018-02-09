@@ -1,8 +1,13 @@
 #pragma once
+#include "Event.h"
+#include "allegro5\allegro.h"
 
 
-typedef struct
+
+class mouseMenuEvent : public GenericEvent
 {
-	int botonTouched; 
-
-} mouseMenuEvent;
+public:
+	mouseMenuEvent(ALLEGRO_EVENT ev);
+	int x;
+	int y;
+};

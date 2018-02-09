@@ -9,8 +9,8 @@
 #include <vector>
 #include <iostream>
 
-#define FILAS		10
-#define COLUMNAS	10
+#define FILAS			10
+#define COLUMNAS		10
 #define TIPOS_DE_RANK	12
 
 
@@ -55,6 +55,7 @@ public:
 	bool isSelectedFromPos(pos currpos);
 	bool isCemeteryEmpty();
 	bool isRankCemeterySelected(notstd::rank r);
+	bool attackResolved();
 	//ficha
 	void swap(pos init, pos final); //asume cambio de coordenadas validas, previamente chequeadas
 	bool setFicha(notstd::rank r, pos x);	//setea si es valida, una ficha en el tablero, devuelve false si no fue posible
@@ -91,6 +92,7 @@ public:
 	currStatus GetopPosStatus()const;
 	bool GetExit()const;
 	bool isMuteOn();
+	notstd::rank getOpponentRank();
 
 	//winner
 	void playerWon();
@@ -103,6 +105,7 @@ public:
 	//debug
 	void printBattlefield();
 private:
+	notstd::rank opRank;
 	bool gameOver;
 	bool Exit; //Se pone en true cuando sucede alguna situacion que genera el cierre del programa.
 	bool mute;
@@ -117,6 +120,7 @@ private:
 	bool moveDone;
 	bool fichasPlaced;
 	bool won; //true si el jugador gano la partida
+	bool attackResolved;
 
 	currStatus myPosStatus;
 	currStatus opPosStatus;

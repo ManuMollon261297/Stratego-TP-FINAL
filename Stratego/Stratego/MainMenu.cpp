@@ -58,26 +58,6 @@ void MainMenu::Run(void)
 			
 		}
 		
-		/*
-		if (al_get_next_event(queue, &ev))
-		{
-		if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
-		{
-		menuControllerMouse->dispatch(mouseMenuEvent(ev));
-
-		}
-		else if (ev.type == ALLEGRO_EVENT_KEY_UP)
-		{
-		KeyController->dispatch(KeyboardEvent(ev.keyboard));
-		}
-		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-		{
-		menu->setExit();
-		}
-
-		}
-		*/
-		
 
 	} while (!(menu->GetExit()));
 	

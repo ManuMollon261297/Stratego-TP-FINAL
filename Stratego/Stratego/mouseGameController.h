@@ -27,9 +27,9 @@ public:
 	void * getp2estadoModel();
 	
 
-	void saveEvent(MouseEvent & Mev);
-	MouseEvent & getPreviousEvent();
-	bool isEqualToPrevious(MouseEvent & Mev);
+	void saveEvent(MouseInfo & Mev);
+	MouseInfo & getPreviousEvent();
+	bool isEqualToPrevious(MouseInfo & Mev);
 
 	bool validOffsetMovement(pos destiny); //se fija si el offset de la ficha permite llegar hasta ese punto, la posicion original de la ficha
 										   //se encuentra en memoryEv.
@@ -38,9 +38,9 @@ public:
 									  //se fija si no hay obstaculos que impidan el movimiento
 									  //return:  valido --> true (NO hay obstaculos); invalido --> false(HAY obstaculos).
 
-	MouseEvent shape(double x, double y); //devuelve un evento de mouse sheipeado
+	MouseInfo shape(double x, double y); //devuelve un evento de mouse sheipeado
 
-	void dispatch(MouseEvent Mev);
+	virtual void dispatch(GenericEvent& Mev);
 
 	~mouseGameController();
 private:
@@ -65,7 +65,7 @@ private:
 	MouseStates Mstate;
 
 
-	MouseEvent memoryEv;
+	MouseInfo memoryEv;
 	
 
 	sectors getSectorTouched(double x, double y);

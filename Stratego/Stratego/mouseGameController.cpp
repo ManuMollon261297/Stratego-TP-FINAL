@@ -45,17 +45,17 @@ void * mouseGameController::getp2estadoModel()
 	return estadoModel_;
 }
 
-void mouseGameController::saveEvent(MouseEvent & Mev)
+void mouseGameController::saveEvent(MouseInfo & Mev)
 {
 	memoryEv = Mev;
 }
 
-MouseEvent & mouseGameController::getPreviousEvent()
+MouseInfo & mouseGameController::getPreviousEvent()
 {
 	return memoryEv;
 }
 
-bool mouseGameController::isEqualToPrevious(MouseEvent & Mev)
+bool mouseGameController::isEqualToPrevious(MouseInfo & Mev)
 {
 	bool ret;
 	if ((memoryEv.r == Mev.r) && (memoryEv.evPos == Mev.evPos))
@@ -71,9 +71,9 @@ bool mouseGameController::isEqualToPrevious(MouseEvent & Mev)
 
 
 
-MouseEvent mouseGameController::shape(double x, double y)
+MouseInfo mouseGameController::shape(double x, double y)
 {
-	MouseEvent Mev;
+	MouseInfo Mev;
 	Mev.sector = getSectorTouched(x, y);
 	switch (Mev.sector)
 	{
@@ -101,42 +101,49 @@ MouseEvent mouseGameController::shape(double x, double y)
 	return Mev;
 }
 
-void mouseGameController::dispatch(MouseEvent Mev)
+void mouseGameController::dispatch(GenericEvent& Mev)
 {
-	updateControllerState(p2gameModel->getState());
-	gameState * proximoEstado = nullptr;  //puntero que funciona como memoria para el proximo estado
-	gameState * estadoModel = (gameState *)estadoModel_;  //se crea un puntero auxiliar para poder desreferenciar
-	switch (Mev.type)
+	if(Mev.GetEvent() == MOUSE)
 	{
+		MouseEvent& ev = (MouseEvent&)Mev;
+		MouseInfo info = shape(ev.x, ev.y);
+
+		updateControllerState(p2gameModel->getState());
+		gameState * proximoEstado = nullptr;  //puntero que funciona como memoria para el proximo estado
+		gameState * estadoModel = (gameState *)estadoModel_;  //se crea un puntero auxiliar para poder desreferenciar
+		switch (info.type)
+		{
 		case NO_EVENT:
 			break;
 		case SOLDIER_EV:
-			proximoEstado = estadoModel->OnSoldier(Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnSoldier(info, Mstate, this, p2gameModel);
 			break;
 		case OPONENT_EV:
-			proximoEstado = estadoModel->OnOponent(Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnOponent(info, Mstate, this, p2gameModel);
 			break;
 		case LAND_EV:
-			proximoEstado = estadoModel->OnLand(Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnLand(info, Mstate, this, p2gameModel);
 			break;
 		case WATER_EV:
-			proximoEstado = estadoModel->OnWater(Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnWater(info, Mstate, this, p2gameModel);
 			break;
 		case CEMETERY_EV:
-			proximoEstado = estadoModel->OnCemetery(Mev, Mstate, this, p2gameModel);
+			proximoEstado = estadoModel->OnCemetery(info, Mstate, this, p2gameModel);
 			break;
 		case BOTON_PLACE_READY_EV:
 			proximoEstado = estadoModel->OnConfirmPlaces(p2gameModel);
+		}
+
+		if (proximoEstado != nullptr) //hubo cambio de estado
+		{
+			delete estadoModel_;
+			estadoModel_ = (void *) new gameState;
+			estadoModel_ = proximoEstado;
+			proximoEstado = nullptr;
+			updateModelState();
+		}
 	}
 	
-	if (proximoEstado != nullptr) //hubo cambio de estado
-	{
-		delete estadoModel_;
-		estadoModel_ = (void *) new gameState;
-		estadoModel_ = proximoEstado;
-		proximoEstado = nullptr;
-		updateModelState();
-	}
 }
 
 sectors mouseGameController::getSectorTouched(double x, double y)

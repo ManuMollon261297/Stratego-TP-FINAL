@@ -13,7 +13,7 @@ PlacingFichas::~PlacingFichas()
 {
 }
 
-gameState * PlacingFichas::OnSoldier(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnSoldier(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	switch (Mstate)
 	{
@@ -37,7 +37,7 @@ gameState * PlacingFichas::OnSoldier(MouseEvent & Mev, MouseStates & Mstate, mou
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnCemetery(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnCemetery(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	switch (Mstate)
 	{
@@ -68,13 +68,13 @@ gameState * PlacingFichas::OnCemetery(MouseEvent & Mev, MouseStates & Mstate, mo
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnOponent(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnOponent(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Las tropas aun no estan preparadas para el ataque");
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnLand(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	if (Mev.sector == FRIENDLY_BATTLEFIELD)
 	{
@@ -113,7 +113,7 @@ gameState * PlacingFichas::OnLand(MouseEvent & Mev, MouseStates & Mstate, mouseG
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnWater(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * PlacingFichas::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Laguna, las tropas no pueden dirigirse alli");
 	return nullptr;

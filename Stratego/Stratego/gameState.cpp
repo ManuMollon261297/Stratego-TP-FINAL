@@ -13,27 +13,27 @@ gameState::~gameState()
 {
 }
 
-gameState * gameState::OnSoldier(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * gameState::OnSoldier(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	return nullptr;
 }
 
-gameState * gameState::OnCemetery(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * gameState::OnCemetery(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	return nullptr;
 }
 
-gameState * gameState::OnOponent(MouseEvent & ev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * gameState::OnOponent(MouseInfo & ev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	return nullptr;
 }
 
-gameState * gameState::OnLand(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * gameState::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	return nullptr;
 }
 
-gameState * gameState::OnWater(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * gameState::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	return nullptr;
 }

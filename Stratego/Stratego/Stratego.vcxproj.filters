@@ -55,6 +55,7 @@
     <ClCompile Include="GenericObserver.cpp" />
     <ClCompile Include="GenericController.cpp" />
     <ClCompile Include="mouseMenuEvent.cpp" />
+    <ClCompile Include="MouseEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroFuncs.h" />

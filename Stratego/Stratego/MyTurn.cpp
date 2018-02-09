@@ -9,7 +9,7 @@ MyTurn::MyTurn()
 	state = MY_TURN;
 }
 
-gameState * MyTurn::OnSoldier(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnSoldier(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	switch (Mstate)
 	{
@@ -33,13 +33,13 @@ gameState * MyTurn::OnSoldier(MouseEvent & Mev, MouseStates & Mstate, mouseGameC
 	return nullptr;
 }
 
-gameState * MyTurn::OnCemetery(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnCemetery(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Estos soldados han sido derrotados, estan fuera de combate");
 	return nullptr;
 }
 
-gameState * MyTurn::OnOponent(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnOponent(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	gameState * pRet = nullptr;
 	switch (Mstate)
@@ -74,7 +74,7 @@ gameState * MyTurn::OnOponent(MouseEvent & Mev, MouseStates & Mstate, mouseGameC
 	return pRet;
 }
 
-gameState * MyTurn::OnLand(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	gameState * pRet = nullptr;
 	switch (Mstate)
@@ -110,7 +110,7 @@ gameState * MyTurn::OnLand(MouseEvent & Mev, MouseStates & Mstate, mouseGameCont
 	return pRet;
 }
 
-gameState * MyTurn::OnWater(MouseEvent & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
+gameState * MyTurn::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
 	p2GameModel->setMessage("Lago, por aqui las tropas no pueden pasar");
 	return nullptr;

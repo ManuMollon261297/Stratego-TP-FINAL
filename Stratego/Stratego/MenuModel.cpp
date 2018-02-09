@@ -153,3 +153,13 @@ std::string & MenuModel::getName(void)
 {
 	return name;
 }
+
+std::string MenuModel::getMessage(void)
+{
+	return message;
+}
+
+void MenuModel::setMessage(std::string message_)
+{
+	message = message_;
+}

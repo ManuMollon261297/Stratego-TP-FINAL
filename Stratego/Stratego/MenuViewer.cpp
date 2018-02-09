@@ -30,6 +30,7 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 	titlettfDir = "../Allegro Data/Prince Valiant.ttf";
 	optionsttfDir = "../Allegro Data/Prince Valiant.ttf";
 	messagettfDir = "../Allegro Data/Eutemia-I Italic.ttf";
+	connectingttfDir = "../Allegro Data/connectingFont.ttf";
 	//sounds
 	soundtrackDir = "../Allegro Data/AUDIO/soundtrack.wav";
 
@@ -100,6 +101,7 @@ void MenuViewer::initImagesAndFonts()
 	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 160, 0);	//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_optionsttf = al_load_ttf_font(optionsttfDir.c_str(), 60, 0);//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_messagesttf = al_load_ttf_font(messagettfDir.c_str(), 50, 0);//cambiar el tamanio de la letra aca si es necesario
+	ALLEGRO_connectingttf = al_load_ttf_font(connectingttfDir.c_str(), 70, 0);//cambiar el tamanio de la letra aca si es necesario
 
 	wavSoundtrack = al_load_sample(soundtrackDir.c_str());
 }
@@ -127,6 +129,9 @@ void MenuViewer::update()
 	case LEADERBOARD:
 		manageSoundtrack();
 		drawLeaderboard();
+		break;
+	case CONNECTING:
+		drawConnecting();
 		break;
 	}
 	prevState = engine.getState();
@@ -284,4 +289,14 @@ void MenuViewer::manageSoundtrack()
 	{
 		//nada
 	}
+}
+
+void MenuViewer::drawConnecting()
+{
+	al_draw_scaled_bitmap(ALLEGRO_menuBackground, 0, 0, al_get_bitmap_width(ALLEGRO_menuBackground),
+		al_get_bitmap_height(ALLEGRO_menuBackground), 0, 0, screenWidth, screenHeight, 0);
+	al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 0, 0,
+		"Connecting to server, please wait...");
+	
+	al_flip_display();
 }

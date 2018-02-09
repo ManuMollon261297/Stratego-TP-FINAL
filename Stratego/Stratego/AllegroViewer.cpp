@@ -411,7 +411,14 @@ void AllegroViewer::highlightCemetery(notstd::rank r)
 
 void AllegroViewer::drawMessage()
 {
-	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth/2, 5, 5, engine.getMessage().c_str());
+	if (engine.getState() == GAME_OVER)
+	{
+		al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 2, 5, 5, engine.getMessage().c_str());
+	}
+	else
+	{
+		al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 2, 5, 5, engine.getMessage().c_str());
+	}
 }
 
 void AllegroViewer::drawGameOver(bool playerWon)
@@ -789,6 +796,12 @@ void AllegroViewer::update()
 {
 	currStatus myS = engine.GetmyPosStatus();
 	currStatus opS = engine.GetopPosStatus();
+	
+	if (engine.attackResolved())
+	{
+		playBattle(engine.getRankFromPos(myS.previous), engine.getOpponentRank());
+	}
+
 	switch (engine.getState())
 	{
 	case PLACING_FICHAS:
@@ -834,6 +847,16 @@ void AllegroViewer::update()
 		break;
 	case GAME_OVER:
 		drawGameOver(engine.didPlayerWin());
+		drawMessage();
+	case ENDING_PLACING_FICHAS:
+		manageSoundtrack();
+		drawBackground();
+		drawBattlefield();
+		drawCemetery();
+		drawMessage();
+		drawRemainingTime();
+		drawSoundB();
+		al_flip_display();
 		break;
 	}
 }

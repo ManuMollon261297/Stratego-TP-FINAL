@@ -13,8 +13,9 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	moveDone = false;
 	fichasPlaced = false;
 	won = false;
+	attackResolved = false;
 
-	message = "Stratego: Tu lideras el ejercito rojo";
+	message = "Stratego";
 
 	//inicializaciondel battlefield
 	for (int i = 0;i<FILAS;i++)
@@ -169,14 +170,13 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 				opPosStatus.next = newPos;
 				break;
 		}
-
-
 		return false;
 	}
 }
 
 void GameModel::resolveAttack(notstd::rank r)
 {
+	attackResolved = true;
 	notstd::rank myRank;
 	if (state == MY_ATTACKING)
 	{
@@ -519,6 +519,11 @@ bool GameModel::clearSurroundings(int i, int j)
 		}
 }
 
+bool GameModel::attackResolved()
+{
+	return attackResolved;
+}
+
 void GameModel::swap(pos init, pos final)
 {
 	ficha * ptrAux = battlefield[final.x][final.y];
@@ -549,6 +554,11 @@ void GameModel::printBattlefield()
 bool GameModel::isMuteOn()
 {
 	return mute;
+}
+
+notstd::rank GameModel::getOpponentRank()
+{
+	return opRank;
 }
 
 bool GameModel::verifyRescue()

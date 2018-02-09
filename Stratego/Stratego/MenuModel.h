@@ -4,7 +4,7 @@
 #include "GenericModel.h"
 #include "button.h"
 
-enum menuStates{MENU,WRITING_NAME,RULES,MUTE_TOGGLE,LEADERBOARD,PLAY};
+enum menuStates{MENU,WRITING_NAME,CONNECTING,RULES,MUTE_TOGGLE,LEADERBOARD,PLAY};
 class MenuModel : public GenericModel
 {
 public:

@@ -10,12 +10,13 @@ WaitingWhoStart::WaitingWhoStart(void)
 #endif //DEBUG
 }
 
-NetworkingState* WaitingWhoStart::I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingWhoStart::I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	char pckg[1];
 	NetworkingState* p_state;
 	bool sent = false;
 	Gm->setRed(false);
+	p_mm->setExit();
 	pckg[0] = ACK_HEADER;
 	sent = p_nwm->sendPackage(pckg, 1);
 	if (sent)
@@ -32,12 +33,13 @@ NetworkingState* WaitingWhoStart::I_start(NetWorkingEvent& ev, NetworkingModel* 
 	return p_state;
 }
 
-NetworkingState* WaitingWhoStart::You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingWhoStart::You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	char pckg[1];
 	NetworkingState* p_state;
 	bool  sent = false;
 	Gm->setRed(true);
+	p_mm->setExit();
 	pckg[0] = ACK_HEADER;
 	sent = p_nwm->sendPackage(pckg, 1);
 	if (sent)

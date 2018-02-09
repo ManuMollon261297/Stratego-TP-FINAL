@@ -49,7 +49,7 @@ int main()
 	colour c = ( (Gm.getRed()) ? RED : BLUE);
 	Gm.AttachObserver(new AllegroViewer(Gm, c, res.display));
 	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
-	vector<GenericController> v_contr;
+	vector<GenericController*> v_contr;
 	InitializeControllers(v_contr, &Gm, &Nwm);
 
 	while ( !(Gm.GetExit()))
@@ -61,7 +61,7 @@ int main()
 			ev = EvGen.getNextEvent();
 			for (int i = 0; i < v_contr.size(); i++)
 			{
-				(v_contr[i]).dispatch(*ev); 
+				(v_contr[i])->dispatch(*ev); 
 			}
 			delete ev;
 		}
@@ -172,8 +172,8 @@ void DoExit(resources* r)
 	al_destroy_timer(r->timer);
 }
 
-void InitializeControllers(vector<GenericController>& v, GameModel* p_gm, NetworkingModel* p_nwm)
+void InitializeControllers(vector<GenericController*>& v, GameModel* p_gm, NetworkingModel* p_nwm)
 {
-	NetWorkingController NetCont(p_gm, p_nwm);
-	v.push_back(move(NetCont));
+	NetWorkingController* NetCont = new NetWorkingController(p_gm, p_nwm);
+	v.push_back(NetCont);
 }

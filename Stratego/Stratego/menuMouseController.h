@@ -2,7 +2,7 @@
 
 #include "GenericController.h"
 #include "MenuModel.h"
-#include "mouseMenuEvent.h"
+#include "MouseEvent.h"
 
 
 class menuMouseController : public GenericController

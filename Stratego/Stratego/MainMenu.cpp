@@ -50,43 +50,7 @@ void MainMenu::Run(void)
 		}
 
 	}
-	/*
-	do
-	{
-		if (al_get_next_event(queue, &ev))
-		{
-			GenericEvent * G_ev = nullptr;
-			switch (ev.type)
-			{
-				case ALLEGRO_EVENT_KEY_UP:
-					G_ev = new KeyboardEvent(ev.keyboard);
-					break;
-				case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-					G_ev = new mouseMenuEvent(ev);
-					break;
-				case ALLEGRO_EVENT_DISPLAY_CLOSE:
-					menu->setExit();
-					break;
-			}
-			if (G_ev != nullptr)
-			{
-				for (unsigned int i = 0; i<v_contr.size(); i++)
-				{
-					(v_contr[i])->dispatch(*G_ev);
-				}
-				delete G_ev;
-				if (menu->getState() == CONNECTING)
-				{
-					p_nw->;
-				}
-			}
-			
-			
-		}
-		
-
-	} while (!(menu->GetExit()));
-	*/
+	
 }
 
 dataButtonsPos MainMenu::fillButtonsInfo(void)

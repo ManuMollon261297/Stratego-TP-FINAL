@@ -26,13 +26,13 @@ NetworkingState* NetworkingState::Name_is(NetWorkingEvent& ev, NetworkingModel* 
 	return nullptr;
 }
 
-NetworkingState* NetworkingState::I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::I_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	ErrorRoutine(p_nwm, Gm);
 	return nullptr;
 }
 
-NetworkingState* NetworkingState::You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::You_start(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	ErrorRoutine(p_nwm, Gm);
 	return nullptr;
@@ -51,7 +51,7 @@ NetworkingState* NetworkingState::I_am_ready(NetWorkingEvent& ev, NetworkingMode
 }
 
 
-NetworkingState* NetworkingState::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	ErrorRoutine(p_nwm, Gm);
 	return nullptr;

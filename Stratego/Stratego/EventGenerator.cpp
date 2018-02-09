@@ -23,7 +23,7 @@ EventGenerator::~EventGenerator()
 void EventGenerator::searchForEvents()
 {
 	bool finished = false;
-	\
+	
 	while (!finished)
 	{
 		if (al_get_next_event(eventQueue, &evento)) //Eventos de Allegro
@@ -31,15 +31,19 @@ void EventGenerator::searchForEvents()
 			shape(evento);
 			finished = true;
 		}
-		else if (!(nwm->GetReading())) //Eventos de Boost
+		else if ( nwm->getServer() != UNINITIALIZED)
 		{
-			nwm->StartReading();
+			if (!(nwm->GetReading())) //Eventos de Boost
+			{
+				nwm->StartReading();
+			}
+			if (nwm->WasPackageRecieved())
+			{
+				shape(nwm->GetPackage());
+				finished = true;
+			}
 		}
-		if (nwm->WasPackageRecieved())
-		{
-			shape(nwm->GetPackage());
-			finished = true;
-		}
+		
 	}
 			
 }
@@ -84,9 +88,9 @@ void EventGenerator::shape(ALLEGRO_EVENT ev)
 		case ALLEGRO_EVENT_KEY_UP:
 			p_event = new KeyboardEvent(ev.keyboard);
 			break;
-		//case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-		//	p_event = new MouseEvent;
-		//	break;	
+		case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+			p_event = new MouseEvent(ev);
+			break;	
 		case ALLEGRO_EVENT_DISPLAY_CLOSE: //Es el unico evento del display que nos importa.
 			p_event = new GenericEvent;
 			p_event->SetEvent(GRAPHICS);
@@ -99,6 +103,10 @@ void EventGenerator::shape(ALLEGRO_EVENT ev)
 	if ((p_event->GetEvent()) != OTHER)
 	{
 		eventList.push_back(p_event);
+	}
+	else
+	{
+		delete p_event;
 	}
 	
 }

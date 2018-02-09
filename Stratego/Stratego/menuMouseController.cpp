@@ -63,7 +63,7 @@ void menuMouseController::dispatch(GenericEvent & menuEvMouse)
 {
 	if (menuEvMouse.GetEvent() == MOUSE)
 	{
-		mouseMenuEvent ev = (mouseMenuEvent&)menuEvMouse;
+		MouseEvent ev = (MouseEvent&)menuEvMouse;
 		int botonTouched = shape(ev.x, ev.y);
 		if (p2menuModel->getState() != state)
 		{

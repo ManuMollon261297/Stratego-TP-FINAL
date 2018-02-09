@@ -24,15 +24,19 @@ void NetWorkingController::StartConnection()
 		srand(time(NULL));
 		int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
 		char pckg[1];
+		MM->setMessage("Trying to connect as Client");
 		if ((NWM->connectAsClient(waiting_time, ip)))
 		{
+			MM->setMessage("Connected succesfully as Client");
 			NWM->setServer(CLIENT);
 			actualState = new WaitingName;
 		}
 		else
 		{
+			MM->setMessage("Timeout, connecting as server");
 			if (NWM->connectAsServer()) //si tuvo exito manda el paquete de name
 			{
+				MM->setMessage("Connected succesfully as Server");
 				NWM->setServer(SERVER);
 				pckg[0] = NAME_HEADER;
 				NWM->sendPackage(pckg, 1);
@@ -74,10 +78,10 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			proxState = actualState->I_am_ready((NetWorkingEvent&)newEvent, NWM, Gm);
 			break;
 		case I_START_HEADER:
-			proxState = actualState->I_start((NetWorkingEvent&)newEvent, NWM, Gm);
+			proxState = actualState->I_start((NetWorkingEvent&)newEvent, NWM, Gm, MM);
 			break;
 		case YOU_START_HEADER:
-			proxState = actualState->You_start((NetWorkingEvent&)newEvent, NWM, Gm);
+			proxState = actualState->You_start((NetWorkingEvent&)newEvent, NWM, Gm, MM);
 			break;
 		case ERROR_HEADER:
 			proxState = actualState->Error((NetWorkingEvent&)newEvent, NWM, Gm);
@@ -86,7 +90,7 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 			proxState = actualState->Quit((NetWorkingEvent&)newEvent, NWM, Gm);
 			break;
 		case ACK_HEADER:
-			proxState = actualState->Ack((NetWorkingEvent&)newEvent, NWM, Gm);
+			proxState = actualState->Ack((NetWorkingEvent&)newEvent, NWM, Gm, MM);
 			break;
 		case GAME_OVER_HEADER:
 			proxState = actualState->Game_over((NetWorkingEvent&)newEvent, NWM, Gm);

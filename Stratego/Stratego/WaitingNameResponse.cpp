@@ -11,7 +11,7 @@ WaitingNameResponse::WaitingNameResponse()
 #endif //DEBUG
 }
 
-NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	NetworkingState* p_state;
 	bool sent = false;
@@ -25,6 +25,7 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 		if (rand() % 2)
 		{
 			Gm->setRed(false);
+			p_mm->setExit();
 			pckg[0] = YOU_START_HEADER; //Si el numero sorteado es impar empieza el cliente.
 			sent = p_nwm->sendPackage(pckg, 1);
 
@@ -32,6 +33,7 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 		else
 		{
 			Gm->setRed(true);
+			p_mm->setExit();
 			pckg[0] = I_START_HEADER; //Si el numero sorteado es par, empieza el server.
 			sent = p_nwm->sendPackage(pckg, 1);
 		}

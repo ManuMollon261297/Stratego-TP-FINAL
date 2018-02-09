@@ -7,11 +7,12 @@
 #include "WaitingStartResponse.h"
 #include "GameModel.h"
 #include "gameState.h"
+#include "MenuModel.h"
 
 class WaitingNameResponse : public NetworkingState
 {
 public:
 	WaitingNameResponse();
-	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm);
 	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
 };

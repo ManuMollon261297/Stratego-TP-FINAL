@@ -90,8 +90,7 @@ void menuMouseController::dispatch(GenericEvent & menuEvMouse)
 		case CONFIRM_B:
 			if ((p2menuModel->getName().size() > 0) && (p2menuModel->getName().size() < 12))
 			{
-				p2menuModel->setExit();
-				//Aca habria que cambiar al estado Connecting.
+				p2menuModel->setState(CONNECTING);
 			}
 			break;
 		}

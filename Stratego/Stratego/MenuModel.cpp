@@ -162,4 +162,5 @@ std::string MenuModel::getMessage(void)
 void MenuModel::setMessage(std::string message_)
 {
 	message = message_;
+	NotifyAllObservers();
 }

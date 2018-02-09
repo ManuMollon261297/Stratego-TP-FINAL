@@ -3,10 +3,10 @@
 MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q, NetWorkingController* nw, EventGenerator* ev_g)
 {
 	p_nw = nw;
-	p_nw->AddMainMenu(menu);
 	p_Ev_gen = ev_g;
 	dataButtons = fillButtonsInfo();
 	menu = new MenuModel;
+	p_nw->AddMainMenu(menu);
 	v_contr.push_back(new menuMouseController(menu, dataButtons));
 	v_contr.push_back(new KeyboardController(menu, 21, 8));
 	MenuViewer* menu_viewer = new MenuViewer(1080, 720, *menu, disp); //crea el viewer del menu

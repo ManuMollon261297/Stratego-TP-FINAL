@@ -294,6 +294,11 @@ bool GameModel::isRankCemeterySelected(notstd::rank r)
 	}
 }
 
+bool GameModel::isAttackResolved()
+{
+	return attackResolved;
+}
+
 bool GameModel::setFicha(notstd::rank r, pos currpos)
 {
 	if ((cemetery[r][1] > 0)&&(r <= 11)&&(battlefield[currpos.x][currpos.y] == nullptr))
@@ -519,10 +524,6 @@ bool GameModel::clearSurroundings(int i, int j)
 		}
 }
 
-bool GameModel::attackResolved()
-{
-	return attackResolved;
-}
 
 void GameModel::swap(pos init, pos final)
 {

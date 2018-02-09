@@ -55,7 +55,7 @@ public:
 	bool isSelectedFromPos(pos currpos);
 	bool isCemeteryEmpty();
 	bool isRankCemeterySelected(notstd::rank r);
-	bool attackResolved();
+	bool isAttackResolved(); 
 	//ficha
 	void swap(pos init, pos final); //asume cambio de coordenadas validas, previamente chequeadas
 	bool setFicha(notstd::rank r, pos x);	//setea si es valida, una ficha en el tablero, devuelve false si no fue posible

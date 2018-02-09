@@ -8,7 +8,7 @@
 class KeyboardController : public GenericController
 {
 public:
-	KeyboardController(MenuModel * mm, unsigned int maxIp = 21, unsigned int maxName = 12);
+	KeyboardController(MenuModel * mm, unsigned int maxIp = 21, unsigned int maxName = 8);
 	~KeyboardController();
 	virtual void dispatch(GenericEvent& genEv);
 

@@ -245,7 +245,7 @@ void MenuViewer::drawWritingName()
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 20, 30 + 80 * 0, 0,
 		"Please write your name, You cant leave this blank empty!");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 20, 30 + 80 * 1, 0,
-		"You can write up to 12 letters");
+		"You can write up to 8 letters");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 20, 30 + 80 * 2, 0,
 		" ");
 	if (engine.isMuteOn())

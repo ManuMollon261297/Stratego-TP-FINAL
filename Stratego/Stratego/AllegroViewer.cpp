@@ -797,7 +797,7 @@ void AllegroViewer::update()
 	currStatus myS = engine.GetmyPosStatus();
 	currStatus opS = engine.GetopPosStatus();
 	
-	if (engine.attackResolved())
+	if (engine.isAttackResolved())
 	{
 		playBattle(engine.getRankFromPos(myS.previous), engine.getOpponentRank());
 	}

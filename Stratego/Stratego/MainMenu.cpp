@@ -5,7 +5,7 @@ MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q)
 	dataButtons = fillButtonsInfo();
 	menu = new MenuModel;
 	menuControllerMouse = new menuMouseController(menu, dataButtons);
-	KeyController = new KeyboardController(menu);
+	KeyController = new KeyboardController(menu, 21, 8);
 	menu_viewer = new MenuViewer(1080, 720, *menu, disp); //crea el viewer del menu
 	menu_viewer->initImagesAndFonts();
 	menu_viewer->isViewerInitialized();
@@ -31,11 +31,11 @@ void MainMenu::Run(void)
 	{
 		if (al_get_next_event(queue, &ev))
 		{
-			if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+			if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 			{
 				std::cout << "x: " << ev.mouse.x << std::endl;
 				std::cout << "y: " << ev.mouse.y << std::endl;
-				menuControllerMouse->dispatch(menuControllerMouse->shape(ev.mouse.x, ev.mouse.y));
+				menuControllerMouse->dispatch(mouseMenuEvent(ev));
 				menu_viewer->update();
 				
 			}

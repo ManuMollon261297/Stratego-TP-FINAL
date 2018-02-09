@@ -43,6 +43,7 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 	ALLEGRO_titlettf = nullptr;
 	ALLEGRO_optionsttf = nullptr;
 	ALLEGRO_messagesttf = nullptr;
+	ALLEGRO_connectingttf = nullptr;
 }
 
 
@@ -83,6 +84,11 @@ MenuViewer::~MenuViewer()
 	{
 		al_destroy_font(ALLEGRO_messagesttf);
 		ALLEGRO_messagesttf = nullptr;
+	}
+	if (ALLEGRO_connectingttf != nullptr)
+	{
+		al_destroy_font(ALLEGRO_connectingttf);
+		ALLEGRO_connectingttf = nullptr;
 	}
 	if (wavSoundtrack != nullptr)
 	{

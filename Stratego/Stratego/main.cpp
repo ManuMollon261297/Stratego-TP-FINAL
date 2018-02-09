@@ -24,7 +24,7 @@ typedef struct
 
 bool Init(resources* r); //Inicializa todos los recursos necesarios.
 void DoExit(resources* r); //Se ocupa de todos los recursos a la salida del programa.
-void InitializeControllers(vector<GenericController*>&, GameModel* p_gm, NetworkingModel* p_nwm);
+void InitializeControllers(vector<GenericController*>&, GameModel* p_gm, NetworkingModel* p_nwm,NetWorkingController* NetCont);
 //Falta hacer que mouse controller herede de GenericController  e inicializarlo en la funcion.
 
 int main()
@@ -50,7 +50,7 @@ int main()
 	Gm.AttachObserver(new AllegroViewer(Gm, c, res.display));
 	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
 	vector<GenericController*> v_contr;
-	InitializeControllers(v_contr, &Gm, &Nwm);
+	InitializeControllers(v_contr, &Gm, &Nwm, &NetContr);
 
 	while ( !(Gm.GetExit()))
 	{
@@ -172,8 +172,8 @@ void DoExit(resources* r)
 	al_destroy_timer(r->timer);
 }
 
-void InitializeControllers(vector<GenericController*>& v, GameModel* p_gm, NetworkingModel* p_nwm)
+void InitializeControllers(vector<GenericController*>& v, GameModel* p_gm, NetworkingModel* p_nwm, NetWorkingController* NetCont)
 {
-	NetWorkingController* NetCont = new NetWorkingController(p_gm, p_nwm);
 	v.push_back(NetCont);
+	v.push_back(new mouseGameController(720, 1080, p_gm));
 }

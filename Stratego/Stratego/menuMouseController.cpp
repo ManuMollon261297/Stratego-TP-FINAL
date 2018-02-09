@@ -101,6 +101,10 @@ void menuMouseController::dispatch(GenericEvent & menuEvMouse)
 			refreshButtons();
 		}
 	}
+	else if (menuEvMouse.GetEvent() == GRAPHICS)
+	{
+		p2menuModel->setExit();
+	}
 	
 }
 

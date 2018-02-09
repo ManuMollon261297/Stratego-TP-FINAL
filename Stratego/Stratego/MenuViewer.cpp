@@ -301,8 +301,14 @@ void MenuViewer::drawConnecting()
 {
 	al_draw_scaled_bitmap(ALLEGRO_menuBackground, 0, 0, al_get_bitmap_width(ALLEGRO_menuBackground),
 		al_get_bitmap_height(ALLEGRO_menuBackground), 0, 0, screenWidth, screenHeight, 0);
-	al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 0, 0,
-		engine.getMessage().c_str());
-	
+	if (engine.getMessage().size() < 10)
+	{
+		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80 * 0, 0,
+			engine.getMessage().c_str());
+	}
+	else
+	{
+		// hay que cortar el texto y ponerlo abajo
+	}
 	al_flip_display();
 }

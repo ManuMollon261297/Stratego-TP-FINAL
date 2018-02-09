@@ -4,8 +4,8 @@ MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q)
 {
 	dataButtons = fillButtonsInfo();
 	menu = new MenuModel;
-	menuControllerMouse = new menuMouseController(menu, dataButtons);
-	KeyController = new KeyboardController(menu, 21, 8);
+	v_contr.push_back(new menuMouseController(menu, dataButtons));
+	v_contr.push_back(new KeyboardController(menu, 21, 8));
 	MenuViewer* menu_viewer = new MenuViewer(1080, 720, *menu, disp); //crea el viewer del menu
 	menu_viewer->initImagesAndFonts();
 	menu_viewer->isViewerInitialized();
@@ -19,8 +19,10 @@ MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q)
 MainMenu::~MainMenu()
 {
 	delete menu;
-	delete menuControllerMouse;
-	delete KeyController;
+	for (unsigned int i =0 ; i< v_contr.size(); i++)
+	{
+		delete v_contr[i];
+	}
 }
 
 
@@ -31,21 +33,31 @@ void MainMenu::Run(void)
 	{
 		if (al_get_next_event(queue, &ev))
 		{
-			if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+			GenericEvent * G_ev = nullptr;
+			switch (ev.type)
 			{
-				menuControllerMouse->dispatch(mouseMenuEvent(ev));
-				
+				case ALLEGRO_EVENT_KEY_UP:
+					G_ev = new KeyboardEvent(ev.keyboard);
+					break;
+				case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+					G_ev = new mouseMenuEvent(ev);
+					break;
+				case ALLEGRO_EVENT_DISPLAY_CLOSE:
+					menu->setExit();
+					break;
 			}
-			else if (ev.type == ALLEGRO_EVENT_KEY_UP)
+			if (G_ev != nullptr)
 			{
-				KeyController->dispatch(KeyboardEvent(ev.keyboard));
+				for (unsigned int i = 0; i<v_contr.size(); i++)
+				{
+					(v_contr[i])->dispatch(*G_ev);
+				}
+				delete G_ev;
 			}
-			else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-			{
-				menu->setExit();
-			}
-
+			
+			
 		}
+		
 
 	} while (!(menu->GetExit()));
 	

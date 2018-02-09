@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include "GenericController.h"
 #include "mouseGameController.h"
 #include "AllegroViewer.h"
 #include "menuMouseController.h"
@@ -16,8 +18,7 @@ public:
 private:
 	ALLEGRO_EVENT_QUEUE* queue;
 	MenuModel* menu;
-	menuMouseController* menuControllerMouse;
-	KeyboardController* KeyController;
+	vector<GenericController*> v_contr;
 	dataButtonsPos fillButtonsInfo(void);
 	dataButtonsPos dataButtons;
 	bool exit;

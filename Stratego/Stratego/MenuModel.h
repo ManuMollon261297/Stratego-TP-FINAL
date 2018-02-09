@@ -27,6 +27,9 @@ public:
 	unsigned int getNumberOfButtons(void);
 	std::vector<button> & getButtonsVector(void);
 	std::string & getName(void);
+	std::string getMessage(void);
+	void setMessage(std::string);
+
 private:
 	std::string bakcUpFile;
 	std::string leaderboardFile;
@@ -34,6 +37,7 @@ private:
 	bool workingIp;
 	std::string name;
 	std::string ip;
+	std::string message;
 	std::vector<button> botones;
 	bool exit;
 	bool muteOn;

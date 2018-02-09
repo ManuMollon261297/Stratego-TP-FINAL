@@ -1,4 +1,5 @@
 #pragma once
+#include "GenericController.h"
 #include "GameModel.h"
 #include "MouseEvent.h"
 enum MouseStates { NONE_SELECTED, SOLDIER_SELECTED, CEMETERY_SELECTED };
@@ -19,7 +20,7 @@ enum MouseStates { NONE_SELECTED, SOLDIER_SELECTED, CEMETERY_SELECTED };
 #define MARGEN_Y_BATTLEFIELD SIZE_CASILLERO_Y
 
 
-class mouseGameController
+class mouseGameController : public GenericController
 {
 public:
 	mouseGameController(int h, int w, GameModel * p2gameModel_);

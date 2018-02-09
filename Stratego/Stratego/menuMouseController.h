@@ -1,10 +1,11 @@
 #pragma once
 
+#include "GenericController.h"
 #include "MenuModel.h"
 #include "mouseMenuEvent.h"
 
 
-class menuMouseController
+class menuMouseController : public GenericController
 {
 public:
 	menuMouseController(MenuModel * p2menuModel_, dataButtonsPos & dataButtonsPos_);

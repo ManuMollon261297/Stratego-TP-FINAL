@@ -9,12 +9,12 @@ using namespace std;
 class GenericModel
 {
 public:
-	virtual void AttachObserver(GenericObserver&);
+	virtual void AttachObserver(GenericObserver*);
 
 protected:
 	virtual ~GenericModel();
 	virtual void NotifyAllObservers();
-	vector <GenericObserver> ListOfObservers;
+	vector <GenericObserver*> ListOfObservers;
 
 
 };

@@ -101,7 +101,7 @@ public:
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde
 	bool verifyRescue(); //verifica si en la posicion actual el jugador es apto para hacer un rescue
 	//destructor
-	~GameModel();
+	virtual ~GameModel();
 	//debug
 	void printBattlefield();
 private:

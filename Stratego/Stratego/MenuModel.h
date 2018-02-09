@@ -9,7 +9,7 @@ class MenuModel : public GenericModel
 {
 public:
 	MenuModel();
-	~MenuModel();
+	virtual ~MenuModel();
 	int getState();
 	void setState(int state_);
 	bool getWorkingIp();

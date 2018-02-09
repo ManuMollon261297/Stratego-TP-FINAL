@@ -5,10 +5,6 @@ GenericObserver::GenericObserver()
 {
 
 }
-GenericObserver::GenericObserver(GenericObserver&&)
-{
-
-}
 
 GenericObserver::~GenericObserver()
 {

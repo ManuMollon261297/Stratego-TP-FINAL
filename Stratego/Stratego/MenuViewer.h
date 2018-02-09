@@ -26,6 +26,7 @@ public:
 	void drawRules();
 	void drawWritingName();
 	void manageSoundtrack();
+	void drawConnecting();
 private:
 	int screenWidth;
 	int screenHeight;
@@ -41,6 +42,7 @@ private:
 	std::string titlettfDir;
 	std::string optionsttfDir;
 	std::string messagettfDir;
+	std::string connectingttfDir;
 	//direccion de sonidos
 	std::string soundtrackDir;
 	//bools
@@ -56,6 +58,7 @@ private:
 	ALLEGRO_FONT * ALLEGRO_titlettf;
 	ALLEGRO_FONT * ALLEGRO_optionsttf;
 	ALLEGRO_FONT * ALLEGRO_messagesttf;
+	ALLEGRO_FONT * ALLEGRO_connectingttf;
 	//allegro samples (sounds)
 	ALLEGRO_SAMPLE * wavSoundtrack;
 	//display

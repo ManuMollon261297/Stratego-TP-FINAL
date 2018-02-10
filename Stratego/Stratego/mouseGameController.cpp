@@ -481,20 +481,20 @@ bool mouseGameController::isHostilBattlefieldTouched(int x, int y)
 void mouseGameController::initButtons(void)
 {
 	gameDataButtonsPos buttonsInfo;
-	buttonsInfo.ll_done.x = 0;
-	buttonsInfo.ll_done.y = 0;
+	buttonsInfo.ll_done.x = 963;
+	buttonsInfo.ll_done.y = 64;
 	buttonsInfo.ll_playAgain.x = 0;
 	buttonsInfo.ll_playAgain.y = 0;
-	buttonsInfo.ll_sound.x = 0;
-	buttonsInfo.ll_sound.y = 0;
+	buttonsInfo.ll_sound.x = 885;
+	buttonsInfo.ll_sound.y = 64;
 	buttonsInfo.ll_exit.x = 0;
 	buttonsInfo.ll_exit.y = 0;
-	buttonsInfo.ll_done.x = 0;
-	buttonsInfo.ll_done.y = 0;
+	buttonsInfo.hr_done.x = 1066;
+	buttonsInfo.hr_done.y = 5;
 	buttonsInfo.hr_playAgain.x = 0;
 	buttonsInfo.hr_playAgain.y = 0;
-	buttonsInfo.hr_sound.x = 0;
-	buttonsInfo.hr_sound.y = 0;
+	buttonsInfo.hr_sound.x = 950;
+	buttonsInfo.hr_sound.y = 5;
 	buttonsInfo.hr_exit.x = 0;
 	buttonsInfo.hr_exit.y = 0;
 

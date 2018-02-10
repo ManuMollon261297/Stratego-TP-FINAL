@@ -2,15 +2,11 @@
 
 NetWorkingController::NetWorkingController(GameModel* p2GameModel, NetworkingModel* p2NetModel)
 {
-	char user_name[256];
+	
 	NWM = p2NetModel;
 	std::ifstream ip_file("./ip.txt");
-	std::ifstream name_file("./temporal.txt");
 	ip_file.getline(ip, MAX_IP_LENGTH); //Consigo la ip del otro jugador
-	name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
-	std::string user_nameS(user_name);
-
-	NWM->setMe(user_nameS);
+	
 	Gm = p2GameModel;
 	proxState = nullptr;
 	MM = nullptr;
@@ -19,6 +15,12 @@ NetWorkingController::NetWorkingController(GameModel* p2GameModel, NetworkingMod
 
 void NetWorkingController::StartConnection()
 {
+	char user_name[256];
+	std::ifstream name_file("./temporal.txt");
+	name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
+	std::string user_nameS(user_name);
+
+	NWM->setMe(user_nameS);
 	if (NWM->getServer() == UNINITIALIZED)
 	{
 		srand(time(NULL));

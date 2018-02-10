@@ -45,7 +45,9 @@ int main()
 	if (!p_menu->Run())
 	{
 		delete p_menu;
+		delete NetContr;
 		p_menu = nullptr;
+		NetContr = nullptr;
 		DoExit(&res);
 		return 0;
 	}
@@ -152,16 +154,24 @@ bool Init(resources* r)
 
 	if (!al_install_keyboard())
 	{
+		al_destroy_timer(r->timer);
 		return false;
 	}
 
 	r->event_queue = al_create_event_queue();
 	if (!(r->event_queue))
 	{
+		al_destroy_timer(r->timer);
 		return false;
 	}
 
 	r->display = al_create_display(1080, 720);
+	if (r->display == nullptr)
+	{
+		al_destroy_timer(r->timer);
+		r->event_queue = al_create_event_queue();
+
+	}
 	al_set_window_title(r->display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
 
 

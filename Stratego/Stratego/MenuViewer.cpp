@@ -311,7 +311,8 @@ void MenuViewer::drawConnecting()
 		std::string aux = engine.getMessage();
 		std::size_t op_length = aux.find(" ", 10);
 
-		std::string aux2 = aux.substr(op_length, aux.length() - op_length);
+		std::string aux2 = aux.substr(op_length + 1, aux.length() - op_length);
+		aux.resize(op_length);
 
 		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30, 0,
 			aux.c_str());		//engine.getMessage().c_str());

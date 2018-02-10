@@ -66,6 +66,10 @@ int main()
 		if ( EvGen.hayEvento())
 		{
 			ev = EvGen.getNextEvent();
+			if ((ev->GetEvent()) == (MOUSE))
+			{
+				cout << "asd" << endl;
+			}
 			for (int i = 0; i < v_contr.size(); i++)
 			{
 				(v_contr[i])->dispatch(*ev); 

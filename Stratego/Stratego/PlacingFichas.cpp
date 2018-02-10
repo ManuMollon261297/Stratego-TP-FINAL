@@ -115,7 +115,7 @@ gameState * PlacingFichas::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGa
 
 gameState * PlacingFichas::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
-	p2GameModel->setMessage("Laguna, las tropas no pueden dirigirse alli");
+	p2GameModel->setMessage("The troops can't walk through the lake");
 	return nullptr;
 }
 
@@ -124,7 +124,7 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel)
 	if (p2GameModel->isCemeteryEmpty())
 	{
 		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
-		p2GameModel->setMessage("Ejercito listo para la batalla, esperando al oponente");
+		p2GameModel->setMessage("Army ready for the batle, waiting opponent");
 		if (p2GameModel->getButtonReference(ENDING_PLACING_FICHAS) != nullptr)
 		{
 			p2GameModel->getButtonReference(ENDING_PLACING_FICHAS)->press(); //seleccion del boton

@@ -167,12 +167,12 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 		if (!sent) //error de comunicacion.
 		{
 			NWM->Shutdown();
-			Gm->setMessage("Error de comunicacion, cerrando...");
+			Gm->setMessage("Communication error, closing...");
 			Gm->SetExit(true);
 		}
 		else
 		{
-			Gm->setMessage("Finalizando la comunicacion...");
+			Gm->setMessage("Ending communication...");
 		}
 		delete actualState;
 		actualState = new Quiting;

@@ -25,7 +25,7 @@ typedef struct
 bool Init(resources* r); //Inicializa todos los recursos necesarios.
 void DoExit(resources* r); //Se ocupa de todos los recursos a la salida del programa.
 void InitializeControllers(vector<GenericController*>&, GameModel* p_gm, NetworkingModel* p_nwm,NetWorkingController* NetCont);
-//Falta hacer que mouse controller herede de GenericController  e inicializarlo en la funcion.
+
 
 int main()
 {

@@ -103,6 +103,7 @@ std::string & GameModel::getMessage()
 void GameModel::setMessage(char * message_)
 {
 	message = message_;
+	NotifyAllObservers();
 }
 
 bool GameModel::GetExit()const
@@ -119,6 +120,7 @@ void GameModel::SetExit(bool value)
 void GameModel::SetOpponentName(std::string str)
 {
 	opponents_name = str;
+	NotifyAllObservers();
 }
 
 std::string& GameModel::GetOpponentName()
@@ -153,6 +155,7 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 			battlefield[newPos.x][newPos.y] = battlefield[currPos.x][currPos.y];
 			battlefield[currPos.x][currPos.y] = nullptr;
 		}
+		NotifyAllObservers();
 		return true;
 	}
 	else
@@ -171,6 +174,7 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 				opPosStatus.next = newPos;
 				break;
 		}
+		NotifyAllObservers();
 		return false;
 	}
 }
@@ -269,6 +273,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			battlefield[opPosStatus.previous.x][opPosStatus.previous.y] = nullptr;
 		}
 	}
+	NotifyAllObservers();
 }
 
 bool GameModel::isCemeteryEmpty()
@@ -307,6 +312,7 @@ bool GameModel::setFicha(notstd::rank r, pos currpos)
 		cemetery[r][1]--;
 		cemetery[13][1]--;
 		battlefield[currpos.x][currpos.y] = new ficha(r);
+		NotifyAllObservers();
 		return true;
 	}
 	else
@@ -318,26 +324,31 @@ bool GameModel::setFicha(notstd::rank r, pos currpos)
 void GameModel::selectFicha(pos p)
 {
 	battlefield[p.x][p.y]->select();
+	NotifyAllObservers();
 }
 
 void GameModel::unselectFicha(pos p)
 {
 	battlefield[p.x][p.y]->unselect();
+	NotifyAllObservers();
 }
 
 void GameModel::toggleFicha(pos p)
 {
 	battlefield[p.x][p.y]->toggleSelect();
+	NotifyAllObservers();
 }
 
 void GameModel::selectRankCemetery(notstd::rank r)
 {
 	cemetery[r][2] = 1;  //seleccion de el rango requerido
+	NotifyAllObservers();
 }
 
 void GameModel::unselectRankCemetery(notstd::rank r)
 {
 	cemetery[r][2] = 0;
+	NotifyAllObservers();
 }
 
 void GameModel::unselectAllExcepetOneRankCemetery(notstd::rank r)
@@ -349,21 +360,25 @@ void GameModel::unselectAllExcepetOneRankCemetery(notstd::rank r)
 			unselectRankCemetery((notstd::rank)i);
 		}
 	}
+	NotifyAllObservers();
 }
 
 void GameModel::toggleSelectRankCemetery(notstd::rank r)
 {
 	cemetery[r][2] = (!cemetery[r][2]);
+	NotifyAllObservers();
 }
 
 void GameModel::setFichasPlacedTrue()
 {
 	fichasPlaced = true;
+	NotifyAllObservers();
 }
 
 void GameModel::setFichasPlacedFalse()
 {
 	fichasPlaced = false;
+	NotifyAllObservers();
 }
 
 bool GameModel::getFichasPlaced()
@@ -442,6 +457,8 @@ void GameModel::reset()
 	timeRemaining = 120; // El jugador tiene 120 segundos para decidir antes de perder.
 	rescuesRemaining = 2;
 	repeatMoveCounter = 0;
+
+	NotifyAllObservers();
 }
 
 button * GameModel::getButtonReference(int index)
@@ -507,11 +524,13 @@ int GameModel::getTime()
 void GameModel::decrementTime()
 {
 	timeRemaining--;
+	NotifyAllObservers();
 }
 
 void GameModel::restartTimer()
 {
 	timeRemaining = 120;
+	NotifyAllObservers();
 }
 
 bool GameModel::getMoveDone()
@@ -522,16 +541,19 @@ bool GameModel::getMoveDone()
 void GameModel::setMoveDoneTrue()
 {
 	moveDone = true;
+	NotifyAllObservers();
 }
 
 void GameModel::setMoveDoneFalse()
 {
 	moveDone = false;
+	NotifyAllObservers();
 }
 
 void GameModel::setMute(bool state)
 {
 	mute = state;
+	NotifyAllObservers();
 }
 
 currStatus GameModel::GetmyPosStatus() const
@@ -548,6 +570,7 @@ void GameModel::playerWon()
 {
 	won = true;
 	setMessage("Victoria! Has ganado.");
+	NotifyAllObservers();
 }
 
 bool GameModel::didPlayerWin()
@@ -604,6 +627,7 @@ void GameModel::swap(pos init, pos final)
 	ficha * ptrAux = battlefield[final.x][final.y];
 	battlefield[final.x][final.y] = battlefield[init.x][init.y];
 	battlefield[init.x][init.y] = ptrAux;
+	NotifyAllObservers();
 }
 
 void GameModel::printBattlefield()

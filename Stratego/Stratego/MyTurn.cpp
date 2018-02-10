@@ -95,7 +95,7 @@ gameState * MyTurn::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameContr
 			}
 			else
 			{
-				p2GameModel->setMessage("You can't make that movement");
+				p2GameModel->setMessage("Can not do that, obstalces...");
 				//no se cambia estado, ni de mouse, ni de game.
 			}
 		}

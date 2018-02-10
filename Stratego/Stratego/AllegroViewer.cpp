@@ -379,6 +379,10 @@ void AllegroViewer::drawCemetery()
 			5, 2, fichaWidth - 5, fichaHeight - 5, 0);
 		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) - 10, -12, 0, "%d", engine.getNumberInCemetery(notstd::rank::BOMB));
 	}
+	if (engine.isRankCemeterySelected(notstd::rank::BOMB))
+	{
+		highlightCemetery(notstd::rank::BOMB);
+	}
 	if (engine.getState() == PLACING_FICHAS)
 	{
 		al_draw_scaled_bitmap(ALLEGRO_boton, 0, 0, al_get_bitmap_width(ALLEGRO_boton), al_get_bitmap_height(ALLEGRO_boton),
@@ -399,6 +403,10 @@ void AllegroViewer::drawCemetery()
 				5 + fichaWidth, 2, (fichaWidth)-5, fichaHeight - 5, 0);
 			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), (fichaWidth / 2) + fichaWidth - 10, -12, 0, "%d", engine.getNumberInCemetery(notstd::rank::FLAG));
 		}
+		if (engine.isRankCemeterySelected(notstd::rank::FLAG))
+		{
+			highlightCemetery(notstd::rank::FLAG);
+		}
 	}
 }
 
@@ -415,7 +423,18 @@ void AllegroViewer::highligthToken(pos init)
 
 void AllegroViewer::highlightCemetery(notstd::rank r)
 {
-	drawHalo(5, fichaHeight*((int)r + 1) + 5, fichaWidth-10, fichaHeight-10);
+	if ((r != notstd::rank::FLAG)&&(r != notstd::rank::BOMB))
+	{
+		drawHalo(5, (fichaHeight*(r+1)) + 5, fichaWidth-10, fichaHeight-10);
+	}
+	else if (r == notstd::rank::FLAG)
+	{
+		drawHalo(5 + fichaWidth, 5, fichaWidth - 10, fichaHeight - 10);
+	}
+	else if (r == notstd::rank::BOMB)
+	{
+		drawHalo(5, 5, fichaWidth - 10, fichaHeight - 10);
+	}
 }
 
 void AllegroViewer::drawMessage()

@@ -41,7 +41,7 @@ int main()
 	NetworkingModel Nwm;
 	NetWorkingController* NetContr = new NetWorkingController(&Gm, &Nwm);
 	EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
-	MainMenu* p_menu = new MainMenu(res.display, res.event_queue, &NetContr, &EvGen); //Se inicializa, corre y destruye el menu del juego.
+	MainMenu* p_menu = new MainMenu(res.display, res.event_queue, NetContr, &EvGen); //Se inicializa, corre y destruye el menu del juego.
 	if (!p_menu->Run())
 	{
 		delete p_menu;
@@ -56,7 +56,7 @@ int main()
 	Gm.AttachObserver(new AllegroViewer(Gm, c, res.display));
 	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
 	vector<GenericController*> v_contr;
-	InitializeControllers(v_contr, &Gm, &Nwm, &NetContr);
+	InitializeControllers(v_contr, &Gm, &Nwm, NetContr);
 
 	while ( !(Gm.GetExit()))
 	{

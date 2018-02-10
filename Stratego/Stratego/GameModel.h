@@ -78,6 +78,8 @@ public:
 	void pushButton(button b);
 	void deleteButtons();
 
+	void toggleMute(void);
+
 	//timer
 	int getTime();
 	void decrementTime();

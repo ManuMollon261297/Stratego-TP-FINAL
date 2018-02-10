@@ -53,6 +53,12 @@ gameState * gameState::OnGameOver(GameModel * p2GameModel)
 	return nullptr;
 }
 
+gameState * gameState::OnSound(GameModel * p2GameModel)
+{
+	p2GameModel->toggleMute();
+	return nullptr;
+}
+
 int gameState::getState()
 {
 	return state;

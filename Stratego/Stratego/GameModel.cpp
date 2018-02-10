@@ -727,3 +727,9 @@ void GameModel::deleteButtons()
 {
 	botones.clear();
 }
+
+void GameModel::toggleMute(void)
+{
+	mute = !mute;
+	NotifyAllObservers();
+}

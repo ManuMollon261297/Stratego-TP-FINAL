@@ -16,6 +16,7 @@
 
 mouseGameController::mouseGameController(int h, int w, GameModel * p2gameModel_)
 {
+
 	p2gameModel = p2gameModel_;
 	estadoModel_ = new PlacingFichas;
 	Mstate = NONE_SELECTED;
@@ -33,6 +34,8 @@ mouseGameController::mouseGameController(int h, int w, GameModel * p2gameModel_)
 	battlefieldHeight = screenHeight - battlefieldMargenY;
 	battlefieldWidth = screenWidth - battlefieldMargenX;
 
+	initButtons();
+	
 }
 
 GameModel * mouseGameController::getP2model()
@@ -100,6 +103,9 @@ MouseInfo mouseGameController::shape(double x, double y)
 		case BOTON_PLACE_READY:
 			Mev.type = BOTON_PLACE_READY_EV;
 			break;
+		case BOTON_SOUND:
+			Mev.type = BOTON_SOUND_EV;
+			break;
 		case INVALID_SECTOR:
 			Mev.evPos = { -1, -1 };
 			Mev.type = NO_EVENT;
@@ -141,6 +147,13 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 			break;
 		case BOTON_PLACE_READY_EV:
 			proximoEstado = estadoModel->OnConfirmPlaces(p2gameModel);
+			break;
+		case BOTON_SOUND_EV:
+			proximoEstado = estadoModel->OnSound(p2gameModel);
+			break;
+		case GAME_OVER_EV:
+			proximoEstado = estadoModel->OnGameOver(p2gameModel);
+			break;
 		}
 
 		if (proximoEstado != nullptr) //hubo cambio de estado
@@ -198,6 +211,13 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 				if (p2gameModel->getButtonReference(PLACE_READY_B)->isTouched(x, y)) //me fijo si se selecciono
 				{
 					sectorRet = BOTON_PLACE_READY;
+				}
+			}
+			else if (p2gameModel->getButtonReference(SOUND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
+			{
+				if (p2gameModel->getButtonReference(SOUND_B)->isTouched(x, y)) //me fijo si se selecciono
+				{
+					sectorRet = BOTON_SOUND;
 				}
 			}
 		}
@@ -456,6 +476,38 @@ bool mouseGameController::isFriendlyBattlefieldTouched(int x, int y)
 bool mouseGameController::isHostilBattlefieldTouched(int x, int y)
 {
 	return (((x > battlefieldMargenX) && (x < (battlefieldMargenX + battlefieldWidth))) && ((y > battlefieldMargenY) && (y < (battlefieldMargenY + (4 * fichaHeight)))));
+}
+
+void mouseGameController::initButtons(void)
+{
+	gameDataButtonsPos buttonsInfo;
+	buttonsInfo.ll_done.x = 0;
+	buttonsInfo.ll_done.y = 0;
+	buttonsInfo.ll_playAgain.x = 0;
+	buttonsInfo.ll_playAgain.y = 0;
+	buttonsInfo.ll_sound.x = 0;
+	buttonsInfo.ll_sound.y = 0;
+	buttonsInfo.ll_exit.x = 0;
+	buttonsInfo.ll_exit.y = 0;
+	buttonsInfo.ll_done.x = 0;
+	buttonsInfo.ll_done.y = 0;
+	buttonsInfo.hr_playAgain.x = 0;
+	buttonsInfo.hr_playAgain.y = 0;
+	buttonsInfo.hr_sound.x = 0;
+	buttonsInfo.hr_sound.y = 0;
+	buttonsInfo.hr_exit.x = 0;
+	buttonsInfo.hr_exit.y = 0;
+
+	button playAgain_b(PLAY_AGAIN_B, buttonsInfo.ll_playAgain, buttonsInfo.hr_playAgain);
+	button exit_b(GAME_OVER_B, buttonsInfo.ll_exit, buttonsInfo.hr_exit);
+	button sound_b(SOUND_B, buttonsInfo.ll_sound, buttonsInfo.hr_sound);
+	button done_b(PLACE_READY_B, buttonsInfo.ll_done, buttonsInfo.hr_done);
+
+	p2gameModel->pushButton(playAgain_b);
+	p2gameModel->pushButton(exit_b);
+	p2gameModel->pushButton(sound_b);
+	p2gameModel->pushButton(done_b);
+
 }
 
 bool mouseGameController::validOffsetMovement(pos destiny)

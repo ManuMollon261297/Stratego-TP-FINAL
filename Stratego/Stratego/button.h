@@ -27,6 +27,19 @@ typedef struct
 	pos hr_confirm;
 }dataButtonsPos;
 
+typedef struct
+{
+	pos ll_playAgain;
+	pos hr_playAgain;
+	pos ll_exit;
+	pos hr_exit;
+	pos ll_done;
+	pos hr_done;
+	pos ll_sound;
+	pos hr_sound;
+}gameDataButtonsPos;
+
+
 class button
 {
 public:

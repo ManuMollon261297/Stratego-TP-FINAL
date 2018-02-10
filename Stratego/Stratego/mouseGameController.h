@@ -91,4 +91,6 @@ private:
 	bool isBattlefieldTouched(int x, int y);
 	bool isFriendlyBattlefieldTouched(int x, int y);
 	bool isHostilBattlefieldTouched(int x, int y);
+
+	void initButtons(void);
 };

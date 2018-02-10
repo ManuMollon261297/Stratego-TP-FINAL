@@ -230,7 +230,7 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 	aux = engine.GetOpponentName();
 	std::string aux1 = "Stratego                                                                                       Opponent: ";
 	std::string auxFinal;
-	auxFinal = aux + aux1;
+	auxFinal = aux1+ aux;
 	al_set_window_title(ALLEGRO_display, auxFinal.c_str());
 	update();
 }

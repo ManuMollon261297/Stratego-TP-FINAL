@@ -162,7 +162,6 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 	{
 		bool sent = false;
 		char pckg[1] = { QUIT_HEADER };
-		Gm->setState(GAME_OVER);
 		NWM->ResetTimeout();
 		sent = NWM->sendPackage(pckg, 1);
 		if (!sent) //error de comunicacion.

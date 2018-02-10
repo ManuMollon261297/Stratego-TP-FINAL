@@ -31,7 +31,6 @@ public:
 	void setMessage(std::string);
 
 private:
-	std::string bakcUpFile;
 	std::string leaderboardFile;
 	int state;
 	bool workingIp;

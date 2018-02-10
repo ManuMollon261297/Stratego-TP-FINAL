@@ -1,7 +1,7 @@
 #include "menuMouseController.h"
 #include "pos.h"
 
-
+#define NAME_FILE "temporal.txt"
 
 
 
@@ -90,6 +90,10 @@ void menuMouseController::dispatch(GenericEvent & menuEvMouse)
 		case CONFIRM_B:
 			if ((p2menuModel->getName().size() > 0) && (p2menuModel->getName().size() < 12))
 			{
+				std::ofstream infoFile;
+				infoFile.open(NAME_FILE, std::ios::binary);
+				infoFile << p2menuModel->getName() << std::endl;
+				infoFile.close();
 				p2menuModel->setState(CONNECTING);
 			}
 			break;

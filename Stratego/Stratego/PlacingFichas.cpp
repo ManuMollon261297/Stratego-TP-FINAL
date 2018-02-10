@@ -29,6 +29,7 @@ gameState * PlacingFichas::OnSoldier(MouseInfo & Mev, MouseStates & Mstate, mous
 			{
 				p2GameModel->swap(p2controller->getPreviousEvent().evPos, Mev.evPos);
 			}
+			p2controller->saveEvent(Mev);
 			break;
 		case CEMETERY_SELECTED:
 			p2GameModel->setMessage("Position ocuppied");

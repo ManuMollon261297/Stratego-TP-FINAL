@@ -315,10 +315,9 @@ void MenuViewer::drawConnecting()
 		aux.resize(op_length);
 
 		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30, 0,
-			aux.c_str());		//engine.getMessage().c_str());
+			aux.c_str());
 		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80, 0,
-			aux2.c_str());		//engine.getMessage().c_str());
-		// hay que cortar el texto y ponerlo abajo
+			aux2.c_str());
 	}
 	al_flip_display();
 }

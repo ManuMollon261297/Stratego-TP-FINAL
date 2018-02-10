@@ -46,6 +46,11 @@ void NetWorkingController::StartConnection()
 	}
 }
 
+serverStatus NetWorkingController::GetServer(void)const
+{
+	return NWM->getServer();
+}
+
 NetWorkingController::~NetWorkingController()
 {
 	delete NWM;

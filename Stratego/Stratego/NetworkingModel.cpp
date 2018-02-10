@@ -6,6 +6,8 @@ NetworkingModel::NetworkingModel()
 {
 	timeout_counter = 0;
 	//Flags
+	name_saved = false;
+	tried_as_client = false;
 	package_recieved = false;
 	comm_error = false;
 	reading = false;
@@ -63,6 +65,15 @@ void NetworkingModel::StartReading()
 
 }
 
+bool NetworkingModel::GetNameSaved()const
+{
+	return name_saved;
+}
+
+bool NetworkingModel::GetTriedAsClient()const
+{
+	return tried_as_client;
+}
 
 serverStatus NetworkingModel::getServer()
 {
@@ -157,6 +168,8 @@ bool NetworkingModel::connectAsClient(int time,char * ip)
 		socket_a->async_connect(*endpoint_a, boost::bind(&NetworkingModel::client_connect_handler, this,
 			boost::asio::placeholders::error));
 		IO_handler->run();
+		IO_handler->reset();
+		tried_as_client = true;
 
 		if (time_done)
 		{
@@ -188,16 +201,15 @@ bool NetworkingModel::connectAsServer()
 		std::cout << std::endl << "Ready. Port " << PORT << " created" << std::endl;
 		server_acceptor->async_accept(*socket_a, boost::bind(&NetworkingModel::server_connect_handler,
 			this, boost::asio::placeholders::error));
-		IO_handler->reset();
-		IO_handler->run(); //Como esta ahora, bloquea hasta conectarse como server o que haya error.
-		IO_handler->reset();
-		if (!comm_error)
+
+		IO_handler->poll(); 
+		if ((!comm_error)&&(serverStat==SERVER))
 		{
 			return true;
 		}
 		else
 		{
-			Shutdown();
+			
 			return false;
 
 		}
@@ -433,4 +445,9 @@ void NetworkingModel::write_handler(const boost::system::error_code& error, std:
 		comm_error = true;
 		Shutdown();
 	}
+}
+
+void NetworkingModel::setNameSavedTrue()
+{
+	name_saved = true;
 }

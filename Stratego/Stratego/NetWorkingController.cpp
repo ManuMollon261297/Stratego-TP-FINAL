@@ -15,19 +15,28 @@ NetWorkingController::NetWorkingController(GameModel* p2GameModel, NetworkingMod
 
 void NetWorkingController::StartConnection()
 {
-	char user_name[256];
-	std::ifstream name_file("./temporal.txt");
-	name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
-	std::string user_nameS(user_name);
-
-	NWM->setMe(user_nameS);
+	if (!NWM->GetNameSaved())
+	{
+		char user_name[256];
+		std::ifstream name_file("./temporal.txt");
+		name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
+		std::string user_nameS(user_name);
+		NWM->setMe(user_nameS);
+		NWM->setNameSavedTrue();
+	}
+	
 	if (NWM->getServer() == UNINITIALIZED)
 	{
-		srand(time(NULL));
-		int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
-		char pckg[1];
-		MM->setMessage("Trying to connect as Client");
-		if ((NWM->connectAsClient(waiting_time, ip)))
+		bool ConnectedAsClient = false;
+		if (!(NWM->GetTriedAsClient()))
+		{
+			srand(time(NULL));
+			int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
+			char pckg[1];
+			MM->setMessage("Trying to connect as Client");
+			ConnectedAsClient =  NWM->connectAsClient(waiting_time, ip);
+		}
+		if (ConnectedAsClient)
 		{
 			MM->setMessage("Connected succesfully as Client");
 			NWM->setServer(CLIENT);
@@ -38,6 +47,7 @@ void NetWorkingController::StartConnection()
 			MM->setMessage("Timeout, connecting as server");
 			if (NWM->connectAsServer()) //si tuvo exito manda el paquete de name
 			{
+				char pckg[1];
 				MM->setMessage("Connected succesfully as Server");
 				NWM->setServer(SERVER);
 				pckg[0] = NAME_HEADER;
@@ -45,6 +55,8 @@ void NetWorkingController::StartConnection()
 				actualState = new WaitingNameIs;
 			}
 		}
+		
+		
 	}
 }
 

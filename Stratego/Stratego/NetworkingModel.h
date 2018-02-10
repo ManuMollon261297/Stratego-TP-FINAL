@@ -51,17 +51,22 @@ public:
 	void setMe(std::string me_);
 	std::string getYou();
 	bool GetReading();
+	bool GetNameSaved()const;
+	bool GetTriedAsClient()const;
 	bool WasPackageRecieved()const;
 	std::string GetPackage();
 	bool TimeEnded()const;
 	void IncrementTime();
 	void ResetTimeout();
 	void setYou(std::string you_);
+	void setNameSavedTrue();
 	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
 	void Shutdown();
 	~NetworkingModel();
 private:
+	bool name_saved; //Guarda si ya se consiguio el nombre del usuario
+	bool tried_as_client; //Inica si ya se intento conectar como cliente.
 	bool comm_error;
 	bool server_Finished_placing_fichas;
 	bool time_done;

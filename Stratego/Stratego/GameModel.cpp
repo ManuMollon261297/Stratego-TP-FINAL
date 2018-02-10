@@ -283,7 +283,7 @@ void GameModel::resolveAttack(notstd::rank r)
 
 bool GameModel::isCemeteryEmpty()
 {
-	if (cemetery[13][1] == 0)
+	if (cemetery[12][1] == 0)
 	{
 		return true;
 	}

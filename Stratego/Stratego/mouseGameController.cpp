@@ -213,7 +213,7 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 					sectorRet = BOTON_PLACE_READY;
 				}
 			}
-			else if (p2gameModel->getButtonReference(SOUND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
+			if (p2gameModel->getButtonReference(SOUND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
 			{
 				if (p2gameModel->getButtonReference(SOUND_B)->isTouched(x, y)) //me fijo si se selecciono
 				{
@@ -232,7 +232,7 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 				sectorRet = BOTON_PLAY_AGAIN;
 			}
 		}
-		else if (p2gameModel->getButtonReference(GAME_OVER_B) != nullptr)
+		if (p2gameModel->getButtonReference(GAME_OVER_B) != nullptr)
 		{
 			if (p2gameModel->getButtonReference(GAME_OVER_B)->isTouched(x, y))
 			{

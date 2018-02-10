@@ -91,8 +91,8 @@ void menuMouseController::dispatch(GenericEvent & menuEvMouse)
 			if ((p2menuModel->getName().size() > 0) && (p2menuModel->getName().size() < 12))
 			{
 				std::ofstream infoFile;
-				infoFile.open(bakcUpFile, std::ios::binary);
-				infoFile << name << ' ' << ip;
+				infoFile.open(NAME_FILE, std::ios::binary);
+				infoFile << p2menuModel->getName() << std::endl;
 				infoFile.close();
 				p2menuModel->setState(CONNECTING);
 			}

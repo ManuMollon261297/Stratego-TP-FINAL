@@ -5,7 +5,6 @@
 
 MenuModel::MenuModel()
 {
-	bakcUpFile = "temporal.txt";
 	leaderboardFile = "STPFLB.txt"; //Stratego Tp Final Leader Board
 	workingIp = false;
 	exit = false;
@@ -14,10 +13,7 @@ MenuModel::MenuModel()
 
 MenuModel::~MenuModel()
 {
-	std::ofstream infoFile;
-	infoFile.open(bakcUpFile, std::ios::binary);
-	infoFile << name << ' ' <<ip;
-	infoFile.close();
+	
 }
 
 int MenuModel::getState()

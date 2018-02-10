@@ -31,7 +31,7 @@ gameState * PlacingFichas::OnSoldier(MouseInfo & Mev, MouseStates & Mstate, mous
 			}
 			break;
 		case CEMETERY_SELECTED:
-			p2GameModel->setMessage("Esta posicion ya se encuentra cubierta, posiciona tu tropa en otro lugar");
+			p2GameModel->setMessage("Position ocuppied");
 			break;
 	}
 	return nullptr;
@@ -48,7 +48,7 @@ gameState * PlacingFichas::OnCemetery(MouseInfo & Mev, MouseStates & Mstate, mou
 		p2controller->saveEvent(Mev);
 		break;
 	case SOLDIER_SELECTED:
-		p2GameModel->setMessage("Posiciona a tus soldados dentro del campo de batalla, dejalos combatir");
+		p2GameModel->setMessage("Position outside battlefield");
 		break;
 	case CEMETERY_SELECTED:
 		//p2controller->setSecondSelection(Mev->evPos);
@@ -70,7 +70,7 @@ gameState * PlacingFichas::OnCemetery(MouseInfo & Mev, MouseStates & Mstate, mou
 
 gameState * PlacingFichas::OnOponent(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
-	p2GameModel->setMessage("Las tropas aun no estan preparadas para el ataque");
+	p2GameModel->setMessage("Army not ready...");
 	return nullptr;
 }
 
@@ -81,7 +81,7 @@ gameState * PlacingFichas::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGa
 		switch (Mstate)
 		{
 		case NONE_SELECTED:
-			p2GameModel->setMessage("Terreno vacio");
+			p2GameModel->setMessage("Empty land");
 			break;
 		case SOLDIER_SELECTED:
 			p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
@@ -107,7 +107,7 @@ gameState * PlacingFichas::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGa
 	}
 	else
 	{
-		p2GameModel->setMessage("No es posible acceder a este terreno en esta instancia de la batalla");
+		p2GameModel->setMessage("No-man land");
 	}
 	
 	return nullptr;
@@ -115,7 +115,7 @@ gameState * PlacingFichas::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGa
 
 gameState * PlacingFichas::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
-	p2GameModel->setMessage("The troops can't walk through the lake");
+	p2GameModel->setMessage("Troops can't walk through lake");
 	return nullptr;
 }
 
@@ -124,7 +124,7 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel)
 	if (p2GameModel->isCemeteryEmpty())
 	{
 		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
-		p2GameModel->setMessage("Army ready for the batle, waiting opponent");
+		p2GameModel->setMessage("Ready for battle, waiting opponent");
 		if (p2GameModel->getButtonReference(ENDING_PLACING_FICHAS) != nullptr)
 		{
 			p2GameModel->getButtonReference(ENDING_PLACING_FICHAS)->press(); //seleccion del boton

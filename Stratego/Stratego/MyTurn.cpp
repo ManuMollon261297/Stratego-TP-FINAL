@@ -28,6 +28,7 @@ gameState * MyTurn::OnSoldier(MouseInfo & Mev, MouseStates & Mstate, mouseGameCo
 		{
 			Mstate = NONE_SELECTED;
 		}
+		p2controller->saveEvent(Mev);
 		break;
 	}
 	return nullptr;

@@ -309,11 +309,14 @@ void MenuViewer::drawConnecting()
 	else
 	{ 
 		std::string aux = engine.getMessage();
-		std::string aux2 = "";
+		std::size_t op_length = aux.find(" ", 10);
+
+		std::string aux2 = aux.substr(op_length, aux.length() - op_length);
+
 		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30, 0,
-				engine.getMessage().c_str());
+			aux.c_str());		//engine.getMessage().c_str());
 		al_draw_textf(ALLEGRO_connectingttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80, 0,
-			engine.getMessage().c_str());
+			aux2.c_str());		//engine.getMessage().c_str());
 		// hay que cortar el texto y ponerlo abajo
 	}
 	al_flip_display();

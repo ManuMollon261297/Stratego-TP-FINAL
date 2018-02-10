@@ -8,6 +8,7 @@ NetworkingModel::NetworkingModel()
 	//Flags
 	name_saved = false;
 	tried_as_client = false;
+	tried_as_server = false;
 	package_recieved = false;
 	comm_error = false;
 	reading = false;
@@ -195,21 +196,25 @@ bool NetworkingModel::connectAsServer()
 {
 	try
 	{
-		server_acceptor = new boost::asio::ip::tcp::acceptor(*IO_handler,
-			boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
-		boost::system::error_code error;
-		std::cout << std::endl << "Ready. Port " << PORT << " created" << std::endl;
-		server_acceptor->async_accept(*socket_a, boost::bind(&NetworkingModel::server_connect_handler,
-			this, boost::asio::placeholders::error));
+		if (!tried_as_server)
+		{
+			server_acceptor = new boost::asio::ip::tcp::acceptor(*IO_handler,
+				boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
+			boost::system::error_code error;
+			std::cout << std::endl << "Ready. Port " << PORT << " created" << std::endl;
+			server_acceptor->async_accept(*socket_a, boost::bind(&NetworkingModel::server_connect_handler,
+				this, boost::asio::placeholders::error));
+		}
 
 		IO_handler->poll(); 
 		if ((!comm_error)&&(serverStat==SERVER))
 		{
+			tried_as_server = true;
 			return true;
 		}
 		else
 		{
-			
+			tried_as_server = true;
 			return false;
 
 		}

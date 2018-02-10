@@ -17,7 +17,7 @@ NetworkingState* WaitingStartResponse::Ack(NetWorkingEvent& ev, NetworkingModel*
 	Gm->setMessage("Place your tokens");
 }
 
-NetworkingState* WaitingStartResponse::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingStartResponse::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	NetworkingState* p_state = nullptr;
 	p_nwm->IncrementTime();

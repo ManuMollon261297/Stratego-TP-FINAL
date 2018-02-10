@@ -53,6 +53,47 @@ bool NetworkingModel::sendPackage(char * message, int size)
 	}
 }
 
+void NetworkingModel::TryToConnect(void)
+{
+	if (!name_saved)
+	{
+		char user_name[256];
+		std::ifstream name_file("./temporal.txt");
+		name_file.getline(user_name, 255); //Consigo el nombre de mi usuario.
+		std::string user_nameS(user_name);
+		setMe(user_nameS);
+		setNameSavedTrue();
+	}
+
+	if (getServer() == UNINITIALIZED)
+	{
+		bool ConnectedAsClient = false;
+		if (!(GetTriedAsClient()))
+		{
+			srand(time(NULL));
+			int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
+			char pckg[1];
+			ConnectedAsClient = connectAsClient(waiting_time, ip);
+		}
+		if (ConnectedAsClient)
+		{
+			setServer(CLIENT);
+
+		}
+		else
+		{
+			if (connectAsServer()) //si tuvo exito manda el paquete de name
+			{
+				char pckg[1];
+				setServer(SERVER);
+				pckg[0] = NAME_HEADER;
+			}
+		}
+
+
+	}
+}
+
 void NetworkingModel::StartReading()
 {
 	reading = true;

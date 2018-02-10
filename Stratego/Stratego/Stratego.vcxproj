@@ -139,6 +139,7 @@
     <ClInclude Include="AllegroFuncs.h" />
     <ClInclude Include="AllegroViewer.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="Connecting.h" />
     <ClInclude Include="currStatus.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventGenerator.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="AllegroFuncs.cpp" />
     <ClCompile Include="AllegroViewer.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="Connecting.cpp" />
     <ClCompile Include="currStatus.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventGenerator.cpp" />

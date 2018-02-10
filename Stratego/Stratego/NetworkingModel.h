@@ -3,6 +3,7 @@
 #include "GenericModel.h"
 #include <string>
 #include <vector>
+#include <fstream>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio.hpp>
 #include <boost/function.hpp>
@@ -36,6 +37,9 @@ using boost::asio::deadline_timer;
 #define TIMEOUT 150 //despues de 2 minutos y medio sin respuesta 
 					//se asumme que se perdio la comunicacion.
 
+#define MAX_IP_LENGTH 45
+
+
 enum serverStatus {SERVER,CLIENT,UNINITIALIZED};
 class NetworkingModel : public GenericModel
 {
@@ -43,6 +47,7 @@ public:
 	NetworkingModel();
 	bool sendPackage(char * message, int size); //envia un paquete de chars de tamanio size
 	void StartReading(); // busca si llego un package 
+	void TryToConnect(void);
 	serverStatus getServer();
 	void setServer(serverStatus server_);
 	bool GetServerFinishedPlacing()const;
@@ -63,6 +68,7 @@ public:
 	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
 	void Shutdown();
+	char ip[MAX_IP_LENGTH + 1]; //ip del otro jugador
 	~NetworkingModel();
 private:
 	bool name_saved; //Guarda si ya se consiguio el nombre del usuario

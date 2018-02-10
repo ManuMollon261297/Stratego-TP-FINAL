@@ -3,9 +3,9 @@
 #include "GenericController.h"
 #include "NetWorkingEvent.h"
 #include "State.h"
+#include "Connecting.h"
 #include "NetworkingModel.h"
 #include <time.h>
-#include <fstream>
 #include "NetPlacingFichas.h"
 #include "Quiting.h"
 #include "StartingAttack.h"
@@ -22,7 +22,7 @@
 #include "GameModel.h"
 #include "MenuModel.h"
 
-#define MAX_IP_LENGTH 45
+
 
 class NetWorkingController: public GenericController
 {
@@ -30,7 +30,6 @@ public:
 	NetWorkingController(GameModel* p2GameModel, NetworkingModel* p2NetModel);
 	~NetWorkingController();
 	virtual void dispatch(GenericEvent& newEvent);
-	void StartConnection(void);
 	void AddMainMenu(MenuModel*);
 	serverStatus GetServer(void)const;
 
@@ -41,5 +40,4 @@ private:
 	GameModel * Gm;
 	MenuModel * MM;
 
-	char ip[MAX_IP_LENGTH+1]; //ip del otro jugador
 };

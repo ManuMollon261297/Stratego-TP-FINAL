@@ -12,7 +12,6 @@
 using namespace std;
 
 
-#define MAX_IP_LENGTH 45
 
 typedef struct
 {
@@ -55,7 +54,6 @@ int main()
 
 	colour c = ( (Gm.getRed()) ? RED : BLUE);
 	Gm.AttachObserver(new AllegroViewer(Gm, c, res.display));
-	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
 	vector<GenericController*> v_contr;
 	InitializeControllers(v_contr, &Gm, &Nwm, NetContr);
 
@@ -132,6 +130,7 @@ bool Init(resources* r)
 	al_register_event_source(r->event_queue, al_get_display_event_source(r->display));
 	al_register_event_source(r->event_queue, al_get_keyboard_event_source());
 	al_register_event_source(r->event_queue, al_get_timer_event_source(r->timer));
+	al_start_timer(r->timer); //Activo el timer que llama cada un segundo.
 	return true;
 
 }

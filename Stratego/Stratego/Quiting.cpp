@@ -19,7 +19,7 @@ NetworkingState* Quiting::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameM
 	return nullptr;
 }
 
-NetworkingState* Quiting::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* Quiting::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	NetworkingState* p_state = nullptr;
 	p_nwm->IncrementTime();

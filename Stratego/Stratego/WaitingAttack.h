@@ -8,6 +8,7 @@
 #include "WaitingPlayerDecision.h"
 #include "WaitingOponentDecision.h"
 #include "WaitingMove.h"
+#include "MenuModel.h"
 #include "GameModel.h"
 #include "gameState.h"
 
@@ -17,5 +18,5 @@ public:
 	WaitingAttack();
 	virtual NetworkingState* Attack(NetWorkingEvent&, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* You_won(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
-	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM);
 };

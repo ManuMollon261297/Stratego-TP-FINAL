@@ -3,6 +3,7 @@
 #include "State.h"
 #include "NetWorkingEvent.h"
 #include "NetworkingModel.h"
+#include "MenuModel.h"
 #include "GameModel.h"
 #include "gameState.h"
 #include "Quiting.h"
@@ -18,5 +19,5 @@ public:
 	virtual NetworkingState* You_won(NetWorkingEvent&, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* MoveDone(NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* AttackDone(NetworkingModel* p_nwm, GameModel * Gm);
-	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM);
 };

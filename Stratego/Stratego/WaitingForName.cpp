@@ -31,7 +31,7 @@ NetworkingState*  WaitingName::Name(NetWorkingEvent& ev, NetworkingModel* p_nwm,
 
 }
 
-NetworkingState* WaitingName::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingName::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	NetworkingState* p_state = nullptr;
 	p_nwm->IncrementTime();

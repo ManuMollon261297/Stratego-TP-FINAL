@@ -56,7 +56,7 @@ NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* 
 	return p_state;
 }
 
-NetworkingState* WaitingNameResponse::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingNameResponse::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	NetworkingState* p_state = nullptr;
 	p_nwm->IncrementTime();

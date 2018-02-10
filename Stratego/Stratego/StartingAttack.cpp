@@ -64,7 +64,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 
 }
 
-NetworkingState* StartingAttack::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* StartingAttack::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	NetworkingState* p_state = nullptr;
 	p_nwm->IncrementTime();

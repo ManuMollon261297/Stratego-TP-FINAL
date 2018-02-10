@@ -133,7 +133,7 @@ NetworkingState* NetworkingState::AttackDone(NetworkingModel* p_nwm, GameModel *
 	return nullptr;
 }
 
-NetworkingState* NetworkingState::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* NetworkingState::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	return nullptr; //el caso base no hace nada.
 }

@@ -146,7 +146,7 @@ NetworkingState* WaitingMove::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
 	return p_state;
 }
 
-NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	NetworkingState* p_state = nullptr;
 	bool sent = false;

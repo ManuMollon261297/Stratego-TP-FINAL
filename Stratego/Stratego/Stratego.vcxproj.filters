@@ -56,6 +56,7 @@
     <ClCompile Include="GenericController.cpp" />
     <ClCompile Include="mouseMenuEvent.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
+    <ClCompile Include="Connecting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroFuncs.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="GenericObserver.h" />
     <ClInclude Include="GenericController.h" />
+    <ClInclude Include="Connecting.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

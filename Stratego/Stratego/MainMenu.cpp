@@ -43,7 +43,6 @@ bool MainMenu::Run(void)
 			}
 			if ( menu->getState() == CONNECTING)
 			{
-				p_nw->StartConnection();
 				p_nw->dispatch(*G_ev);
 			}
 			delete G_ev;

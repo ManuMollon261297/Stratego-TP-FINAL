@@ -66,7 +66,7 @@ NetworkingState* WaitingAttack::You_won(NetWorkingEvent& ev, NetworkingModel* p_
 	return p_state;
 }
 
-NetworkingState* WaitingAttack::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
+NetworkingState* WaitingAttack::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, MenuModel* MM)
 {
 	NetworkingState* p_state = nullptr;
 	p_nwm->IncrementTime();

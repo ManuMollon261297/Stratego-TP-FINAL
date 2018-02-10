@@ -283,7 +283,7 @@ void GameModel::resolveAttack(notstd::rank r)
 
 bool GameModel::isCemeteryEmpty()
 {
-	if (cemetery[13][1] == 0)
+	if (cemetery[12][1] == 0)
 	{
 		return true;
 	}
@@ -315,7 +315,7 @@ bool GameModel::setFicha(notstd::rank r, pos currpos)
 	if ((cemetery[r][1] > 0)&&(r <= 11)&&(battlefield[currpos.x][currpos.y] == nullptr))
 	{
 		cemetery[r][1]--;
-		cemetery[13][1]--;
+		cemetery[12][1]--;
 		battlefield[currpos.x][currpos.y] = new ficha(r);
 		NotifyAllObservers();
 		return true;

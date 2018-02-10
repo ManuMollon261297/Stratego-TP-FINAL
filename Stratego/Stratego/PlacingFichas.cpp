@@ -134,6 +134,7 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel)
 	}
 	else
 	{
+		p2GameModel->setMessage("Army not ready yet");
 		return nullptr;
 	}
 }

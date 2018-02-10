@@ -23,16 +23,16 @@ mouseGameController::mouseGameController(int h, int w, GameModel * p2gameModel_)
 
 	screenHeight = (unsigned int) h;
 	screenWidth = (unsigned int) w;
-	fichaHeight = (unsigned int) (h / 11);
-	fichaWidth = (unsigned int) (w / 12);
+	fichaHeight = (unsigned int)(h / 11);
+	fichaWidth = (unsigned int) (w / 12)+5; //5 de recuadro de imagen
 	cemeteryMargenY = fichaHeight; //margen superior
 	cemeteryMargenX = 0;
 	cemeteryHeight = screenHeight - cemeteryMargenY;  //cemetery dispuesto verticalmente
 	cemeteryWidth = fichaWidth - cemeteryMargenX;
 	battlefieldMargenY = cemeteryMargenY;
-	battlefieldMargenX = cemeteryMargenX + cemeteryWidth;
-	battlefieldHeight = screenHeight - battlefieldMargenY;
-	battlefieldWidth = screenWidth - battlefieldMargenX;
+	battlefieldMargenX = cemeteryMargenX + cemeteryWidth+ 20; //20 de recuadro vertical
+	battlefieldHeight = screenHeight - battlefieldMargenY; 
+	battlefieldWidth = screenWidth - battlefieldMargenX-20; //20 de recuadro vertical
 
 	initButtons();
 	
@@ -213,7 +213,7 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 					sectorRet = BOTON_PLACE_READY;
 				}
 			}
-			else if (p2gameModel->getButtonReference(SOUND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
+			if (p2gameModel->getButtonReference(SOUND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
 			{
 				if (p2gameModel->getButtonReference(SOUND_B)->isTouched(x, y)) //me fijo si se selecciono
 				{
@@ -232,7 +232,7 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 				sectorRet = BOTON_PLAY_AGAIN;
 			}
 		}
-		else if (p2gameModel->getButtonReference(GAME_OVER_B) != nullptr)
+		if (p2gameModel->getButtonReference(GAME_OVER_B) != nullptr)
 		{
 			if (p2gameModel->getButtonReference(GAME_OVER_B)->isTouched(x, y))
 			{

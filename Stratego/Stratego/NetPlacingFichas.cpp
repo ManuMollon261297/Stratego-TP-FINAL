@@ -27,7 +27,7 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 			{
 				Gm->setState(MY_TURN);
 				Gm->restartTimer();
-				Gm->setMessage("Por favor realizar una jugada valida");
+				Gm->setMessage("Please make a move");
 				p_state = new WaitingMove;
 			}
 			else //si empieza el server respondo i am ready.
@@ -38,7 +38,7 @@ NetworkingState* NetPlacingFichas::R_u_ready(NetWorkingEvent& ev, NetworkingMode
 				if (sent)
 				{
 					Gm->setState(OP_TURN);
-					Gm->setMessage("Esperando jugada del oponente");
+					Gm->setMessage("Opponent's turn");
 					p_state = new WaitingMove;
 				}
 				else //Error de comunicacion.
@@ -93,13 +93,13 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 		if (Gm->getRed())//termine de poner las fichas y soy el que empieza
 		{
 			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
-			Gm->setMessage("Esperando que el oponente termine...");
+			Gm->setMessage("Waiting for opponent...");
 			p_state = new NetPlacingFichas;
 		}
 		else
 		{
 			Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
-			Gm->setMessage("Esperando jugada del oponente");
+			Gm->setMessage("Opponent's turn");
 			p_state = new WaitingMove;
 		}
 		char pckg[1];
@@ -121,12 +121,12 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 			if (Gm->getRed()) //Si voy primero directamente mando mi primera jugada.
 			{
 				Gm->setState(MY_TURN);
-				Gm->setMessage("Por favor realizar una jugada valida");
+				Gm->setMessage("Please make a move");
 			}
 			else //si empieza el server respondo i am ready.
 			{
 				Gm->setState(OP_TURN);
-				Gm->setMessage("Esperando jugada del oponente");
+				Gm->setMessage("Opponent's turn");
 				char pckg[1];
 				pckg[0] = I_AM_READY_HEADER;
 				sent = NWM->sendPackage(pckg, 1);

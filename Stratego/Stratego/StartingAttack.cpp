@@ -28,12 +28,13 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 	{
 		notstd::rank enemy = GetRank(enemy_rank);
 		Gm->resolveAttack(enemy);
+		Gm->setAttackResolvedFalse();
 		if (((Gm->getState()) == GAME_OVER) || (!(Gm->verifyMovement()))) //Se capturo el flag, o no hay pieza mobiles, gana el enemigo.
 		{
 			char pckg[1];
 			pckg[0]= (YOU_WON_HEADER);
 			Gm->setState(GAME_OVER);
-			Gm->setMessage("Derrota! esperando decision del oponente");
+			Gm->setMessage("Defeat! waiting response...");
 			sent = p_nwm->sendPackage(pckg, 1);
 			p_state = new WaitingOponentDecision;
 		}
@@ -46,7 +47,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 			pckg[1] = rank2send;
 			Gm->setState(OP_TURN);
-			Gm->setMessage("Esperando jugada del oponente");
+			Gm->setMessage("Opponent's turn");
 			sent = p_nwm->sendPackage(pckg, 2);
 			p_state = new WaitingMove;
 		}

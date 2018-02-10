@@ -55,7 +55,6 @@ serverStatus NetWorkingController::GetServer(void)const
 
 NetWorkingController::~NetWorkingController()
 {
-	delete NWM;
 }
 
 void NetWorkingController::AddMainMenu(MenuModel* p_mm)

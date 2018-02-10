@@ -12,7 +12,6 @@
 using namespace std;
 
 
-void printStateModel(int state);
 #define MAX_IP_LENGTH 45
 
 typedef struct
@@ -25,7 +24,7 @@ typedef struct
 bool Init(resources* r); //Inicializa todos los recursos necesarios.
 void DoExit(resources* r); //Se ocupa de todos los recursos a la salida del programa.
 void InitializeControllers(vector<GenericController*>&, GameModel* p_gm, NetworkingModel* p_nwm,NetWorkingController* NetCont);
-
+void DestroyControllers(vector<GenericController*>&);
 
 int main()
 {
@@ -39,13 +38,15 @@ int main()
 	}
 	GameModel Gm;
 	NetworkingModel Nwm;
-	NetWorkingController NetContr(&Gm, &Nwm);
+	NetWorkingController* NetContr = new NetWorkingController(&Gm, &Nwm);
 	EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
-	MainMenu* p_menu = new MainMenu(res.display, res.event_queue, &NetContr, &EvGen); //Se inicializa, corre y destruye el menu del juego.
+	MainMenu* p_menu = new MainMenu(res.display, res.event_queue, NetContr, &EvGen); //Se inicializa, corre y destruye el menu del juego.
 	if (!p_menu->Run())
 	{
 		delete p_menu;
+		delete NetContr;
 		p_menu = nullptr;
+		NetContr = nullptr;
 		DoExit(&res);
 		return 0;
 	}
@@ -56,7 +57,7 @@ int main()
 	Gm.AttachObserver(new AllegroViewer(Gm, c, res.display));
 	al_start_timer(res.timer); //Activo el timer que llama cada un segundo.
 	vector<GenericController*> v_contr;
-	InitializeControllers(v_contr, &Gm, &Nwm, &NetContr);
+	InitializeControllers(v_contr, &Gm, &Nwm, NetContr);
 
 	while ( !(Gm.GetExit()))
 	{
@@ -73,65 +74,14 @@ int main()
 		}
 
 	}
-	for (unsigned int i = 0; i < v_contr.size(); i++)
-	{
-		delete (v_contr[i]);
-	}
-	v_contr.clear(); //Destruye los controllers.
+	DestroyControllers(v_contr);
 
 	DoExit(&res);
 	return 0;
 
 }
 
-void printStateModel(int state)
-{
-	cout << "estado del modelo:    ";
-	switch (state)
-	{
-	case 0:
-		cout << "MY_TURN" << endl;
-		break;
-	case 1:
-		cout << "OP_TURN" << endl;
-		break;
-	case 2:
-		cout << "MY_ATTACKING" << endl;
-		break;
-	case 3:
-		cout << "OP_ATTACKING" << endl;
-		break;
-	case 4:
-		cout << "MY_MOVING" << endl;
-		break;
-	case 5:
-		cout << "OP_MOVING" << endl;
-		break;
-	case 6:
-		cout << "PLACING_FICHAS" << endl;
-		break;
-	case 7:
-		cout << "GAME_OVER" << endl;
-		break;
-	case 8:
-		cout << "IDLE" << endl;
-		break;
-	case 9:
-		cout << "ENDING_PLACING_FICHAS" << endl;
-		break;
-	case 10:
-		cout << "WAITING_FOR_OPPONENTS_SELECTION" << endl;
-		break;
-	case 11:
-		cout << "PLAY_AGAIN_SELECTED" << endl;
-		break;
-	case 12:
-		cout << "GAME_OVER_SELECTED" << endl;
-		break;
-	default:
-		cout << "estado desconocido" << endl;
-	}
-}
+
 
 bool Init(resources* r)
 {
@@ -152,16 +102,24 @@ bool Init(resources* r)
 
 	if (!al_install_keyboard())
 	{
+		al_destroy_timer(r->timer);
 		return false;
 	}
 
 	r->event_queue = al_create_event_queue();
 	if (!(r->event_queue))
 	{
+		al_destroy_timer(r->timer);
 		return false;
 	}
 
 	r->display = al_create_display(1080, 720);
+	if (r->display == nullptr)
+	{
+		al_destroy_timer(r->timer);
+		r->event_queue = al_create_event_queue();
+
+	}
 	al_set_window_title(r->display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
 
 
@@ -186,3 +144,13 @@ void InitializeControllers(vector<GenericController*>& v, GameModel* p_gm, Netwo
 	v.push_back(NetCont);
 	v.push_back(new mouseGameController(720, 1080, p_gm));
 }
+
+void DestroyControllers(vector<GenericController*>& v)
+{
+	for (unsigned int i = 0; i < v.size(); i++)
+	{
+		delete (v[i]);
+	}
+	v.clear(); //Destruye los controllers.
+}
+

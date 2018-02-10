@@ -114,6 +114,7 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 	if(Mev.GetEvent() == MOUSE)
 	{
 		MouseEvent& ev = (MouseEvent&)Mev;
+		cout << ev.x << ev.y << endl;
 		MouseInfo info = shape(ev.x, ev.y);
 
 		updateControllerState(p2gameModel->getState());
@@ -434,12 +435,12 @@ bool mouseGameController::isCemeteryTouched(int x, int y)
 
 bool mouseGameController::isBombTouched(int x, int y)
 {
-	return ( ( (x > cemeteryMargenX) && (x < (cemeteryMargenX + (cemeteryWidth*1))) && (y > cemeteryMargenY) && (y < (cemeteryMargenY + cemeteryWidth))) );
+	return ( ( (x > cemeteryMargenX) && (x < (cemeteryMargenX + (cemeteryWidth*1))) && (y > 0) && (y < (cemeteryMargenY))) );
 }
 
 bool mouseGameController::isFlagTouched(int x, int y)
 {
-	return (((x > (cemeteryMargenX + (cemeteryWidth * 1))) && (x < (cemeteryMargenX + (cemeteryWidth * 2))) && (y > cemeteryMargenY) && (y < (cemeteryMargenY + cemeteryWidth))));
+	return (((x > (cemeteryMargenX + (cemeteryWidth * 1))) && (x < (cemeteryMargenX + (cemeteryWidth * 2))) && (y > 0) && (y < (cemeteryMargenY))));
 }
 
 bool mouseGameController::isBattlefieldTouched(int x, int y)

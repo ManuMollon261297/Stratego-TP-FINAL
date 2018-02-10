@@ -519,7 +519,7 @@ bool mouseGameController::validOffsetMovement(pos destiny)
 		if ((memoryEv.evPos.x) == (destiny.x))
 		{
 			offset = ((memoryEv.evPos.y > destiny.y) ? (memoryEv.evPos.y - destiny.y) : (destiny.y - memoryEv.evPos.y));
-			if (offset <= p2gameModel->getRankFromPos(memoryEv.evPos))
+			if (offset <= p2gameModel->getMaxOffsetFromPos(memoryEv.evPos))
 			{
 				ret = true;
 			}
@@ -527,7 +527,7 @@ bool mouseGameController::validOffsetMovement(pos destiny)
 		else
 		{
 			offset = ((memoryEv.evPos.x > destiny.x) ? (memoryEv.evPos.x - destiny.x) : (destiny.x - memoryEv.evPos.x));
-			if (offset <= p2gameModel->getRankFromPos(memoryEv.evPos))
+			if (offset <= p2gameModel->getMaxOffsetFromPos(memoryEv.evPos))
 			{
 				ret = true;
 			}

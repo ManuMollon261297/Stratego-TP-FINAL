@@ -525,7 +525,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 	{
 		for (int j = 0; j<10; j++)
 		{
-			if (!((i == init.x) && (j == init.y)))
+			if ((!((i == init.x) && (j == init.y)))||(!((i == fin.x) && (j == fin.y))))
 			{
 				pos pAux(i, j);
 				notstd::rank rAux = engine.getRankFromPos(pAux);
@@ -567,7 +567,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 	drawRemainingTime();
 	ALLEGRO_BITMAP *  dAux = al_get_target_bitmap();
 	ALLEGRO_BITMAP *  aux = al_clone_bitmap(dAux);
-	notstd::rank currR = engine.getRankFromPos(init);
+	notstd::rank currR = engine.getRankFromPos(fin);
 	if (init.y == fin.y) //se mueve verticalmente
 	{
 		int offset = (int)abs((init.x - fin.x));

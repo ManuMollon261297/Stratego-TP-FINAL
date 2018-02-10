@@ -114,6 +114,7 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 	if(Mev.GetEvent() == MOUSE)
 	{
 		MouseEvent& ev = (MouseEvent&)Mev;
+		cout << ev.x << ev.y << endl;
 		MouseInfo info = shape(ev.x, ev.y);
 
 		updateControllerState(p2gameModel->getState());

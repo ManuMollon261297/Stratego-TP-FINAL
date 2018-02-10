@@ -89,6 +89,14 @@ MouseInfo mouseGameController::shape(double x, double y)
 			Mev.r = fetchMevRankFromCemetery(Mev.evPos.y);
 			Mev.type = CEMETERY_EV;
 			break;
+		case BOMB_SECTOR:
+			Mev.r = BOMB;
+			Mev.type = CEMETERY_EV;
+			break;
+		case FLAG_SECTOR:
+			Mev.r = FLAG;
+			Mev.type = CEMETERY_EV;
+			break;
 		case BOTON_PLACE_READY:
 			Mev.type = BOTON_PLACE_READY_EV;
 			break;
@@ -154,6 +162,14 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 		if (isCemeteryTouched(x, y))
 		{
 			sectorRet = CEMETERY_SECTOR;
+		}
+		else if (isBombTouched(x, y))
+		{
+			sectorRet = BOMB_SECTOR;
+		}
+		else if (isFlagTouched(x, y))
+		{
+			sectorRet = FLAG_SECTOR;
 		}
 		else if (isBattlefieldTouched(x, y))
 		{
@@ -412,8 +428,18 @@ void mouseGameController::updateModelState()
 
 bool mouseGameController::isCemeteryTouched(int x, int y)
 {
+	return  ( ( (x > cemeteryMargenX) && (x < (cemeteryMargenX + cemeteryWidth)) ) && ( (y > cemeteryMargenY) && (y < (cemeteryMargenY + cemeteryHeight)) ) )  ;
 
-	return (((x > cemeteryMargenX) && (x < (cemeteryMargenX + cemeteryWidth))) && ((y > cemeteryMargenY) && (y < (cemeteryMargenY + cemeteryHeight))));
+}
+
+bool mouseGameController::isBombTouched(int x, int y)
+{
+	return ( ( (x > cemeteryMargenX) && (x < (cemeteryMargenX + (cemeteryWidth*1))) && (y > cemeteryMargenY) && (y < (cemeteryMargenY + cemeteryWidth))) );
+}
+
+bool mouseGameController::isFlagTouched(int x, int y)
+{
+	return (((x > (cemeteryMargenX + (cemeteryWidth * 1))) && (x < (cemeteryMargenX + (cemeteryWidth * 2))) && (y > cemeteryMargenY) && (y < (cemeteryMargenY + cemeteryWidth))));
 }
 
 bool mouseGameController::isBattlefieldTouched(int x, int y)

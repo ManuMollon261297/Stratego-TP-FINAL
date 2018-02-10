@@ -86,6 +86,8 @@ private:
 	void updateModelState(); //coordina los estados del model entre las clases model y controller, luego de pasar fsm de controller
 
 	bool isCemeteryTouched(int x, int y);
+	bool isBombTouched(int x, int y);
+	bool isFlagTouched(int x, int y);
 	bool isBattlefieldTouched(int x, int y);
 	bool isFriendlyBattlefieldTouched(int x, int y);
 	bool isHostilBattlefieldTouched(int x, int y);

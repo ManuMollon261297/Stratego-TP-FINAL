@@ -224,6 +224,9 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 	ALLEGRO_optionsttf = nullptr;
 	ALLEGRO_messagesttf = nullptr;
 	ALLEGRO_field = nullptr;
+
+	initImagesAndFonts();
+	update();
 }
 
 bool AllegroViewer::isViewerInitialized()

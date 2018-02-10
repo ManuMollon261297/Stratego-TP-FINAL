@@ -39,7 +39,7 @@ int main()
 	}
 	GameModel Gm;
 	NetworkingModel Nwm;
-	NetWorkingController NetContr(&Gm, &Nwm);
+	NetWorkingController* NetContr = new NetWorkingController(&Gm, &Nwm);
 	EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
 	MainMenu* p_menu = new MainMenu(res.display, res.event_queue, &NetContr, &EvGen); //Se inicializa, corre y destruye el menu del juego.
 	if (!p_menu->Run())

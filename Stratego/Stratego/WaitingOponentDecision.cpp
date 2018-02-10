@@ -14,7 +14,7 @@ NetworkingState* WaitingOponentDecision::Play_again(NetWorkingEvent& ev, Network
 {
 	NetworkingState* p_state = new WaitingPlayerDecision;
 	Gm->setState(GAME_OVER); //Cambio el modelo para advertir que se debe elegir si jugar de nuevo o no.
-	Gm->setMessage("El oponente desea volver a jugar");
+	Gm->setMessage("Opponent wants to play again");
 	return p_state; 
 }
 
@@ -25,7 +25,7 @@ NetworkingState* WaitingOponentDecision::Game_over(NetWorkingEvent& ev, Networki
 	char pckg[1] = { ACK_HEADER };
 	Gm->setState(GAME_OVER); //Hay que informarle al usuario que el otro jugador no desea seguir jugando.
 	Gm->SetExit(true);
-	Gm->setMessage("El oponente no desea jugar, desconectando...");
+	Gm->setMessage("Oponent exit, quiting...");
 	sent = p_nwm->sendPackage(pckg, 1);
 	p_nwm->Shutdown();
 	return p_state;

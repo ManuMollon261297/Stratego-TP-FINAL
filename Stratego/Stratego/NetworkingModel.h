@@ -67,6 +67,7 @@ public:
 private:
 	bool name_saved; //Guarda si ya se consiguio el nombre del usuario
 	bool tried_as_client; //Inica si ya se intento conectar como cliente.
+	bool tried_as_server;
 	bool comm_error;
 	bool server_Finished_placing_fichas;
 	bool time_done;

@@ -32,6 +32,7 @@ public:
 	virtual void dispatch(GenericEvent& newEvent);
 	void StartConnection(void);
 	void AddMainMenu(MenuModel*);
+	serverStatus GetServer(void)const;
 
 private:
 	NetworkingState * actualState;

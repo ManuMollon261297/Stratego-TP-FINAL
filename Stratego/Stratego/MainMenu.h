@@ -15,7 +15,7 @@ class MainMenu
 {
 public:
 	MainMenu(ALLEGRO_DISPLAY*, ALLEGRO_EVENT_QUEUE*, NetWorkingController*, EventGenerator*);
-	void Run(void);
+	bool Run(void);
 	~MainMenu();
 private:
 	ALLEGRO_EVENT_QUEUE* queue;
@@ -26,5 +26,5 @@ private:
 	vector<GenericController*> v_contr;
 	dataButtonsPos fillButtonsInfo(void);
 	dataButtonsPos dataButtons;
-	bool exit;
+	bool connected;
 };

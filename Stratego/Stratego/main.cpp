@@ -42,7 +42,13 @@ int main()
 	NetWorkingController NetContr(&Gm, &Nwm);
 	EventGenerator EvGen(&Gm, &Nwm, res.event_queue);
 	MainMenu* p_menu = new MainMenu(res.display, res.event_queue, &NetContr, &EvGen); //Se inicializa, corre y destruye el menu del juego.
-	p_menu->Run();
+	if (!p_menu->Run())
+	{
+		delete p_menu;
+		p_menu = nullptr;
+		DoExit(&res);
+		return 0;
+	}
 	delete p_menu;
 	p_menu = nullptr;
 
@@ -67,7 +73,10 @@ int main()
 		}
 
 	}
-
+	for (unsigned int i = 0; i < v_contr.size(); i++)
+	{
+		delete (v_contr[i]);
+	}
 	v_contr.clear(); //Destruye los controllers.
 
 	DoExit(&res);

@@ -29,7 +29,7 @@ MainMenu::~MainMenu()
 }
 
 
-void MainMenu::Run(void)
+bool MainMenu::Run(void)
 {
 	while (!(menu->GetExit()))
 	{
@@ -49,6 +49,14 @@ void MainMenu::Run(void)
 			delete G_ev;
 		}
 
+	}
+	if (p_nw->GetServer() == UNINITIALIZED)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 	
 }

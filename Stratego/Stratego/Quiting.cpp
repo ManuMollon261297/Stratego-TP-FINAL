@@ -14,7 +14,6 @@ Quiting::Quiting()
 NetworkingState* Quiting::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
 	p_nwm->ResetTimeout(); //reincio el timeout.
-	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
 	p_nwm->Shutdown();
 	return nullptr;

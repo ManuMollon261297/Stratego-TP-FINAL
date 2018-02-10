@@ -86,10 +86,9 @@ NetworkingState* NetworkingState::Quit(NetWorkingEvent& ev, NetworkingModel* p_n
 {
 	char message[1] = { ACK_HEADER };
 	p_nwm->sendPackage(message, 1);
-	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
 	p_nwm->Shutdown();
-	Gm->setMessage("Error de comunicacion, cerrando...");
+	Gm->setMessage("Comm error, quiting...");
 	return nullptr;
 }
 
@@ -98,7 +97,7 @@ NetworkingState* NetworkingState::Error(NetWorkingEvent& ev, NetworkingModel* p_
 	p_nwm->Shutdown();
 	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
-	Gm->setMessage("Error de comunicacion, cerrando...");
+	Gm->setMessage("Comm error, quiting...");
 	return nullptr;
 }
 
@@ -144,9 +143,8 @@ void NetworkingState::ErrorRoutine(NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char pckg[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
-	Gm->setState(GAME_OVER);
 	Gm->SetExit(true);
-	Gm->setMessage("Error de comunicacion, cerrando...");
+	Gm->setMessage("Comm error, quiting...");
 
 	p_nwm->Shutdown();
 }

@@ -16,8 +16,7 @@ NetworkingState* WaitingNewGameResponse::R_u_ready(NetWorkingEvent& ev, Networki
 	p_nwm->setServer(CLIENT);
 	Gm->setState(PLACING_FICHAS);
 	p_nwm->SetServerFinishedPlacing(true);
-	Gm->setRed(!(Gm->getRed()));
-		//Falta una funcion de Game Model que prepare todo para volver a jugar.
+	Gm->reset();//Prepara todo para una partida nueva.
 	return p_state;
 }
 
@@ -26,7 +25,7 @@ NetworkingState* WaitingNewGameResponse::Game_over(NetWorkingEvent& ev, Networki
 	char pckg[1] = { ACK_HEADER };
 	NetworkingState* p_state = new Quiting;
 	Gm->SetExit(true);
-	Gm->setMessage("El oponente no desea jugar de nuevo, desconectando...");
+	Gm->setMessage("Oponent exit, quiting...");
 	p_nwm->sendPackage(pckg, 1);
 	p_nwm->Shutdown();
 	return p_state;

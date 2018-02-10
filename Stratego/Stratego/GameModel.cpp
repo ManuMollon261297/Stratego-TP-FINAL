@@ -85,6 +85,11 @@ void GameModel::setState(int state_)
 	state = state_;
 }
 
+void GameModel::setAttackResolvedFalse(void)
+{
+	attackResolved = false;
+}
+
 bool GameModel::getRed()
 {
 	return red;

@@ -59,7 +59,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 		else //El move no fue un ataque
 		{
 			Gm->setState(MY_TURN); //Ya se realizo la movida del oponente asique es mi turno.
-			Gm->setMessage("Por favor realiz una jugada");
+			Gm->setMessage("Please Make a move");
 			Gm->restartTimer();
 			p_state = nullptr; //No cambia de estado.
 		}
@@ -73,12 +73,10 @@ NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nw
 	Gm->setState(GAME_OVER); 
 	Gm->playerWon();
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
-	Gm->setMessage("Victoria! has ganado");
+	Gm->setMessage("Victory! you won");
 	NetworkingState * p_state = new WaitingPlayerDecision;
 	return p_state;
 
-	//Habria que preguntarle al usuario de alguna forma si quiere volver a jugar de nuevo.
-	//en base a eso mando GAME_OVER o PLAY_AGAIN.
 
 }
 
@@ -103,7 +101,7 @@ NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
 		sent = p_nwm->sendPackage(move_pckg, 5); //Manda el paquete de move.
 
 		Gm->setState(OP_TURN);
-		Gm->setMessage("Comienza el turno del oponente");
+		Gm->setMessage("Opponents turn");
 	}
 	if (!sent) //Error de comunicacion.
 	{
@@ -159,7 +157,7 @@ NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
 		{
 			char pckg[1] = { YOU_WON_HEADER };
 			Gm->setState(GAME_OVER);
-			Gm->setMessage("Derrota! se acabo el tiempo");
+			Gm->setMessage("Defeat! Time's up");
 			sent = p_nwm->sendPackage(pckg, 1);
 			if (sent)
 			{
@@ -173,7 +171,7 @@ NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
 		}
 		else if ((Gm->getTime()) == 60)
 		{
-			Gm->setMessage("Queda menos de un minuto");
+			Gm->setMessage("Less than a minute left");
 		}
 	}
 	else if ((Gm->getState()) == OP_TURN) //Si pasan 2 minutos y medio

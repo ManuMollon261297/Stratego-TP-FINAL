@@ -89,6 +89,7 @@ public:
 	void setMoveDoneTrue();
 	void setMoveDoneFalse();
 	void setMute(bool state);
+	void setAttackResolvedFalse(void);
 	//Getters
 	currStatus GetmyPosStatus()const;
 	currStatus GetopPosStatus()const;

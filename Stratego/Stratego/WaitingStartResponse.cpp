@@ -14,7 +14,7 @@ NetworkingState* WaitingStartResponse::Ack(NetWorkingEvent& ev, NetworkingModel*
 	p_nwm->ResetTimeout();
 	Gm->setState(PLACING_FICHAS);
 	return new NetPlacingFichas;
-	Gm->setMessage("Posicione sus fichas");
+	Gm->setMessage("Place your tokens");
 }
 
 NetworkingState* WaitingStartResponse::OnTimer(NetworkingModel* p_nwm, GameModel * Gm)
@@ -23,12 +23,9 @@ NetworkingState* WaitingStartResponse::OnTimer(NetworkingModel* p_nwm, GameModel
 	p_nwm->IncrementTime();
 	if (p_nwm->TimeEnded())
 	{
-		char error_pckg[1] = { ERROR_HEADER };
+		
 		p_state = new Quiting;
-		Gm->SetExit(true);
-		Gm->setMessage("Se perdio la comunicacion, cerrando...");
-		p_nwm->sendPackage(error_pckg, 1);
-		p_nwm->Shutdown();
+		ErrorRoutine(p_nwm, Gm);
 	}
 	return p_state;
 }

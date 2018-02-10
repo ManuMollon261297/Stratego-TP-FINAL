@@ -35,7 +35,7 @@ gameState * MyTurn::OnSoldier(MouseInfo & Mev, MouseStates & Mstate, mouseGameCo
 
 gameState * MyTurn::OnCemetery(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
-	p2GameModel->setMessage("Estos soldados han sido derrotados, estan fuera de combate");
+	p2GameModel->setMessage("This soldiers had been defeated");
 	return nullptr;
 }
 
@@ -45,7 +45,7 @@ gameState * MyTurn::OnOponent(MouseInfo & Mev, MouseStates & Mstate, mouseGameCo
 	switch (Mstate)
 	{
 	case NONE_SELECTED:
-		p2GameModel->setMessage("Tropas hostiles");
+		p2GameModel->setMessage("Hostiles troops");
 		break;
 	case SOLDIER_SELECTED:
 		if (p2controller->validOffsetMovement(Mev.evPos))
@@ -53,19 +53,19 @@ gameState * MyTurn::OnOponent(MouseInfo & Mev, MouseStates & Mstate, mouseGameCo
 			if (p2controller->validObstacles(Mev.evPos))
 			{
 				p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
-				p2GameModel->setMessage("Movimiento ofensivo");
+				p2GameModel->setMessage("Aaggressive movement");
 				Mstate = NONE_SELECTED;
 				pRet = new MyAttacking;
 			}
 			else
 			{
-				p2GameModel->setMessage("No se puede realizar el movimiento, hay obstaculos en el medio");
+				p2GameModel->setMessage("You can't make that movement");
 				//no se cambia estado, ni de mouse, ni de game.
 			}
 		}
 		else
 		{
-			p2GameModel->setMessage("La tropa no esta habilitada a recorrer la distancia indicada");
+			p2GameModel->setMessage("This troop can't walk that distance");
 			//no se cambia estado, ni de mouse, ni de game.
 		}
 
@@ -80,7 +80,7 @@ gameState * MyTurn::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameContr
 	switch (Mstate)
 	{
 	case NONE_SELECTED:
-		p2GameModel->setMessage("Terreno vacio");
+		p2GameModel->setMessage("Empty place");
 		break;
 	case SOLDIER_SELECTED:
 		if (p2controller->validOffsetMovement(Mev.evPos))
@@ -89,19 +89,19 @@ gameState * MyTurn::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameContr
 			{
 				p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
 				p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
-				p2GameModel->setMessage("Movimiento inofensivo"); 
+				p2GameModel->setMessage("Harmless movement"); 
 				Mstate = NONE_SELECTED;
 				pRet = new MyMoving;
 			}
 			else
 			{
-				p2GameModel->setMessage("No se puede realizar el movimiento, hay obstaculos en el medio");
+				p2GameModel->setMessage("You can't make that movement");
 				//no se cambia estado, ni de mouse, ni de game.
 			}
 		}
 		else
 		{
-			p2GameModel->setMessage("La tropa no esta habilitada a recorrer la distancia indicada");
+			p2GameModel->setMessage("This troop can't walk that distance");
 			//no se cambia estado, ni de mouse, ni de game.
 		}
 		
@@ -112,7 +112,7 @@ gameState * MyTurn::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameContr
 
 gameState * MyTurn::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel)
 {
-	p2GameModel->setMessage("Lago, por aqui las tropas no pueden pasar");
+	p2GameModel->setMessage("The troops can't walk through the lake");
 	return nullptr;
 }
 

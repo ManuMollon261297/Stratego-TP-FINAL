@@ -120,10 +120,11 @@ gameState * PlacingFichas::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseG
 	return nullptr;
 }
 
-gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel)
+gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel, MouseStates & Mstate)
 {
 	if (p2GameModel->isCemeteryEmpty())
 	{
+		Mstate = NONE_SELECTED;
 		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
 		p2GameModel->setMessage("Ready for battle, waiting opponent");
 		if (p2GameModel->getButtonReference(ENDING_PLACING_FICHAS) != nullptr)

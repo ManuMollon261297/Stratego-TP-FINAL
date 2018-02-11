@@ -10,6 +10,6 @@ public:
 	virtual gameState* OnOponent(MouseInfo & ev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
 	virtual gameState* OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
 	virtual gameState* OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
-	virtual gameState* OnConfirmPlaces(GameModel * p2GameModel);
+	virtual gameState* OnConfirmPlaces(GameModel * p2GameModel, MouseStates & Mstate);
 };
 

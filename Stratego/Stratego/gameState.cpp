@@ -38,7 +38,7 @@ gameState * gameState::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameC
 	return nullptr;
 }
 
-gameState * gameState::OnConfirmPlaces(GameModel * p2GameModel)
+gameState * gameState::OnConfirmPlaces(GameModel * p2GameModel, MouseStates & Mstate)
 {
 	return nullptr;
 }

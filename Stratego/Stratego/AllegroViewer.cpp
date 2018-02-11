@@ -525,7 +525,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 	{
 		for (int j = 0; j<10; j++)
 		{
-			if ((!((i == init.x) && (j == init.y)))||(!((i == fin.x) && (j == fin.y))))
+			if ((!((i == init.x) && (j == init.y)))&&(!((i == fin.x) && (j == fin.y))))
 			{
 				pos pAux(i, j);
 				notstd::rank rAux = engine.getRankFromPos(pAux);

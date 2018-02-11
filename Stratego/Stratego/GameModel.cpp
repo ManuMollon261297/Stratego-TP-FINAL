@@ -740,3 +740,25 @@ void GameModel::toggleMute(void)
 	mute = !mute;
 	NotifyAllObservers();
 }
+
+void GameModel::randomPos(void)
+{
+	srand(time(NULL));
+
+	notstd::rank randomToken;
+	pos randPos;
+
+	for (int counter = 0; counter < 40; counter++)
+	{
+		do
+		{
+			randomToken = (notstd::rank) (rand() % TIPOS_DE_RANK);			//tomo un rank al azar
+		} while (getNumberInCemetery(randomToken) > 0);		//y verifico que haya diponible
+
+		do
+		{
+			randPos.x = 6 + (rand() % 4);		//tomo posiciones validas del mapa
+			randPos.y = (rand() % 10);
+		} while (setFicha(randomToken, randPos));
+	}
+}

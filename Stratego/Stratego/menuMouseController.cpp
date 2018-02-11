@@ -95,6 +95,7 @@ void menuMouseController::dispatch(GenericEvent & menuEvMouse)
 				infoFile << p2menuModel->getName() << std::endl;
 				infoFile.close();
 				p2menuModel->setState(CONNECTING);
+				p2menuModel->setMessage("Trying to connect as Client");
 			}
 			break;
 		}

@@ -548,13 +548,13 @@ bool GameModel::getMoveDone()
 void GameModel::setMoveDoneTrue()
 {
 	moveDone = true;
-	NotifyAllObservers();
+	//NotifyAllObservers();
 }
 
 void GameModel::setMoveDoneFalse()
 {
 	moveDone = false;
-	NotifyAllObservers();
+	//NotifyAllObservers();
 }
 
 void GameModel::setMute(bool state)

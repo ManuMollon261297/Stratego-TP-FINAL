@@ -73,6 +73,8 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	timeRemaining = 120; // El jugador tiene 120 segundos para decidir antes de perder.
 	rescuesRemaining = 2;
 	repeatMoveCounter = 0;
+
+	randomPos();
 }
 
 int GameModel::getState()
@@ -779,8 +781,9 @@ void GameModel::randomPos(void)
 	pos randPos;
 
 	int counter = 0;
+	int max_counter = cemetery[TIPOS_DE_RANK][1];
 
-	while (counter < cemetery[TIPOS_DE_RANK][1])
+	while (counter < max_counter)
 	{
 		randomToken = (notstd::rank) (rand() % TIPOS_DE_RANK);			//tomo un rank al azar
 		if (getNumberInCemetery(randomToken) > 0)

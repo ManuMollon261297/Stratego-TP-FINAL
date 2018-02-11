@@ -19,7 +19,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 {
 	bool sent = false;
 	NetworkingState * p_state;
-	Gm->setState(MY_TURN); //Empieza el turno del oponente.
+	Gm->setState(MY_TURN); //Empieza mi turno.
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
 	std::string pckg = ev.GetRecieved();
 	int original_posY = pckg[1] - 'A'; //Le resta el valor de la primera columna para obtener el numero.
@@ -30,6 +30,11 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 
 	pos origin(original_posX, original_posY);
 	pos destination(destination_posX, destination_posY);
+	if (!(Gm->getRed())) //Si soy azul invierto las posiciones
+	{
+		InvertPositionToLayout(&origin);
+		InvertPositionToLayout(&destination);
+	}
 	if ( !(ValidateMovement(Gm, origin, destination)) )
 	{
 		ErrorRoutine(p_nwm, Gm);
@@ -88,12 +93,19 @@ NetworkingState* WaitingMove::MoveDone(NetworkingModel* p_nwm, GameModel * Gm)
 	{
 		Gm->setMoveDoneFalse();
 		Gm->restartTimer();
+		pos origin = Gm->GetmyPosStatus().previous;
+		pos des = Gm->GetmyPosStatus().next;
+		if (!(Gm->getRed())) //Si soy azul invierto las posiciones
+		{
+			InvertPositionToLayout(&origin);
+			InvertPositionToLayout(&des);
+		}
 		char move_pckg[5];
 		move_pckg[0] = MOVE_HEADER;
-		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
-		char or_row = 1 + ((Gm->GetmyPosStatus()).previous.x);
-		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
-		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		char or_col = 'A' + (char)(origin.y);
+		char or_row = 1 + (origin.x);
+		char des_col = 'A' + (char)(des.y);
+		char des_row = 1 + (des.x);
 		move_pckg[1] = or_col;
 		move_pckg[2] = or_row;
 		move_pckg[3] = des_col;

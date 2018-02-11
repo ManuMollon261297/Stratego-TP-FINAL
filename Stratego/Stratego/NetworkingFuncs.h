@@ -19,3 +19,8 @@ bool ValidateMovement(GameModel * Gm, pos ori, pos des);
 unsigned char ConvertRankToPackageFormat(notstd::rank);
 //Recibee un rank y lo devuelve en el formato correcto para mandar en un
 //paquete de attack. Si recibe un rank invalido devuelve '0'
+
+void InvertPositionToLayout(pos* p);
+//Se llama cuando soy azul para invertir la posicion de la logica
+//al del layout de rojo en las filas 7, 8, 9, 10 y azul en las filas
+//1, 2, 3, 4.

@@ -72,7 +72,6 @@ void NetworkingModel::TryToConnect(void)
 		{
 			srand(time(NULL));
 			int waiting_time = 2000 + (rand() % 3000); //genera un tiempo de espera aleatorio entre 2000 y 5000 milisegundos.
-			char pckg[1];
 			ConnectedAsClient = connectAsClient(waiting_time, ip);
 		}
 		if (ConnectedAsClient)
@@ -86,7 +85,6 @@ void NetworkingModel::TryToConnect(void)
 			{
 				char pckg[1];
 				setServer(SERVER);
-				pckg[0] = NAME_HEADER;
 			}
 		}
 
@@ -251,6 +249,7 @@ bool NetworkingModel::connectAsServer()
 		if ((!comm_error)&&(serverStat==SERVER))
 		{
 			tried_as_server = true;
+			IO_handler->reset();
 			return true;
 		}
 		else

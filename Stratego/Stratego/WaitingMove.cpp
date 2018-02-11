@@ -19,7 +19,7 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 {
 	bool sent = false;
 	NetworkingState * p_state;
-	Gm->setState(MY_TURN); //Empieza mi turno.
+	Gm->setState(OP_TURN); //Empieza mi turno.
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
 	std::string pckg = ev.GetRecieved();
 	int original_posY = pckg[1] - 'A'; //Le resta el valor de la primera columna para obtener el numero.

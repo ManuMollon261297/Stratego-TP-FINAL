@@ -160,6 +160,7 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 		{
 			battlefield[newPos.x][newPos.y] = battlefield[currPos.x][currPos.y];
 			battlefield[currPos.x][currPos.y] = nullptr;
+			moveDone = true;
 		}
 		NotifyAllObservers();
 		return true;

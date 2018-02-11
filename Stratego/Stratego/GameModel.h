@@ -68,6 +68,8 @@ public:
 	void unselectAllExcepetOneRankCemetery(notstd::rank r);
 	void toggleSelectRankCemetery(notstd::rank r);
 
+	void randomPos();
+
 	void setFichasPlacedTrue();
 	void setFichasPlacedFalse();
 	bool getFichasPlaced();

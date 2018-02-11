@@ -388,7 +388,13 @@ void GameModel::unselectAllBattlefield(void)
 		for (int j = 0; j < 10; j++)
 		{
 			p.y = j;
-			battlefield[p.x][p.y]->unselect();
+			if (battlefield[p.x][p.y] != nullptr)
+			{
+				if ((battlefield[p.x][p.y]->getRank() != OTHERS)&& (battlefield[p.x][p.y]->getRank() != WATER))
+				{
+					battlefield[p.x][p.y]->unselect();
+				}
+			}
 		}
 	}
 	NotifyAllObservers();

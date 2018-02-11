@@ -69,7 +69,7 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	cemetery[12][1]= 40; //total de fichas
 
 	//inicializacion del state
-	state = PLACING_FICHAS;
+	setState(PLACING_FICHAS);
 	timeRemaining = 120; // El jugador tiene 120 segundos para decidir antes de perder.
 	rescuesRemaining = 2;
 	repeatMoveCounter = 0;
@@ -83,6 +83,7 @@ int GameModel::getState()
 void GameModel::setState(int state_)
 {
 	state = state_;
+	std::cout << std::endl << state << std::endl; //Para debuggear
 }
 
 void GameModel::setAttackResolvedFalse(void)
@@ -144,13 +145,13 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 			case MY_TURN: 
 				if (!checkMoveRepetead(currPos, newPos))
 				{
-					state = MY_MOVING; //esta linea verifica 
+					setState(MY_MOVING); //esta linea verifica 
 					myPosStatus.previous = currPos;								//que el movimiento no se haya repetido excesivamente
 					myPosStatus.next = newPos;
 				}
 				break;												
 			case OP_TURN: 
-				state = OP_MOVING;
+				setState(OP_MOVING);
 				opPosStatus.previous = currPos;
 				opPosStatus.next = newPos;
 				break;
@@ -169,12 +170,12 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 		{
 			case MY_TURN : 
 				repeatMoveCounter = 0;
-				state = MY_ATTACKING;
+				setState(MY_ATTACKING);
 				myPosStatus.previous = currPos;				
 				myPosStatus.next = newPos;
 				break;
 			case OP_TURN: 
-				state = OP_ATTACKING;
+				setState(OP_ATTACKING);
 				opPosStatus.previous = currPos;
 				opPosStatus.next = newPos;
 				break;
@@ -193,7 +194,7 @@ void GameModel::resolveAttack(notstd::rank r)
 		myRank = battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank();
 		if (r == FLAG)
 		{
-			state = GAME_OVER;
+			setState(GAME_OVER);
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
 		}
@@ -212,7 +213,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
 			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr; 
-			state = OP_TURN;
+			setState(OP_TURN);
 		}
 		else if (myRank == r)
 		{
@@ -225,7 +226,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr;
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = nullptr;
-			state = OP_TURN;
+			setState(OP_TURN);
 		}
 		else //perdi
 		{
@@ -257,7 +258,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[opPosStatus.next.x][opPosStatus.next.y];
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
 			battlefield[opPosStatus.previous.x][opPosStatus.previous.y] = nullptr;
-			state = MY_TURN;
+			setState(MY_TURN);
 		}
 		else if (r == myRank) //empate
 		{
@@ -270,7 +271,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
 			battlefield[opPosStatus.previous.x][opPosStatus.previous.y] = nullptr;
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = nullptr;
-			state = MY_TURN;
+			setState(MY_TURN);
 		}
 		else //gane
 		{
@@ -458,7 +459,7 @@ void GameModel::reset()
 	cemetery[12][1] = 40; //total de fichas
 
 						  //inicializacion del state
-	state = PLACING_FICHAS;
+	setState(PLACING_FICHAS);
 	timeRemaining = 120; // El jugador tiene 120 segundos para decidir antes de perder.
 	rescuesRemaining = 2;
 	repeatMoveCounter = 0;

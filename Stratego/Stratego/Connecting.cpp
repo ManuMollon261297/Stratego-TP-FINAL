@@ -26,7 +26,7 @@ NetworkingState* Connecting::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, Men
 	else if (p_nwm->getServer() == SERVER)
 	{
 		MM->setMessage("Connected succesfully as Server");
-		char pckg[1] = {MOVE_HEADER};
+		char pckg[1] = {NAME_HEADER};
 		bool sent = false;
 		sent = p_nwm->sendPackage(pckg, 1);
 		if (!sent)

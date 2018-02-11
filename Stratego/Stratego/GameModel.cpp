@@ -370,6 +370,30 @@ void GameModel::unselectAllExcepetOneRankCemetery(notstd::rank r)
 	NotifyAllObservers();
 }
 
+void GameModel::unselectAllCemetery(void)
+{
+	for (int i = 0; i < TIPOS_DE_RANK; i++)
+	{
+		unselectRankCemetery((notstd::rank)i);
+	}
+	NotifyAllObservers();
+}
+
+void GameModel::unselectAllBattlefield(void)
+{
+	pos p(0,0);
+	for (int i = 0; i < 10; i++)
+	{
+		p.x = i;
+		for (int j = 0; j < 10; j++)
+		{
+			p.y = j;
+			battlefield[p.x][p.y]->unselect();
+		}
+	}
+	NotifyAllObservers();
+}
+
 void GameModel::toggleSelectRankCemetery(notstd::rank r)
 {
 	cemetery[r][2] = (!cemetery[r][2]);

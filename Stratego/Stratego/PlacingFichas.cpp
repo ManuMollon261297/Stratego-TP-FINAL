@@ -125,12 +125,12 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel, MouseStates 
 	if (p2GameModel->isCemeteryEmpty())
 	{
 		Mstate = NONE_SELECTED;
+
 		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
+		p2GameModel->unselectAllBattlefield(); 
+		p2GameModel->unselectAllCemetery();
 		p2GameModel->setMessage("Ready for battle, waiting opponent");
-		if (p2GameModel->getButtonReference(ENDING_PLACING_FICHAS) != nullptr)
-		{
-			p2GameModel->getButtonReference(ENDING_PLACING_FICHAS)->press(); //seleccion del boton
-		}
+		
 		gameState * prox_estado = new finishingPlacing;
 		return prox_estado;
 	}

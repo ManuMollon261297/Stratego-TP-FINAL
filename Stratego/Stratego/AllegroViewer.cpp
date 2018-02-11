@@ -5,6 +5,8 @@
 #define DIF_A_POS_INICIAL ((i != init.x) && (j != init.y))
 #define DIF_A_POS_FINAL ((i != fin.x) && (j != fin.y))
 
+enum whoWon { PLAYER, OPPONENT, TIE };
+
 AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int h, int w) : engine(gm)
 {
 	color = c;
@@ -659,8 +661,6 @@ void AllegroViewer::moveToken(pos init, pos fin)
 	}
 
 }
-
-enum whoWon{PLAYER,OPPONENT,TIE};
 
 void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRank)
 {

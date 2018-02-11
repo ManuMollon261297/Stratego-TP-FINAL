@@ -66,6 +66,8 @@ public:
 	void selectRankCemetery(notstd::rank r);
 	void unselectRankCemetery(notstd::rank r);
 	void unselectAllExcepetOneRankCemetery(notstd::rank r);
+	void unselectAllCemetery(void);
+	void unselectAllBattlefield(void);
 	void toggleSelectRankCemetery(notstd::rank r);
 
 	void randomPos();

@@ -120,7 +120,6 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 	if(Mev.GetEvent() == MOUSE)
 	{
 		MouseEvent& ev = (MouseEvent&)Mev;
-		//cout << "x: " << ev.x << "y: " <<ev.y << endl;
 		MouseInfo info = shape(ev.x, ev.y);
 
 		updateControllerState(p2gameModel->getState());
@@ -444,7 +443,12 @@ void mouseGameController::updateControllerState(int modelState)
 
 void mouseGameController::updateModelState()
 {
-	p2gameModel->setState(((gameState *)estadoModel_)->getState());
+	int m_state = ((gameState *)estadoModel_)->getState();
+	if ((p2gameModel->getState()) != m_state)
+	{
+		p2gameModel->setState(m_state); //CHEQUEAR
+	}
+	
 }
 
 bool mouseGameController::isCemeteryTouched(int x, int y)

@@ -145,7 +145,7 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 			proximoEstado = estadoModel->OnCemetery(info, Mstate, this, p2gameModel);
 			break;
 		case BOTON_PLACE_READY_EV:
-			proximoEstado = estadoModel->OnConfirmPlaces(p2gameModel);
+			proximoEstado = estadoModel->OnConfirmPlaces(p2gameModel, Mstate);
 			break;
 		case BOTON_SOUND_EV:
 			proximoEstado = estadoModel->OnSound(p2gameModel);

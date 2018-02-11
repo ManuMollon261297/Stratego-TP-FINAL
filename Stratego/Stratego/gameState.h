@@ -11,7 +11,7 @@ public:
 	virtual gameState* OnOponent(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
 	virtual gameState* OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
 	virtual gameState* OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseGameController * p2controller, GameModel * p2GameModel);
-	virtual gameState* OnConfirmPlaces(GameModel * p2GameModel);
+	virtual gameState* OnConfirmPlaces(GameModel * p2GameModel, MouseStates & Mstate);
 	virtual gameState* OnPlayAgain(GameModel * p2GameModel);
 	virtual gameState* OnGameOver(GameModel * p2GameModel);
 	virtual gameState* OnSound(GameModel * p2GameModel);

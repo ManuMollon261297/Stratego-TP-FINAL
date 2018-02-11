@@ -288,3 +288,4 @@ __pycache__/
 *.xsd.cs
 Stratego/Stratego/ip.txt
 Stratego/Stratego/ip.txt
+*.txt

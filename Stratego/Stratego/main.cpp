@@ -144,8 +144,8 @@ void DoExit(resources* r)
 
 void InitializeControllers(vector<GenericController*>& v, GameModel* p_gm, NetworkingModel* p_nwm, NetWorkingController* NetCont)
 {
-	v.push_back(NetCont);
 	v.push_back(new mouseGameController(720, 1080, p_gm));
+	v.push_back(NetCont);
 }
 
 void DestroyControllers(vector<GenericController*>& v)

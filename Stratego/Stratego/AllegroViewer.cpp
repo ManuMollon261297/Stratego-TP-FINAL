@@ -482,7 +482,14 @@ void AllegroViewer::drawRemainingTime()
 	int total = engine.getTime();
 	int minutes = total / 60;
 	int seconds = total % 60;
-	al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth-120, -10, 0, "%d:%d",minutes,seconds);
+	if (seconds < 10)
+	{
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 120, -10, 0, "%d:0%d", minutes, seconds);
+	}
+	else
+	{
+		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 120, -10, 0, "%d:%d", minutes, seconds);
+	}
 }
 
 void AllegroViewer::drawSoundB()
@@ -524,6 +531,7 @@ void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
 
 void AllegroViewer::moveToken(pos init, pos fin)
 {
+	drawBackground();
 	al_draw_scaled_bitmap(ALLEGRO_map, 0, 0, al_get_bitmap_width(ALLEGRO_map), al_get_bitmap_height(ALLEGRO_map),
 		fichaWidth, fichaHeight, screenWidth - fichaWidth, screenHeight - fichaHeight, 0);
 	for (int i = 0; i<10; i++)
@@ -568,7 +576,6 @@ void AllegroViewer::moveToken(pos init, pos fin)
 		}
 	}
 	drawCemetery();
-	drawMessage();
 	drawRemainingTime();
 	ALLEGRO_BITMAP *  dAux = al_get_target_bitmap();
 	ALLEGRO_BITMAP *  aux = al_clone_bitmap(dAux);

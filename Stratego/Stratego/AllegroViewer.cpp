@@ -2,8 +2,8 @@
 #include "currStatus.h"
 
 #define CASO_ESPECIAL(r, q) ( ((r == MINER) && (q == BOMB)) || ((r == SPY) && (q == MARSHAL)) )
-#define DIF_A_POS_INICIAL ((i != init.x) && (j != init.y))
-#define DIF_A_POS_FINAL ((i != fin.x) && (j != fin.y))
+#define DIF_A_POS_INICIAL !((i == init.x) && (j == init.y))
+#define DIF_A_POS_FINAL !((i == fin.x) && (j == fin.y))
 
 enum whoWon { PLAYER, OPPONENT, TIE };
 

@@ -70,6 +70,8 @@ public:
 	void unselectAllBattlefield(void);
 	void toggleSelectRankCemetery(notstd::rank r);
 
+	void randomPos();
+
 	void setFichasPlacedTrue();
 	void setFichasPlacedFalse();
 	bool getFichasPlaced();

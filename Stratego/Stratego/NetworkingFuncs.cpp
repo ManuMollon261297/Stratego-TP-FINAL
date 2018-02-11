@@ -167,3 +167,11 @@ unsigned char ConvertRankToPackageFormat(notstd::rank my_rank)
 	}
 	return rank2send;
 }
+
+void InvertPositionToLayout(pos* p)
+{
+	int ori_x= (p->x);
+	int ori_y = (p->y);
+	(p->x) = 9 - ori_x;
+	(p->y) = 9 - ori_y;
+}

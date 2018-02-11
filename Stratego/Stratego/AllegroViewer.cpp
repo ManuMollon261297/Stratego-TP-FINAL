@@ -865,7 +865,10 @@ void AllegroViewer::update()
 		playBattleWarmUp(engine.getRankFromPos(myS.previous));
 		break;
 	case MY_MOVING:
-		moveToken(myS.previous, myS.next);
+		if(engine.getMoveDone() == false)
+		{
+			moveToken(myS.previous, myS.next);
+		}
 		break;
 	case OP_TURN:
 		manageSoundtrack();

@@ -91,6 +91,7 @@ gameState * MyTurn::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameContr
 				p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
 				p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
 				p2GameModel->setMessage("Harmless movement"); 
+				p2GameModel->setMoveDoneTrue(); //Creo que va aca
 				Mstate = NONE_SELECTED;
 				pRet = new MyMoving;
 			}

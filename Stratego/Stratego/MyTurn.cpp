@@ -56,6 +56,7 @@ gameState * MyTurn::OnOponent(MouseInfo & Mev, MouseStates & Mstate, mouseGameCo
 				p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
 				p2GameModel->setMessage("Aggressive movement");
 				Mstate = NONE_SELECTED;
+				p2GameModel->setMoveDoneTrue();
 				pRet = new MyAttacking;
 			}
 			else

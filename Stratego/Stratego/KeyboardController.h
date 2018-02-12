@@ -4,6 +4,7 @@
 #include "MenuModel.h"
 #include "KeyboardEvent.h"
 #include <allegro5\allegro.h>
+#include <fstream>
 
 class KeyboardController : public GenericController
 {

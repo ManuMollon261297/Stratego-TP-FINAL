@@ -1089,6 +1089,12 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 			aWidth = 600;
 			aHeight = 600;
 			break;
+		case notstd::rank::FLAG:
+			x = screenWidth / 14;
+			y = (screenHeight * 5) / 8;
+			aWidth = 200;
+			aHeight = 200;
+			break;
 		}
 	}
 }

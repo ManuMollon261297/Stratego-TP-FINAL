@@ -839,67 +839,70 @@ void AllegroViewer::update()
 	{
 		playBattle(engine.getMyRank(), engine.getOpponentRank());
 	}
-
-	switch (engine.getState())
+	else
 	{
-	case PLACING_FICHAS:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawSoundB();
-		al_flip_display();
-		break;
-	case MY_TURN:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawRemainingTime();
-		drawSoundB();
-		al_flip_display();
-		break;
-	case MY_ATTACKING:
-		playBattleWarmUp(engine.getRankFromPos(myS.previous));
-		break;
-	case MY_MOVING:
-		if(engine.getMoveDone() == false)
+		switch (engine.getState())
 		{
-			moveToken(myS.previous, myS.next);
+		case PLACING_FICHAS:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawSoundB();
+			al_flip_display();
+			break;
+		case MY_TURN:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawRemainingTime();
+			drawSoundB();
+			al_flip_display();
+			break;
+		case MY_ATTACKING:
+				playBattleWarmUp(engine.getRankFromPos(myS.previous));
+			break;
+		case MY_MOVING:
+			if (engine.getMoveDone() == false)
+			{
+				moveToken(myS.previous, myS.next);
+			}
+			break;
+		case OP_TURN:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawRemainingTime();
+			drawSoundB();
+			al_flip_display();
+			break;
+		case OP_ATTACKING:
+			playBattleWarmUp(engine.getRankFromPos(opS.next));
+			break;
+		case OP_MOVING:
+			moveToken(opS.previous, opS.next);
+			break;
+		case GAME_OVER:
+			drawGameOver(engine.didPlayerWin());
+			drawMessage();
+		case ENDING_PLACING_FICHAS:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawRemainingTime();
+			drawSoundB();
+			al_flip_display();
+			break;
 		}
-		break;
-	case OP_TURN:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawRemainingTime();
-		drawSoundB();
-		al_flip_display();
-		break;
-	case OP_ATTACKING:
-		playBattleWarmUp(engine.getRankFromPos(opS.next));
-		break;
-	case OP_MOVING:
-		moveToken(opS.previous, opS.next);
-		break;
-	case GAME_OVER:
-		drawGameOver(engine.didPlayerWin());
-		drawMessage();
-	case ENDING_PLACING_FICHAS:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawRemainingTime();
-		drawSoundB();
-		al_flip_display();
-		break;
 	}
+
 }
 
 int AllegroViewer::getCantSprites(int i)

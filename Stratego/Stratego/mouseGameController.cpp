@@ -76,7 +76,7 @@ bool mouseGameController::isEqualToPrevious(MouseInfo & Mev)
 
 MouseInfo mouseGameController::shape(double x, double y)
 {
-	cout << "x: " << x << "y: " <<endl;
+	cout << "x: " << x << "y: "<< y <<endl;
 	MouseInfo Mev;
 	Mev.sector = getSectorTouched(x, y);
 	switch (Mev.sector)
@@ -107,6 +107,11 @@ MouseInfo mouseGameController::shape(double x, double y)
 		case BOTON_SOUND:
 			Mev.type = BOTON_SOUND_EV;
 			break;
+		case BOTON_GAME_OVER:
+			Mev.type = GAME_OVER_EV;
+			break;
+		case BOTON_PLAY_AGAIN:
+			Mev.type = PLAY_AGAIN_EV;
 		case INVALID_SECTOR:
 			Mev.evPos = { -1, -1 };
 			Mev.type = NO_EVENT;
@@ -215,12 +220,12 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 					sectorRet = BOTON_PLACE_READY;
 				}
 			}
-			if (p2gameModel->getButtonReference(SOUND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
+		}
+		if (p2gameModel->getButtonReference(SOUND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
+		{
+			if (p2gameModel->getButtonReference(SOUND_B)->isTouched(x, y)) //me fijo si se selecciono
 			{
-				if (p2gameModel->getButtonReference(SOUND_B)->isTouched(x, y)) //me fijo si se selecciono
-				{
-					sectorRet = BOTON_SOUND;
-				}
+				sectorRet = BOTON_SOUND;
 			}
 		}
 	}
@@ -490,20 +495,20 @@ void mouseGameController::initButtons(void)
 	gameDataButtonsPos buttonsInfo;
 	buttonsInfo.ll_done.x = 963;
 	buttonsInfo.ll_done.y = 64;
-	buttonsInfo.ll_playAgain.x = 0;
-	buttonsInfo.ll_playAgain.y = 0;
+	buttonsInfo.ll_playAgain.x = 377;
+	buttonsInfo.ll_playAgain.y = 625;
 	buttonsInfo.ll_sound.x = 885;
 	buttonsInfo.ll_sound.y = 64;
-	buttonsInfo.ll_exit.x = 0;
-	buttonsInfo.ll_exit.y = 0;
+	buttonsInfo.ll_exit.x = 377;
+	buttonsInfo.ll_exit.y = 515;
 	buttonsInfo.hr_done.x = 1066;
 	buttonsInfo.hr_done.y = 5;
-	buttonsInfo.hr_playAgain.x = 0;
-	buttonsInfo.hr_playAgain.y = 0;
+	buttonsInfo.hr_playAgain.x = 704;
+	buttonsInfo.hr_playAgain.y = 538;
 	buttonsInfo.hr_sound.x = 950;
 	buttonsInfo.hr_sound.y = 5;
-	buttonsInfo.hr_exit.x = 0;
-	buttonsInfo.hr_exit.y = 0;
+	buttonsInfo.hr_exit.x = 704;
+	buttonsInfo.hr_exit.y = 427;
 
 	button playAgain_b(PLAY_AGAIN_B, buttonsInfo.ll_playAgain, buttonsInfo.hr_playAgain);
 	button exit_b(GAME_OVER_B, buttonsInfo.ll_exit, buttonsInfo.hr_exit);

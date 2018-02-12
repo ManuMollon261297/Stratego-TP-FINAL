@@ -579,7 +579,7 @@ void GameModel::decrementTime()
 void GameModel::restartTimer()
 {
 	timeRemaining = 120;
-	NotifyAllObservers();
+	//NotifyAllObservers();
 }
 
 bool GameModel::getMoveDone()

@@ -203,6 +203,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			won = true;
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
+			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr;
 		}
 		else if ((myRank != MINER)&&(r == BOMB))	//perdi, este caso no aparece en OP_ATTACKING porque las bombas
 		{											//no pueden atacar
@@ -253,6 +254,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			aux = GAME_OVER;
 			delete battlefield[opPosStatus.next.x][opPosStatus.next.y];
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
+			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr;
 		}
 		else if((CASO_ESPECIAL(r, myRank))||((r < myRank)&&(myRank != BOMB))) //entra si gano el opponent
 		{

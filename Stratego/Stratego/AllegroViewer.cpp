@@ -837,7 +837,6 @@ void AllegroViewer::update()
 	
 	if (engine.isAttackResolved())
 	{
-		//playBattle(engine.getRankFromPos(myS.next), engine.getOpponentRank());
 		playBattle(engine.getMyRank(), engine.getOpponentRank());
 	}
 

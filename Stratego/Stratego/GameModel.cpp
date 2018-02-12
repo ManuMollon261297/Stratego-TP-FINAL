@@ -192,13 +192,14 @@ void GameModel::resolveAttack(notstd::rank r)
 {
 	attackResolved = true;
 	opRank = r;
+	int aux = state;
 
 	if (state == MY_ATTACKING)
 	{
 		myRank = battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank();
 		if (r == FLAG)
 		{
-			setState(GAME_OVER);
+			aux = GAME_OVER;
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
 		}
@@ -217,7 +218,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
 			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr; 
-			setState(OP_TURN);
+			aux = OP_TURN;
 		}
 		else if (myRank == r)
 		{
@@ -230,7 +231,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr;
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = nullptr;
-			setState(OP_TURN);
+			aux = OP_TURN;
 		}
 		else //perdi
 		{
@@ -248,7 +249,7 @@ void GameModel::resolveAttack(notstd::rank r)
 		myRank = battlefield[opPosStatus.next.x][opPosStatus.next.y]->getRank();
 		if (myRank == FLAG)
 		{
-			state = GAME_OVER;
+			aux = GAME_OVER;
 			delete battlefield[opPosStatus.next.x][opPosStatus.next.y];
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
 		}
@@ -262,7 +263,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[opPosStatus.next.x][opPosStatus.next.y];
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
 			battlefield[opPosStatus.previous.x][opPosStatus.previous.y] = nullptr;
-			setState(MY_TURN);
+			aux = MY_TURN;
 		}
 		else if (r == myRank) //empate
 		{
@@ -275,7 +276,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			delete battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
 			battlefield[opPosStatus.previous.x][opPosStatus.previous.y] = nullptr;
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = nullptr;
-			setState(MY_TURN);
+			aux = MY_TURN;
 		}
 		else //gane
 		{
@@ -284,6 +285,10 @@ void GameModel::resolveAttack(notstd::rank r)
 		}
 	}
 	NotifyAllObservers();
+	if (aux != state)
+	{
+		setState(aux);
+	}
 }
 
 bool GameModel::isCemeteryEmpty()

@@ -30,6 +30,7 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		{
 			if (Gm->didPlayerWin())
 			{
+				Gm->setMessage("Enemy flag was taken");
 				p_state = new WaitingYouWon;
 			}
 			else
@@ -39,7 +40,7 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 				sent = p_nwm->sendPackage((char*)pckg.c_str(), 1);
 				if (sent)
 				{
-					Gm->setMessage("Defeat! waiting response...");
+					Gm->setMessage("Your flag was taken");
 					p_state = new WaitingOponentDecision;
 				}
 				else //Error de comunicacion.
@@ -51,12 +52,13 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		}
 		else if (!(Gm->verifyMovement()))
 		{
+			Gm->setState(GAME_OVER);
 			pckg.clear();
 			pckg.push_back(YOU_WON_HEADER);
 			sent = p_nwm->sendPackage((char*)pckg.c_str(), 1);
 			if (sent)
 			{
-				Gm->setMessage("Defeat! waiting response...");
+				Gm->setMessage("You had no valid movements");
 				p_state = new WaitingOponentDecision;
 			}
 			else //Error de comunicacion.

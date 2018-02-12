@@ -78,7 +78,7 @@ NetworkingState* WaitingMove::You_won(NetWorkingEvent& ev, NetworkingModel* p_nw
 	Gm->setState(GAME_OVER); 
 	Gm->playerWon();
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
-	Gm->setMessage("Victory! you won");
+	Gm->setMessage("Enemy's time up or couldn't move");
 	NetworkingState * p_state = new WaitingPlayerDecision;
 	return p_state;
 

@@ -43,7 +43,6 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 	}
 	else
 	{
-		Gm->setMessage("Victory! you won");
 		p_state = new WaitingPlayerDecision;
 	}
 	

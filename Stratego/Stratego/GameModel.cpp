@@ -200,6 +200,7 @@ void GameModel::resolveAttack(notstd::rank r)
 		if (r == FLAG)
 		{
 			aux = GAME_OVER;
+			won = true;
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
 		}

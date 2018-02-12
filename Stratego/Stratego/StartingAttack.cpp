@@ -29,20 +29,39 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 		notstd::rank enemy = GetRank(enemy_rank);
 		Gm->resolveAttack(enemy);
 		Gm->setAttackResolvedFalse();
-		if (((Gm->getState()) == GAME_OVER) || (!(Gm->verifyMovement()))) //Se capturo el flag, o no hay pieza mobiles, gana el enemigo.
+		if ((Gm->getState()) == GAME_OVER)
+		{
+			if (!(Gm->didPlayerWin())) //Si gano el otro mando el header.
+			{
+				char pckg[1];
+				pckg[0] = (YOU_WON_HEADER);
+				sent = p_nwm->sendPackage(pckg, 1);
+				p_state = new WaitingOponentDecision;
+			}
+			else
+			{
+				char pckg[2];
+				pckg[0] = ATTACK_HEADER;
+				notstd::rank my_rank = Gm->getMyRank();
+				unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
+				pckg[1] = rank2send;
+				sent = p_nwm->sendPackage(pckg, 2);
+				p_state = new WaitingMove; //Tendria que ser Un estado que se llama WaitingYouWon.
+			}
+			
+		}
+		else if (!(Gm->verifyMovement())) //No quedan fichas moviles
 		{
 			char pckg[1];
-			pckg[0]= (YOU_WON_HEADER);
-			Gm->setState(GAME_OVER);
-			Gm->setMessage("Defeat! waiting response...");
+			pckg[0] = (YOU_WON_HEADER);
 			sent = p_nwm->sendPackage(pckg, 1);
 			p_state = new WaitingOponentDecision;
 		}
+		
 		else //si no gano el otro, mando un paquete de attack con mi rank para que pueda resolver el ataque.
 		{
 			char pckg[2];
 			pckg[0] = ATTACK_HEADER;
-			//currStatus enemy_status = Gm->GetopPosStatus();
 			notstd::rank my_rank = Gm->getMyRank();
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 			pckg[1] = rank2send;

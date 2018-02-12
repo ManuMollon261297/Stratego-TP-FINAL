@@ -76,6 +76,7 @@ int main()
 	DestroyControllers(v_contr);
 
 	DoExit(&res);
+
 	return 0;
 
 }

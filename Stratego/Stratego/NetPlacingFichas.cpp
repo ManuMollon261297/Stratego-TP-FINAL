@@ -72,6 +72,7 @@ NetworkingState* NetPlacingFichas::I_am_ready(NetWorkingEvent& ev, NetworkingMod
 
 		Gm->setState(MY_TURN); //Le indico al jugador que haga su jugada.
 		Gm->restartTimer();
+		Gm->setMessage("Please make a move");
 		p_state = new WaitingMove; 
 	}
 	else //error de comunicacion.

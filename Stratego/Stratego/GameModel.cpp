@@ -145,12 +145,9 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 		switch (state)
 		{
 			case MY_TURN: 
-				if (!checkMoveRepetead(currPos, newPos))
-				{
-					setState(MY_MOVING); //esta linea verifica 
-					myPosStatus.previous = currPos;								//que el movimiento no se haya repetido excesivamente
-					myPosStatus.next = newPos;
-				}
+				setState(MY_MOVING); //esta linea verifica 
+				myPosStatus.previous = currPos;								//que el movimiento no se haya repetido excesivamente
+				myPosStatus.next = newPos;
 				break;												
 			case OP_TURN: 
 				setState(OP_MOVING);
@@ -158,7 +155,7 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 				opPosStatus.next = newPos;
 				break;
 		}
-		if (state != MY_TURN)
+		if (state != MY_TURN) //validacion extra
 		{
 			battlefield[newPos.x][newPos.y] = battlefield[currPos.x][currPos.y];
 			battlefield[currPos.x][currPos.y] = nullptr;
@@ -737,7 +734,7 @@ bool GameModel::checkMoveRepetead(pos prev, pos next)
 {
 	if ((prev == myPosStatus.next)&&(next == myPosStatus.previous))
 	{
-		if (repeatMoveCounter == 2)
+		if (repeatMoveCounter == MAX_CANT_MOVEMENTS_REPETEAD)
 		{
 			return true;
 		} 

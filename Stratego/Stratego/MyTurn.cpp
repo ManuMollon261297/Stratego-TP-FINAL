@@ -89,10 +89,19 @@ gameState * MyTurn::OnLand(MouseInfo & Mev, MouseStates & Mstate, mouseGameContr
 		{
 			if (p2controller->validObstacles(Mev.evPos))
 			{
-				p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
-				p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
-				Mstate = NONE_SELECTED;
-				pRet = new MyMoving;
+				if (!(p2GameModel->checkMoveRepetead(p2controller->getPreviousEvent().evPos, Mev.evPos))) //valida si el movimiento no se repitio mas veces de las permitidas
+				{
+					p2GameModel->unselectFicha(p2controller->getPreviousEvent().evPos);
+					p2GameModel->move(p2controller->getPreviousEvent().evPos, Mev.evPos); //aca podria llegarse a cambiar el gameState a MY_MOVING
+					Mstate = NONE_SELECTED;
+					pRet = new MyMoving;
+				}
+				else
+				{
+					p2GameModel->setMessage("Can not do that, movement repetead excesivelly...");
+					//no se cambia estado, ni de mouse, ni de game.
+				}
+				
 			}
 			else
 			{

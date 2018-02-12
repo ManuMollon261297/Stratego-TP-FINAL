@@ -12,6 +12,7 @@
 #define FILAS			10
 #define COLUMNAS		10
 #define TIPOS_DE_RANK	12
+#define MAX_CANT_MOVEMENTS_REPETEAD 3
 
 
 enum states {
@@ -69,6 +70,8 @@ public:
 	void unselectAllCemetery(void);
 	void unselectAllBattlefield(void);
 	void toggleSelectRankCemetery(notstd::rank r);
+
+	bool checkMoveRepetead(pos prev, pos next);
 
 	void randomPos();
 
@@ -141,7 +144,7 @@ private:
 	std::string message;
 	std::string opponents_name;
 
-	bool checkMoveRepetead(pos prev, pos next);
+	
 	bool clearSurroundings(int i, int j);
 
 };

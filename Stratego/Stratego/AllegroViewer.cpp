@@ -893,6 +893,14 @@ void AllegroViewer::update()
 			drawGameOver(engine.didPlayerWin());
 			drawMessage();
 			break;
+		case PLAY_AGAIN_SELECTED:
+			drawGameOver(engine.didPlayerWin());
+			drawMessage();
+			break;
+		case GAME_OVER_SELECTED:
+			drawGameOver(engine.didPlayerWin());
+			drawMessage();
+			break;
 		case ENDING_PLACING_FICHAS:
 			manageSoundtrack();
 			drawBackground();
@@ -1092,7 +1100,7 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 			aHeight = 600;
 			break;
 		case notstd::rank::FLAG:
-			x = screenWidth / 10;
+			x = screenWidth / 9;
 			y = (screenHeight * 5) / 8;
 			aWidth = 200;
 			aHeight = 200;

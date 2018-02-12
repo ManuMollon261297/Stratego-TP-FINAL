@@ -55,7 +55,7 @@ public:
 	bool isSelectedFromPos(pos currpos);
 	bool isCemeteryEmpty();
 	bool isRankCemeterySelected(notstd::rank r);
-	bool isAttackResolved(); 
+	bool isAttackResolved()const; 
 	//ficha
 	void swap(pos init, pos final); //asume cambio de coordenadas validas, previamente chequeadas
 	bool setFicha(notstd::rank r, pos x);	//setea si es valida, una ficha en el tablero, devuelve false si no fue posible
@@ -99,7 +99,8 @@ public:
 	currStatus GetopPosStatus()const;
 	bool GetExit()const;
 	bool isMuteOn();
-	notstd::rank getOpponentRank();
+	notstd::rank getOpponentRank()const;
+	notstd::rank getMyRank()const;
 
 	//winner
 	void playerWon();
@@ -113,6 +114,7 @@ public:
 	void printBattlefield();
 private:
 	notstd::rank opRank;
+	notstd::rank myRank;
 	bool gameOver;
 	bool Exit; //Se pone en true cuando sucede alguna situacion que genera el cierre del programa.
 	bool mute;

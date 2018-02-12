@@ -191,7 +191,8 @@ bool GameModel::move(pos currPos, pos newPos)	// asume que en currpos hay una fi
 void GameModel::resolveAttack(notstd::rank r)
 {
 	attackResolved = true;
-	notstd::rank myRank;
+	opRank = r;
+
 	if (state == MY_ATTACKING)
 	{
 		myRank = battlefield[myPosStatus.previous.x][myPosStatus.previous.y]->getRank();
@@ -309,7 +310,7 @@ bool GameModel::isRankCemeterySelected(notstd::rank r)
 	}
 }
 
-bool GameModel::isAttackResolved()
+bool GameModel::isAttackResolved()const
 {
 	return attackResolved;
 }
@@ -328,6 +329,11 @@ bool GameModel::setFicha(notstd::rank r, pos currpos)
 	{
 		return false;
 	}
+}
+
+notstd::rank GameModel::getMyRank()const
+{
+	return myRank;
 }
 
 void GameModel::selectFicha(pos p)
@@ -694,7 +700,7 @@ bool GameModel::isMuteOn()
 	return mute;
 }
 
-notstd::rank GameModel::getOpponentRank()
+notstd::rank GameModel::getOpponentRank()const
 {
 	return opRank;
 }

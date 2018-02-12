@@ -47,6 +47,7 @@ NetworkingState* WaitingPlayerDecision::SelectedPlayAgain(NetworkingModel* NWM, 
 		p_state = new NetPlacingFichas;
 		Gm->setState(PLACING_FICHAS);
 		NWM->setServer(SERVER);
+		Gm->setMessage("Place your tokens");
 	}
 
 	return p_state;

@@ -58,6 +58,7 @@ private:
 	unsigned int screenHeight;
 	unsigned int fichaHeight;
 	unsigned int fichaWidth;
+	int prevState;
 	//direcciones de imagenes
 	std::vector<std::string> BlueFichaImagesDir;//cada dir es una imagen de las fichas azules
 	std::vector<std::string> RedFichaImagesDir;	//cada dir es una imagen de las fichas rojas

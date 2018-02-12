@@ -192,6 +192,7 @@
     <ClInclude Include="WaitingPlayerDecision.h" />
     <ClInclude Include="WaitingStartResponse.h" />
     <ClInclude Include="WaitingWhoStart.h" />
+    <ClInclude Include="WaitingYouWon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AllegroFuncs.cpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="WaitingPlayerDecision.cpp" />
     <ClCompile Include="WaitingStartResponse.cpp" />
     <ClCompile Include="WaitingWhoStart.cpp" />
+    <ClCompile Include="WaitingYouWon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

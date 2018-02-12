@@ -8,6 +8,7 @@
 #include "WaitingPlayerDecision.h"
 #include "WaitingOponentDecision.h"
 #include "WaitingMove.h"
+#include "WaitingYouWon.h"
 #include "MenuModel.h"
 #include "GameModel.h"
 #include "gameState.h"

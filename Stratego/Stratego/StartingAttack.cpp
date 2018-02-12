@@ -46,7 +46,7 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 				unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 				pckg[1] = rank2send;
 				sent = p_nwm->sendPackage(pckg, 2);
-				p_state = new WaitingMove; //Tendria que ser Un estado que se llama WaitingYouWon.
+				p_state = new WaitingYouWon; //Tendria que ser Un estado que se llama WaitingYouWon.
 			}
 			
 		}

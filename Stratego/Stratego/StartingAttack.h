@@ -9,6 +9,7 @@
 #include "Quiting.h"
 #include "WaitingMove.h"
 #include "WaitingOponentDecision.h"
+#include "WaitingYouWon.h"
 
 class StartingAttack : public NetworkingState
 {

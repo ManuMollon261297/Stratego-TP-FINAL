@@ -444,7 +444,7 @@ void AllegroViewer::highlightCemetery(notstd::rank r)
 
 void AllegroViewer::drawMessage()
 {
-	if (engine.getState() == GAME_OVER)
+	if ((engine.getState() == GAME_OVER)|| (engine.getState() == PLAY_AGAIN_SELECTED)|| (engine.getState() == GAME_OVER_SELECTED))
 	{
 		al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(255, 255, 255), screenWidth / 2, 5, 5, engine.getMessage().c_str());
 	}

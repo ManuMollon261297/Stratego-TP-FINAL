@@ -200,8 +200,10 @@ void GameModel::resolveAttack(notstd::rank r)
 		if (r == FLAG)
 		{
 			aux = GAME_OVER;
+			won = true;
 			delete battlefield[myPosStatus.next.x][myPosStatus.next.y];
 			battlefield[myPosStatus.next.x][myPosStatus.next.y] = battlefield[myPosStatus.previous.x][myPosStatus.previous.y];
+			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr;
 		}
 		else if ((myRank != MINER)&&(r == BOMB))	//perdi, este caso no aparece en OP_ATTACKING porque las bombas
 		{											//no pueden atacar
@@ -252,6 +254,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			aux = GAME_OVER;
 			delete battlefield[opPosStatus.next.x][opPosStatus.next.y];
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
+			battlefield[opPosStatus.previous.x][opPosStatus.previous.y] = nullptr;
 		}
 		else if((CASO_ESPECIAL(r, myRank))||((r < myRank)&&(myRank != BOMB))) //entra si gano el opponent
 		{
@@ -787,13 +790,13 @@ void GameModel::randomPos(void)
 	srand(time(NULL));
 	
 	int counter = 0;
-	int max_counter = cemetery[TIPOS_DE_RANK][1];		//veo cuantas fichas debo colocar
-
 	pos randPos;
-	notstd::rank randomToken;
-	
-	if(max_counter > 0)
+		
+	if(!isCemeteryEmpty())
 	{
+		int max_counter = cemetery[TIPOS_DE_RANK][1];		//veo cuantas fichas debo colocar
+		notstd::rank randomToken;
+
 		while (counter < max_counter)
 		{
 			randomToken = (notstd::rank) (rand() % TIPOS_DE_RANK);			//tomo un rank al azar
@@ -809,11 +812,10 @@ void GameModel::randomPos(void)
 			}
 		}
 	}
-	/*
 	else
 	{
 		pos randPosDestiny;
-		int max_moves = 65 + (rand() % 36)	//tomo un numero al azar de cambios a realizar entre 65 y 100
+		int max_moves = 65 + (rand() % 36);	//tomo un numero al azar de cambios a realizar entre 65 y 100
 
 		for (counter = 0; counter < max_moves; counter++)
 		{
@@ -826,5 +828,4 @@ void GameModel::randomPos(void)
 			swap(randPos, randPosDestiny);
 		}
 	}
-	*/
 }

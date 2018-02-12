@@ -97,7 +97,7 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			char caux = '0' + i;
 			for (int j = 0; j<jmax; j++)
 			{
-				char caux2 = '0' + j;
+				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/BC/";
 				aux.push_back(caux);
 				aux += '/';
@@ -127,7 +127,7 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			caux2 = '0' + (i % 10);
 			for (int j = 0; j<jmax; j++)
 			{
-				char caux2 = '0' + j;
+				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/BC/";
 				aux.push_back(caux1);
 				aux.push_back(caux2);
@@ -161,7 +161,7 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			char caux = '0' + i;
 			for (int j = 0; j<jmax; j++)
 			{
-				char caux2 = '0' + j;
+				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/RC/";
 				aux.push_back(caux);
 				aux += '/';
@@ -191,7 +191,7 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			caux2 = '0' + (i % 10);
 			for (int j = 0; j<jmax; j++)
 			{
-				char caux2 = '0' + j;
+				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/RC/";
 				aux.push_back(caux1);
 				aux.push_back(caux2);
@@ -839,67 +839,71 @@ void AllegroViewer::update()
 	{
 		playBattle(engine.getMyRank(), engine.getOpponentRank());
 	}
-
-	switch (engine.getState())
+	else
 	{
-	case PLACING_FICHAS:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawSoundB();
-		al_flip_display();
-		break;
-	case MY_TURN:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawRemainingTime();
-		drawSoundB();
-		al_flip_display();
-		break;
-	case MY_ATTACKING:
-		playBattleWarmUp(engine.getRankFromPos(myS.previous));
-		break;
-	case MY_MOVING:
-		if(engine.getMoveDone() == false)
+		switch (engine.getState())
 		{
-			moveToken(myS.previous, myS.next);
+		case PLACING_FICHAS:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawSoundB();
+			al_flip_display();
+			break;
+		case MY_TURN:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawRemainingTime();
+			drawSoundB();
+			al_flip_display();
+			break;
+		case MY_ATTACKING:
+				playBattleWarmUp(engine.getRankFromPos(myS.previous));
+			break;
+		case MY_MOVING:
+			if (engine.getMoveDone() == false)
+			{
+				moveToken(myS.previous, myS.next);
+			}
+			break;
+		case OP_TURN:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawRemainingTime();
+			drawSoundB();
+			al_flip_display();
+			break;
+		case OP_ATTACKING:
+			playBattleWarmUp(engine.getRankFromPos(opS.next));
+			break;
+		case OP_MOVING:
+			moveToken(opS.previous, opS.next);
+			break;
+		case GAME_OVER:
+			drawGameOver(engine.didPlayerWin());
+			drawMessage();
+			break;
+		case ENDING_PLACING_FICHAS:
+			manageSoundtrack();
+			drawBackground();
+			drawBattlefield();
+			drawCemetery();
+			drawMessage();
+			drawRemainingTime();
+			drawSoundB();
+			al_flip_display();
+			break;
 		}
-		break;
-	case OP_TURN:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawRemainingTime();
-		drawSoundB();
-		al_flip_display();
-		break;
-	case OP_ATTACKING:
-		playBattleWarmUp(engine.getRankFromPos(opS.next));
-		break;
-	case OP_MOVING:
-		moveToken(opS.previous, opS.next);
-		break;
-	case GAME_OVER:
-		drawGameOver(engine.didPlayerWin());
-		drawMessage();
-	case ENDING_PLACING_FICHAS:
-		manageSoundtrack();
-		drawBackground();
-		drawBattlefield();
-		drawCemetery();
-		drawMessage();
-		drawRemainingTime();
-		drawSoundB();
-		al_flip_display();
-		break;
 	}
+
 }
 
 int AllegroViewer::getCantSprites(int i)
@@ -972,9 +976,9 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 			aHeight = 200;
 			break;
 		case notstd::rank::FLAG:
-			x = screenWidth / 5;
+			x = 4*screenWidth / 7;
 			y = (screenHeight * 5) / 8;
-			aWidth = 500;
+			aWidth = 200;
 			aHeight = 200;
 			break;
 		case notstd::rank::GENERAL:
@@ -1038,12 +1042,6 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 			aHeight = 300;
 			break;
 		case notstd::rank::CORONEL:
-			x = screenWidth / 5;
-			y = (screenHeight * 5) / 8;
-			aWidth = 500;
-			aHeight = 200;
-			break;
-		case notstd::rank::FLAG:
 			x = screenWidth / 5;
 			y = (screenHeight * 5) / 8;
 			aWidth = 500;

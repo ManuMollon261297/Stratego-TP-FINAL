@@ -14,4 +14,6 @@ public:
 	WaitingOponentDecision();
 	virtual NetworkingState* Play_again(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Game_over(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* SelectedGameOver(NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm);
 };

@@ -12,7 +12,7 @@ WaitingAttack::WaitingAttack()
 NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	bool sent = false;
-	NetworkingState* p_state;
+	NetworkingState* p_state = nullptr;
 	std::string pckg = ev.GetRecieved();
 	unsigned char enemy_rank = pckg[1];
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
@@ -26,10 +26,33 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 		notstd::rank rank_recieved = GetRank(enemy_rank);
 		Gm->resolveAttack(rank_recieved);
 		Gm->setAttackResolvedFalse();
-		if ( ((Gm->getState()) == GAME_OVER) || (!(Gm->verifyMovement())) ) //Se capturo el flag, o no hay pieza mobiles, gana el enemigo.
+		if (Gm->getState() == GAME_OVER)
+		{
+			if (Gm->didPlayerWin())
+			{
+				p_state = new WaitingYouWon;
+			}
+			else
+			{
+				pckg.clear();
+				pckg.push_back(YOU_WON_HEADER);
+				sent = p_nwm->sendPackage((char*)pckg.c_str(), 1);
+				if (sent)
+				{
+					Gm->setMessage("Defeat! waiting response...");
+					p_state = new WaitingOponentDecision;
+				}
+				else //Error de comunicacion.
+				{
+					ErrorRoutine(p_nwm, Gm);
+					p_state = new Quiting;
+				}
+			}
+		}
+		else if (!(Gm->verifyMovement()))
 		{
 			pckg.clear();
-			pckg[0] = YOU_WON_HEADER;
+			pckg.push_back(YOU_WON_HEADER);
 			sent = p_nwm->sendPackage((char*)pckg.c_str(), 1);
 			if (sent)
 			{
@@ -41,7 +64,6 @@ NetworkingState* WaitingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_n
 				ErrorRoutine(p_nwm, Gm);
 				p_state = new Quiting;
 			}
-			
 		}
 		else
 		{

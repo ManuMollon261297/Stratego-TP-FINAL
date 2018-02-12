@@ -113,6 +113,7 @@ MouseInfo mouseGameController::shape(double x, double y)
 			break;
 		case BOTON_PLAY_AGAIN:
 			Mev.type = PLAY_AGAIN_EV;
+			break;
 		case INVALID_SECTOR:
 			Mev.evPos = { -1, -1 };
 			Mev.type = NO_EVENT;
@@ -499,7 +500,7 @@ void mouseGameController::initButtons(void)
 	gameDataButtonsPos buttonsInfo;
 	buttonsInfo.ll_done.x = 963;
 	buttonsInfo.ll_done.y = 64;
-	buttonsInfo.ll_playAgain.x = 377;
+	buttonsInfo.ll_playAgain.x = 380;
 	buttonsInfo.ll_playAgain.y = 625;
 	buttonsInfo.ll_sound.x = 885;
 	buttonsInfo.ll_sound.y = 64;

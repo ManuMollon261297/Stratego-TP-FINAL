@@ -456,8 +456,6 @@ void AllegroViewer::drawMessage()
 
 void AllegroViewer::drawGameOver(bool playerWon)
 {
-	fade_out(1, screenWidth, screenHeight);
-	fade_in(ALLEGRO_GameOver[0], 1, screenWidth, screenHeight);
 	if (playerWon)
 	{
 		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth/3, screenHeight /6 , 0, "You Won!");
@@ -834,7 +832,6 @@ void AllegroViewer::update()
 {
 	currStatus myS = engine.GetmyPosStatus();
 	currStatus opS = engine.GetopPosStatus();
-	
 	if (engine.isAttackResolved())
 	{
 		playBattle(engine.getMyRank(), engine.getOpponentRank());
@@ -888,6 +885,11 @@ void AllegroViewer::update()
 			moveToken(opS.previous, opS.next);
 			break;
 		case GAME_OVER:
+			if (engine.getState() != prevState)
+			{
+				fade_out(1, screenWidth, screenHeight);
+				fade_in(ALLEGRO_GameOver[0], 1, screenWidth, screenHeight);
+			}
 			drawGameOver(engine.didPlayerWin());
 			drawMessage();
 			break;
@@ -903,7 +905,7 @@ void AllegroViewer::update()
 			break;
 		}
 	}
-
+	prevState = engine.getState();
 }
 
 int AllegroViewer::getCantSprites(int i)

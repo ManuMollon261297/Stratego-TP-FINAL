@@ -525,7 +525,7 @@ void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
 	}
 	al_flip_display();
 	al_play_sample(wavIntro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-	al_rest(1.5);
+	al_rest(0.25);
 }
 
 void AllegroViewer::moveToken(pos init, pos fin)
@@ -1032,10 +1032,16 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 			aHeight = 200;
 			break;
 		case notstd::rank::SERGEANT:
-			x = screenWidth*3 / 9;
+			x = screenWidth*4.5 / 9;
 			y = (screenHeight * 2) / 8;
-			aWidth = 600;
+			aWidth = 650;
 			aHeight = 600;
+			break;
+		case notstd::rank::SPY:
+			x = screenWidth * 4.5 / 9;
+			y = (screenHeight * 5) / 8;
+			aWidth = 280;
+			aHeight = 200;
 			break;
 		}
 	}
@@ -1100,13 +1106,19 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 		case notstd::rank::SERGEANT:
 			x = screenWidth / 9;
 			y = (screenHeight * 2) / 8;
-			aWidth = 600;
+			aWidth = 650;
 			aHeight = 600;
 			break;
 		case notstd::rank::FLAG:
 			x = screenWidth / 9;
 			y = (screenHeight * 5) / 8;
 			aWidth = 200;
+			aHeight = 200;
+			break;
+		case notstd::rank::SPY:
+			x = screenWidth / 5;
+			y = (screenHeight * 5) / 8;
+			aWidth = 280;
 			aHeight = 200;
 			break;
 		}

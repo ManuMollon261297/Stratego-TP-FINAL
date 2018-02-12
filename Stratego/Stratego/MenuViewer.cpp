@@ -32,7 +32,7 @@ MenuViewer::MenuViewer(int w, int h,MenuModel & p2e, ALLEGRO_DISPLAY * disp) : e
 	messagettfDir = "../Allegro Data/Eutemia-I Italic.ttf";
 	connectingttfDir = "../Allegro Data/connectingFont.ttf";
 	//sounds
-	soundtrackDir = "../Allegro Data/AUDIO/soundtrack.wav";
+	soundtrackDir = "../Allegro Data/AUDIO/soundtrackMainMenu.wav";
 
 	ALLEGRO_menuBackground = nullptr;
 	ALLEGRO_mute = nullptr;

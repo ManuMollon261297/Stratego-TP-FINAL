@@ -737,7 +737,7 @@ bool GameModel::checkMoveRepetead(pos prev, pos next)
 {
 	if ((prev == myPosStatus.next)&&(next == myPosStatus.previous))
 	{
-		if (repeatMoveCounter == 1)
+		if (repeatMoveCounter == 2)
 		{
 			return true;
 		} 

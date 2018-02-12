@@ -890,6 +890,7 @@ void AllegroViewer::update()
 		case GAME_OVER:
 			drawGameOver(engine.didPlayerWin());
 			drawMessage();
+			break;
 		case ENDING_PLACING_FICHAS:
 			manageSoundtrack();
 			drawBackground();

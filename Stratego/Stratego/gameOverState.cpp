@@ -16,7 +16,7 @@ gameState * gameOverState::OnPlayAgain(GameModel * p2GameModel)
 gameState * gameOverState::OnGameOver(GameModel * p2GameModel)
 {
 	gameState * proxEstado = new gameOverSelected;
-	return nullptr;
+	return proxEstado;
 }
 
 

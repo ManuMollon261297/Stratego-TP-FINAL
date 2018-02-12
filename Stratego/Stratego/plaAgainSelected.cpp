@@ -4,6 +4,7 @@
 
 plaAgainSelected::plaAgainSelected()
 {
+	state = PLAY_AGAIN_SELECTED
 }
 
 

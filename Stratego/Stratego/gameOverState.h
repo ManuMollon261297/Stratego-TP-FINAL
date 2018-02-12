@@ -1,5 +1,7 @@
 #pragma once
 #include "GameState.h"
+#include "plaAgainSelected.h"
+#include "gameOverSelected.h"
 class gameOverState: public gameState
 {
 public:

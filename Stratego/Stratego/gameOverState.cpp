@@ -9,12 +9,13 @@ gameOverState::gameOverState()
 
 gameState * gameOverState::OnPlayAgain(GameModel * p2GameModel)
 {
-
-	return nullptr;
+	gameState * proxEstado = new plaAgainSelected;
+	return proxEstado;
 }
 
 gameState * gameOverState::OnGameOver(GameModel * p2GameModel)
 {
+	gameState * proxEstado = new gameOverSelected;
 	return nullptr;
 }
 

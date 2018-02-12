@@ -12,6 +12,7 @@
 #include "gameOverState.h"
 #include "PlaAgainSelected.h"
 #include "gameOverSelected.h"
+#include "plaAgainSelected.h"
 
 
 mouseGameController::mouseGameController(int h, int w, GameModel * p2gameModel_)
@@ -454,7 +455,7 @@ void mouseGameController::updateModelState()
 	int m_state = ((gameState *)estadoModel_)->getState();
 	if ((p2gameModel->getState()) != m_state)
 	{
-		p2gameModel->setState(m_state); //CHEQUEAR
+		p2gameModel->setState(m_state);
 	}
 	
 }

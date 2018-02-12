@@ -4,6 +4,7 @@
 
 gameOverSelected::gameOverSelected()
 {
+	state = GAME_OVER_SELECTED;
 }
 
 

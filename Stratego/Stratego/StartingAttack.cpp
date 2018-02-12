@@ -42,8 +42,8 @@ NetworkingState* StartingAttack::Attack(NetWorkingEvent& ev, NetworkingModel* p_
 		{
 			char pckg[2];
 			pckg[0] = ATTACK_HEADER;
-			currStatus enemy_status = Gm->GetopPosStatus();
-			notstd::rank my_rank = (Gm->getRankFromPos(enemy_status.next));
+			//currStatus enemy_status = Gm->GetopPosStatus();
+			notstd::rank my_rank = Gm->getMyRank();
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank);
 			pckg[1] = rank2send;
 			Gm->setState(OP_TURN);

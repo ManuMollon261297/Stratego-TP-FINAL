@@ -570,7 +570,10 @@ int GameModel::getTime()
 
 void GameModel::decrementTime()
 {
-	timeRemaining--;
+	if (timeRemaining > 0)
+	{
+		timeRemaining--;
+	}
 	NotifyAllObservers();
 }
 

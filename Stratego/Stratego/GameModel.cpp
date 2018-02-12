@@ -254,7 +254,7 @@ void GameModel::resolveAttack(notstd::rank r)
 			aux = GAME_OVER;
 			delete battlefield[opPosStatus.next.x][opPosStatus.next.y];
 			battlefield[opPosStatus.next.x][opPosStatus.next.y] = battlefield[opPosStatus.previous.x][opPosStatus.previous.y];
-			battlefield[myPosStatus.previous.x][myPosStatus.previous.y] = nullptr;
+			battlefield[opPosStatus.previous.x][opPosStatus.previous.y] = nullptr;
 		}
 		else if((CASO_ESPECIAL(r, myRank))||((r < myRank)&&(myRank != BOMB))) //entra si gano el opponent
 		{

@@ -161,6 +161,9 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 		case GAME_OVER_EV:
 			proximoEstado = estadoModel->OnGameOver(p2gameModel);
 			break;
+		case PLAY_AGAIN_EV:
+			proximoEstado = estadoModel->OnPlayAgain(p2gameModel);
+			break;
 		}
 
 		if (proximoEstado != nullptr) //hubo cambio de estado

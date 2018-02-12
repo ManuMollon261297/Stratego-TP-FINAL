@@ -132,12 +132,19 @@ NetworkingState* WaitingMove::AttackDone(NetworkingModel* p_nwm, GameModel * Gm)
 	{
 		Gm->setMoveDoneFalse();
 		Gm->restartTimer();
+		pos origin = Gm->GetmyPosStatus().previous;
+		pos des = Gm->GetmyPosStatus().next;
+		if (!(Gm->getRed())) //Si soy azul invierto las posiciones
+		{
+			InvertPositionToLayout(&origin);
+			InvertPositionToLayout(&des);
+		}
 		char move_pckg[5];
 		move_pckg[0] = MOVE_HEADER;
-		char or_col = 'A' + (char)((Gm->GetmyPosStatus()).previous.y);
-		char or_row = 1 + ((Gm->GetmyPosStatus()).previous.x);
-		char des_col = 'A' + (char)((Gm->GetmyPosStatus()).next.y);
-		char des_row = 1 + ((Gm->GetmyPosStatus()).next.x);
+		char or_col = 'A' + (char)(origin.y);
+		char or_row = 1 + (origin.x);
+		char des_col = 'A' + (char)(des.y);
+		char des_row = 1 + (des.x);
 		move_pckg[1] = or_col;
 		move_pckg[2] = or_row;
 		move_pckg[3] = des_col;

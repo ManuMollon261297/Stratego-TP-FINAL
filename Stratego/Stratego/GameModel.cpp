@@ -422,13 +422,13 @@ void GameModel::toggleSelectRankCemetery(notstd::rank r)
 void GameModel::setFichasPlacedTrue()
 {
 	fichasPlaced = true;
-	NotifyAllObservers();
+	//NotifyAllObservers();
 }
 
 void GameModel::setFichasPlacedFalse()
 {
 	fichasPlaced = false;
-	NotifyAllObservers();
+	//NotifyAllObservers();
 }
 
 bool GameModel::getFichasPlaced()
@@ -520,7 +520,6 @@ button * GameModel::getButtonReference(int index)
 			return &botones[i];
 		}
 	}
-	return nullptr;
 	return nullptr;
 }
 
@@ -619,7 +618,6 @@ currStatus GameModel::GetopPosStatus() const
 void GameModel::playerWon()
 {
 	won = true;
-	setMessage("Victoria! Has ganado.");
 	NotifyAllObservers();
 }
 

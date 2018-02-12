@@ -122,7 +122,7 @@ gameState * PlacingFichas::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseG
 
 gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel, MouseStates & Mstate)
 {
-	if (p2GameModel->isCemeteryEmpty() && (!p2GameModel->verifyMovement()))
+	if (p2GameModel->isCemeteryEmpty() && (p2GameModel->verifyMovement()))
 	{
 		Mstate = NONE_SELECTED;
 

@@ -456,6 +456,7 @@ void AllegroViewer::drawMessage()
 
 void AllegroViewer::drawGameOver(bool playerWon)
 {
+	al_draw_scaled_bitmap(ALLEGRO_GameOver[0], 0, 0, al_get_bitmap_width(ALLEGRO_GameOver[0]), al_get_bitmap_height(ALLEGRO_GameOver[0]), 0, 0, screenWidth, screenHeight, 0);
 	if (playerWon)
 	{
 		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(255, 255, 255), screenWidth/3, screenHeight /6 , 0, "You Won!");
@@ -892,14 +893,17 @@ void AllegroViewer::update()
 			}
 			drawGameOver(engine.didPlayerWin());
 			drawMessage();
+			al_flip_display();
 			break;
 		case PLAY_AGAIN_SELECTED:
 			drawGameOver(engine.didPlayerWin());
 			drawMessage();
+			al_flip_display();
 			break;
 		case GAME_OVER_SELECTED:
 			drawGameOver(engine.didPlayerWin());
 			drawMessage();
+			al_flip_display();
 			break;
 		case ENDING_PLACING_FICHAS:
 			manageSoundtrack();

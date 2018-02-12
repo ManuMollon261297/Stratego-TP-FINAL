@@ -47,8 +47,8 @@ NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, 
 			notstd::rank my_rank = Gm->getRankFromPos(destination);
 			unsigned char rank2send = ConvertRankToPackageFormat(my_rank); //rank en el formato valido para el paquete.
 			pckg.clear();
-			pckg[0] = ATTACK_HEADER;
-			pckg[1] = rank2send;
+			pckg.push_back(ATTACK_HEADER);
+			pckg.push_back(rank2send);
 			sent = p_nwm->sendPackage((char*)pckg.c_str(), 2); //Mando el paquete de attack.
 			if (sent)
 			{

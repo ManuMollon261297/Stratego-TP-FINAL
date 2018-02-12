@@ -776,25 +776,46 @@ void GameModel::toggleMute(void)
 void GameModel::randomPos(void)
 {
 	srand(time(NULL));
-
-	notstd::rank randomToken;
-	pos randPos;
-
+	
 	int counter = 0;
-	int max_counter = cemetery[TIPOS_DE_RANK][1];
+	int max_counter = cemetery[TIPOS_DE_RANK][1];		//veo cuantas fichas debo colocar
 
-	while (counter < max_counter)
+	pos randPos;
+	notstd::rank randomToken;
+	
+	if(max_counter > 0)
 	{
-		randomToken = (notstd::rank) (rand() % TIPOS_DE_RANK);			//tomo un rank al azar
-		if (getNumberInCemetery(randomToken) > 0)
+		while (counter < max_counter)
 		{
-			do
+			randomToken = (notstd::rank) (rand() % TIPOS_DE_RANK);			//tomo un rank al azar
+			if (getNumberInCemetery(randomToken) > 0)			//veo si hay fichas con ese rank que faltan poner
 			{
-				randPos.x = 6 + (rand() % 4);		//tomo posiciones validas del mapa
-				randPos.y = (rand() % 10);
-			} while (!setFicha(randomToken, randPos));
+				do
+				{
+					randPos.x = 6 + (rand() % 4);		//tomo posiciones al azar del mapa en las que
+					randPos.y = (rand() % 10);			//puedo colocar mis fichas
+				} while (!setFicha(randomToken, randPos));
 
-			counter++;
+				counter++;
+			}
 		}
 	}
+	/*
+	else
+	{
+		pos randPosDestiny;
+		int max_moves = 65 + (rand() % 36)	//tomo un numero al azar de cambios a realizar entre 65 y 100
+
+		for (counter = 0; counter < max_moves; counter++)
+		{
+			randPos.x = 6 + (rand() % 4);
+			randPos.y = (rand() % 10);
+
+			randPosDestiny.x = 6 + (rand() % 4);
+			randPosDestiny.y = (rand() % 10);
+		
+			swap(randPos, randPosDestiny);
+		}
+	}
+	*/
 }

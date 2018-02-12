@@ -1,5 +1,7 @@
 #include "KeyboardController.h"
 
+#define NAME_FILE "temporal.txt"
+
 KeyboardController::KeyboardController(MenuModel * mm, unsigned int maxIp, unsigned int maxName)
 {
 	initOk = true;
@@ -22,7 +24,6 @@ void KeyboardController::dispatch(GenericEvent& genEv)
 	{
 		KeyboardEvent& keyEv = (KeyboardEvent&)genEv;
 		int butonPressed = (keyEv.GetAlEv().keycode);
-
 
 		if ((butonPressed >= ALLEGRO_KEY_A) && (butonPressed <= ALLEGRO_KEY_Z))		//Es una letra de la A a la Z
 		{
@@ -54,6 +55,20 @@ void KeyboardController::dispatch(GenericEvent& genEv)
 			if (validateAdd())
 				pMenuModel->addCharToWorkingString(' ');
 		}
+
+		else if (butonPressed == ALLEGRO_KEY_ENTER)
+		{
+			if ((pMenuModel->getName().size() > 0) && (pMenuModel->getName().size() < 12))
+			{
+				std::ofstream infoFile;
+				infoFile.open(NAME_FILE, std::ios::binary);
+				infoFile << pMenuModel->getName() << std::endl;
+				infoFile.close();
+				pMenuModel->setState(CONNECTING);
+				pMenuModel->setMessage("Trying to connect as Client");
+			}
+		}
+
 		else if ((butonPressed == ALLEGRO_KEY_TAB) || (butonPressed == ALLEGRO_KEY_ENTER))
 			pMenuModel->setWorkingIp(!(pMenuModel->getWorkingIp()));
 

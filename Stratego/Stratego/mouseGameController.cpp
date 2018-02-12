@@ -114,6 +114,9 @@ MouseInfo mouseGameController::shape(double x, double y)
 		case BOTON_PLAY_AGAIN:
 			Mev.type = PLAY_AGAIN_EV;
 			break;
+		case BOTON_RAND:
+			Mev.type = RAND_EV;
+			break;
 		case INVALID_SECTOR:
 			Mev.evPos = { -1, -1 };
 			Mev.type = NO_EVENT;
@@ -164,6 +167,9 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 			break;
 		case PLAY_AGAIN_EV:
 			proximoEstado = estadoModel->OnPlayAgain(p2gameModel);
+			break;
+		case RAND_EV:
+			proximoEstado = estadoModel->OnRand(p2gameModel);
 			break;
 		}
 
@@ -223,6 +229,13 @@ sectors mouseGameController::getSectorTouched(double x, double y)
 				if (p2gameModel->getButtonReference(PLACE_READY_B)->isTouched(x, y)) //me fijo si se selecciono
 				{
 					sectorRet = BOTON_PLACE_READY;
+				}
+			}
+			if (p2gameModel->getButtonReference(RAND_B) != nullptr) //me fijo si existe el boton de finish placing fichas
+			{
+				if (p2gameModel->getButtonReference(RAND_B)->isTouched(x, y)) //me fijo si se selecciono
+				{
+					sectorRet = BOTON_RAND;
 				}
 			}
 		}
@@ -506,6 +519,8 @@ void mouseGameController::initButtons(void)
 	buttonsInfo.ll_sound.y = 64;
 	buttonsInfo.ll_exit.x = 377;
 	buttonsInfo.ll_exit.y = 515;
+	buttonsInfo.hr_rand.x = 190;
+	buttonsInfo.hr_rand.y = 60;
 	buttonsInfo.hr_done.x = 1066;
 	buttonsInfo.hr_done.y = 5;
 	buttonsInfo.hr_playAgain.x = 704;
@@ -514,16 +529,20 @@ void mouseGameController::initButtons(void)
 	buttonsInfo.hr_sound.y = 5;
 	buttonsInfo.hr_exit.x = 704;
 	buttonsInfo.hr_exit.y = 427;
+	buttonsInfo.hr_rand.x = 265;
+	buttonsInfo.hr_rand.y = 5;
 
 	button playAgain_b(PLAY_AGAIN_B, buttonsInfo.ll_playAgain, buttonsInfo.hr_playAgain);
 	button exit_b(GAME_OVER_B, buttonsInfo.ll_exit, buttonsInfo.hr_exit);
 	button sound_b(SOUND_B, buttonsInfo.ll_sound, buttonsInfo.hr_sound);
 	button done_b(PLACE_READY_B, buttonsInfo.ll_done, buttonsInfo.hr_done);
+	button rand_b(RAND_B, buttonsInfo.ll_rand, buttonsInfo.hr_rand);
 
 	p2gameModel->pushButton(playAgain_b);
 	p2gameModel->pushButton(exit_b);
 	p2gameModel->pushButton(sound_b);
 	p2gameModel->pushButton(done_b);
+	p2gameModel->pushButton(rand_b);
 
 }
 

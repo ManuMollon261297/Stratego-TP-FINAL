@@ -73,8 +73,6 @@ GameModel::GameModel(): myPosStatus(0,0,0,0), opPosStatus(0, 0, 0, 0)
 	timeRemaining = 120; // El jugador tiene 120 segundos para decidir antes de perder.
 	rescuesRemaining = 2;
 	repeatMoveCounter = 0;
-
-	randomPos();
 }
 
 int GameModel::getState()

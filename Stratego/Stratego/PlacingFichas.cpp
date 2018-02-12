@@ -141,4 +141,9 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel, MouseStates 
 	}
 }
 
+gameState * PlacingFichas::OnRand(GameModel * p2GameModel)
+{
+	p2GameModel->randomPos();
+	return nullptr;
+}
 

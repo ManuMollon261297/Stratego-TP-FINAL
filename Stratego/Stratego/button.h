@@ -10,6 +10,7 @@
 #define LEADERBOARD_B 7
 #define SOUND_B 8
 #define CONFIRM_B 9
+#define RAND_B 10
 
 typedef struct
 {
@@ -37,6 +38,8 @@ typedef struct
 	pos hr_done;
 	pos ll_sound;
 	pos hr_sound;
+	pos ll_rand;
+	pos hr_rand;
 }gameDataButtonsPos;
 
 

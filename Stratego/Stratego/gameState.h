@@ -15,6 +15,7 @@ public:
 	virtual gameState* OnPlayAgain(GameModel * p2GameModel);
 	virtual gameState* OnGameOver(GameModel * p2GameModel);
 	virtual gameState* OnSound(GameModel * p2GameModel);
+	virtual gameState* OnRand(GameModel * p2GameModel);
 	virtual int getState();
 
 protected:

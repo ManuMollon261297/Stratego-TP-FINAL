@@ -59,6 +59,11 @@ gameState * gameState::OnSound(GameModel * p2GameModel)
 	return nullptr;
 }
 
+gameState * gameState::OnRand(GameModel * p2GameModel)
+{
+	return nullptr;
+}
+
 int gameState::getState()
 {
 	return state;

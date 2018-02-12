@@ -128,8 +128,8 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 	if(Mev.GetEvent() == MOUSE)
 	{
 		
-*		MouseEvent& ev = (MouseEvent&)Mev;
-		MouseInfo info = shape(ev.x, ev.y);
+		MouseEvent mouse_ev = (MouseEvent&)Mev;
+		MouseInfo info = shape(mouse_ev.x, mouse_ev.y);
 
 		updateControllerState(p2gameModel->getState());
 		gameState * proximoEstado = nullptr;  //puntero que funciona como memoria para el proximo estado

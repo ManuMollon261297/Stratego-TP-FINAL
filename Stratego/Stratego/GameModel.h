@@ -8,6 +8,10 @@
 #include "GenericModel.h"
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <string>
+
+#define LEADERBOARDDIR "STPFLB.txt"
 
 #define FILAS			10
 #define COLUMNAS		10
@@ -108,6 +112,8 @@ public:
 	//winner
 	void playerWon();
 	bool didPlayerWin();
+	bool updateLeaderboard(std::string winner);
+	string intToString(unsigned int number);
 	//verify
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde
 	bool verifyRescue(); //verifica si en la posicion actual el jugador es apto para hacer un rescue

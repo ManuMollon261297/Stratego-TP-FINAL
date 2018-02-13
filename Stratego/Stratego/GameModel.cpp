@@ -827,3 +827,98 @@ void GameModel::randomPos(void)
 		}
 	}
 }
+
+bool GameModel::updateLeaderboard(std::string winner)
+{
+	bool succes = false;
+
+	ifstream leaderboard(LEADERBOARDDIR);
+
+	if (leaderboard.good())
+	{
+		int charFromLeader;
+		string stringLeader;
+
+		for (int i = 0; (charFromLeader = leaderboard.get()) != EOF; i++)		//Copio el archivo original en un string
+		{
+			stringLeader.resize(i + 1);
+			stringLeader[i] = charFromLeader;
+		}
+
+		leaderboard.close();
+
+		ofstream newleaderboard(LEADERBOARDDIR);
+
+		if (newleaderboard.good())
+		{
+			int pos = stringLeader.find(winner, 0);		//Busco si se encuentra el ganador (en caso de no encontrarse)
+														//finde devuelve int = npos
+
+			if (pos != string::npos)
+			{
+				string score;
+
+				int scorePos = stringLeader.find(' ', pos) + 1;
+
+				for (int k = 0; (stringLeader[scorePos + k] != '\n') && ((k + scorePos) < stringLeader.size()); k++)
+				{
+					score.resize(k + 1);
+					score[k] = stringLeader[scorePos + k];
+				}
+
+				int newScore = stoi(score.c_str()) + 1;			//incrementeo el numero de vece que gano
+				score = intToString(newScore);
+
+				leaderboard.close();
+
+				for (int count = 0; count < stringLeader.size(); count++)		//Transcribo el nuevo leaderboard
+				{
+					if (count == scorePos)
+					{
+						newleaderboard << score;
+						count += score.size();
+						newleaderboard << '\n';
+					}
+					else
+					{
+						newleaderboard << stringLeader[count];
+					}
+					newleaderboard.flush();
+				}
+			}
+			else
+			{
+				newleaderboard << stringLeader;				//Agrego al final el nuevo puntaje
+				newleaderboard << '\n' + winner + " 1";
+				newleaderboard.flush();
+			}
+		}
+		newleaderboard.close();
+
+		succes = true;
+	}
+
+	return succes;
+}
+
+string GameModel::intToString(unsigned int number)
+{
+	int number_ = number;
+	int digitos;
+	for (digitos = 1; (number_ /= 10) > 0; digitos++);			//cuento la cantidad de digitos
+
+	string stringNumber;
+	stringNumber.resize(digitos);
+
+	int auxNumber;
+
+	number_ = number;
+
+	for (int i = 0; i < digitos; i++) {
+		auxNumber = number_ % 10;
+		number_ = number_ / 10;
+		stringNumber[digitos - 1 - i] = '0' + auxNumber;
+	}
+
+	return stringNumber;
+}

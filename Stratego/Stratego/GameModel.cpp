@@ -847,12 +847,12 @@ bool GameModel::updateLeaderboard(std::string winner)
 
 		leaderboard.close();
 
-		ofstream newleaderboard(LEADERBOARDDIR);
+		ofstream newleaderboard(LEADERBOARDDIR);			//Abro un nuevo archivo donde guardar el nuevo leaderbord
 
 		if (newleaderboard.good())
 		{
 			int pos = stringLeader.find(winner, 0);		//Busco si se encuentra el ganador (en caso de no encontrarse)
-														//finde devuelve int = npos
+														//find devuelve int = npos
 
 			if (pos != string::npos)
 			{
@@ -860,36 +860,72 @@ bool GameModel::updateLeaderboard(std::string winner)
 
 				int scorePos = stringLeader.find(' ', pos) + 1;
 
-				for (int k = 0; (stringLeader[scorePos + k] != '\n') && ((k + scorePos) < stringLeader.size()); k++)
+				for (int k = 0; (stringLeader[scorePos + k] != '\n') && ((k + scorePos) < stringLeader.size()); k++)		//Tomo el string del puntaje
 				{
 					score.resize(k + 1);
 					score[k] = stringLeader[scorePos + k];
 				}
 
-				int newScore = stoi(score.c_str()) + 1;			//incrementeo el numero de vece que gano
-				score = intToString(newScore);
+				int newScore = stoi(score.c_str()) + 1;			//Incrementeo el numero de vece que gano
+				score = intToString(newScore);					//Paso el valor a string
 
-				leaderboard.close();
+				string numberStringCmp;				//String para comparar com mi puntaje
+				int numberValueCmp;					//Varaible para guardar el puntaje a comparar en int 
 
-				for (int count = 0; count < stringLeader.size(); count++)		//Transcribo el nuevo leaderboard
+				int initNum;						//Variables necesarias para determinar la posicion
+				int endNum;							//donde se guardara el nuevo string
+				int prevEndNum = 0;
+
+				bool finded = false;
+
+				for (initNum = 0, endNum = 0; !finded; endNum++)
 				{
-					if (count == scorePos)
+					initNum = stringLeader.find(' ', initNum) + 1;
+					endNum = stringLeader.find('\n', initNum);
+
+					for (int k = 0; k + initNum < endNum; k++)		//tomo los numeros de cada jugador
 					{
-						newleaderboard << score;
-						count += score.size();
-						newleaderboard << '\n';
+						numberStringCmp.resize(k + 1);
+						numberStringCmp[k] = stringLeader[initNum + k];
+					}
+
+					numberValueCmp = stoi(numberStringCmp.c_str());
+
+					if (newScore >= numberValueCmp)
+					{
+						finded = true;		//si es mayor, coloco mi puntaje en la linea anterior
 					}
 					else
 					{
-						newleaderboard << stringLeader[count];
+						prevEndNum = endNum;
 					}
+				}
+
+				stringLeader.erase(pos, winner.size() + score.size() + 2);		//Borro winner con puntaje anterior
+
+				if (prevEndNum == 0)
+				{
+					stringLeader.insert(0, winner + ' ' + score + '\n');		//caso en el que el leaderboard esta vacio
+																				//no hay un \n antes del nombre de winner
+				}
+				else
+				{
+					stringLeader.insert(prevEndNum + 1, winner + ' ' + score + '\n');
+				}
+
+				//stringLeader.pop_back();
+
+				for (int count = 0; count < stringLeader.size(); count++)		//Transcribo el nuevo leaderboard
+				{
+					newleaderboard << stringLeader[count];
 					newleaderboard.flush();
 				}
+
 			}
 			else
 			{
 				newleaderboard << stringLeader;				//Agrego al final el nuevo puntaje
-				newleaderboard << '\n' + winner + " 1";
+				newleaderboard << winner + " 1" + '\n';
 				newleaderboard.flush();
 			}
 		}

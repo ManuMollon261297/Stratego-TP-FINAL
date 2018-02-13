@@ -831,6 +831,7 @@ void AllegroViewer::drawHalo(double x, double y, double sizeX, double sizeY)
 
 void AllegroViewer::update()
 {
+	color = ((engine.getRed()) ? RED : BLUE); //Actualiza el color dependiendo quien empieza.
 	currStatus myS = engine.GetmyPosStatus();
 	currStatus opS = engine.GetopPosStatus();
 	if (engine.isAttackResolved())

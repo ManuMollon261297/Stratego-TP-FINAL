@@ -563,7 +563,7 @@ bool GameModel::isSelectedFromPos(pos currpos)
 	}
 }
 
-int GameModel::getTime()
+int GameModel::getTime()const
 {
 	return timeRemaining;
 }
@@ -699,7 +699,7 @@ void GameModel::printBattlefield()
 	std::cout << std::endl;
 }
 
-bool GameModel::isMuteOn()
+bool GameModel::isMuteOn()const
 {
 	return mute;
 }

@@ -88,7 +88,6 @@ public:
 	void toggleMute(void);
 
 	//timer
-	int getTime();
 	void decrementTime();
 	void restartTimer();
 
@@ -98,10 +97,11 @@ public:
 	void setMute(bool state);
 	void setAttackResolvedFalse(void);
 	//Getters
+	int getTime()const;
 	currStatus GetmyPosStatus()const;
 	currStatus GetopPosStatus()const;
 	bool GetExit()const;
-	bool isMuteOn();
+	bool isMuteOn()const;
 	notstd::rank getOpponentRank()const;
 	notstd::rank getMyRank()const;
 

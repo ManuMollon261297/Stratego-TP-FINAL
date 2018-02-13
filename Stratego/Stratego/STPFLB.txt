@@ -1,5 +1,5 @@
 Nutria 1
 Manuel 2
-Tomas 69
+Tomas 6
 Lucas 3
 Marc 5

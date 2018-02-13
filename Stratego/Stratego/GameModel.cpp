@@ -827,3 +827,115 @@ void GameModel::randomPos(void)
 		}
 	}
 }
+
+bool GameModel::updateLeaderboard(std::string winner)
+{
+	bool succes = true;
+	bool end = false;
+
+
+	ifstream leaderboard(LEADERBOARD);
+
+	if (leaderboard.good())
+	{
+		bool same = false;
+
+		int charFromLeader;
+		string stringLeader;
+
+		for (int i = 0; (charFromLeader = leaderboard.get()) != EOF; i++)
+		{
+			stringLeader.resize(i + 1);
+			stringLeader[i] = charFromLeader;
+		}
+
+		stringLeader.resize(stringLeader.size() + 1);
+		stringLeader[stringLeader.size()] = EOF;
+
+		int pos = stringLeader.find(winner, 0);
+
+		if (pos != string::npos)
+		{
+			same = true;
+		}
+
+		if (same)
+		{
+			string score;
+
+			int scorePos = stringLeader.find(' ', pos) + 1;
+
+			for (int k = 0; (stringLeader[scorePos + k] != '\n'); k++)			//falta ver que stringLeader[scorePos + k] != EOF
+			{
+				score.resize(k + 1);
+				score[k] = stringLeader[scorePos + k];
+			}
+
+			int newScore = stoi(score.c_str()) + 1;			//incrementeo el numero de vece que gano
+
+															//me hago el rata pora hora y asumo que el rank es de solo 1 digitop (entre 1 y 9)
+
+			leaderboard.close();
+
+			ofstream newleaderboard(LEADERBOARD);
+
+			for (int count = 0; count < stringLeader.size(); count++)
+			{
+				if (count == scorePos)
+				{
+					newleaderboard << (char)((int) '0' + newScore);
+					count++;
+
+					/*
+					count += score.size();
+
+					for(int x = 0; x < score.size(); x++)
+					{
+					newleaderboard << score[x];
+					}
+					*/
+
+					newleaderboard << '\n';
+
+				}
+				else
+				{
+					newleaderboard << stringLeader[count];
+				}
+			}
+
+			newleaderboard.close();
+
+		}
+		else
+		{
+			ofstream newleaderboard("newleaderboard.txt");
+			newleaderboard << stringLeader;
+			newleaderboard << '\n' + winner + " 1";
+			newleaderboard.flush();
+
+			newleaderboard.close();
+
+			/*
+			Lo que queria hacer yo era no abrir un nuevo archivo y hacer
+			leaderboard << '\n' + winner + " 1";
+			leaderboard.flush();
+
+			pero por no me modificaba el archivo (antes abria leaderboard como fstream, como no andaba, lo abro como ifstream)
+
+			*/
+
+			end = true;
+		}
+
+		leaderboard.close();
+
+		succes = true;
+	}
+	else
+	{
+		succes = false;
+	}
+
+	return succes;
+}

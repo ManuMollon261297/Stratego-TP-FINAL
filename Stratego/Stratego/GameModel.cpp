@@ -830,112 +830,98 @@ void GameModel::randomPos(void)
 
 bool GameModel::updateLeaderboard(std::string winner)
 {
-	bool succes = true;
-	bool end = false;
+	bool succes = false;
 
-
-	ifstream leaderboard(LEADERBOARD);
+	ifstream leaderboard(LEADERBOARDDIR);
 
 	if (leaderboard.good())
 	{
-		bool same = false;
-
 		int charFromLeader;
 		string stringLeader;
 
-		for (int i = 0; (charFromLeader = leaderboard.get()) != EOF; i++)
+		for (int i = 0; (charFromLeader = leaderboard.get()) != EOF; i++)		//Copio el archivo original en un string
 		{
 			stringLeader.resize(i + 1);
 			stringLeader[i] = charFromLeader;
 		}
 
-		stringLeader.resize(stringLeader.size() + 1);
-		stringLeader[stringLeader.size()] = EOF;
-
-		int pos = stringLeader.find(winner, 0);
-
-		if (pos != string::npos)
-		{
-			same = true;
-		}
-
-		if (same)
-		{
-			string score;
-
-			int scorePos = stringLeader.find(' ', pos) + 1;
-
-			for (int k = 0; (stringLeader[scorePos + k] != '\n'); k++)			//falta ver que stringLeader[scorePos + k] != EOF
-			{
-				score.resize(k + 1);
-				score[k] = stringLeader[scorePos + k];
-			}
-
-			int newScore = stoi(score.c_str()) + 1;			//incrementeo el numero de vece que gano
-
-															//me hago el rata pora hora y asumo que el rank es de solo 1 digitop (entre 1 y 9)
-
-			leaderboard.close();
-
-			ofstream newleaderboard(LEADERBOARD);
-
-			for (int count = 0; count < stringLeader.size(); count++)
-			{
-				if (count == scorePos)
-				{
-					newleaderboard << (char)((int) '0' + newScore);
-					count++;
-
-					/*
-					count += score.size();
-
-					for(int x = 0; x < score.size(); x++)
-					{
-					newleaderboard << score[x];
-					}
-					*/
-
-					newleaderboard << '\n';
-
-				}
-				else
-				{
-					newleaderboard << stringLeader[count];
-				}
-			}
-
-			newleaderboard.close();
-
-		}
-		else
-		{
-			ofstream newleaderboard("newleaderboard.txt");
-			newleaderboard << stringLeader;
-			newleaderboard << '\n' + winner + " 1";
-			newleaderboard.flush();
-
-			newleaderboard.close();
-
-			/*
-			Lo que queria hacer yo era no abrir un nuevo archivo y hacer
-			leaderboard << '\n' + winner + " 1";
-			leaderboard.flush();
-
-			pero por no me modificaba el archivo (antes abria leaderboard como fstream, como no andaba, lo abro como ifstream)
-
-			*/
-
-			end = true;
-		}
-
 		leaderboard.close();
+
+		ofstream newleaderboard(LEADERBOARDDIR);
+
+		if (newleaderboard.good())
+		{
+			stringLeader.resize(stringLeader.size() + 1);
+			stringLeader[stringLeader.size()] = EOF;
+
+			int pos = stringLeader.find(winner, 0);		//Busco si se encuentra el ganador (en caso de no encontrarse)
+														//finde devuelve int = npos
+
+			if (pos != string::npos)
+			{
+				string score;
+
+				int scorePos = stringLeader.find(' ', pos) + 1;
+
+				for (int k = 0; (stringLeader[scorePos + k] != '\n'); k++)			//falta ver que stringLeader[scorePos + k] != EOF
+				{
+					score.resize(k + 1);
+					score[k] = stringLeader[scorePos + k];
+				}
+
+				int newScore = stoi(score.c_str()) + 1;			//incrementeo el numero de vece que gano
+				score = intToString(newScore);
+
+				leaderboard.close();
+
+				for (int count = 0; count < stringLeader.size(); count++)		//Transcribo el nuevo leaderboard
+				{
+					if (count == scorePos)
+					{
+						newleaderboard << score;
+						count += score.size();
+						newleaderboard << '\n';
+					}
+					else
+					{
+						newleaderboard << stringLeader[count];
+					}
+					newleaderboard.flush();
+				}
+			}
+			else
+			{
+				newleaderboard << stringLeader;				//Agrego al final el nuevo puntaje
+				newleaderboard << '\n' + winner + " 1";
+				newleaderboard.flush();
+			}
+		}
+		newleaderboard.close();
 
 		succes = true;
 	}
-	else
-	{
-		succes = false;
-	}
 
 	return succes;
+}
+
+string GameModel::intToString(unsigned int number)
+{
+	int number_ = number;
+	int digitos;
+	for (digitos = 1; (number_ /= 10) > 0; digitos++);			//cuento la cantidad de digitos
+
+	string stringNumber;
+	stringNumber.resize(digitos);
+
+	int auxNumber;
+
+	number_ = number;
+
+	for (int i = 0; i < digitos; i++) {
+		auxNumber = number_ % 10;
+		number_ = number_ / 10;
+		stringNumber[digitos - 1 - i] = '0' + auxNumber;
+	}
+
+	return stringNumber;
 }

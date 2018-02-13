@@ -51,5 +51,6 @@ NetworkingState* WaitingOponentDecision::SelectedGameOver(NetworkingModel* p_nwm
 }
 NetworkingState* WaitingOponentDecision::SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm)
 {
+	Gm->setMessage("Waiting for opponent's decision");
 	return nullptr;
 }

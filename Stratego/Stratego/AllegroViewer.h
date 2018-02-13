@@ -29,12 +29,14 @@ public:
 	bool isViewerInitialized();
 	void initImagesAndFonts();
 	virtual void update();
-	//para debugeo
+	~AllegroViewer();
+private:
 	void drawBattlefield();
 	void drawCemetery();
 	void drawBackground();
 	void drawMessage();
 	void drawSoundB();
+	void drawShuffle();
 	void drawGameOver(bool playerWon);
 	void drawRemainingTime();
 	void drawHalo(double x, double y, double sizeX, double sizeY);
@@ -46,9 +48,6 @@ public:
 	int  getCantSprites(int i);
 	void getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, notstd::rank& r, bool opponent);
 	void manageSoundtrack();
-	//
-	~AllegroViewer();
-private:
 	GameModel & engine;
 	bool initialized;
 	bool attackPending;
@@ -75,6 +74,7 @@ private:
 	std::string deathDir;
 	std::string introDir;
 	std::string soundtrackDir;
+	std::string shuffleDir;
 	//direccion del font
 	std::string titlettfDir;
 	std::string optionsttfDir;
@@ -91,6 +91,7 @@ private:
 	ALLEGRO_BITMAP * ALLEGRO_mute;
 	ALLEGRO_BITMAP * ALLEGRO_unMute;
 	ALLEGRO_BITMAP * ALLEGRO_field;
+	ALLEGRO_BITMAP * ALLEGRO_shuffle;
 	//allegro font
 	ALLEGRO_FONT * ALLEGRO_titlettf;
 	ALLEGRO_FONT * ALLEGRO_optionsttf;

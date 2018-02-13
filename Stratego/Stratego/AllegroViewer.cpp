@@ -83,6 +83,7 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 	muteDir = "../Allegro Data/mute.png";
 	unMuteDir = "../Allegro Data/unmute.png";
 	fieldDir = "../Allegro Data/field.png";
+	shuffleDir = "../Allegro Data/shuffle.png";
 	attackDir = "../Allegro Data/AUDIO/attack1.wav";
 	deathDir = "../Allegro Data/AUDIO/death.wav";
 	introDir = "../Allegro Data/AUDIO/intro.wav";
@@ -161,7 +162,6 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			char caux = '0' + i;
 			for (int j = 0; j<jmax; j++)
 			{
-				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/RC/";
 				aux.push_back(caux);
 				aux += '/';
@@ -191,7 +191,6 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			caux2 = '0' + (i % 10);
 			for (int j = 0; j<jmax; j++)
 			{
-				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/RC/";
 				aux.push_back(caux1);
 				aux.push_back(caux2);
@@ -289,6 +288,7 @@ void AllegroViewer::initImagesAndFonts()
 	ALLEGRO_mute = al_load_bitmap(muteDir.c_str());
 	ALLEGRO_unMute = al_load_bitmap(unMuteDir.c_str());
 	ALLEGRO_field = al_load_bitmap(fieldDir.c_str());
+	ALLEGRO_shuffle = al_load_bitmap(shuffleDir.c_str());
 	ALLEGRO_titlettf = al_load_ttf_font(titlettfDir.c_str(), 100, 0);	//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_optionsttf = al_load_ttf_font(optionsttfDir.c_str(), 60, 0);//cambiar el tamanio de la letra aca si es necesario
 	ALLEGRO_messagesttf = al_load_ttf_font(messagettfDir.c_str(), 50, 0);//cambiar el tamanio de la letra aca si es necesario
@@ -503,6 +503,12 @@ void AllegroViewer::drawSoundB()
 		al_draw_scaled_bitmap(ALLEGRO_unMute, 0, 0, al_get_bitmap_width(ALLEGRO_unMute), al_get_bitmap_height(ALLEGRO_unMute)
 			, screenWidth - 195, 3, 70, 60, 0);
 	}
+}
+
+void AllegroViewer::drawShuffle()
+{
+	al_draw_scaled_bitmap(ALLEGRO_shuffle, 0, 0, al_get_bitmap_width(ALLEGRO_shuffle), al_get_bitmap_height(ALLEGRO_shuffle)
+		, screenWidth - 260, 3, 60, 60, 0);
 }
 
 void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
@@ -849,6 +855,7 @@ void AllegroViewer::update()
 			drawCemetery();
 			drawMessage();
 			drawSoundB();
+			drawShuffle();
 			al_flip_display();
 			break;
 		case MY_TURN:

@@ -113,7 +113,6 @@ public:
 	void playerWon();
 	bool didPlayerWin();
 	bool updateLeaderboard(std::string winner);
-	string intToString(unsigned int number);
 	//verify
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde
 	bool verifyRescue(); //verifica si en la posicion actual el jugador es apto para hacer un rescue

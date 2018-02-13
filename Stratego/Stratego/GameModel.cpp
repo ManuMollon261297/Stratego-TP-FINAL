@@ -872,7 +872,8 @@ bool GameModel::updateLeaderboard(std::string winner)
 			}
 
 			int newScore = stoi(score.c_str()) + 1;			//incrementeo el numero de vece que gano
-			score = intToString(newScore);	
+
+															//me hago el rata pora hora y asumo que el rank es de solo 1 digitop (entre 1 y 9)
 
 			leaderboard.close();
 
@@ -882,9 +883,20 @@ bool GameModel::updateLeaderboard(std::string winner)
 			{
 				if (count == scorePos)
 				{
-					newleaderboard << score;
+					newleaderboard << (char)((int) '0' + newScore);
+					count++;
+
+					/*
 					count += score.size();
+
+					for(int x = 0; x < score.size(); x++)
+					{
+					newleaderboard << score[x];
+					}
+					*/
+
 					newleaderboard << '\n';
+
 				}
 				else
 				{
@@ -926,26 +938,4 @@ bool GameModel::updateLeaderboard(std::string winner)
 	}
 
 	return succes;
-}
-
-string GameModel::intToString(unsigned int number)
-{
-	int number_ = number;
-	int digitos;
-	for (digitos = 1; (number_ /= 10) > 0; digitos++);			//cuento la cantidad de digitos
-
-	string stringNumber;
-	stringNumber.resize(digitos);
-
-	int auxNumber;
-
-	number_ = number;
-
-	for (int i = 0; i < digitos; i++) {
-		auxNumber = number_ % 10;
-		number_ = number_ / 10;
-		stringNumber[digitos - 1 - i] = '0' + auxNumber;
-	}
-
-	return stringNumber;
 }

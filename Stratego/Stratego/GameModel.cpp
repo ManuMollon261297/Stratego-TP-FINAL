@@ -851,9 +851,6 @@ bool GameModel::updateLeaderboard(std::string winner)
 
 		if (newleaderboard.good())
 		{
-			stringLeader.resize(stringLeader.size() + 1);
-			stringLeader[stringLeader.size()] = EOF;
-
 			int pos = stringLeader.find(winner, 0);		//Busco si se encuentra el ganador (en caso de no encontrarse)
 														//finde devuelve int = npos
 
@@ -863,7 +860,7 @@ bool GameModel::updateLeaderboard(std::string winner)
 
 				int scorePos = stringLeader.find(' ', pos) + 1;
 
-				for (int k = 0; (stringLeader[scorePos + k] != '\n'); k++)			//falta ver que stringLeader[scorePos + k] != EOF
+				for (int k = 0; (stringLeader[scorePos + k] != '\n') && ((k + scorePos) < stringLeader.size()); k++)
 				{
 					score.resize(k + 1);
 					score[k] = stringLeader[scorePos + k];

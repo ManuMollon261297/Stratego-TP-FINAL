@@ -7,6 +7,7 @@
 #include "gameState.h"
 #include "Quiting.h"
 #include "NetPlacingFichas.h"
+#include "WaitingMove.h"
 
 class WaitingNewGameResponse : public NetworkingState
 {
@@ -14,4 +15,5 @@ public:
 	WaitingNewGameResponse();
 	virtual NetworkingState* R_u_ready(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
 	virtual NetworkingState* Game_over(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm);
+	virtual NetworkingState* EndedPlacing(NetworkingModel* p_nwm, GameModel * Gm);
 };

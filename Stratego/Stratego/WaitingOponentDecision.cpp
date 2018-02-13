@@ -31,7 +31,23 @@ NetworkingState* WaitingOponentDecision::Game_over(NetWorkingEvent& ev, Networki
 
 NetworkingState* WaitingOponentDecision::SelectedGameOver(NetworkingModel* p_nwm, GameModel * Gm)
 {
-	return nullptr;
+	bool sent = false;
+	NetworkingState* p_state = new Quiting;
+
+	char pckg[1] = { QUIT_HEADER };
+	p_nwm->ResetTimeout();
+	sent = p_nwm->sendPackage(pckg, 1);
+	if (!sent) //error de comunicacion.
+	{
+		p_nwm->Shutdown();
+		Gm->setMessage("Communication error, closing...");
+		Gm->SetExit(true);
+	}
+	else
+	{
+		Gm->setMessage("Ending communication...");
+	}
+	return p_state;
 }
 NetworkingState* WaitingOponentDecision::SelectedPlayAgain(NetworkingModel* p_nwm, GameModel * Gm)
 {

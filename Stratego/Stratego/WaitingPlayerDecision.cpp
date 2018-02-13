@@ -33,7 +33,12 @@ NetworkingState* WaitingPlayerDecision::SelectedPlayAgain(NetworkingModel* NWM, 
 	{
 		pckg[0] = (PLAY_AGAIN_HEADER);
 		p_state = new WaitingNewGameResponse;
-		Gm->setMessage("Sending choice...");
+
+		NWM->setServer(CLIENT);
+		NWM->SetServerFinishedPlacing(false);
+		Gm->reset();//Prepara todo para una partida nueva.
+		Gm->setState(PLACING_FICHAS);
+		Gm->setMessage("Place your tokens");
 		sent = NWM->sendPackage(pckg, 1);
 		if (!sent)
 		{

@@ -95,7 +95,6 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 		{
 			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
 			Gm->setMessage("Waiting for opponent...");
-			p_state = new NetPlacingFichas;
 		}
 		else
 		{

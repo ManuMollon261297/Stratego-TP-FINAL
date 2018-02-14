@@ -122,17 +122,26 @@ gameState * PlacingFichas::OnWater(MouseInfo & Mev, MouseStates & Mstate, mouseG
 
 gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel, MouseStates & Mstate)
 {
-	if (p2GameModel->isCemeteryEmpty())//&& (p2GameModel->verifyMovement()))
+	if (p2GameModel->isCemeteryEmpty())
 	{
-		Mstate = NONE_SELECTED;
+		if (p2GameModel->verifyMovement())
+		{
+			Mstate = NONE_SELECTED;
 
-		p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
-		p2GameModel->unselectAllBattlefield(); 
-		p2GameModel->unselectAllCemetery();
-		p2GameModel->setMessage("Ready for battle, waiting opponent");
+			p2GameModel->setFichasPlacedTrue();  //esto hara que el model de networking cambie el estado
+			p2GameModel->unselectAllBattlefield();
+			p2GameModel->unselectAllCemetery();
+			p2GameModel->setMessage("Ready for battle, waiting opponent");
+
+			gameState * prox_estado = new finishingPlacing;
+			return prox_estado;
+		}
+		else
+		{
+			p2GameModel->setMessage("Your army can not move, place tokens correctly");
+			return nullptr;
+		}
 		
-		gameState * prox_estado = new finishingPlacing;
-		return prox_estado;
 	}
 	else
 	{

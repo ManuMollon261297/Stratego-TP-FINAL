@@ -511,26 +511,31 @@ bool mouseGameController::isHostilBattlefieldTouched(int x, int y)
 void mouseGameController::initButtons(void)
 {
 	gameDataButtonsPos buttonsInfo;
+
 	buttonsInfo.ll_done.x = 963;
 	buttonsInfo.ll_done.y = 64;
-	buttonsInfo.ll_playAgain.x = 380;
-	buttonsInfo.ll_playAgain.y = 625;
-	buttonsInfo.ll_sound.x = 885;
-	buttonsInfo.ll_sound.y = 64;
-	buttonsInfo.ll_exit.x = 377;
-	buttonsInfo.ll_exit.y = 515;
-	buttonsInfo.hr_rand.x = 190;
-	buttonsInfo.hr_rand.y = 60;
 	buttonsInfo.hr_done.x = 1066;
 	buttonsInfo.hr_done.y = 5;
+
+	buttonsInfo.ll_playAgain.x = 380;
+	buttonsInfo.ll_playAgain.y = 625;
 	buttonsInfo.hr_playAgain.x = 704;
 	buttonsInfo.hr_playAgain.y = 538;
+
+	buttonsInfo.ll_sound.x = 885;
+	buttonsInfo.ll_sound.y = 64;
 	buttonsInfo.hr_sound.x = 950;
 	buttonsInfo.hr_sound.y = 5;
+
+	buttonsInfo.ll_exit.x = 377;
+	buttonsInfo.ll_exit.y = 515;
 	buttonsInfo.hr_exit.x = 704;
 	buttonsInfo.hr_exit.y = 427;
-	buttonsInfo.hr_rand.x = 265;
-	buttonsInfo.hr_rand.y = 5;
+
+	buttonsInfo.ll_rand.x = 823;
+	buttonsInfo.ll_rand.y = 50;
+	buttonsInfo.hr_rand.x = 874;
+	buttonsInfo.hr_rand.y = 13;
 
 	button playAgain_b(PLAY_AGAIN_B, buttonsInfo.ll_playAgain, buttonsInfo.hr_playAgain);
 	button exit_b(GAME_OVER_B, buttonsInfo.ll_exit, buttonsInfo.hr_exit);

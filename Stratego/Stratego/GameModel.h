@@ -112,7 +112,7 @@ public:
 	//winner
 	void playerWon();
 	bool didPlayerWin();
-	bool updateLeaderboard(std::string& winner);
+	bool updateLeaderboard(std::string winner);
 	
 	//verify
 	bool verifyMovement(); //chequea si el jugador puede hacer una movida, si no puede, el jugador pierde

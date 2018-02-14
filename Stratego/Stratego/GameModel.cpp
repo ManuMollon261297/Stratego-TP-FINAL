@@ -827,7 +827,7 @@ void GameModel::randomPos(void)
 		}
 	}
 }
-
+/*
 bool GameModel::updateLeaderboard(std::string& winner)
 {
 	bool succes = false;
@@ -940,6 +940,126 @@ bool GameModel::updateLeaderboard(std::string& winner)
 	}
 
 	return succes;
+}
+*/
+
+bool GameModel::updateLeaderboard(std::string winner)
+{
+	std::fstream leaderboard(LEADERBOARDDIR);
+	std::ofstream leaderboardI(LEADERBOARDDIR, std::ios_base::app | std::ios_base::out);
+
+	bool found = false;
+	bool auxFileCreated = false;
+
+	if (leaderboard.is_open())
+	{
+		//busco si es un highscore
+		std::vector<std::string> chart;
+		std::string line;
+		while (std::getline(leaderboard, line))
+		{
+			chart.push_back(line);
+		}
+		std::vector<std::string> names;
+		names = chart;
+		for (int i = 0; i<chart.size(); i++)
+		{
+			if (chart[i].size() != 0)
+			{
+				int j = (chart[i].size() - 1);
+				while ((chart[i][j] <= '9') && (chart[i][j] >= '0')) //mientras sea parte del puntaje
+				{
+					names[i].pop_back(); //me desago del puntaje
+					j--;
+				}
+				names[i].pop_back(); //me desago del espacio
+			}
+		}
+		//en name se encuentra el nomrbre sin el puntaje y en chart con el puntaje
+
+		for (int i = 0; i<names.size(); i++)
+		{
+			if (names[i] == winner) //lo encontre en el leadeboard
+			{
+				//tengo que incrementralo y ver si esta en la posicion correcta
+				found = true;
+				char auxNumber;
+				int newScore = 0; //aca cargo el nuevo puntaje del ganador
+				int j = (chart[i].size() - 1);
+				int mult = 1;
+				//cargo newScore
+				while ((chart[i][j] <= '9') && (chart[i][j] >= '0')) //mientras sea parte del puntaje
+				{
+					auxNumber = chart[i][j] - '0';
+					newScore += (auxNumber*mult);
+					mult *= 10;
+					j--;
+				}
+				newScore += 1;
+				//paso newScore a string
+				std::string scoreString = std::to_string(newScore);
+				//creo un nuevo archivo
+				std::ofstream auxFile("auxFile.txt");
+				auxFileCreated = true;
+				// voy copiando strings del viejo y agrgeo el nuevo !!!
+				bool inserted = false;
+				int auxScore;
+				if (names.size() == 1)
+				{
+					auxFile << winner << ' ' << scoreString << std::endl; //nuevo puntaje
+					inserted = true;
+				}
+				else
+				{
+					for (int k = 0; k< names.size(); k++)
+					{
+						auxScore = 0;
+						int j = (chart[k].size() - 1);
+						int mult = 1;
+						//cargo newScore
+						while ((chart[k][j] <= '9') && (chart[k][j] >= '0')) //mientras sea parte del puntaje
+						{
+							auxNumber = chart[k][j] - '0';
+							auxScore += (auxNumber*mult);
+							mult *= 10;
+							j--;
+						}
+						if (winner != names[k])
+						{
+							if ((newScore >= auxScore) && (inserted == false))
+							{
+								auxFile << winner << ' ' << scoreString << std::endl; //nuevo puntaje
+								inserted = true;
+							}
+							auxFile << chart[k] << std::endl;
+						}
+					}
+				}
+				i = names.size(); //lo fuerzo a salir del for si ya se encontro el nombre en el leaderboard
+			}
+		}
+		if (found == false)
+		{
+			//no lo encontre en el archivo y lo tengo que agregar
+			leaderboardI << winner << " 1" << std::endl;
+		}
+	}
+	else
+	{
+		//creo el archivo y le pongo el ganador
+		std::ofstream leaderboardAux(LEADERBOARDDIR);
+		leaderboardAux << winner << " 1" << std::endl;
+	}
+
+	leaderboard.close();
+	leaderboardI.close();
+	if (auxFileCreated)
+	{
+		remove(LEADERBOARDDIR);
+		rename("auxFile.txt", LEADERBOARDDIR);
+	}
+
+	return found;
 }
 
 string GameModel::intToString(unsigned int number)

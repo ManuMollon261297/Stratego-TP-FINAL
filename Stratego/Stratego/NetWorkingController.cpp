@@ -22,6 +22,14 @@ serverStatus NetWorkingController::GetServer(void)const
 
 NetWorkingController::~NetWorkingController()
 {
+	if (actualState != nullptr)
+	{
+		delete actualState;
+	}
+	if (proxState != nullptr)
+	{
+		delete proxState;
+	}
 }
 
 void NetWorkingController::AddMainMenu(MenuModel* p_mm)

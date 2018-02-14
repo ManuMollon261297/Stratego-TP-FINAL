@@ -975,3 +975,35 @@ unsigned int GameModel::stringToInt(string number)
 	}
 	return value;
 }
+
+bool GameModel::isAttackAdjacent(pos ori, pos des)const
+{
+	if (des.x == ori.x) //El ataque es sobre la misma fila.
+	{
+		if ((des.y == (ori.y - 1)) || (des.y == (ori.y + 1)))
+		{
+			return true; //Devuelve true si se ataco a la columna inmediamente superior
+						//o inmediatamente inferior.
+		}
+		else
+		{
+			return false; //Sino el ataque no fue adyacente.
+		}
+	}
+	else if (des.y == ori.y) //El ataque es sobre la misma columna.
+	{
+		if ((des.x == (ori.x - 1)) || (des.x == (ori.x + 1)))
+		{
+			return true; //Devuelve true si se ataco a la fila inmediamente superior
+						 //o inmediatamente inferior.
+		}
+		else
+		{
+			return false; //Sino el ataque no fue adyacente.
+		}
+	}
+	else //No es movimiento valido.
+	{
+		return false;
+	}
+}

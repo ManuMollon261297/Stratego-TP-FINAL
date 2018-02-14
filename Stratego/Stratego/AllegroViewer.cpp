@@ -483,7 +483,14 @@ void AllegroViewer::drawRemainingTime()
 	int seconds = total % 60;
 	if (seconds < 10)
 	{
-		al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(255, 0, 0), screenWidth - 120, -10, 0, "%d:0%d", minutes, seconds);
+		if (minutes == 0)
+		{
+			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(188,24, 24), screenWidth - 120, -10, 0, "%d:0%d", minutes, seconds);
+		}
+		else
+		{
+			al_draw_textf(ALLEGRO_optionsttf, al_map_rgb(0, 0, 0), screenWidth - 120, -10, 0, "%d:0%d", minutes, seconds);
+		}
 	}
 	else
 	{

@@ -18,8 +18,13 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 		char pckg[1];
 		pckg[0] = (PLAY_AGAIN_HEADER);
 		p_state = new WaitingNewGameResponse;
-		Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
-		Gm->setMessage("Sending choice...");
+
+		p_nwm->setServer(CLIENT);
+		p_nwm->SetServerFinishedPlacing(false);
+		Gm->updateLeaderboard(p_nwm->getMe()); //Actualizo que gane.
+		Gm->reset();//Prepara todo para una partida nueva.
+		Gm->setState(PLACING_FICHAS);
+		Gm->setMessage("Place your tokens");
 		sent = p_nwm->sendPackage(pckg, 1);
 		if (!sent)
 		{
@@ -29,15 +34,22 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 	}
 	else if (Gm->getState() == GAME_OVER_SELECTED)
 	{
-		NetworkingState* p_state = nullptr;
+		bool sent = false;
+		NetworkingState* p_state = new Quiting;
+
 		char pckg[1] = { GAME_OVER_HEADER };
-		p_state = new Quiting;
-		Gm->setState(WAITING_FOR_OPPONENTS_SELECTION); //Chequear si es el estado que corresponde
-		Gm->setMessage("Sending choice...");
+		p_nwm->ResetTimeout();
+		Gm->updateLeaderboard(p_nwm->getMe()); //Actualizo que gane.
 		sent = p_nwm->sendPackage(pckg, 1);
-		if (!sent)
+		if (!sent) //error de comunicacion.
 		{
+			p_nwm->Shutdown();
+			Gm->setMessage("Communication error, closing...");
 			Gm->SetExit(true);
+		}
+		else
+		{
+			Gm->setMessage("Ending communication...");
 		}
 		return p_state;
 	}

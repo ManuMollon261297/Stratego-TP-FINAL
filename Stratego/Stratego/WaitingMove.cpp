@@ -192,6 +192,10 @@ NetworkingState* WaitingMove::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, Me
 		{
 			Gm->setMessage("Less than a minute left");
 		}
+		else if ((Gm->getTime()) == 10)
+		{
+			Gm->setMessage("Running out of time!");
+		}
 	}
 	else if ((Gm->getState()) == OP_TURN) //Si pasan 2 minutos y medio
 	{									//se asume que se perdio la comunicacion.

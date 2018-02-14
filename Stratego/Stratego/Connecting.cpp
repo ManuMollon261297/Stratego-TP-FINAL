@@ -25,7 +25,7 @@ NetworkingState* Connecting::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, Men
 	}
 	else if (p_nwm->getServer() == SERVER)
 	{
-		MM->setMessage("Connected succesfully as Server");
+		MM->setMessage("Loading...");
 		char pckg[1] = {NAME_HEADER};
 		bool sent = false;
 		sent = p_nwm->sendPackage(pckg, 1);
@@ -38,7 +38,7 @@ NetworkingState* Connecting::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, Men
 	}
 	else 
 	{
-		MM->setMessage("Connected succesfully as Client");
+		MM->setMessage("Loading...");
 		return new WaitingName;
 	}
 	return p_state;

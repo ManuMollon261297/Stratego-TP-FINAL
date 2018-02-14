@@ -1,6 +1,6 @@
 #include "NetworkingFuncs.h"
 
-bool ValidateMovement(GameModel * Gm, pos ori, pos des)
+bool ValidateMovement(GameModel * Gm, pos& ori, pos& des)
 {
 	if (((ori.x)< 0) || ((ori.x)>9) || ((ori.y)< 0) || ((ori.y)>9)) //Si alguna posicion se va de rango es invalida
 	{
@@ -26,6 +26,10 @@ bool ValidateMovement(GameModel * Gm, pos ori, pos des)
 	else if ((rank_in_destination == WATER) || (rank_in_destination == OTHERS))
 	{
 		valid = false; //es invalido si desea moverla al agua o sobre otra de sus fichas
+	}
+	else if (rank_in_destination != LAND) //Si es un ataque chequea que sea adyacente.
+	{
+		valid = Gm->isAttackAdjacent(ori, des); 
 	}
 	else if (((ori.x) != (des.x)) && ((ori.y) != (des.y)))
 	{

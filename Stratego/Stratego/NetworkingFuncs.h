@@ -12,7 +12,7 @@ notstd::rank GetRank(unsigned char);
 //que usamos para realizar las cuentas.
 //Si el rank es invalido devuelve WATER.
 
-bool ValidateMovement(GameModel * Gm, pos ori, pos des);
+bool ValidateMovement(GameModel * Gm, pos& ori, pos& des);
 //Funcion que valida que el movimiento del oponente sea valido.
 //Devuelve false si es invalida, y true si es valida.
 

@@ -153,5 +153,6 @@ private:
 	
 	bool clearSurroundings(int i, int j);
 	std::string intToString(unsigned int number);
+	unsigned int stringToInt(string number);
 
 };

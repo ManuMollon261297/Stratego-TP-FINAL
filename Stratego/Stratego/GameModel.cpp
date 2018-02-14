@@ -832,7 +832,7 @@ bool GameModel::updateLeaderboard(std::string& winner)
 {
 	bool succes = false;
 
-	ifstream leaderboard(LEADERBOARDDIR);
+	fstream leaderboard(LEADERBOARDDIR);
 
 	if (leaderboard.good())
 	{
@@ -866,7 +866,7 @@ bool GameModel::updateLeaderboard(std::string& winner)
 					score[k] = stringLeader[scorePos + k];
 				}
 
-				int newScore = stoi(score) + 1;			//Incrementeo el numero de vece que gano
+				int newScore = stringToInt(score) + 1;			//Incrementeo el numero de vece que gano
 				score = intToString(newScore);					//Paso el valor a string
 
 				string numberStringCmp;				//String para comparar com mi puntaje
@@ -889,7 +889,7 @@ bool GameModel::updateLeaderboard(std::string& winner)
 						numberStringCmp[k] = stringLeader[initNum + k];
 					}
 
-					numberValueCmp = stoi(numberStringCmp.c_str());
+					numberValueCmp = stringToInt(numberStringCmp);
 
 					if (newScore >= numberValueCmp)
 					{
@@ -913,24 +913,29 @@ bool GameModel::updateLeaderboard(std::string& winner)
 					stringLeader.insert(prevEndNum + 1, winner + ' ' + score + '\n');
 				}
 
-				//stringLeader.pop_back();
-
 				for (int count = 0; count < stringLeader.size(); count++)		//Transcribo el nuevo leaderboard
 				{
 					newleaderboard << stringLeader[count];
 					newleaderboard.flush();
 				}
 
+				succes = true;
 			}
 			else
 			{
 				newleaderboard << stringLeader;				//Agrego al final el nuevo puntaje
 				newleaderboard << winner + " 1" + '\n';
 				newleaderboard.flush();
+				succes = true;
 			}
 		}
 		newleaderboard.close();
-
+	}
+	else
+	{
+		leaderboard.open(LEADERBOARDDIR, fstream::out);
+		leaderboard << winner + " 1" + '\n';
+		leaderboard.flush();
 		succes = true;
 	}
 
@@ -957,4 +962,16 @@ string GameModel::intToString(unsigned int number)
 	}
 
 	return stringNumber;
+}
+
+unsigned int GameModel::stringToInt(string number)
+{
+	unsigned int value = 0;
+
+	for (int i = 0; i < number.size(); i++)
+	{
+		if (((number[i] - '0') >= 0) && ((number[i] - '0') <= 9))
+			value = value * 10 + (number[i] - '0');
+	}
+	return value;
 }

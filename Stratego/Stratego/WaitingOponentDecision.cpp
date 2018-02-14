@@ -22,8 +22,9 @@ NetworkingState* WaitingOponentDecision::Game_over(NetWorkingEvent& ev, Networki
 	bool sent = false;
 	NetworkingState* p_state = new Quiting;
 	char pckg[1] = { ACK_HEADER };
-	Gm->SetExit(true);
+	Gm->updateLeaderboard(p_nwm->getYou()); //Actualizo que gano el otro.
 	Gm->setMessage("Oponent exit, quiting...");
+	Gm->SetExit(true);
 	sent = p_nwm->sendPackage(pckg, 1);
 	p_nwm->Shutdown();
 	return p_state;
@@ -36,6 +37,7 @@ NetworkingState* WaitingOponentDecision::SelectedGameOver(NetworkingModel* p_nwm
 
 	char pckg[1] = { QUIT_HEADER };
 	p_nwm->ResetTimeout();
+	Gm->updateLeaderboard(p_nwm->getYou()); //Actualizo que gano el otro.
 	sent = p_nwm->sendPackage(pckg, 1);
 	if (!sent) //error de comunicacion.
 	{

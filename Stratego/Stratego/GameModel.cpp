@@ -828,7 +828,7 @@ void GameModel::randomPos(void)
 	}
 }
 
-bool GameModel::updateLeaderboard(std::string winner)
+bool GameModel::updateLeaderboard(std::string& winner)
 {
 	bool succes = false;
 

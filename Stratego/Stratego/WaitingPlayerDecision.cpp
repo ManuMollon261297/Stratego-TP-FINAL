@@ -36,6 +36,7 @@ NetworkingState* WaitingPlayerDecision::SelectedPlayAgain(NetworkingModel* NWM, 
 
 		NWM->setServer(CLIENT);
 		NWM->SetServerFinishedPlacing(false);
+		Gm->updateLeaderboard(NWM->getMe()); //Actualizo que gane.
 		Gm->reset();//Prepara todo para una partida nueva.
 		Gm->setState(PLACING_FICHAS);
 		Gm->setMessage("Place your tokens");
@@ -50,6 +51,7 @@ NetworkingState* WaitingPlayerDecision::SelectedPlayAgain(NetworkingModel* NWM, 
 	else //Caso en el que quiero jugar de nuevo y perdi.
 	{
 		p_state = new NetPlacingFichas;
+		Gm->updateLeaderboard(NWM->getYou()); //Actualizo que gano el otro.
 		Gm->reset(); //Reestablece el tablero para volver a jugar.
 		Gm->setState(PLACING_FICHAS);
 		NWM->setServer(SERVER);

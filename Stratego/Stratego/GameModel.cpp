@@ -866,7 +866,7 @@ bool GameModel::updateLeaderboard(std::string& winner)
 					score[k] = stringLeader[scorePos + k];
 				}
 
-				int newScore = stoi(score.c_str()) + 1;			//Incrementeo el numero de vece que gano
+				int newScore = stoi(score) + 1;			//Incrementeo el numero de vece que gano
 				score = intToString(newScore);					//Paso el valor a string
 
 				string numberStringCmp;				//String para comparar com mi puntaje

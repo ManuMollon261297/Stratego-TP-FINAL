@@ -581,6 +581,13 @@ bool mouseGameController::validOffsetMovement(pos destiny)
 bool mouseGameController::validObstacles(pos destiny)  //debe llamarse luego de validOffset, sino no sirve
 {
 	bool ret = false;
+	if (p2gameModel->getRankFromPos(destiny) == OTHERS)
+	{
+		if (!(p2gameModel->isAttackAdjacent(memoryEv.evPos, destiny)))
+		{
+			return false; //Si fue un ataque y no fue adyacente, es invalido.
+		}
+	}
 	if ((memoryEv.evPos.x) == (destiny.x)) //se mueve en 'y', en 'x' queda fijo
 	{
 		ret = !fetchObstacle(memoryEv.evPos.x, memoryEv.evPos.y, destiny.x, destiny.y, 'y');

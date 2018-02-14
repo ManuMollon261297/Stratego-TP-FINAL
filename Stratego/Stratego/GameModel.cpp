@@ -976,7 +976,7 @@ unsigned int GameModel::stringToInt(string number)
 	return value;
 }
 
-bool GameModel::isAttackAdjacent(pos ori, pos des)const
+bool GameModel::isAttackAdjacent(pos& ori, pos& des)const
 {
 	if (des.x == ori.x) //El ataque es sobre la misma fila.
 	{

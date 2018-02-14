@@ -228,7 +228,7 @@ void MenuViewer::drawRules()
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*1, 0,
 		"turn you can move your pieces or attack. Pieces move one square at a");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*2, 0,
-		"time, forward, backward or sideways. Except for Scouts (rank 1)");
+		"time, forward, backward or sideways. Except for Scouts (rank 9)");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*3, 0,
 		"that move multiple squares They cannot jump over another piece or to");
 	al_draw_textf(ALLEGRO_messagesttf, al_map_rgb(0, 0, 0), screenWidth / 20, 30 + 80*4, 0,

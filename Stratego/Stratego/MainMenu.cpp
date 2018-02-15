@@ -26,6 +26,7 @@ MainMenu::~MainMenu()
 	{
 		delete v_contr[i];
 	}
+	v_contr.clear();
 }
 
 

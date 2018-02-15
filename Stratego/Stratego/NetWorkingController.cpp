@@ -135,22 +135,25 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 	}
 	else if ((newEvent.GetEvent()) == GRAPHICS) //Caso en el que se cierra el display.
 	{
-		bool sent = false;
-		char pckg[1] = { QUIT_HEADER };
-		NWM->ResetTimeout();
-		sent = NWM->sendPackage(pckg, 1);
-		if (!sent) //error de comunicacion.
+		if (NWM->getServer() != UNINITIALIZED)
 		{
-			NWM->Shutdown();
-			Gm->setMessage("Communication error, closing...");
-			Gm->SetExit(true);
+			bool sent = false;
+			char pckg[1] = { QUIT_HEADER };
+			NWM->ResetTimeout();
+			sent = NWM->sendPackage(pckg, 1);
+			if (!sent) //error de comunicacion.
+			{
+				NWM->Shutdown();
+				Gm->setMessage("Communication error, closing...");
+				Gm->SetExit(true);
+			}
+			else
+			{
+				Gm->setMessage("Ending communication...");
+			}
+			delete actualState;
+			actualState = new Quiting;
 		}
-		else
-		{
-			Gm->setMessage("Ending communication...");
-		}
-		delete actualState;
-		actualState = new Quiting;
 
 	}
 

@@ -372,7 +372,7 @@ bool mouseGameController::fetchObstacle(int fijoOri, int movilOri, int fijoDest,
 			potentialObstacles = varDest - movilOri - 1;
 			for (int i = 1; (i <= potentialObstacles) && (ret); i++)
 			{
-				recorrido.y = (memoryEv.evPos.y) + i;  //recorre hacia adelante
+				recorrido.y = movilOri + i;  //recorre hacia adelante
 				if ((p2gameModel->getRankFromPos(recorrido)) != LAND)
 				{
 					ret = false;
@@ -384,24 +384,24 @@ bool mouseGameController::fetchObstacle(int fijoOri, int movilOri, int fijoDest,
 	{
 		recorrido.y = fijoOri;
 		recorrido.x = movilOri;
-		if ((movilOri) > (varDest)) //se mueve para atras
+		if ((movilOri) > (varDest)) //se mueve para adelante
 		{
 			potentialObstacles = movilOri - varDest - 1;
 			for (int i = 1; (i <= potentialObstacles) && (ret); i++)
 			{
-				recorrido.x = movilOri - i;  //recorre hacia atras
+				recorrido.x = movilOri - i;  //recorre hacia adelante
 				if ((p2gameModel->getRankFromPos(recorrido)) != LAND)
 				{
 					ret = false;
 				}
 			}
 		}
-		else //se mueve para adelante
+		else //se mueve para atras
 		{
 			potentialObstacles = varDest - movilOri - 1;
 			for (int i = 1; (i <= potentialObstacles) && (ret); i++)
 			{
-				recorrido.x = (memoryEv.evPos.y) + i;  //recorre hacia adelante
+				recorrido.x = movilOri + i;  //recorre hacia atras
 				if ((p2gameModel->getRankFromPos(recorrido)) != LAND)
 				{
 					ret = false;

@@ -11,7 +11,7 @@ WaitingFirstMove::WaitingFirstMove()
 NetworkingState* WaitingFirstMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	bool sent = false;
-	NetworkingState * p_state;
+	NetworkingState * p_state = nullptr;
 	Gm->setState(OP_TURN); //Es el turno del oponente.
 	std::string pckg = ev.GetRecieved();
 	int original_posY = pckg[1] - 'A'; //Le resta el valor de la primera columna para obtener el numero.
@@ -45,7 +45,7 @@ NetworkingState* WaitingFirstMove::Move(NetWorkingEvent& ev, NetworkingModel* p_
 			Gm->setState(MY_TURN); //Ya se realizo la movida del oponente asique es mi turno.
 			Gm->setMessage("Please Make a move");
 			Gm->restartTimer();
-			p_state = nullptr; //No cambia de estado.
+			p_state = new WaitingMove; //No cambia de estado.
 		}
 	}
 

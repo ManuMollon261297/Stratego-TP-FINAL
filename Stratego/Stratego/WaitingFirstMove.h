@@ -3,6 +3,7 @@
 #include "NetworkingFuncs.h"
 #include "Quiting.h"
 #include "WaitingPlayerDecision.h"
+#include "WaitingMove.h"
 
 class WaitingFirstMove : public NetworkingState
 {

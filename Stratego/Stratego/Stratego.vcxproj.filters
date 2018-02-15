@@ -58,6 +58,7 @@
     <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="Connecting.cpp" />
     <ClCompile Include="WaitingYouWon.cpp" />
+    <ClCompile Include="WaitingFirstMove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroFuncs.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="GenericController.h" />
     <ClInclude Include="Connecting.h" />
     <ClInclude Include="WaitingYouWon.h" />
+    <ClInclude Include="WaitingFirstMove.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -183,6 +183,7 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="WaitingAttack.h" />
+    <ClInclude Include="WaitingFirstMove.h" />
     <ClInclude Include="WaitingForName.h" />
     <ClInclude Include="WaitingMove.h" />
     <ClInclude Include="WaitingNameIs.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="WaitingAttack.cpp" />
+    <ClCompile Include="WaitingFirstMove.cpp" />
     <ClCompile Include="WaitingForName.cpp" />
     <ClCompile Include="WaitingMove.cpp" />
     <ClCompile Include="WaitingNameIs.cpp" />

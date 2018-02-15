@@ -93,14 +93,13 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 	{
 		if (Gm->getRed())//termine de poner las fichas y soy el que empieza
 		{
-			Gm->setState(ENDING_PLACING_FICHAS);//Habria que revisar a que estado cambiar el game model aca. 
 			Gm->setMessage("Waiting for opponent...");
 		}
 		else
 		{
 			Gm->setState(OP_TURN); //El otro jugador comienza entonces espero su jugada.
-			Gm->setMessage("Opponent's turn");
-			p_state = new WaitingMove;
+			Gm->setMessage("Waiting for first move");
+			p_state = new WaitingFirstMove;
 		}
 		char pckg[1];
 		pckg[0] = R_U_READY_HEADER;
@@ -120,11 +119,13 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 
 			if (Gm->getRed()) //Si voy primero directamente mando mi primera jugada.
 			{
+				Gm->restartTimer();
 				Gm->setState(MY_TURN);
 				Gm->setMessage("Please make a move");
 			}
 			else //si empieza el server respondo i am ready.
 			{
+				NWM->ResetTimeout();
 				Gm->setState(OP_TURN);
 				Gm->setMessage("Opponent's turn");
 				char pckg[1];

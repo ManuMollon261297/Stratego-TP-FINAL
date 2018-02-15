@@ -136,7 +136,7 @@ void NetworkingModel::setMe(std::string me_)
 }
 bool NetworkingModel::TimeEnded()const
 {
-	if (timeout_counter == TIMEOUT)
+	if (timeout_counter >= TIMEOUT)
 	{
 		return true;
 	}
@@ -155,11 +155,6 @@ void NetworkingModel::ResetTimeout()
 	timeout_counter = 0;
 }
 
-std::string NetworkingModel::getYou()
-{
-	return you;
-}
-
 bool NetworkingModel::GetReading()
 {
 	IO_handler->poll();
@@ -169,10 +164,6 @@ bool NetworkingModel::GetReading()
 bool NetworkingModel::WasPackageRecieved()const
 {
 	return package_recieved;
-}
-void NetworkingModel::setYou(std::string you_)
-{
-	you = you_;
 }
 
 std::string  NetworkingModel::GetPackage()
@@ -424,7 +415,7 @@ std::size_t NetworkingModel::completion_condition(const boost::system::error_cod
 					}
 					else
 					{
-						comm_error;
+						comm_error = true;
 						return 0;
 					}
 					break;
@@ -462,7 +453,12 @@ void NetworkingModel::read_handler(const boost::system::error_code& error,
 {
 	reading = false;
 	package_recieved = true;
-	if (!error)
+	if (comm_error)
+	{
+		buffer_for_reading[0] = READING_ERROR;
+		package_size = 1;
+	}
+	else if (!error)
 	{
 		package_size = bytes_transferred;
 		if (comm_error)

@@ -43,6 +43,7 @@ NetworkingState* WaitingPlayerDecision::SelectedPlayAgain(NetworkingModel* NWM, 
 		sent = NWM->sendPackage(pckg, 1);
 		if (!sent)
 		{
+			Gm->setMessage("Comm error, quitting...");
 			Gm->SetExit(true);
 			p_state = new Quiting;
 		}
@@ -51,7 +52,7 @@ NetworkingState* WaitingPlayerDecision::SelectedPlayAgain(NetworkingModel* NWM, 
 	else //Caso en el que quiero jugar de nuevo y perdi.
 	{
 		p_state = new NetPlacingFichas;
-		Gm->updateLeaderboard(NWM->getYou()); //Actualizo que gano el otro.
+		Gm->updateLeaderboard(Gm->GetOpponentName()); //Actualizo que gano el otro.
 		Gm->reset(); //Reestablece el tablero para volver a jugar.
 		Gm->setState(PLACING_FICHAS);
 		NWM->setServer(SERVER);

@@ -54,7 +54,6 @@ public:
 	void SetServerFinishedPlacing(bool);
 	std::string getMe();
 	void setMe(std::string me_);
-	std::string getYou();
 	bool GetReading();
 	bool GetNameSaved()const;
 	bool GetTriedAsClient()const;
@@ -63,7 +62,6 @@ public:
 	bool TimeEnded()const;
 	void IncrementTime();
 	void ResetTimeout();
-	void setYou(std::string you_);
 	void setNameSavedTrue();
 	bool connectAsClient(int timer, char * ip); //trata de conectarse al puerto como client por un determinado tiempo
 	bool connectAsServer();
@@ -86,7 +84,6 @@ private:
 	char buffer_for_writing[300];
 	serverStatus serverStat;
 	std::string me;
-	std::string you;
 
 	//Handlers
 	void client_connect_handler(const boost::system::error_code& error);

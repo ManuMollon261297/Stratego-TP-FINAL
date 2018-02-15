@@ -22,7 +22,7 @@ typedef struct
 
 bool Init(resources* r); //Inicializa todos los recursos necesarios.
 void DoExit(resources* r); //Se ocupa de todos los recursos a la salida del programa.
-void InitializeControllers(vector<GenericController*>&, GameModel* p_gm, NetworkingModel* p_nwm,NetWorkingController* NetCont);
+void InitializeControllers(vector<GenericController*>&, GameModel* p_gm,NetWorkingController* NetCont);
 void DestroyControllers(vector<GenericController*>&);
 
 int main()
@@ -55,7 +55,7 @@ int main()
 	colour c = ( (Gm.getRed()) ? RED : BLUE);
 	Gm.AttachObserver(new AllegroViewer(Gm, c, res.display));
 	vector<GenericController*> v_contr;
-	InitializeControllers(v_contr, &Gm, &Nwm, NetContr);
+	InitializeControllers(v_contr, &Gm, NetContr);
 
 	while ( !(Gm.GetExit()))
 	{
@@ -140,7 +140,7 @@ void DoExit(resources* r)
 	al_destroy_timer(r->timer);
 }
 
-void InitializeControllers(vector<GenericController*>& v, GameModel* p_gm, NetworkingModel* p_nwm, NetWorkingController* NetCont)
+void InitializeControllers(vector<GenericController*>& v, GameModel* p_gm, NetWorkingController* NetCont)
 {
 	v.push_back(new mouseGameController(720, 1080, p_gm));
 	v.push_back(NetCont);

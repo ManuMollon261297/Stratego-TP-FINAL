@@ -143,8 +143,8 @@ void NetworkingState::ErrorRoutine(NetworkingModel* p_nwm, GameModel * Gm)
 {
 	char pckg[1] = { ERROR_HEADER };
 	p_nwm->sendPackage(pckg, 1); //Mando que hubo un error.
-	Gm->SetExit(true);
 	Gm->setMessage("Comm error, quiting...");
+	Gm->SetExit(true);
 
 	p_nwm->Shutdown();
 }

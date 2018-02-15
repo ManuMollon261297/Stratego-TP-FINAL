@@ -55,18 +55,7 @@ bool MenuViewer::isViewerInitialized()
 
 MenuViewer::~MenuViewer()
 {
-	ALLEGRO_SAMPLE_INSTANCE * auxWav;
-	auxWav = al_create_sample_instance(wavSoundtrack);
-	/*
-	for (int i=100;i<0;i--)
-	{
-		al_set_sample_instance_gain(auxWav, (((float)i)/100));
-		al_rest(0.06);
-	}
-	*/
-	al_set_sample_instance_gain(auxWav, 0.01);
-	al_rest(5);
-	al_destroy_sample_instance(auxWav);
+	
 	if (ALLEGRO_menuBackground != nullptr)
 	{
 		al_destroy_bitmap(ALLEGRO_menuBackground);

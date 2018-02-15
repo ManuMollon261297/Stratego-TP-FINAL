@@ -531,15 +531,19 @@ void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
 	//dibujo el rank de mi carta
 	if (playerRank == notstd::rank::BOMB)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth /4, 50, 0, "B");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "B");
 	}
 	else if (playerRank == notstd::rank::SPY)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 4, 50, 0, "S", (playerRank + 1));
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "S");
+	}
+	else if (playerRank == notstd::rank::FLAG)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "F");
 	}
 	else
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 4, 50, 0, "%d", (playerRank + 1));
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "%d", (playerRank + 1));
 	}
 
 	switch (color)
@@ -758,17 +762,21 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 	al_play_sample(wavAttack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 	//dibujo el rank de su carta
-	if (playerRank == notstd::rank::BOMB)
+	if (opponentRank == notstd::rank::BOMB)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (3*screenWidth) / 4, 50, 0, "B");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3*screenWidth) / 4, 50, 0, "B");
 	}
-	else if (playerRank == notstd::rank::SPY)
+	else if (opponentRank == notstd::rank::SPY)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (3 * screenWidth) / 4, 50, 0, "S", (playerRank + 1));
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "S");
+	}
+	else if (opponentRank == notstd::rank::FLAG)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "F");
 	}
 	else
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (3 * screenWidth) / 4, 50, 0, "%d", (playerRank + 1));
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "%d", (playerRank + 1));
 	}
 
 	switch (status)
@@ -1082,7 +1090,7 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 			aHeight = 200;
 			break;
 		case notstd::rank::SERGEANT:
-			x = (screenWidth*2) / 3;
+			x = (screenWidth*3.2) / 9;
 			y = (screenHeight * 2) / 8;
 			aWidth = 650;
 			aHeight = 600;

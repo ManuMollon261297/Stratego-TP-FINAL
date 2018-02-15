@@ -531,19 +531,19 @@ void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
 	//dibujo el rank de mi carta
 	if (playerRank == notstd::rank::BOMB)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "B");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "B");
 	}
 	else if (playerRank == notstd::rank::SPY)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "S");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "S");
 	}
 	else if (playerRank == notstd::rank::FLAG)
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "F");
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "F");
 	}
 	else
 	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "%d", (playerRank + 1));
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "%d", (playerRank + 1));
 	}
 
 	switch (color)

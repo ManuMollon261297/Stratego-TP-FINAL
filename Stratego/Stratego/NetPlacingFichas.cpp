@@ -93,7 +93,7 @@ NetworkingState*  NetPlacingFichas::EndedPlacing(NetworkingModel* NWM, GameModel
 	{
 		if (Gm->getRed())//termine de poner las fichas y soy el que empieza
 		{
-			Gm->setState(WAITING_FOR_OPPONENTS_SELECTION);//Habria que revisar a que estado cambiar el game model aca. 
+			Gm->setState(ENDING_PLACING_FICHAS);//Habria que revisar a que estado cambiar el game model aca. 
 			Gm->setMessage("Waiting for opponent...");
 		}
 		else

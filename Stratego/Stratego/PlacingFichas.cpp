@@ -138,7 +138,7 @@ gameState * PlacingFichas::OnConfirmPlaces(GameModel * p2GameModel, MouseStates 
 		}
 		else
 		{
-			p2GameModel->setMessage("Your army can not move, place tokens correctly");
+			p2GameModel->setMessage("Your army can not move, place tokens again");
 			return nullptr;
 		}
 		

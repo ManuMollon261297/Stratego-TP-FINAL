@@ -40,6 +40,7 @@ private:
 	void drawGameOver(bool playerWon);
 	void drawRemainingTime();
 	void drawHalo(double x, double y, double sizeX, double sizeY);
+	void drawRankInBattle(bool opponent, notstd::rank tokenRank);
 	void playBattleWarmUp(notstd::rank playerRank);
 	void playBattle(notstd::rank playerRank, notstd::rank opponentRank);
 	void moveToken(pos init, pos fin);

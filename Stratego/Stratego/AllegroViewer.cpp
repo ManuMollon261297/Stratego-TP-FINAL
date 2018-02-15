@@ -529,22 +529,7 @@ void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
 	getDrawingCoord(x, y, aWidth, aHeight, playerRank, false);
 
 	//dibujo el rank de mi carta
-	if (playerRank == notstd::rank::BOMB)
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "B");
-	}
-	else if (playerRank == notstd::rank::SPY)
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "S");
-	}
-	else if (playerRank == notstd::rank::FLAG)
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "F");
-	}
-	else
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), screenWidth / 4, 50, 0, "%d", (playerRank + 1));
-	}
+	drawRankInBattle(false, playerRank);
 
 	switch (color)
 	{
@@ -761,24 +746,6 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 	getDrawingCoord(oX, oY, oWidth, oHeight, opponentRank, true);
 	al_play_sample(wavAttack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
-	//dibujo el rank de su carta
-	if (opponentRank == notstd::rank::BOMB)
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3*screenWidth) / 4, 50, 0, "B");
-	}
-	else if (opponentRank == notstd::rank::SPY)
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "S");
-	}
-	else if (opponentRank == notstd::rank::FLAG)
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "F");
-	}
-	else
-	{
-		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), (3 * screenWidth) / 4, 50, 0, "%d", (playerRank + 1));
-	}
-
 	switch (status)
 	{
 	case PLAYER:
@@ -787,6 +754,8 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 		case RED:
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			drawRankInBattle(false, playerRank);
+			drawRankInBattle(true, opponentRank);
 			ALLEGRO_BlueCharacters[opponentRank].drawFirst(oX,oY,oWidth,oHeight,true);
 			ALLEGRO_RedCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
@@ -798,6 +767,8 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 		case BLUE:
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
+			drawRankInBattle(false, playerRank);
+			drawRankInBattle(true, opponentRank);
 			ALLEGRO_RedCharacters[opponentRank].drawFirst(oX, oY, oWidth, oHeight, true);
 			ALLEGRO_BlueCharacters[playerRank].playSequence(pX, pY, pWidth, pHeight, false);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
@@ -812,6 +783,7 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 		switch (color)
 		{
 		case RED:
+			drawRankInBattle(true, opponentRank);
 			ALLEGRO_BlueCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
@@ -820,6 +792,7 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 			ALLEGRO_RedCharacters[playerRank].flicker(pX, pY, pWidth, pHeight, false);
 			break;
 		case BLUE:
+			drawRankInBattle(true, opponentRank);
 			ALLEGRO_RedCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
@@ -833,6 +806,7 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 		switch (color)
 		{
 		case RED:
+			drawRankInBattle(true, opponentRank);
 			ALLEGRO_BlueCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
@@ -850,6 +824,7 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 			ALLEGRO_BlueCharacters[opponentRank].flicker(oX, oY, oWidth, oHeight, true);
 			break;
 		case BLUE:
+			drawRankInBattle(true, opponentRank);
 			ALLEGRO_RedCharacters[opponentRank].playSequence(oX, oY, oWidth, oHeight, true);
 			al_draw_scaled_bitmap(ALLEGRO_field, 0, 0, al_get_bitmap_width(ALLEGRO_field),
 				al_get_bitmap_height(ALLEGRO_field), 0, 0, screenWidth, screenHeight, 0);
@@ -878,6 +853,35 @@ void AllegroViewer::drawHalo(double x, double y, double sizeX, double sizeY)
 	for (int i = 1; i <= 5; i++)
 	{
 		al_draw_rectangle(x - i, y - i, x + sizeX + i, y + sizeY + i, al_map_rgb(0, 255 - i * 20, 0), 1.0);
+	}
+}
+
+void AllegroViewer::drawRankInBattle(bool opponent, notstd::rank tokenRank)
+{
+	int x;
+	if (opponent)
+	{
+		x = (3 * screenWidth) / 4;
+	}
+	else
+	{
+		x = screenWidth / 4;
+	}
+	if (tokenRank == notstd::rank::BOMB)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), x, 50, 0, "B");
+	}
+	else if (tokenRank == notstd::rank::SPY)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), x, 50, 0, "S");
+	}
+	else if (tokenRank == notstd::rank::FLAG)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10),  x, 50, 0, "F");
+	}
+	else
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(233, 233, 10), x, 50, 0, "%d", (tokenRank + 1));
 	}
 }
 

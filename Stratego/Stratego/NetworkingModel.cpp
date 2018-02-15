@@ -115,7 +115,7 @@ bool NetworkingModel::GetTriedAsClient()const
 	return tried_as_client;
 }
 
-serverStatus NetworkingModel::getServer()
+serverStatus NetworkingModel::getServer()const
 {
 	return serverStat;
 }

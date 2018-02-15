@@ -17,6 +17,7 @@ NetworkingState* WaitingWhoStart::I_start(NetWorkingEvent& ev, NetworkingModel* 
 	bool sent = false;
 	Gm->setRed(false);
 	p_mm->setExit();
+	p_mm = nullptr;
 	pckg[0] = ACK_HEADER;
 	sent = p_nwm->sendPackage(pckg, 1);
 	if (sent)
@@ -40,6 +41,7 @@ NetworkingState* WaitingWhoStart::You_start(NetWorkingEvent& ev, NetworkingModel
 	bool  sent = false;
 	Gm->setRed(true);
 	p_mm->setExit();
+	p_mm = nullptr;
 	pckg[0] = ACK_HEADER;
 	sent = p_nwm->sendPackage(pckg, 1);
 	if (sent)

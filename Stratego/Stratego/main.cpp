@@ -5,8 +5,6 @@
 #include "EventGenerator.h"
 #include "Event.h"
 #include "GenericController.h"
-#include <fstream>
-#include <time.h>
 #include <vector>
 
 using namespace std;

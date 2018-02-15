@@ -48,7 +48,7 @@ public:
 	bool sendPackage(char * message, int size); //envia un paquete de chars de tamanio size
 	void StartReading(); // busca si llego un package 
 	void TryToConnect(void);
-	serverStatus getServer();
+	serverStatus getServer()const;
 	void setServer(serverStatus server_);
 	bool GetServerFinishedPlacing()const;
 	void SetServerFinishedPlacing(bool);

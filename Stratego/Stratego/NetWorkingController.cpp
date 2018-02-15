@@ -41,7 +41,7 @@ void NetWorkingController::dispatch(GenericEvent& newEvent)
 	
 	if ((newEvent.GetEvent()) == NET )
 	{
-		switch ( (((NetWorkingEvent&)newEvent).GetRecieved())[0] ) //revisar bien, tal vez hay que castear a char o algo.
+		switch ( (((NetWorkingEvent&)newEvent).GetRecieved())[0] ) 
 		{
 		case PLAY_AGAIN_HEADER:
 			proxState = actualState->Play_again((NetWorkingEvent&)newEvent, NWM, Gm);

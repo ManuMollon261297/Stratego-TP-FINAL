@@ -453,12 +453,8 @@ void NetworkingModel::read_handler(const boost::system::error_code& error,
 {
 	reading = false;
 	package_recieved = true;
-	if (comm_error)
-	{
-		buffer_for_reading[0] = READING_ERROR;
-		package_size = 1;
-	}
-	else if (!error)
+	
+	if (!error)
 	{
 		package_size = bytes_transferred;
 		if (comm_error)

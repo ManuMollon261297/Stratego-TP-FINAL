@@ -527,6 +527,21 @@ void AllegroViewer::playBattleWarmUp(notstd::rank playerRank)
 	int aWidth=0;
 	int aHeight=0;
 	getDrawingCoord(x, y, aWidth, aHeight, playerRank, false);
+
+	//dibujo el rank de mi carta
+	if (playerRank == notstd::rank::BOMB)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth /4, 50, 0, "B");
+	}
+	else if (playerRank == notstd::rank::SPY)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 4, 50, 0, "S", (playerRank + 1));
+	}
+	else
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), screenWidth / 4, 50, 0, "%d", (playerRank + 1));
+	}
+
 	switch (color)
 	{
 	case RED:
@@ -678,6 +693,7 @@ void AllegroViewer::moveToken(pos init, pos fin)
 	{
 		//movimiento invalido
 	}
+	al_destroy_bitmap(aux);
 
 }
 
@@ -740,6 +756,21 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 	getDrawingCoord(pX, pY, pWidth, pHeight, playerRank, false);
 	getDrawingCoord(oX, oY, oWidth, oHeight, opponentRank, true);
 	al_play_sample(wavAttack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
+	//dibujo el rank de su carta
+	if (playerRank == notstd::rank::BOMB)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (3*screenWidth) / 4, 50, 0, "B");
+	}
+	else if (playerRank == notstd::rank::SPY)
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (3 * screenWidth) / 4, 50, 0, "S", (playerRank + 1));
+	}
+	else
+	{
+		al_draw_textf(ALLEGRO_titlettf, al_map_rgb(0, 0, 0), (3 * screenWidth) / 4, 50, 0, "%d", (playerRank + 1));
+	}
+
 	switch (status)
 	{
 	case PLAYER:
@@ -830,7 +861,7 @@ void AllegroViewer::playBattle(notstd::rank playerRank, notstd::rank opponentRan
 		}
 		break;
 	}
-	al_rest(1);
+	al_rest(0.5);
 	fade_out(1,screenWidth,screenHeight);
 }
 
@@ -1051,7 +1082,7 @@ void AllegroViewer::getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, n
 			aHeight = 200;
 			break;
 		case notstd::rank::SERGEANT:
-			x = screenWidth*4.5 / 9;
+			x = (screenWidth*2) / 3;
 			y = (screenHeight * 2) / 8;
 			aWidth = 650;
 			aHeight = 600;

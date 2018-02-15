@@ -34,6 +34,7 @@ void Sprite::playSequence(int dx, int dy,int dw,int dh, bool facingLeft)
 		al_flip_display();
 		//si la animacion va muy rapido aca hay que poner un sleep 
 	}
+	al_destroy_bitmap(aux);
 }
 
 bool Sprite::pushImage(ALLEGRO_BITMAP * bitmap)
@@ -89,4 +90,5 @@ void Sprite::flicker(int x, int y, int width, int height, bool facingLeft) //lla
 		}
 		show = !show;
 	}
+	al_destroy_bitmap(aux);
 }

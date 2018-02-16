@@ -13,6 +13,7 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 {
 	bool sent = false;
 	NetworkingState * p_state = nullptr;
+	p_nwm->ResetTimeout();
 	if (Gm->getState() == PLAY_AGAIN_SELECTED)
 	{
 		char pckg[1];
@@ -39,7 +40,6 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 		NetworkingState* p_state = new Quiting;
 
 		char pckg[1] = { GAME_OVER_HEADER };
-		p_nwm->ResetTimeout();
 		DoLeaderBoardRoutine(Gm, p_nwm->getMe()); //Actualzo que gane.
 		sent = p_nwm->sendPackage(pckg, 1);
 		if (!sent) //error de comunicacion.

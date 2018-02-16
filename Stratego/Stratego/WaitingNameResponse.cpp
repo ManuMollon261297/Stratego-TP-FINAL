@@ -13,7 +13,7 @@ WaitingNameResponse::WaitingNameResponse()
 
 NetworkingState* WaitingNameResponse::Ack(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm, MenuModel* p_mm)
 {
-	NetworkingState* p_state;
+	NetworkingState* p_state = nullptr;
 	bool sent = false;
 	p_nwm->ResetTimeout();
 	if (p_nwm->getServer() == SERVER)

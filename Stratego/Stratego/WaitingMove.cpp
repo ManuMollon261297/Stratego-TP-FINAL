@@ -18,7 +18,7 @@ WaitingMove::WaitingMove()
 NetworkingState* WaitingMove::Move(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
 	bool sent = false;
-	NetworkingState * p_state;
+	NetworkingState * p_state = nullptr;
 	Gm->setState(OP_TURN); //Es el turno del oponente.
 	p_nwm->ResetTimeout(); //Se reinicia el timeout limite.
 	std::string pckg = ev.GetRecieved();

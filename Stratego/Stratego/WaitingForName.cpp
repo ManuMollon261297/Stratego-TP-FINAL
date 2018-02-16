@@ -11,7 +11,7 @@ WaitingName::WaitingName(void)
 
 NetworkingState*  WaitingName::Name(NetWorkingEvent& ev, NetworkingModel* p_nwm, GameModel * Gm)
 {
-	NetworkingState* p_state;
+	NetworkingState* p_state = nullptr;
 	p_nwm->ResetTimeout(); //reinicio el timeout de comunicacion.
 	p_state = new WaitingNameResponse; //espero respuesta de que llego el paquete.
 	bool sent = false;

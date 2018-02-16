@@ -8,7 +8,6 @@
 #include "gameState.h"
 #include "MenuModel.h"
 
-#define DEBUG
 
 
 

@@ -19,31 +19,11 @@ NetworkingState* WaitingPlayerDecision::SelectedGameOver(NetworkingModel* NWM, G
 
 	if (Gm->didPlayerWin())
 	{
-		if (Gm->updateLeaderboard(NWM->getMe())) //Actualizo que gane.
-		{
-			aux += "The win count of " + (NWM->getMe());
-			aux += " was increased";
-			Gm->setMessage((char*)aux.c_str());
-		}
-		else //Si no encontro el nombre lo escribi y crea un nuevo contador de victorias.
-		{
-			aux += "Created a win count for " + (NWM->getMe());
-			Gm->setMessage((char*)aux.c_str());
-		}
+		DoLeaderBoardRoutine(Gm, NWM->getMe()); //Actualzo que gane.
 	}
 	else
 	{
-		if (Gm->updateLeaderboard(Gm->GetOpponentName())) //Actualizo que gano el otro jugador.
-		{
-			aux += "The win count of " + (Gm->GetOpponentName());
-			aux += " was increased";
-			Gm->setMessage((char*)aux.c_str());
-		}
-		else //Si no encontro el nombre lo escribe y crea un nuevo contador de victorias.
-		{
-			aux += "Created a win count for " + (Gm->GetOpponentName());
-			Gm->setMessage((char*)aux.c_str());
-		}
+		DoLeaderBoardRoutine(Gm, Gm->GetOpponentName()); //Actualzo que gano el oponente.
 	}
 	NWM->ResetTimeout();
 	sent = NWM->sendPackage(pckg, 1);

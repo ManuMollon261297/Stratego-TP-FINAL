@@ -1,6 +1,7 @@
 #pragma once
 #include "State.h"
 #include "WaitingPlayerDecision.h"
+#include "NetworkingFuncs.h"
 
 class WaitingYouWon : public NetworkingState
 {

@@ -77,9 +77,8 @@ enum {ioEvent,otherEvent};
 
 void EventGenerator::shape(ALLEGRO_EVENT ev)
 {
-	int type;
 	GenericEvent* p_event;
-	switch (ev.type)		//Falta SOUND y corregir el de MOUSE.
+	switch (ev.type)		
 	{
 		case ALLEGRO_EVENT_TIMER:
 			p_event = new GenericEvent;

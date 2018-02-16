@@ -7,6 +7,7 @@
 #include "gameState.h"
 #include "WaitingNewGameResponse.h"
 #include "NetPlacingFichas.h"
+#include "NetworkingFuncs.h"
 
 class WaitingPlayerDecision : public NetworkingState
 {

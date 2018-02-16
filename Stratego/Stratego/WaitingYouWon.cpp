@@ -40,17 +40,7 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 
 		char pckg[1] = { GAME_OVER_HEADER };
 		p_nwm->ResetTimeout();
-		if (Gm->updateLeaderboard(p_nwm->getMe())) //Actualizo que gane.
-		{
-			aux += "The win count of " + (p_nwm->getMe());
-			aux += " was increased";
-			Gm->setMessage((char*)aux.c_str());
-		}
-		else //Si no encontro el nombre lo escribi y crea un nuevo contador de victorias.
-		{
-			aux += "Created a win count for " + (p_nwm->getMe());
-			Gm->setMessage((char*)aux.c_str());
-		}
+		DoLeaderBoardRoutine(Gm, p_nwm->getMe()); //Actualzo que gane.
 		sent = p_nwm->sendPackage(pckg, 1);
 		if (!sent) //error de comunicacion.
 		{

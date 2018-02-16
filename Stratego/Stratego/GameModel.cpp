@@ -828,7 +828,7 @@ void GameModel::randomPos(void)
 	}
 }
 
-bool GameModel::updateLeaderboard(std::string winner)
+bool GameModel::updateLeaderboard(const std::string& winner)
 {
 	std::fstream leaderboard(LEADERBOARDDIR);
 	std::ofstream leaderboardI(LEADERBOARDDIR, std::ios_base::app | std::ios_base::out);
@@ -851,13 +851,13 @@ bool GameModel::updateLeaderboard(std::string winner)
 		{
 			if (chart[i].size() != 0)
 			{
-				int j = (chart[i].size() - 1);
+				int j = (int) (chart[i].size() - 1);
 				while ((chart[i][j] <= '9') && (chart[i][j] >= '0')) //mientras sea parte del puntaje
 				{
-					names[i].pop_back(); //me desago del puntaje
+					names[i].pop_back(); //me deshago del puntaje
 					j--;
 				}
-				names[i].pop_back(); //me desago del espacio
+				names[i].pop_back(); //me deshago del espacio
 			}
 		}
 		//en name se encuentra el nomrbre sin el puntaje y en chart con el puntaje
@@ -870,7 +870,7 @@ bool GameModel::updateLeaderboard(std::string winner)
 				found = true;
 				char auxNumber;
 				int newScore = 0; //aca cargo el nuevo puntaje del ganador
-				int j = (chart[i].size() - 1);
+				int j = (int) (chart[i].size() - 1);
 				int mult = 1;
 				//cargo newScore
 				while ((chart[i][j] <= '9') && (chart[i][j] >= '0')) //mientras sea parte del puntaje
@@ -886,7 +886,7 @@ bool GameModel::updateLeaderboard(std::string winner)
 				//creo un nuevo archivo
 				std::ofstream auxFile("auxFile.txt");
 				auxFileCreated = true;
-				// voy copiando strings del viejo y agrgeo el nuevo !!!
+				// voy copiando strings del viejo y agrego el nuevo !!!
 				bool inserted = false;
 				int auxScore;
 				if (names.size() == 1)
@@ -899,7 +899,7 @@ bool GameModel::updateLeaderboard(std::string winner)
 					for (int k = 0; k< names.size(); k++)
 					{
 						auxScore = 0;
-						int j = (chart[k].size() - 1);
+						int j = (int) (chart[k].size() - 1);
 						int mult = 1;
 						//cargo newScore
 						while ((chart[k][j] <= '9') && (chart[k][j] >= '0')) //mientras sea parte del puntaje
@@ -920,7 +920,7 @@ bool GameModel::updateLeaderboard(std::string winner)
 						}
 					}
 				}
-				i = names.size(); //lo fuerzo a salir del for si ya se encontro el nombre en el leaderboard
+				i = (int) names.size(); //lo fuerzo a salir del for si ya se encontro el nombre en el leaderboard
 			}
 		}
 		if (found == false)

@@ -179,3 +179,19 @@ void InvertPositionToLayout(pos* p)
 	(p->x) = 9 - ori_x;
 	(p->y) = 9 - ori_y;
 }
+
+void DoLeaderBoardRoutine(GameModel * Gm, const std::string& winner)
+{
+	std::string aux;
+	if (Gm->updateLeaderboard(winner)) //Actualizo quien gano
+	{
+		aux += "The win count of " + (winner);
+		aux += " was increased";
+		Gm->setMessage((char*)aux.c_str());
+	}
+	else //Si no encontro el nombre lo escribe y crea un nuevo contador de victorias.
+	{
+		aux += "Created a win count for " + (winner);
+		Gm->setMessage((char*)aux.c_str());
+	}
+}

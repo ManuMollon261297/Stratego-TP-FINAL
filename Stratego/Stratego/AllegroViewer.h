@@ -41,14 +41,14 @@ private:
 	void drawRemainingTime();
 	void drawHalo(double x, double y, double sizeX, double sizeY);
 	void drawRankInBattle(bool opponent, notstd::rank tokenRank);
-	void playBattleWarmUp(notstd::rank playerRank);
-	void playBattle(notstd::rank playerRank, notstd::rank opponentRank);
+	void playBattleWarmUp(notstd::rank playerRank); //dibuja el rank propio hasta que llegue el del contrario
+	void playBattle(notstd::rank playerRank, notstd::rank opponentRank); //animacion de la batalla
 	void moveToken(pos init, pos fin);
 	void highligthToken(pos init);
 	void highlightCemetery(notstd::rank r);
 	int  getCantSprites(int i);
 	void getDrawingCoord(int& x, int& y, int& aWidth, int& aHeight, notstd::rank& r, bool opponent);
-	void manageSoundtrack();
+	void manageSoundtrack(); //actualiza el audio segun el estado del model y el viewer
 	GameModel & engine;
 	bool initialized;
 	bool attackPending;

@@ -20,14 +20,13 @@ public:
 	void initImagesAndFonts();
 	virtual void update();
 	~MenuViewer();
-	//SOLO EN PUBLIC PARA DEBUGEAR
+private:
 	void drawMenu();
 	void drawLeaderboard();
 	void drawRules();
 	void drawWritingName();
-	void manageSoundtrack();
-	void drawConnecting();
-private:
+	void manageSoundtrack(); //actualiza el audio segun el estado del model y el viewer
+	void drawConnecting(); //mensajes de cuando se esta conectando a el oponente 
 	int screenWidth;
 	int screenHeight;
 	int prevState;

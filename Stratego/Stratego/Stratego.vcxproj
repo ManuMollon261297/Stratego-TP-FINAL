@@ -155,7 +155,6 @@
     <ClInclude Include="GenericModel.h" />
     <ClInclude Include="GenericObserver.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="mouseMenuEvent.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="KeyboardEvent.h" />
@@ -224,7 +223,6 @@
     <ClCompile Include="MenuViewer.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="mouseGameController.cpp" />
-    <ClCompile Include="mouseMenuEvent.cpp" />
     <ClCompile Include="MyAttacking.cpp" />
     <ClCompile Include="MyMoving.cpp" />
     <ClCompile Include="MyTurn.cpp" />

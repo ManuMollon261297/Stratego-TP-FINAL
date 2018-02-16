@@ -54,7 +54,6 @@
     <ClCompile Include="GenericModel.cpp" />
     <ClCompile Include="GenericObserver.cpp" />
     <ClCompile Include="GenericController.cpp" />
-    <ClCompile Include="mouseMenuEvent.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="Connecting.cpp" />
     <ClCompile Include="WaitingYouWon.cpp" />
@@ -112,7 +111,6 @@
     <ClInclude Include="PlacingFichas.h" />
     <ClInclude Include="ranks.h" />
     <ClInclude Include="menuMouseController.h" />
-    <ClInclude Include="mouseMenuEvent.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="GenericObserver.h" />
     <ClInclude Include="GenericController.h" />

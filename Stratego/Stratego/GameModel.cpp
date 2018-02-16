@@ -83,7 +83,6 @@ int GameModel::getState()
 void GameModel::setState(int state_)
 {
 	state = state_;
-	std::cout << std::endl << state << std::endl; //Para debuggear
 }
 
 void GameModel::setAttackResolvedFalse(void)

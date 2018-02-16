@@ -52,8 +52,6 @@ gameState * PlacingFichas::OnCemetery(MouseInfo & Mev, MouseStates & Mstate, mou
 		p2GameModel->setMessage("Position outside battlefield");
 		break;
 	case CEMETERY_SELECTED:
-		//p2controller->setSecondSelection(Mev->evPos);
-		//rank r1 = p2controller->fetchMevRankFromCemetery((p2controller->getFirstSelection().y));
 		p2GameModel->unselectRankCemetery(p2controller->getPreviousEvent().r);
 		if (p2controller->isEqualToPrevious(Mev))
 		{

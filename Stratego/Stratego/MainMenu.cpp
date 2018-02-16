@@ -12,8 +12,6 @@ MainMenu::MainMenu(ALLEGRO_DISPLAY* disp, ALLEGRO_EVENT_QUEUE* ev_q, NetWorkingC
 	MenuViewer* menu_viewer = new MenuViewer(1080, 720, *menu, disp); //crea el viewer del menu
 	menu_viewer->initImagesAndFonts();
 	menu_viewer->isViewerInitialized();
-	menu_viewer->drawMenu();
-	menu_viewer->manageSoundtrack();
 	menu->AttachObserver(menu_viewer);
 	queue = ev_q;
 	al_flip_display();

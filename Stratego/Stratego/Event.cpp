@@ -10,11 +10,3 @@ void GenericEvent::SetEvent(unsigned int type)
 {
 	eventType = (ev)type;
 }
-char GenericEvent::GetUd(void)
-{
-	return ud;
-}
-void GenericEvent::SetUd(char dir)
-{
-	ud = dir;
-}

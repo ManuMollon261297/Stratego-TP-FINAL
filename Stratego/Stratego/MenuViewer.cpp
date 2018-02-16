@@ -111,6 +111,7 @@ void MenuViewer::initImagesAndFonts()
 	ALLEGRO_connectingttf = al_load_ttf_font(connectingttfDir.c_str(), 70, 0);//cambiar el tamanio de la letra aca si es necesario
 
 	wavSoundtrack = al_load_sample(soundtrackDir.c_str());
+	update();
 }
 
 void MenuViewer::update()

@@ -187,7 +187,6 @@ void mouseGameController::dispatch(GenericEvent& Mev)
 
 sectors mouseGameController::getSectorTouched(double x, double y)
 {
-	//sectors sectorRet;
 	sectors sectorRet = INVALID_SECTOR;
 	if ((p2gameModel->getState()) != GAME_OVER)
 	{

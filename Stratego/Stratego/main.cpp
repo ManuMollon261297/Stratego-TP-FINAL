@@ -118,8 +118,6 @@ bool Init(resources* r)
 		r->event_queue = al_create_event_queue();
 
 	}
-	al_set_window_title(r->display, "Stratego                                                                                       Opponent: ???"); //moverlo a cuando sepamos ya quien es el oponente
-
 
 	//Registro todas las fentes de eventos relevantes, Timer, display, keyboard y mouse.
 	al_register_event_source(r->event_queue, al_get_mouse_event_source()); 

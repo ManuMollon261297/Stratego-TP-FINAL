@@ -77,7 +77,6 @@ bool mouseGameController::isEqualToPrevious(MouseInfo & Mev)
 
 MouseInfo mouseGameController::shape(double x, double y)
 {
-	cout << "x: " << x << "y: "<< y <<endl;
 	MouseInfo Mev;
 	Mev.sector = getSectorTouched(x, y);
 	switch (Mev.sector)

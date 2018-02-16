@@ -32,6 +32,7 @@ NetworkingState* WaitingOponentDecision::Game_over(NetWorkingEvent& ev, Networki
 
 NetworkingState* WaitingOponentDecision::SelectedGameOver(NetworkingModel* p_nwm, GameModel * Gm)
 {
+	std::string aux;
 	bool sent = false;
 	NetworkingState* p_state = new Quiting;
 
@@ -47,7 +48,17 @@ NetworkingState* WaitingOponentDecision::SelectedGameOver(NetworkingModel* p_nwm
 	}
 	else
 	{
-		Gm->setMessage("Ending communication...");
+		if (Gm->updateLeaderboard(Gm->GetOpponentName())) //Actualizo que gano el otro jugador.
+		{
+			aux += "The win count of " + (Gm->GetOpponentName());
+			aux += " was increased";
+			Gm->setMessage((char*)aux.c_str());
+		}
+		else //Si no encontro el nombre lo escribe y crea un nuevo contador de victorias.
+		{
+			aux += "Created a win count for " + (Gm->GetOpponentName());
+			Gm->setMessage((char*)aux.c_str());
+		}
 	}
 	return p_state;
 }

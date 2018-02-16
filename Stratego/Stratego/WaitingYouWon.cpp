@@ -35,11 +35,22 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 	else if (Gm->getState() == GAME_OVER_SELECTED)
 	{
 		bool sent = false;
+		std::string aux;
 		NetworkingState* p_state = new Quiting;
 
 		char pckg[1] = { GAME_OVER_HEADER };
 		p_nwm->ResetTimeout();
-		Gm->updateLeaderboard(p_nwm->getMe()); //Actualizo que gane.
+		if (Gm->updateLeaderboard(p_nwm->getMe())) //Actualizo que gane.
+		{
+			aux += "The win count of " + (p_nwm->getMe());
+			aux += " was increased";
+			Gm->setMessage((char*)aux.c_str());
+		}
+		else //Si no encontro el nombre lo escribi y crea un nuevo contador de victorias.
+		{
+			aux += "Created a win count for " + (p_nwm->getMe());
+			Gm->setMessage((char*)aux.c_str());
+		}
 		sent = p_nwm->sendPackage(pckg, 1);
 		if (!sent) //error de comunicacion.
 		{
@@ -47,10 +58,7 @@ NetworkingState* WaitingYouWon::You_won(NetWorkingEvent&, NetworkingModel* p_nwm
 			Gm->setMessage("Communication error, closing...");
 			Gm->SetExit(true);
 		}
-		else
-		{
-			Gm->setMessage("Ending communication...");
-		}
+		
 		return p_state;
 	}
 	else
@@ -77,6 +85,7 @@ NetworkingState* WaitingYouWon::OnTimer(NetworkingModel* p_nwm, GameModel * Gm, 
 	p_nwm->IncrementTime();
 	if (p_nwm->TimeEnded())
 	{
+		Gm->updateLeaderboard(p_nwm->getMe()); //Actializa que gane.
 		ErrorRoutine(p_nwm, Gm);
 		p_state = new Quiting;
 

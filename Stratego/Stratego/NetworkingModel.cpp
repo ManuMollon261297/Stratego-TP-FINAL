@@ -83,7 +83,6 @@ void NetworkingModel::TryToConnect(void)
 		{
 			if (connectAsServer()) //si tuvo exito manda el paquete de name
 			{
-				char pckg[1];
 				setServer(SERVER);
 			}
 		}

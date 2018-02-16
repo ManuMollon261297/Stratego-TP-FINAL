@@ -10,6 +10,7 @@
 #include "WaitingAttack.h"
 #include "WaitingOponentDecision.h"
 #include "StartingAttack.h"
+#include <string>
 
 class WaitingMove : public NetworkingState
 {

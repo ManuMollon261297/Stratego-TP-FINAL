@@ -4,6 +4,7 @@
 #include "Quiting.h"
 #include "WaitingPlayerDecision.h"
 #include "WaitingMove.h"
+#include <string>
 
 class WaitingFirstMove : public NetworkingState
 {

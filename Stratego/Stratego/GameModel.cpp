@@ -447,13 +447,18 @@ void GameModel::reset()
 	red = (!red); //cambio de color
 	message = " ";
 
-	//inicializaciondel battlefield
+	//inicializacion del battlefield
 
 	for (int i = 0; i<FILAS; i++)
 	{
 		for (int j = 0; j<COLUMNAS; j++)
 		{
-			battlefield[i][j] = nullptr;
+
+			if (battlefield[i][j] != nullptr)
+			{
+				delete battlefield[i][j];
+				battlefield[i][j] = nullptr;
+			}
 		}
 	}
 	for (int i = 0; i<4; i++)
@@ -579,7 +584,6 @@ void GameModel::decrementTime()
 void GameModel::restartTimer()
 {
 	timeRemaining = 120;
-	//NotifyAllObservers();
 }
 
 bool GameModel::getMoveDone()
@@ -590,13 +594,11 @@ bool GameModel::getMoveDone()
 void GameModel::setMoveDoneTrue()
 {
 	moveDone = true;
-	//NotifyAllObservers();
 }
 
 void GameModel::setMoveDoneFalse()
 {
 	moveDone = false;
-	//NotifyAllObservers();
 }
 
 void GameModel::setMute(bool state)

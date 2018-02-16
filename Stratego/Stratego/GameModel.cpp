@@ -419,13 +419,11 @@ void GameModel::toggleSelectRankCemetery(notstd::rank r)
 void GameModel::setFichasPlacedTrue()
 {
 	fichasPlaced = true;
-	//NotifyAllObservers();
 }
 
 void GameModel::setFichasPlacedFalse()
 {
 	fichasPlaced = false;
-	//NotifyAllObservers();
 }
 
 bool GameModel::getFichasPlaced()

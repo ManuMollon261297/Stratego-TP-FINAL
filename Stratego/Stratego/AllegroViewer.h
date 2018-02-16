@@ -1,7 +1,5 @@
 #pragma once
 
-//VER CUANDO SE RESUELVE EL ATAQUE
-
 #include <vector>
 #include "GenericObserver.h"
 #include "allegro5\allegro.h"

@@ -98,7 +98,6 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			char caux = '0' + i;
 			for (int j = 0; j<jmax; j++)
 			{
-				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/BC/";
 				aux.push_back(caux);
 				aux += '/';
@@ -128,7 +127,6 @@ AllegroViewer::AllegroViewer(GameModel &gm,colour c, ALLEGRO_DISPLAY * disp, int
 			caux2 = '0' + (i % 10);
 			for (int j = 0; j<jmax; j++)
 			{
-				//char caux2 = '0' + j;
 				std::string aux = "../Allegro Data/BC/";
 				aux.push_back(caux1);
 				aux.push_back(caux2);
